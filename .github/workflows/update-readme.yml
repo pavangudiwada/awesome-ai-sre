@@ -2,21 +2,19 @@ name: Update README On PR
 
 on:
   push:
-  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
   update-readme:
-    # Auto-fix on pushes and same-repo PR branches.
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref || github.ref_name }}
+          ref: ${{ github.ref_name }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -38,7 +36,7 @@ jobs:
           git add README.md
           git commit -m "chore: auto-update README from tools [skip ci]"
 
-          BRANCH="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          BRANCH="${GITHUB_REF_NAME}"
           echo "Pushing changes to ${BRANCH}"
 
           for i in 1 2 3; do
@@ -52,31 +50,4 @@ jobs:
           done
 
           echo "Failed to push after retries."
-          exit 1
-
-  validate:
-    # For fork PRs, validate only (cannot push back to contributor branch).
-    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Generate README (schema + content validation)
-        run: node generate-readme.js
-
-      - name: Verify README is in sync
-        run: |
-          if git diff --quiet README.md; then
-            echo "README.md is up to date."
-            exit 0
-          fi
-
-          echo "README.md is out of sync. Run: node generate-readme.js"
-          git --no-pager diff -- README.md
           exit 1
