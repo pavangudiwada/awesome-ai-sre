@@ -2,8 +2,6 @@ name: Update README
 
 on:
   push:
-    paths:
-      - "tools/**"
   workflow_dispatch:
 
 permissions:
