@@ -8,38 +8,12 @@ permissions:
   contents: write
 
 jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Generate README (schema + content validation)
-        run: node generate-readme.js
-
-      - name: Verify README is in sync
-        run: |
-          if git diff --quiet README.md; then
-            echo "README.md is up to date."
-            exit 0
-          fi
-
-          echo "README.md is out of sync. Run: node generate-readme.js"
-          git --no-pager diff -- README.md
-          exit 1
-
   update-readme:
-    # Run on pushes, and on same-repo PR branches.
+    # Auto-fix on pushes and same-repo PR branches.
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
-    needs: validate
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout PR branch
+      - name: Checkout branch
         uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref || github.ref_name }}
@@ -64,3 +38,30 @@ jobs:
           git add README.md
           git commit -m "chore: auto-update README from tools"
           git push
+
+  validate:
+    # For fork PRs, validate only (cannot push back to contributor branch).
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Generate README (schema + content validation)
+        run: node generate-readme.js
+
+      - name: Verify README is in sync
+        run: |
+          if git diff --quiet README.md; then
+            echo "README.md is up to date."
+            exit 0
+          fi
+
+          echo "README.md is out of sync. Run: node generate-readme.js"
+          git --no-pager diff -- README.md
+          exit 1
