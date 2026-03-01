@@ -1,6 +1,7 @@
 name: Update README On PR
 
 on:
+  push:
   pull_request:
 
 permissions:
@@ -33,15 +34,15 @@ jobs:
           exit 1
 
   update-readme:
-    # Only run for PR branches in this same repository.
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    # Run on pushes, and on same-repo PR branches.
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
     needs: validate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
