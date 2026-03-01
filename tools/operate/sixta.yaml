@@ -1,0 +1,16 @@
+name: SIXTA
+website: https://sixta.ai
+summary: "AI-powered root cause analysis for database reliability"
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Helps investigate and contextualize production incidents
+  - Supports automated troubleshooting workflows
+  - Improves team efficiency during on-call operations
+
+links:
+  linkedin: https://www.linkedin.com/in/efortune/

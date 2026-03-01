@@ -1,0 +1,17 @@
+name: Skyflo.ai
+website: https://skyflo.ai
+summary: "Skyflo is an open-source AI agent for DevOps and cloud operations. It plans, executes, and verifies infrastructure changes across Kubernetes, CI/CD, and cloud platforms."
+
+deployment:
+  - hybrid
+
+open_source: true
+
+features:
+  - AI copilot that triages incidents and recommends or executes next actions in Kubernetes and Jenkins
+  - Uses LangGraph-style orchestration and typed tools for kubectl, Helm, Argo, and Jenkins
+  - Supports human-in-the-loop workflows to keep teams in control of remediation
+
+links:
+  github: https://github.com/skyflo-ai
+  x: https://x.com/skyflo_ai

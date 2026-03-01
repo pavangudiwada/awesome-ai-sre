@@ -1,0 +1,16 @@
+name: Bacca.ai
+website: https://www.bacca.ai
+summary: "Cut downtime with AI SRE Tool. Automate monitoring, pinpoint root causes, fix errors and optimize site performance. Try it now!"
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Automates alert triage and root cause analysis to reduce MTTR
+  - Correlates logs, metrics, and traces into a single incident view
+  - Integrates with monitoring and on-call tools for end-to-end incident workflows
+
+links:
+  linkedin: https://www.linkedin.com/company/bacca-ai

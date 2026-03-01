@@ -1,0 +1,19 @@
+name: Company Name
+website: https://example.com
+summary: One-line official company or product summary.
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Feature one
+  - Feature two
+  - Feature three
+
+links:
+  github: https://github.com/org/repo
+  linkedin: https://www.linkedin.com/company/example
+  x: https://x.com/example
+  producthunt: https://www.producthunt.com/products/example

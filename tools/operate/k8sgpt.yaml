@@ -1,0 +1,17 @@
+name: K8sGPT
+website: https://k8sgpt.ai
+summary: "K8sGPT is an AI-powered tool that helps diagnose and fix Kubernetes issues with intelligent insights and automated troubleshooting."
+
+deployment:
+  - hybrid
+
+open_source: true
+
+features:
+  - Scans Kubernetes clusters with analyzers to diagnose and triage issues
+  - Anonymizes cluster information and supports remote and local LLMs
+  - Runs as a CLI or in-cluster operator for continuous problem detection
+
+links:
+  github: https://github.com/k8sgpt-ai/k8sgpt
+  x: https://x.com/K8sGPT

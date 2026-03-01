@@ -1,0 +1,17 @@
+name: StarSling
+website: https://www.starsling.dev
+summary: Multi-agent automation platform that orchestrates AI workflows for operations, troubleshooting, and remediation.
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - No-code and low-code multi-agent workflows for operational tasks and incident response
+  - Automated remediation actions triggered by conditions or AI analysis
+  - Integrations with common developer and infrastructure tools for end-to-end automation
+
+links:
+  linkedin: https://www.linkedin.com/company/starslingdev/
+  x: http://x.com/starslingdev

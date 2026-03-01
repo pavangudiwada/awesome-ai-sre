@@ -1,0 +1,17 @@
+name: Sherlocks.ai
+website: https://sherlocks.ai
+summary: "Cut MTTR by 10x with AI SREs that investigate incidents 24/7, automate root cause analysis, and prevent outages before they happen. Try Sherlocks.ai free."
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Investigates incidents using AI-assisted analysis
+  - Correlates operational data to identify likely causes
+  - Helps teams execute remediation steps faster
+
+links:
+  linkedin: https://www.linkedin.com/company/sherlocks-ai
+

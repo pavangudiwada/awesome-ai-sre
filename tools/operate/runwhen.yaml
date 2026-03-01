@@ -1,0 +1,16 @@
+name: RunWhen
+website: https://www.runwhen.com
+summary: "RunWhen is committed to simplifying troubleshooting for complex cloud systems with the help of AI powered Engineering Assistants capable of suggesting what to run, and."
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Standardizes and automates runbook execution
+  - Provides context for resolving recurring operational issues
+  - Supports SRE teams in reducing manual response overhead
+
+links:
+  linkedin: https://www.linkedin.com/company/runwhen

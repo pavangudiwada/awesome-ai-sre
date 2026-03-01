@@ -1,0 +1,16 @@
+name: Observe, Inc.
+website: https://www.observeinc.com
+summary: "Observe is a modern observability platform built on a streaming data lake, for faster search and correlation at lower cost."
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Unifies operational data for faster investigations
+  - Enables ad-hoc analysis across telemetry sources
+  - Supports SRE workflows for incident triage and resolution
+
+links:
+  linkedin: https://www.linkedin.com/company/observe-inc

@@ -1,0 +1,29 @@
+name: Tool Name
+website: https://example.com
+
+# Required: One-line summary for README.
+summary: One-line summary of what the tool does.
+
+# Required: Deployment options.
+# Allowed values: saas, on-prem, hybrid
+# Use one option when possible. Multiple options are allowed and will display as "Multi" in README.
+deployment:
+  - saas
+
+# Required: true or false
+open_source: false
+
+# Optional (good to have): up to 3 features.
+# Not displayed in README currently, but will be used in future enhancements.
+features:
+  - Feature one
+  - Feature two
+  - Feature three
+
+# Optional (good to have): include only links you have.
+# Supported keys: github, linkedin, x, producthunt
+links:
+  github: https://github.com/org/repo
+  linkedin: https://linkedin.com/company/example
+  x: https://x.com/example
+  producthunt: https://www.producthunt.com/products/example

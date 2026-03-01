@@ -1,0 +1,17 @@
+name: BigPanda
+website: https://www.bigpanda.io
+summary: AIOps platform for event correlation, incident detection, and response orchestration across modern IT operations.
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Correlates alerts and events across observability and ITSM tools
+  - Reduces noise and groups related incidents for faster triage
+  - Helps operations teams automate and accelerate incident response
+
+links:
+  linkedin: https://www.linkedin.com/company/bigpanda
+  x: https://x.com/bigpanda

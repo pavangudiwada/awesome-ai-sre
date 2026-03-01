@@ -1,0 +1,15 @@
+name: Kura
+website: https://www.usekura.com/
+summary: AI platform for engineering operations and incident response automation in modern infrastructure environments.
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Helps automate operational response tasks
+  - Improves incident investigation speed with AI support
+  - Integrates into existing SRE and DevOps workflows
+
+links:

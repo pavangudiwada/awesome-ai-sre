@@ -1,0 +1,16 @@
+name: Resolve AI
+website: https://resolve.ai
+summary: "Resolve AI handles all alerts, performs root cause analysis, and troubleshoots incidents within minutes"
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Automates routine operational and response tasks
+  - Supports incident workflows with AI-driven actions
+  - Integrates with enterprise operations tooling
+
+links:
+  linkedin: https://www.linkedin.com/company/resolveai

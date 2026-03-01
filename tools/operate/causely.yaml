@@ -1,0 +1,17 @@
+name: Causely
+website: https://www.causely.ai
+summary: "Causely pinpoints the root cause of errors so that you can consistently meet reliability expectations of application users in complex, cloud native environments."
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Uses causal inference to identify likely failure paths
+  - Correlates telemetry across services and dependencies
+  - Supports faster diagnosis during incidents
+
+links:
+  linkedin: https://www.linkedin.com/company/causely-ai
+

@@ -1,0 +1,16 @@
+name: Scoutflo
+website: https://scoutflo.com
+summary: "Your AI SRE for incident response and debugging. AI handles alerts, finds root causes, and fixes issues in minutes."
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Automates incident diagnosis and response steps
+  - Provides AI-guided remediation recommendations
+  - Integrates with common observability and operations tools
+
+links:
+  linkedin: https://www.linkedin.com/company/scoutflo

@@ -1,0 +1,17 @@
+name: IncidentFox
+website: https://www.incidentfox.ai
+summary: AI incident response platform designed to help teams investigate and resolve operational issues.
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Assists with incident triage and diagnostic workflows
+  - Provides guided response actions during outages
+  - Helps teams reduce time to resolution
+
+links:
+  github: https://github.com/incidentfox/incidentfox
+  linkedin: https://www.linkedin.com/company/incidentfox

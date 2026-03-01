@@ -1,0 +1,25 @@
+# Local agent/skill artifacts
+.agents/skills/*
+!.agents/skills/add-operate-company/
+!.agents/skills/add-operate-company/**
+# OS files
+.DS_Store
+
+# Node.js artifacts
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env / local config
+.env
+.env.*
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+skills-lock.json

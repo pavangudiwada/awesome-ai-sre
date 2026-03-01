@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Operate Company"
+  short_description: "Add or update operate company YAML entries."
+  default_prompt: "Add company entries in tools/operate, validate them, and regenerate README."

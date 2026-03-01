@@ -1,0 +1,16 @@
+name: Vibranium Labs
+website: https://vibraniumlabs.ai
+summary: AI reliability tooling company focused on incident response automation and operations intelligence.
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Uses AI to accelerate production incident investigations
+  - Supports operational decision-making with contextual insights
+  - Helps teams reduce MTTR across critical services
+
+links:
+  linkedin: https://www.linkedin.com/company/vibraniumlabs/

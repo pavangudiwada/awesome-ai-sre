@@ -1,0 +1,16 @@
+name: Deeptrace
+website: https://deeptrace.com
+summary: "Automate and cut your on-call/debugging time in half with AI."
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Helps analyze telemetry during production incidents
+  - Surfaces insights to accelerate root cause identification
+  - Supports reliability engineering workflows
+
+links:
+  linkedin: https://www.linkedin.com/company/deeptrace-ai/

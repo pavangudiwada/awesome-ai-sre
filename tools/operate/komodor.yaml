@@ -1,0 +1,16 @@
+name: Komodor
+website: https://komodor.com
+summary: "Komodor automatically detects, investigates and remediates complex issues to proactively reduce cloud costs, slash MTTR and vanquish TicketOps."
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Provides cluster context for faster incident triage
+  - Tracks changes to identify causes of outages
+  - Supports remediation workflows for Kubernetes operations
+
+links:
+  linkedin: https://www.linkedin.com/company/komodor

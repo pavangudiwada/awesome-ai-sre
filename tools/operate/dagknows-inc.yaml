@@ -1,0 +1,16 @@
+name: DagKnows, Inc
+website: https://www.dagknows.com
+summary: AI operations company focused on improving incident diagnostics and reliability workflows.
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Uses AI to improve operational troubleshooting
+  - Surfaces context needed for faster root cause analysis
+  - Supports SRE teams with workflow automation
+
+links:
+  linkedin: https://www.linkedin.com/company/dagknows-inc/

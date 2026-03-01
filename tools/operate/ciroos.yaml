@@ -1,0 +1,16 @@
+name: Ciroos
+website: https://ciroos.ai
+summary: "Ciroos transforms SRE with AI-driven automation, reducing toil, detecting anomalies early, and accelerating incident investigations."
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Monitors operational health signals and alerts
+  - Assists with diagnosis and remediation steps
+  - Helps teams improve reliability and response speed
+
+links:
+  linkedin: https://www.linkedin.com/company/ciroos

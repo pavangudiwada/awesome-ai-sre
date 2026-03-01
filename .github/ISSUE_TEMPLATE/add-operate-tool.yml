@@ -1,0 +1,114 @@
+name: Add Operate Tool
+description: Submit a new tool entry for tools/operate/*.yaml
+title: "Add tool: <tool-name>"
+labels:
+  - new-tool
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Name
+      description: Tool name
+      placeholder: ai-sre-tool-name
+    validations:
+      required: true
+
+  - type: input
+    id: website
+    attributes:
+      label: Website
+      description: Primary product website URL
+      placeholder: https://ai-sre-website.dev
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One sentence summary
+      placeholder: AI-powered platform for SRE with incident response and remediation capabilities.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: deployment
+    attributes:
+      label: Deployment
+      description: Choose exactly one option
+      options:
+        - SaaS
+        - On-Prem
+        - Hybrid
+    validations:
+      required: true
+
+  - type: dropdown
+    id: open_source
+    attributes:
+      label: Open Source
+      options:
+        - "true"
+        - "false"
+    validations:
+      required: true
+
+  - type: textarea
+    id: features
+    attributes:
+      label: Features (max 3)
+      description: Provide up to 3 features, one per line.
+      placeholder: |
+        Detects Kubernetes issues automatically
+        Suggests remediation actions
+        Integrates with Slack for alert workflows
+    validations:
+      required: false
+
+  - type: input
+    id: github
+    attributes:
+      label: GitHub URL (optional)
+      placeholder: https://github.com/ai-sre-username/ai-sre-repo
+    validations:
+      required: false
+
+  - type: input
+    id: linkedin
+    attributes:
+      label: LinkedIn URL (optional)
+      placeholder: https://linkedin.com/company/ai-sre-company
+    validations:
+      required: false
+
+  - type: input
+    id: x
+    attributes:
+      label: X URL (optional)
+      placeholder: https://x.com/ai-sre-username
+    validations:
+      required: false
+
+  - type: input
+    id: producthunt
+    attributes:
+      label: Product Hunt URL (optional)
+      placeholder: https://www.producthunt.com/products/ai-sre-product
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        Deployment mapping used in README:
+
+        | YAML | README |
+        | --- | --- |
+        | SaaS | SaaS |
+        | On-Prem | On-Prem |
+        | Hybrid | Hybrid |
+        | SaaS + On-Prem | Multi |
+        | SaaS + Hybrid | Multi |
+        | All three | Multi |
+
+        Use only: `saas`, `on-prem`, or `hybrid` in YAML files.

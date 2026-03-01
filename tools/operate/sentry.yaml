@@ -1,0 +1,18 @@
+name: Sentry
+website: https://sentry.io
+summary: "Application performance monitoring for developers &#38; software teams to see errors clearer, solve issues faster &#38; continue learning continuously. Get started at."
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Captures errors and performance issues in production
+  - Prioritizes issues with rich diagnostic context
+  - Improves incident response for application reliability
+
+links:
+  github: https://github.com/getsentry
+  x: https://x.com/getsentry
+

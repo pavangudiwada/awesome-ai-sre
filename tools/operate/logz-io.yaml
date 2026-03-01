@@ -1,0 +1,16 @@
+name: Logz.io
+website: https://logz.io
+summary: "Stop Chasing Alerts. Get Ahead of Problems with AI-Powered Observability."
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Centralizes telemetry for faster troubleshooting
+  - Provides analytics to improve incident response
+  - Supports modern cloud-native observability workflows
+
+links:
+  linkedin: https://www.linkedin.com/company/logz-io

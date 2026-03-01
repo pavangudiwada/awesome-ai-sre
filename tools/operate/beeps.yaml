@@ -1,0 +1,16 @@
+name: Beeps
+website: https://beeps.ai/
+summary: AI-powered operations assistant focused on helping teams handle alerts and incident workflows faster.
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Assists responders during alert triage and incident handling
+  - Surfaces context to reduce time-to-diagnosis
+  - Supports reliability and on-call workflows
+
+links:
+  linkedin: https://www.linkedin.com/company/beepsdev/
