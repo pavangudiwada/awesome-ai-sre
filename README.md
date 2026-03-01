@@ -1,3 +1,5 @@
+![Awesome AI SRE](assets/header-image.png)
+
 # Awesome AI SRE
 
 Curated AI SRE & Operations Tools for Reliability, Observability & Incident Response
