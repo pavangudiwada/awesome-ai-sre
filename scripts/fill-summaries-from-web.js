@@ -122,6 +122,15 @@ function replaceSummaryLine(content, newSummary) {
 }
 
 async function main() {
+  const args = new Set(process.argv.slice(2));
+  const overwrite = args.has('--overwrite');
+
+  if (!overwrite) {
+    console.log('Safe mode enabled: existing summaries are protected.');
+    console.log('Use --overwrite to replace existing summary values.');
+    console.log('');
+  }
+
   const files = getYamlFiles(TOOLS_DIR);
   let updated = 0;
   let skipped = 0;
@@ -138,6 +147,13 @@ async function main() {
     }
 
     try {
+      const currentSummary = (data.summary || '').trim();
+      if (currentSummary && !overwrite) {
+        console.log(`SKIP ${base}: summary exists (protected)`);
+        skipped += 1;
+        continue;
+      }
+
       const html = await fetchHtml(website);
       const desc = bestDescriptionFromHtml(html);
       if (!desc) {

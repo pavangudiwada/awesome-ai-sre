@@ -5,7 +5,7 @@ summary: AgentSRE is built for enterprises that can’t afford downtime. A fleet
 deployment:
   - hybrid
 
-open_source: true
+open_source: false
 
 features:
   - Uses autonomous agent workflows for engineering tasks
