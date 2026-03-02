@@ -2,6 +2,10 @@ name: RunWhen
 website: https://www.runwhen.com
 summary: "RunWhen is committed to simplifying troubleshooting for complex cloud systems with the help of AI powered Engineering Assistants capable of suggesting what to run, and."
 
+tags:
+  - infrastructure
+  - incident-response
+
 deployment:
   - saas
 

@@ -2,6 +2,10 @@ name: Beeps
 website: https://beeps.ai/
 summary: AI-powered operations assistant focused on helping teams handle alerts and incident workflows faster.
 
+tags:
+  - incident-response
+  - infrastructure
+
 deployment:
   - saas
 

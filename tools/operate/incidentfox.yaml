@@ -2,6 +2,10 @@ name: IncidentFox
 website: https://www.incidentfox.ai
 summary: AI incident response platform designed to help teams investigate and resolve operational issues.
 
+tags:
+  - incident-response
+  - infrastructure
+
 deployment:
   - saas
 

@@ -2,6 +2,10 @@ name: Cleric
 website: https://cleric.ai
 summary: "Cleric is an autonomous AI SRE that helps engineering teams quickly diagnose production issues in complex cloud-native environments."
 
+tags:
+  - incident-response
+  - infrastructure
+
 deployment:
   - saas
 

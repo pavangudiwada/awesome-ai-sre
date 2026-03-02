@@ -2,6 +2,11 @@ name: Ops0
 website: https://www.ops0.com
 summary: "ops0 automates how infrastructure is created, managed, and operated. Turn intent into IaC, apply updates intelligently, and resolve issues before they happen all powered."
 
+tags:
+  - infrastructure
+  - incident-response
+  - ai-observability
+
 deployment:
   - saas
 

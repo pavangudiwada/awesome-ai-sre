@@ -2,6 +2,10 @@ name: NOFire AI
 website: https://www.nofire.ai
 summary: "NOFire handles alerts, flags risky changes, turns incidents and tribal knowledge into lasting reliability memory."
 
+tags:
+  - incident-response
+  - infrastructure
+
 deployment:
   - saas
 

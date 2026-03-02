@@ -2,6 +2,9 @@ name: Company Name
 website: https://example.com
 summary: One-line official company or product summary.
 
+tags:
+  - incident-response
+
 deployment:
   - saas
 

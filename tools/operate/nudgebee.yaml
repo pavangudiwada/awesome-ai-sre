@@ -2,6 +2,11 @@ name: NudgeBee
 website: https://nudgebee.ai
 summary: "AI assistants for SRE and DevOps. nudgebee helps you debug issues faster, optimize cloud spend, and automate the boring stuff—securely and at scale."
 
+tags:
+  - incident-response
+  - infrastructure
+  - cloud-costs
+
 deployment:
   - saas
 

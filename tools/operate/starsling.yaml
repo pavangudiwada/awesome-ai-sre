@@ -2,6 +2,10 @@ name: StarSling
 website: https://www.starsling.dev
 summary: Multi-agent automation platform that orchestrates AI workflows for operations, troubleshooting, and remediation.
 
+tags:
+  - infrastructure
+  - incident-response
+
 deployment:
   - saas
 

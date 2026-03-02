@@ -2,6 +2,10 @@ name: K8sGPT
 website: https://k8sgpt.ai
 summary: "K8sGPT is an AI-powered tool that helps diagnose and fix Kubernetes issues with intelligent insights and automated troubleshooting."
 
+tags:
+  - infrastructure
+  - incident-response
+
 deployment:
   - hybrid
 

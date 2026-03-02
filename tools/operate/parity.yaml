@@ -2,6 +2,11 @@ name: Parity
 website: https://www.parityinsights.com/
 summary: Operations intelligence platform focused on improving reliability decisions through context and analysis.
 
+tags:
+  - ai-observability
+  - incident-response
+  - infrastructure
+
 deployment:
   - saas
 

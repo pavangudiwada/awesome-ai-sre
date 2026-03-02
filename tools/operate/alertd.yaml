@@ -2,6 +2,10 @@ name: AlertD
 website: https://alertd.ai
 summary: "AlertD is an agentic AI teammate for SRE and DevOps on AWS, cutting alert noise and dashboard fatigue while delivering contextual answers and automated actions."
 
+tags:
+  - incident-response
+  - infrastructure
+
 deployment:
   - saas
 

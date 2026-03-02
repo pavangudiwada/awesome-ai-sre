@@ -1,0 +1,20 @@
+name: Opsy
+website: https://opsy.sh
+summary: AI-powered reliability operations platform for faster incident response and SRE workflow automation.
+
+tags:
+  - infrastructure
+  - incident-response
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Automates operational workflows for infrastructure and reliability teams
+  - Speeds up incident investigation with AI-assisted analysis
+  - Integrates with developer and cloud tooling for response execution
+
+links:
+  github: https://github.com/opsyhq/claw

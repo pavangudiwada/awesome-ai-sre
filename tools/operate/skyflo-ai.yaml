@@ -2,6 +2,10 @@ name: Skyflo.ai
 website: https://skyflo.ai
 summary: "Skyflo is an open-source AI agent for DevOps and cloud operations. It plans, executes, and verifies infrastructure changes across Kubernetes, CI/CD, and cloud platforms."
 
+tags:
+  - infrastructure
+  - incident-response
+
 deployment:
   - hybrid
 

@@ -2,6 +2,10 @@ name: DagKnows, Inc
 website: https://www.dagknows.com
 summary: AI operations company focused on improving incident diagnostics and reliability workflows.
 
+tags:
+  - ai-observability
+  - incident-response
+
 deployment:
   - saas
 

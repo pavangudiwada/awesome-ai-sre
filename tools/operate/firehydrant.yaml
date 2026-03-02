@@ -2,6 +2,10 @@ name: FireHydrant
 website: https://firehydrant.com
 summary: "All-in-one incident management software for modern teams. FireHydrant helps you plan, respond, and resolve faster with smart alerting, on-call scheduling, AI-powered."
 
+tags:
+  - incident-response
+  - infrastructure
+
 deployment:
   - saas
 

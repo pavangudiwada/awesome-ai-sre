@@ -2,6 +2,11 @@ name: Lens K8s IDE
 website: https://lenshq.io/products/lens-k8s-ide
 summary: Kubernetes IDE for cluster operations and troubleshooting with AI-assisted diagnostics via Lens Prism.
 
+tags:
+  - incident-response
+  - ai-observability
+  - infrastructure
+
 deployment:
   - hybrid
 

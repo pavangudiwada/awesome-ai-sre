@@ -2,6 +2,10 @@ name: Phoebe
 website: https://phoebe.ai
 summary: "The immune system for your software. AI agents that continuously investigate live data, diagnose emerging issues and generate preemptive fixes."
 
+tags:
+  - incident-response
+  - infrastructure
+
 deployment:
   - saas
 

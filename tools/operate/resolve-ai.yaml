@@ -2,6 +2,10 @@ name: Resolve AI
 website: https://resolve.ai
 summary: "Resolve AI handles all alerts, performs root cause analysis, and troubleshoots incidents within minutes"
 
+tags:
+  - incident-response
+  - infrastructure
+
 deployment:
   - saas
 

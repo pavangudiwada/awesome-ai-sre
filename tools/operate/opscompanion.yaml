@@ -2,6 +2,10 @@ name: OpsCompanion
 website: https://opscompanion.ai
 summary: "OpsCompanion is the AI-driven Operations Intelligence Engine that automates root cause analysis, resolves alerts, and unifies observability across your stack helping."
 
+tags:
+  - incident-response
+  - ai-observability
+
 deployment:
   - saas
 

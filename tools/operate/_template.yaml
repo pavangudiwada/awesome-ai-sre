@@ -4,6 +4,12 @@ website: https://example.com
 # Required: One-line summary for README.
 summary: One-line summary of what the tool does.
 
+# Required: Exactly one tag for README grouping.
+# Allowed values: incident-response, ai-observability, infrastructure, cloud-costs
+# You can add multiple tags. The first tag controls where the tool appears in README.
+tags:
+  - incident-response
+
 # Required: Deployment options.
 # Allowed values: saas, on-prem, hybrid
 # Use one option when possible. Multiple options are allowed and will display as "Multi" in README.

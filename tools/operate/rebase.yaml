@@ -2,6 +2,10 @@ name: Rebase
 website: https://rebase.run
 summary: "Every company needs to become an AI company. Rebase is the infrastructure to get there — connect all your systems, access any LLMs, and deploy AI agents across your."
 
+tags:
+  - infrastructure
+  - incident-response
+
 deployment:
   - saas
 

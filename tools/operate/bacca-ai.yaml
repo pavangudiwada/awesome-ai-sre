@@ -2,6 +2,10 @@ name: Bacca.ai
 website: https://www.bacca.ai
 summary: "Cut downtime with AI SRE Tool. Automate monitoring, pinpoint root causes, fix errors and optimize site performance. Try it now!"
 
+tags:
+  - incident-response
+  - ai-observability
+
 deployment:
   - saas
 

@@ -2,6 +2,10 @@ name: Wild Moose
 website: https://www.wildmoose.ai
 summary: "Wild Moose helps developers solve production issues faster, kicking off any root cause investigation automatically. Triggered by alerts, the AI moose autonomously."
 
+tags:
+  - incident-response
+  - infrastructure
+
 deployment:
   - saas
 

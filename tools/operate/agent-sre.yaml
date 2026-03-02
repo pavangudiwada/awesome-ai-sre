@@ -2,6 +2,11 @@ name: Agent SRE
 website: https://agentsre.ai
 summary: AgentSRE is built for enterprises that can’t afford downtime. A fleet of AI agents automates detection, root cause analysis, and remediation - delivering faster recovery, lower cloud costs, and resilient operations
 
+tags:
+  - infrastructure
+  - incident-response
+  - cloud-costs
+
 deployment:
   - hybrid
 

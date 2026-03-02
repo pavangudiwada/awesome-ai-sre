@@ -2,6 +2,10 @@ name: Vibranium Labs
 website: https://vibraniumlabs.ai
 summary: AI reliability tooling company focused on incident response automation and operations intelligence.
 
+tags:
+  - incident-response
+  - infrastructure
+
 deployment:
   - saas
 

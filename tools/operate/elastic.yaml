@@ -2,6 +2,11 @@ name: Elastic
 website: https://www.elastic.co/observability
 summary: "Learn more about Elastic Observability. Elastic Observability resolves problems faster at reduced cost with an open source, AI-powered observability, that is accurate,."
 
+tags:
+  - ai-observability
+  - incident-response
+  - cloud-costs
+
 deployment:
   - saas
 

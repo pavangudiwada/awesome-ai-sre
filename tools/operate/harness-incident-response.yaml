@@ -2,6 +2,11 @@ name: Harness Incident Response
 website: https://www.harness.io/blog/introducing-harness-incident-response
 summary: "Most incidents start with change—so why manage them in isolation? Learn how Harness Incident Response connects the dots between alerts, changes, and workflows, powered."
 
+tags:
+  - incident-response
+  - ai-observability
+  - infrastructure
+
 deployment:
   - saas
 

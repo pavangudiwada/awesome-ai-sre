@@ -2,6 +2,10 @@ name: PagerDuty SRE Agent
 website: https://www.pagerduty.com/platform/ai-agents/sre/
 summary: "Transform critical operations with PagerDuty&#039;s AI first Operations Platform. Harness agentic AI and automation to accelerate work and build resilience."
 
+tags:
+  - incident-response
+  - infrastructure
+
 deployment:
   - saas
 

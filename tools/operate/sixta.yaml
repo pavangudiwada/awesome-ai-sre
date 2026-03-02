@@ -2,6 +2,10 @@ name: SIXTA
 website: https://sixta.ai
 summary: "AI-powered root cause analysis for database reliability"
 
+tags:
+  - ai-observability
+  - incident-response
+
 deployment:
   - saas
 

@@ -12,11 +12,13 @@ Add or update company files under `tools/operate/` and keep the generated README
 1. Identify the target company list and expected names.
 2. For each company, create or update exactly one file at `tools/operate/<slug>.yaml`.
 3. Follow the required schema shown in `references/company-template.yaml`.
-4. Keep `deployment` values as one or more of: `saas`, `on-prem`, `hybrid`.
-5. Keep `features` to at most 3 items.
-6. Include `links` whenever available. Prefer official company links.
-7. Run repository validation and README generation.
-8. Report any unresolved link uncertainty explicitly.
+4. Keep `tags` as a non-empty list using only: `incident-response`, `ai-observability`, `infrastructure`, `cloud-costs`.
+5. Use the first tag in `tags` as the primary display group in README.
+6. Keep `deployment` values as one or more of: `saas`, `on-prem`, `hybrid`.
+7. Keep `features` to at most 3 items.
+8. Include `links` whenever available. Prefer official company links.
+9. Run repository validation and README generation.
+10. Report any unresolved link uncertainty explicitly.
 
 ## File Rules
 

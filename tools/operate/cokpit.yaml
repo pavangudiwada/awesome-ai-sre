@@ -2,6 +2,10 @@ name: Cokpit
 website: https://cokpit.ai
 summary: "Cokpit scales with your needs — from startups to global enterprises."
 
+tags:
+  - infrastructure
+  - incident-response
+
 deployment:
   - saas
 

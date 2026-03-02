@@ -2,6 +2,10 @@ name: RobinRelay
 website: https://robinrelay.ai
 summary: "AI on-call copilot for Slack that cuts MTTR by 75%. Reduce alert noise, recall past incident fixes, and save thousands of engineering hours yearly."
 
+tags:
+  - incident-response
+  - infrastructure
+
 deployment:
   - saas
 

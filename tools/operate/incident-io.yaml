@@ -2,6 +2,10 @@ name: incident.io
 website: https://incident.io
 summary: "incident.io is an all-in-one incident management platform unifying on-call scheduling, real-time incident response, and integrated status pages – helping teams resolve."
 
+tags:
+  - incident-response
+  - infrastructure
+
 deployment:
   - saas
 

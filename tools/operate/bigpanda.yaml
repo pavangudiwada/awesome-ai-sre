@@ -2,6 +2,11 @@ name: BigPanda
 website: https://www.bigpanda.io
 summary: AIOps platform for event correlation, incident detection, and response orchestration across modern IT operations.
 
+tags:
+  - incident-response
+  - ai-observability
+  - infrastructure
+
 deployment:
   - saas
 

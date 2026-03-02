@@ -31,6 +31,17 @@ body:
     validations:
       required: true
 
+  - type: textarea
+    id: tags
+    attributes:
+      label: Tags
+      description: Add one or more tags, one per line. The first tag decides README section.
+      placeholder: |
+        incident-response
+        ai-observability
+    validations:
+      required: true
+
   - type: dropdown
     id: deployment
     attributes:
@@ -100,15 +111,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Deployment mapping used in README:
-
-        | YAML | README |
-        | --- | --- |
-        | SaaS | SaaS |
-        | On-Prem | On-Prem |
-        | Hybrid | Hybrid |
-        | SaaS + On-Prem | Multi |
-        | SaaS + Hybrid | Multi |
-        | All three | Multi |
-
-        Use only: `saas`, `on-prem`, or `hybrid` in YAML files.
+        Use one or more tags in YAML under `tags:`.
+        Allowed tag values: `incident-response`, `ai-observability`, `infrastructure`, `cloud-costs`.
+        The first tag controls where the tool is displayed in README.
+        Use deployment values in YAML as: `saas`, `on-prem`, or `hybrid`.

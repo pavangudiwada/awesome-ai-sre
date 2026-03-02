@@ -2,6 +2,10 @@ name: Cloudship AI
 website: https://www.cloudshipai.com
 summary: AI platform for cloud and platform engineering workflows focused on reliability and operations.
 
+tags:
+  - infrastructure
+  - incident-response
+
 deployment:
   - saas
 

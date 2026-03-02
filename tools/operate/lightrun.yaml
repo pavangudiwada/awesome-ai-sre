@@ -2,6 +2,10 @@ name: Lightrun
 website: https://lightrun.com
 summary: "Lightrun&#039;s AI SRE that handles alerts, prevent issues early with live runtime context during development, and resolve alerts in minutes with verified RCA."
 
+tags:
+  - incident-response
+  - ai-observability
+
 deployment:
   - saas
 

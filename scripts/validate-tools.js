@@ -6,17 +6,19 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const TOOLS_DIR = path.join(ROOT, 'tools', 'operate');
 
-const REQUIRED_FIELDS = ['name', 'website', 'summary', 'deployment', 'open_source'];
+const REQUIRED_FIELDS = ['name', 'website', 'summary', 'tags', 'deployment', 'open_source'];
 const ALLOWED_TOP_LEVEL_KEYS = new Set([
   'name',
   'website',
   'summary',
+  'tags',
   'deployment',
   'open_source',
   'features',
   'links'
 ]);
 const ALLOWED_DEPLOYMENTS = new Set(['saas', 'on-prem', 'hybrid']);
+const ALLOWED_TAGS = new Set(['incident-response', 'ai-observability', 'infrastructure', 'cloud-costs']);
 const ALLOWED_LINK_KEYS = new Set(['github', 'linkedin', 'x', 'producthunt']);
 const USER_AGENT = 'awesome-ai-sre-validator/1.0';
 const TIMEOUT_MS = 10000;
@@ -66,7 +68,7 @@ function parseYaml(filePath) {
       }
 
       if (rest === '') {
-        if (key === 'deployment' || key === 'features') {
+        if (key === 'deployment' || key === 'features' || key === 'tags') {
           data[key] = [];
           section = key;
         } else if (key === 'links') {
@@ -82,7 +84,7 @@ function parseYaml(filePath) {
       continue;
     }
 
-    if (indent === 2 && (section === 'deployment' || section === 'features')) {
+    if (indent === 2 && (section === 'deployment' || section === 'features' || section === 'tags')) {
       const m = line.match(/^-\s+(.*)$/);
       if (!m) throw new Error(`Invalid list line under ${section}: "${rawLine}"`);
       data[section].push(parseScalar(m[1]));
@@ -129,6 +131,19 @@ function validateTool(tool, filePath, errors) {
 
   if (tool.website && !isValidUrl(tool.website)) {
     errors.push(`${base}: invalid website URL`);
+  }
+
+  if (!Array.isArray(tool.tags) || tool.tags.length === 0) {
+    errors.push(`${base}: tags must be a non-empty list`);
+  } else {
+    for (const t of tool.tags) {
+      const tag = String(t).trim().toLowerCase();
+      if (!ALLOWED_TAGS.has(tag)) {
+        errors.push(
+          `${base}: invalid tag "${t}" (allowed: incident-response, ai-observability, infrastructure, cloud-costs)`
+        );
+      }
+    }
   }
 
   if (!Array.isArray(tool.deployment) || tool.deployment.length === 0) {

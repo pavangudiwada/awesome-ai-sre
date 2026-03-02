@@ -2,6 +2,10 @@ name: Obot
 website: https://github.com/obot-platform/obot
 summary: Open source agent platform for creating, running, and integrating autonomous assistants across workflows.
 
+tags:
+  - infrastructure
+  - incident-response
+
 deployment:
   - hybrid
 

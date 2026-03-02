@@ -2,6 +2,10 @@ name: Causely
 website: https://www.causely.ai
 summary: "Causely pinpoints the root cause of errors so that you can consistently meet reliability expectations of application users in complex, cloud native environments."
 
+tags:
+  - ai-observability
+  - incident-response
+
 deployment:
   - saas
 

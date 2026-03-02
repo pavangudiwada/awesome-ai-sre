@@ -2,6 +2,10 @@ name: Kura
 website: https://www.usekura.com/
 summary: AI platform for engineering operations and incident response automation in modern infrastructure environments.
 
+tags:
+  - infrastructure
+  - incident-response
+
 deployment:
   - saas
 

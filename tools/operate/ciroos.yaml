@@ -2,6 +2,11 @@ name: Ciroos
 website: https://ciroos.ai
 summary: "Ciroos transforms SRE with AI-driven automation, reducing toil, detecting anomalies early, and accelerating incident investigations."
 
+tags:
+  - infrastructure
+  - incident-response
+  - ai-observability
+
 deployment:
   - saas
 

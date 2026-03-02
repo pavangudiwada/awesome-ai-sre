@@ -2,6 +2,10 @@ name: Scoutflo
 website: https://scoutflo.com
 summary: "Your AI SRE for incident response and debugging. AI handles alerts, finds root causes, and fixes issues in minutes."
 
+tags:
+  - incident-response
+  - ai-observability
+
 deployment:
   - saas
 

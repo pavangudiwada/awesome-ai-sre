@@ -2,6 +2,10 @@ name: Datadog (Bits AI)
 website: https://www.datadoghq.com
 summary: "See metrics from all of your apps, tools & services in one place with Datadog’s cloud monitoring as a service solution. Try it for free."
 
+tags:
+  - ai-observability
+  - incident-response
+
 deployment:
   - saas
 

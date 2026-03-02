@@ -2,6 +2,11 @@ name: RunLLM
 website: https://www.runllm.com
 summary: "The AI SRE for mission-critical systems that delivers transparent investigations, evidence-backed root cause analysis, and continuous runbook improvement."
 
+tags:
+  - infrastructure
+  - incident-response
+  - ai-observability
+
 deployment:
   - saas
 

@@ -2,6 +2,10 @@ name: Robusta Dev
 website: https://home.robusta.dev
 summary: "Robusta's AI assistant empowers teams to troubleshoot Prometheus and Kubernetes alerts faster, leading to reduced MTTR and enhanced engineering productivity."
 
+tags:
+  - infrastructure
+  - incident-response
+
 deployment:
   - hybrid
   - on-prem
