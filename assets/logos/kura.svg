@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="ARTBOARDS" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1800 1000">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#New_Gradient_Swatch_1);
+        stroke-width: 0px;
+      }
+    </style>
+    <linearGradient id="New_Gradient_Swatch_1" data-name="New Gradient Swatch 1" x1="0" y1="500" x2="1800" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1467e7"/>
+      <stop offset="1" stop-color="#15e8e1"/>
+    </linearGradient>
+  </defs>
+  <path id="Kura_Infinity_Symbol" data-name="Kura Infinity Symbol" class="cls-1" d="M1300,0l-400,250L500,0C223.86,0,0,223.86,0,500s223.86,500,500,500l400-250,400,250c276.14,0,500-223.86,500-500S1576.14,0,1300,0ZM900,650l-500-150,500-150,500,150-500,150Z"/>
+</svg>

@@ -1,5 +1,5 @@
 name: HolmesGPT
-website: https://robusta-dev.github.io/holmesgpt/
+website: https://holmesgpt.dev
 summary: Open source AI SRE agent that iteratively investigates incidents using data from your Kubernetes and observability stack.
 
 tags:

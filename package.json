@@ -1,8 +1,22 @@
 {
-    "name": "awesome-ai-sre",
-    "version": "1.0.0",
-    "private": true,
-    "dependencies": {
-        "js-yaml": "^4.1.0"
-    }
+  "name": "awesome-ai-sre",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:with-favicons": "npm run fetch:favicons && vite build",
+    "preview": "vite preview",
+    "fetch:favicons": "node scripts/fetch-favicons.js",
+    "generate:readme": "node generate-readme.js",
+    "validate:tools": "node scripts/validate-tools.js"
+  },
+  "devDependencies": {
+    "vite": "^5.4.21"
+  }
 }
