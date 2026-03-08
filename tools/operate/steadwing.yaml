@@ -1,7 +1,7 @@
 name: Steadwing
 website: https://www.steadwing.com
 
-summary: Autonomous on-call engineer that diagnoses and resolves production incidents.
+summary: Steadwing is an autonomous on-call engineer that finds root causes in under 5 minutes and fixes them. It correlates logs, metrics, traces, and code to deliver actionable RCAs and real remediation-PRs, rollbacks, config changes, and more-with 20+ integrations.
 
 tags:
   - incident-response
