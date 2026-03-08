@@ -9,7 +9,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run fetch:favicons && vite build",
+    "build": "vite build",
+    "build:with-favicons": "npm run fetch:favicons && vite build",
     "preview": "vite preview",
     "fetch:favicons": "node scripts/fetch-favicons.js",
     "generate:readme": "node generate-readme.js",

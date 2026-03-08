@@ -215,7 +215,7 @@ function Panel({ tool, category, onClose }) {
 
 function ShareBar() {
   const [copied, setCopied] = useState(false);
-  const url = "https://aisrewatchlist.com";
+  const url = typeof window !== "undefined" ? window.location.origin : "https://aisrewatchlist.vercel.app";
   const copy = async () => {
     let success = false;
 
