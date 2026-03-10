@@ -305,12 +305,9 @@ export default function App() {
         *{box-sizing:border-box} body{margin:0;color:var(--text-primary)}
         ::-webkit-scrollbar{width:3px} ::-webkit-scrollbar-track{background:#0a0a0a} ::-webkit-scrollbar-thumb{background:#222;border-radius:2px}
         .blink{animation:blink 1.2s step-end infinite} @keyframes blink{0%,100%{color:var(--text-primary)}50%{color:transparent}}
-        .scanline{position:fixed;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#00ff8855,transparent);animation:scan 6s linear infinite;z-index:99;pointer-events:none}
-        @keyframes scan{0%{top:0}100%{top:100vh}}
         input:focus{outline:none} input::placeholder{color:var(--text-muted)}
       `}</style>
 
-      <div className="scanline" />
       <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", backgroundImage: "linear-gradient(rgba(0,255,136,0.028) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,0.028) 1px,transparent 1px)", backgroundSize: "48px 48px" }} />
 
       <div style={{ position: "relative", zIndex: 1, maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
