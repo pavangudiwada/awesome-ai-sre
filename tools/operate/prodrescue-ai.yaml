@@ -1,0 +1,21 @@
+name: ProdRescue AI
+website: https://www.prodrescueai.com
+summary: "Automates incident reports and evidence-backed RCA for SRE teams from Slack war rooms or logs in minutes."
+
+tags:
+  - incident-response
+  - automation
+
+deployment:
+  - saas
+
+open_source: false
+
+features:
+  - Generates executive-ready incident reports with timelines and structured RCA
+  - Maps each report claim back to supporting source evidence
+  - Produces action items and fast incident documentation from Slack or pasted logs
+
+links:
+  linkedin: https://www.linkedin.com/company/prodrescue-ai/
+  x: https://x.com/devrimozcy
