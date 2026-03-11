@@ -19,6 +19,6 @@ features:
   - Supports multiple LLM providers and self-hosted models for privacy-sensitive environments
 
 links:
-  github: https://github.com/robusta-dev/holmesgpt
+  github: https://github.com/HolmesGPT/holmesgpt
   linkedin: https://www.linkedin.com/company/robusta-ai
   x: https://x.com/RobustaDev
