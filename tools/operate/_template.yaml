@@ -4,6 +4,9 @@ website: https://example.com
 # Required: One-line summary for README.
 summary: One-line summary of what the tool does.
 
+# Optional: Date first added to the watchlist in YYYY-MM-DD format.
+added_at: 2026-03-13
+
 # Required: Exactly one tag for README grouping.
 # Allowed values: incident-response, observability, automation, infrastructure, cost-optimization, security
 # You can add multiple tags. The first tag controls where the tool appears in README.

@@ -7,10 +7,12 @@ const ROOT = path.resolve(__dirname, '..');
 const TOOLS_DIR = path.join(ROOT, 'tools', 'operate');
 
 const REQUIRED_FIELDS = ['name', 'website', 'summary', 'tags', 'deployment', 'open_source'];
+const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const ALLOWED_TOP_LEVEL_KEYS = new Set([
   'name',
   'website',
   'summary',
+  'added_at',
   'tags',
   'deployment',
   'open_source',
@@ -166,6 +168,14 @@ function validateTool(tool, filePath, errors) {
 
   if (typeof tool.open_source !== 'boolean') {
     errors.push(`${base}: open_source must be true/false`);
+  }
+
+  if (tool.added_at !== undefined) {
+    if (typeof tool.added_at !== 'string' || !ISO_DATE_RE.test(tool.added_at)) {
+      errors.push(`${base}: added_at must be in YYYY-MM-DD format`);
+    } else if (Number.isNaN(new Date(`${tool.added_at}T00:00:00Z`).getTime())) {
+      errors.push(`${base}: added_at must be a valid calendar date`);
+    }
   }
 
   if (tool.features !== undefined) {

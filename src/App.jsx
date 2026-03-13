@@ -29,14 +29,6 @@ const YAML_FILES = import.meta.glob("../tools/operate/*.yaml", {
   import: "default",
 });
 
-const DATE_ADDED_OVERRIDES = {
-  "prodrescue-ai": "2026-03-11",
-  aiden: "2026-03-10",
-  stackgen: "2026-03-09",
-  kagent: "2026-03-08",
-  "better-stack": "2026-03-07",
-};
-
 const CAT = {
   "Incident Response": { color: "#ff4444", label: "IR" },
   Observability: { color: "#00d4ff", label: "OBS" },
@@ -72,15 +64,58 @@ function categoryFromTags(tags) {
   return TAG_TO_CATEGORY[primary] || "Infrastructure";
 }
 
-function fallbackDateForSlug(slug) {
-  let hash = 0;
-  for (const char of slug) {
-    hash = (hash * 31 + char.charCodeAt(0)) % 360;
+function normalizeAddedAt(value) {
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    return value.toISOString().slice(0, 10);
   }
 
-  const base = new Date(Date.UTC(2025, 0, 1));
-  base.setUTCDate(base.getUTCDate() + hash);
-  return base.toISOString().slice(0, 10);
+  if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return value;
+  }
+
+  return null;
+}
+
+function parseAddedDate(value) {
+  const normalized = normalizeAddedAt(value);
+  if (!normalized) {
+    return null;
+  }
+
+  const parsed = new Date(`${normalized}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime())) {
+    return null;
+  }
+
+  return parsed;
+}
+
+function daysSince(date, now = new Date()) {
+  const utcNow = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const utcDate = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+  return Math.floor((utcNow - utcDate) / 86400000);
+}
+
+function getRecentTools(tools, now = new Date()) {
+  const datedTools = tools
+    .filter((tool) => parseAddedDate(tool.dateAdded))
+    .sort((a, b) => b.dateAdded.localeCompare(a.dateAdded) || a.name.localeCompare(b.name));
+
+  const withinDays = (dayLimit) =>
+    datedTools.filter((tool) => {
+      const parsed = parseAddedDate(tool.dateAdded);
+      if (!parsed) return false;
+      const age = daysSince(parsed, now);
+      return age >= 0 && age <= dayLimit;
+    });
+
+  const lastWeek = withinDays(7);
+  const expanded = lastWeek.length >= 1 && lastWeek.length <= 2 ? withinDays(14) : lastWeek;
+
+  return {
+    tools: expanded.slice(0, 5),
+    rangeDays: lastWeek.length >= 1 && lastWeek.length <= 2 ? 14 : 7,
+  };
 }
 
 function buildToolsData() {
@@ -125,7 +160,7 @@ function buildToolsData() {
       x: links.x,
       icon: "/favicons/" + slug + ".png",
       slug,
-      dateAdded: DATE_ADDED_OVERRIDES[slug] || fallbackDateForSlug(slug),
+      dateAdded: normalizeAddedAt(parsed.added_at),
     });
   }
 
@@ -140,9 +175,8 @@ const TOOLS_DATA = buildToolsData();
 const ALL_TOOLS = CATEGORY_ORDER.flatMap((category) =>
   TOOLS_DATA[category].map((tool) => ({ ...tool, category }))
 );
-const WHATS_NEW = [...ALL_TOOLS]
-  .sort((a, b) => b.dateAdded.localeCompare(a.dateAdded) || a.name.localeCompare(b.name))
-  .slice(0, 5);
+const WHATS_NEW_META = getRecentTools(ALL_TOOLS);
+const WHATS_NEW = WHATS_NEW_META.tools;
 const WHATS_NEW_SLUGS = new Set(WHATS_NEW.map((tool) => tool.slug));
 const TOTAL = ALL_TOOLS.length;
 
@@ -361,7 +395,7 @@ function FilterRail({ selectedCategories, onToggleCategory, ossOnly, onToggleOss
   );
 }
 
-function WhatsNewBanner({ tools, onSelectTool }) {
+function WhatsNewBanner({ tools, rangeDays, onSelectTool }) {
   return (
     <section
       style={{
@@ -381,7 +415,18 @@ function WhatsNewBanner({ tools, onSelectTool }) {
             paddingTop: "6px",
           }}
         >
-          WHAT&apos;S NEW
+          RECENT ADDITIONS
+        </span>
+        <span
+          style={{
+            color: "var(--text-muted)",
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: "9px",
+            letterSpacing: "1px",
+            paddingTop: "7px",
+          }}
+        >
+          LAST {rangeDays} DAYS
         </span>
         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", flex: 1 }}>
           {tools.map((tool) => (
@@ -1143,7 +1188,9 @@ export default function App() {
         }}
       >
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: isMobile ? "0 16px 0" : "0 28px 0" }}>
-          <WhatsNewBanner tools={WHATS_NEW} onSelectTool={openToolFromBanner} />
+          {WHATS_NEW.length > 0 && (
+            <WhatsNewBanner tools={WHATS_NEW} rangeDays={WHATS_NEW_META.rangeDays} onSelectTool={openToolFromBanner} />
+          )}
           <header style={{ paddingTop: "26px", paddingBottom: "28px" }}>
             <div style={{ marginBottom: "8px" }}>
               <span style={{ color: "#00ff88", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "4px" }}>AI SRE /// WATCHLIST</span>

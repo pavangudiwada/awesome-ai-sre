@@ -15,6 +15,7 @@ const ICON_ASSETS = {
 };
 
 const REQUIRED_FIELDS = ['name', 'website', 'summary', 'tags', 'deployment', 'open_source'];
+const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const CANONICAL_DEPLOYMENTS = new Map([
   ['saas', 'SaaS'],
   ['on-prem', 'On-Prem'],
@@ -276,6 +277,47 @@ function buildNameCell(tool) {
   return nameLink;
 }
 
+function parseAddedDate(value) {
+  if (typeof value !== 'string' || !ISO_DATE_RE.test(value)) {
+    return null;
+  }
+
+  const parsed = new Date(`${value}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime())) {
+    return null;
+  }
+
+  return parsed;
+}
+
+function daysSince(date, now = new Date()) {
+  const utcNow = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const utcDate = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+  return Math.floor((utcNow - utcDate) / 86400000);
+}
+
+function selectRecentTools(tools, now = new Date()) {
+  const datedTools = tools
+    .filter((tool) => parseAddedDate(tool.added_at))
+    .sort((a, b) => b.added_at.localeCompare(a.added_at) || a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+
+  const withinDays = (dayLimit) =>
+    datedTools.filter((tool) => {
+      const parsed = parseAddedDate(tool.added_at);
+      if (!parsed) return false;
+      const age = daysSince(parsed, now);
+      return age >= 0 && age <= dayLimit;
+    });
+
+  const lastWeek = withinDays(7);
+  const expanded = lastWeek.length >= 1 && lastWeek.length <= 2 ? withinDays(14) : lastWeek;
+
+  return {
+    tools: expanded.slice(0, 5),
+    rangeDays: lastWeek.length >= 1 && lastWeek.length <= 2 ? 14 : 7
+  };
+}
+
 function buildReadme(tools) {
   const groups = new Map([
     ['incident-response', []],
@@ -325,6 +367,18 @@ function buildReadme(tools) {
     return `${lines.join('\n')}\n`;
   }
 
+  const recent = selectRecentTools(tools);
+  if (recent.tools.length > 0) {
+    lines.push('');
+    lines.push(`### Recent Additions (Last ${recent.rangeDays} Days)`);
+    lines.push('');
+    for (const tool of recent.tools) {
+      const category = TAG_LABELS.get(tool.primaryTag) || tool.primaryTag;
+      lines.push(`- ${tool.added_at} - ${buildNameCell(tool)} (${category})`);
+    }
+  }
+
+  lines.push('');
   lines.push(`Jump to: ${jumpLinks}`);
 
   for (const sectionName of sectionOrder) {
