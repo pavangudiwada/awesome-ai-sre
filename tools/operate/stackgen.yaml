@@ -1,6 +1,7 @@
 name: StackGen
 website: https://stackgen.com
 summary: "Autonomous infrastructure platform powered by Aiden for platform engineering, DevOps, and SRE teams to automate provisioning, governance, and operations."
+added_at: 2026-03-09
 
 tags:
   - infrastructure

@@ -1,6 +1,7 @@
 name: Kagent
 website: https://kagent.dev
 summary: "Open-source Kubernetes-native framework for building and running AI agents that automate DevOps operations and troubleshooting tasks."
+added_at: 2026-03-08
 
 tags:
   - infrastructure
