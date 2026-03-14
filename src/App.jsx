@@ -196,6 +196,7 @@ function CheckboxBadge({ category, checked, onToggle }) {
   const meta = CAT[category];
   return (
     <button
+      className="pressable pressable--chip"
       type="button"
       onClick={onToggle}
       style={{
@@ -260,6 +261,7 @@ function CheckboxBadge({ category, checked, onToggle }) {
 function OssToggle({ enabled, onToggle }) {
   return (
     <button
+      className="pressable pressable--chip"
       type="button"
       onClick={onToggle}
       style={{
@@ -339,6 +341,7 @@ function FilterRail({ selectedCategories, onToggleCategory, ossOnly, onToggleOss
         </div>
         {mobile && (
           <button
+            className="pressable"
             type="button"
             onClick={onClose}
             style={{
@@ -454,6 +457,7 @@ function WhatsNewBanner({ tools, rangeDays, onSelectTool }) {
                 NEW
               </span>
               <button
+                className="pressable pressable--chip"
                 type="button"
                 onClick={() => onSelectTool(tool)}
                 style={{
@@ -706,6 +710,7 @@ function Panel({ tool, category, onClose, mobile }) {
             }}
           />
           <button
+            className="pressable pressable--chip"
             type="button"
             onClick={onClose}
             style={{
@@ -828,6 +833,7 @@ function Panel({ tool, category, onClose, mobile }) {
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
               <a
+                className="pressable pressable--strong"
                 href={tool.url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -848,6 +854,7 @@ function Panel({ tool, category, onClose, mobile }) {
               </a>
               {tool.linkedin && (
                 <a
+                  className="pressable pressable--chip"
                   href={tool.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -873,6 +880,7 @@ function Panel({ tool, category, onClose, mobile }) {
               )}
               {tool.github && (
                 <a
+                  className="pressable pressable--chip"
                   href={tool.github}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -898,6 +906,7 @@ function Panel({ tool, category, onClose, mobile }) {
               )}
               {tool.x && (
                 <a
+                  className="pressable pressable--chip"
                   href={tool.x}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -974,6 +983,7 @@ function ShareBar() {
       {buttons.map((button) =>
         button.href ? (
           <a
+            className="pressable pressable--chip"
             key={button.label}
             href={button.href}
             target="_blank"
@@ -1000,6 +1010,7 @@ function ShareBar() {
           </a>
         ) : (
           <button
+            className={`pressable pressable--chip${button.active ? " pressable--active" : ""}`}
             key={button.label}
             onClick={button.onClick}
             title={button.label}
@@ -1146,6 +1157,7 @@ export default function App() {
         *{box-sizing:border-box}
         body{margin:0;color:var(--text-primary);background:#0a0a0a}
         button,input{font:inherit}
+        a,button{outline:none}
         ::-webkit-scrollbar{width:3px}
         ::-webkit-scrollbar-track{background:#0a0a0a}
         ::-webkit-scrollbar-thumb{background:#222;border-radius:2px}
@@ -1153,6 +1165,12 @@ export default function App() {
         @keyframes blink{0%,100%{color:var(--text-primary)}50%{color:transparent}}
         input:focus{outline:none}
         input::placeholder{color:var(--text-muted)}
+        .pressable{transition:transform .16s ease,box-shadow .16s ease,filter .16s ease,border-color .16s ease,background-color .16s ease,color .16s ease;will-change:transform}
+        .pressable:hover{transform:translateY(-1px);filter:brightness(1.05)}
+        .pressable:active,.pressable--active{transform:translateY(1px) scale(.985);filter:brightness(.98)}
+        .pressable:focus-visible{box-shadow:0 0 0 2px rgba(10,10,10,.9),0 0 0 4px rgba(0,255,136,.32)}
+        .pressable--strong:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.28)}
+        .pressable--chip:hover{box-shadow:0 8px 18px rgba(0,0,0,.2)}
       `}</style>
 
       <div
@@ -1202,8 +1220,8 @@ export default function App() {
               {TOTAL}+ vendors building the future of autonomous reliability engineering. Brought to you by <span style={{ color: "#00ff88" }}>The AI SRE Watchlist</span>.
             </p>
             <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-              <a href="https://www.linkedin.com/company/ai-sre-watchlist" target="_blank" rel="noopener noreferrer" style={{ background: "#00ff88", color: "#0a0a0a", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px" }}>→ FOLLOW ON LINKEDIN</a>
-              <a href="https://github.com/pavangudiwada/awesome-ai-sre" target="_blank" rel="noopener noreferrer" style={{ background: "transparent", color: "#00ff88", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px", border: "1px solid rgba(0,255,136,0.3)" }}>★ STAR ON GITHUB</a>
+              <a className="pressable pressable--strong" href="https://www.linkedin.com/company/ai-sre-watchlist" target="_blank" rel="noopener noreferrer" style={{ background: "#00ff88", color: "#0a0a0a", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px" }}>→ FOLLOW ON LINKEDIN</a>
+              <a className="pressable pressable--strong" href="https://github.com/pavangudiwada/awesome-ai-sre" target="_blank" rel="noopener noreferrer" style={{ background: "transparent", color: "#00ff88", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px", border: "1px solid rgba(0,255,136,0.3)" }}>★ STAR ON GITHUB</a>
             </div>
           </header>
 
@@ -1255,6 +1273,7 @@ export default function App() {
                 </div>
                 {isMobile && (
                   <button
+                    className="pressable pressable--strong"
                     type="button"
                     onClick={() => setFiltersOpen(true)}
                     style={{
@@ -1338,8 +1357,8 @@ export default function App() {
               <p style={{ color: "var(--text-secondary)", fontSize: "12px", lineHeight: "1.7", margin: "0 0 10px" }}>The AI SRE space is moving fast. New tools launch weekly. Existing vendors ship agentic features quietly. It&apos;s hard to keep up unless someone is watching.</p>
               <p style={{ color: "var(--text-secondary)", fontSize: "12px", lineHeight: "1.7", margin: "0 0 18px" }}>{TOTAL} vendors tracked across incident response, observability, infrastructure, and cost optimization.</p>
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                <a href="https://www.linkedin.com/company/ai-sre-watchlist" target="_blank" rel="noopener noreferrer" style={{ background: "#00ff88", color: "#0a0a0a", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px" }}>→ FOLLOW ON LINKEDIN</a>
-                <a href="https://github.com/pavangudiwada/awesome-ai-sre" target="_blank" rel="noopener noreferrer" style={{ background: "transparent", color: "#00ff88", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px", border: "1px solid rgba(0,255,136,0.3)" }}>★ STAR ON GITHUB</a>
+                <a className="pressable pressable--strong" href="https://www.linkedin.com/company/ai-sre-watchlist" target="_blank" rel="noopener noreferrer" style={{ background: "#00ff88", color: "#0a0a0a", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px" }}>→ FOLLOW ON LINKEDIN</a>
+                <a className="pressable pressable--strong" href="https://github.com/pavangudiwada/awesome-ai-sre" target="_blank" rel="noopener noreferrer" style={{ background: "transparent", color: "#00ff88", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px", border: "1px solid rgba(0,255,136,0.3)" }}>★ STAR ON GITHUB</a>
               </div>
             </div>
           </section>
