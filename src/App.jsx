@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import yaml from "js-yaml";
+import { Navigate, Outlet, Route, Routes, useNavigate, useParams } from "react-router-dom";
 
 const TAG_TO_CATEGORY = {
   "incident-response": "Incident Response",
@@ -57,6 +58,10 @@ function deploymentLabel(deployment) {
     return "Multi";
   }
   return DEPLOYMENT_LABELS[String(deployment[0]).toLowerCase()] || String(deployment[0]);
+}
+
+function slugifyToolName(name) {
+  return String(name).trim().toLowerCase().replace(/\s+/g, "-");
 }
 
 function categoryFromTags(tags) {
@@ -128,9 +133,9 @@ function buildToolsData() {
 
   for (const [filePath, raw] of Object.entries(YAML_FILES)) {
     const slugMatch = filePath.match(/\/([^/]+)\.yaml$/);
-    const slug = slugMatch ? slugMatch[1] : null;
+    const assetSlug = slugMatch ? slugMatch[1] : null;
 
-    if (!slug || slug.startsWith("_")) {
+    if (!assetSlug || assetSlug.startsWith("_")) {
       continue;
     }
 
@@ -158,8 +163,8 @@ function buildToolsData() {
       linkedin: links.linkedin,
       github: links.github,
       x: links.x,
-      icon: "/favicons/" + slug + ".png",
-      slug,
+      icon: "/favicons/" + assetSlug + ".png",
+      slug: slugifyToolName(parsed.name),
       dateAdded: normalizeAddedAt(parsed.added_at),
     });
   }
@@ -175,6 +180,7 @@ const TOOLS_DATA = buildToolsData();
 const ALL_TOOLS = CATEGORY_ORDER.flatMap((category) =>
   TOOLS_DATA[category].map((tool) => ({ ...tool, category }))
 );
+const TOOLS_BY_SLUG = new Map(ALL_TOOLS.map((tool) => [tool.slug, tool]));
 const WHATS_NEW_META = getRecentTools(ALL_TOOLS);
 const WHATS_NEW = WHATS_NEW_META.tools;
 const WHATS_NEW_SLUGS = new Set(WHATS_NEW.map((tool) => tool.slug));
@@ -940,7 +946,7 @@ function Panel({ tool, category, onClose, mobile }) {
 
 function ShareBar() {
   const [copied, setCopied] = useState(false);
-  const url = typeof window !== "undefined" ? window.location.origin : "https://aisrewatchlist.vercel.app";
+  const url = typeof window !== "undefined" ? window.location.href : "https://aisrewatchlist.vercel.app";
 
   const copy = async () => {
     let success = false;
@@ -1038,35 +1044,57 @@ function ShareBar() {
   );
 }
 
-export default function App() {
+function AppFrame() {
+  const navigate = useNavigate();
+  const { slug: routeSlug } = useParams();
+  const activeTool = routeSlug ? TOOLS_BY_SLUG.get(routeSlug) || null : null;
   const [search, setSearch] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [ossOnly, setOssOnly] = useState(false);
-  const [selectedTool, setSelectedTool] = useState(null);
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== "undefined" ? window.innerWidth < 768 : false
   );
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const selectedTool = activeTool ? { tool: activeTool, category: activeTool.category } : null;
+  const closeSelectedTool = useCallback(() => {
+    navigate("/");
+  }, [navigate]);
 
-  const handleSelectTool = useCallback((tool, category) => {
-    setSelectedTool((current) => (current?.tool.name === tool.name ? null : { tool, category }));
-  }, []);
+  const handleSelectTool = useCallback(
+    (tool) => {
+      navigate(routeSlug === tool.slug ? "/" : `/tool/${tool.slug}`);
+    },
+    [navigate, routeSlug]
+  );
 
-  const openToolFromBanner = useCallback((tool) => {
-    setSelectedTool({ tool, category: tool.category });
-  }, []);
+  const openToolFromBanner = useCallback(
+    (tool) => {
+      navigate(`/tool/${tool.slug}`);
+    },
+    [navigate]
+  );
 
   const toggleCategory = useCallback((category) => {
-    setSelectedTool(null);
+    if (routeSlug) {
+      navigate("/");
+    }
     setSelectedCategories((current) =>
       current.includes(category) ? current.filter((item) => item !== category) : [...current, category]
     );
-  }, []);
+  }, [navigate, routeSlug]);
 
   const toggleOss = useCallback(() => {
-    setSelectedTool(null);
+    if (routeSlug) {
+      navigate("/");
+    }
     setOssOnly((current) => !current);
-  }, []);
+  }, [navigate, routeSlug]);
+
+  useEffect(() => {
+    if (routeSlug && !activeTool) {
+      navigate("/", { replace: true });
+    }
+  }, [activeTool, navigate, routeSlug]);
 
   useEffect(() => {
     const onResize = () => {
@@ -1107,7 +1135,7 @@ export default function App() {
       }
 
       if (selectedTool) {
-        setSelectedTool(null);
+        closeSelectedTool();
       }
       if (filtersOpen) {
         setFiltersOpen(false);
@@ -1116,7 +1144,7 @@ export default function App() {
 
     document.addEventListener("pointerdown", onPointerDown);
     return () => document.removeEventListener("pointerdown", onPointerDown);
-  }, [selectedTool, filtersOpen]);
+  }, [closeSelectedTool, selectedTool, filtersOpen]);
 
   const normalizedSearch = search.trim().toLowerCase();
   const filteredGroups = CATEGORY_ORDER.reduce((groups, category) => {
@@ -1151,6 +1179,7 @@ export default function App() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#0a0a0a", color: "var(--text-primary)", fontFamily: "'Inter', sans-serif" }}>
+      <Outlet />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
         :root{--text-primary:#E6EDF3;--text-secondary:#9DA7B3;--text-muted:#6B7280}
@@ -1379,8 +1408,20 @@ export default function App() {
         </div>
       </div>
 
-      {selectedTool && <Panel tool={selectedTool.tool} category={selectedTool.category} onClose={() => setSelectedTool(null)} mobile={isMobile} />}
+      {selectedTool && <Panel tool={selectedTool.tool} category={selectedTool.category} onClose={closeSelectedTool} mobile={isMobile} />}
       {!panelOpen && !isMobile && <ShareBar />}
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<AppFrame />}>
+        <Route index element={null} />
+        <Route path="tool/:slug" element={null} />
+      </Route>
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
