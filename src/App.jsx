@@ -938,6 +938,68 @@ function Panel({ tool, category, onClose, mobile }) {
               )}
             </div>
           </div>
+
+          <div style={{ position: "relative" }}>
+            <style>{`
+              .update-btn-tooltip::after {
+                content: "Create an issue on GitHub";
+                position: absolute;
+                bottom: calc(100% + 6px);
+                left: 50%;
+                transform: translateX(-50%);
+                background: #1a1a1a;
+                border: 1px solid rgba(255,255,255,0.15);
+                color: var(--text-secondary);
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 10px;
+                white-space: nowrap;
+                padding: 4px 8px;
+                border-radius: 4px;
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 0s;
+              }
+              .update-btn-tooltip:hover::after {
+                opacity: 1;
+              }
+            `}</style>
+            <button
+              type="button"
+              className="update-btn-tooltip"
+              onClick={() => {
+                const name = encodeURIComponent(tool.name);
+                const url = encodeURIComponent(tool.url);
+                window.open(
+                  `https://github.com/pavangudiwada/awesome-ai-sre/issues/new?title=Update:%20${name}&body=Tool:%20${name}%0AWebsite:%20${url}%0A%0AWhat%20I%27d%20like%20to%20update:%0A`,
+                  "_blank",
+                  "noopener,noreferrer"
+                );
+              }}
+              style={{
+                width: "100%",
+                padding: "10px",
+                border: "1px solid rgba(255,255,255,0.1)",
+                background: "transparent",
+                color: "#00ff88",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "12px",
+                letterSpacing: "0.5px",
+                cursor: "pointer",
+                borderRadius: "8px",
+                transition: "border-color 0.15s, background 0.15s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "rgba(0,255,136,0.3)";
+                e.currentTarget.style.background = "rgba(0,255,136,0.05)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
+                e.currentTarget.style.background = "transparent";
+              }}
+            >
+              UPDATE THIS PAGE
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -956,7 +1018,7 @@ function ShareBar() {
         await navigator.clipboard.writeText(url);
         success = true;
       }
-    } catch {}
+    } catch { }
 
     if (!success) {
       try {
@@ -969,7 +1031,7 @@ function ShareBar() {
         area.select();
         success = document.execCommand("copy");
         document.body.removeChild(area);
-      } catch {}
+      } catch { }
     }
 
     if (success) {
