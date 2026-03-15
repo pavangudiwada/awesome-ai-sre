@@ -1,6 +1,6 @@
 name: Sentry
 website: https://sentry.io
-summary: "Application performance monitoring for developers &#38; software teams to see errors clearer, solve issues faster &#38; continue learning continuously. Get started at."
+summary: "Application performance monitoring for developers and software teams to see errors more clearly, solve issues faster, and improve reliability continuously."
 
 tags:
   - observability
@@ -19,4 +19,3 @@ features:
 links:
   github: https://github.com/getsentry
   x: https://x.com/getsentry
-
