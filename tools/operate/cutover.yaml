@@ -1,22 +1,20 @@
 name: Cutover
-website: https://www.cutover.com
-summary: "Cutover's cloud-hosted Collaborative Automation platform connects teams and technology, helping you manage disaster recovery, migration, and release."
-
-tags:
-  - incident-response
-  - infrastructure
-  - automation
-
+slug: cutover
+url: https://www.cutover.com
+summary: >-
+  Cutover's cloud-hosted Collaborative Automation platform connects teams and technology, helping you manage disaster
+  recovery, migration, and release.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Deployment
+  - Incident Response
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Orchestrates complex operational workflows and runbooks
   - Coordinates multi-team response during incidents
   - Improves operational resilience through repeatable processes
-
-links:
-  linkedin: https://www.linkedin.com/company/cutover/
-  x: https://twitter.com/gocutover
+linkedin: https://www.linkedin.com/company/cutover/
+x: https://twitter.com/gocutover

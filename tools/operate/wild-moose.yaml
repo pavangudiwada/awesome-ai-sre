@@ -1,22 +1,19 @@
 name: Wild Moose
-website: https://www.wildmoose.ai
-summary: "Wild Moose helps developers solve production issues faster, kicking off any root cause investigation automatically. Triggered by alerts, the AI moose autonomously."
-
-tags:
-  - incident-response
-  - infrastructure
-  - automation
-
+slug: wild-moose
+url: https://www.wildmoose.ai
+summary: >-
+  Wild Moose helps developers solve production issues faster, kicking off any root cause investigation automatically.
+  Triggered by alerts, the AI moose autonomously.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Automates repetitive reliability and incident tasks
   - Provides AI-assisted operational recommendations
   - Supports team coordination during incidents
-
-links:
-  linkedin: https://www.linkedin.com/company/wild-moose
-
+linkedin: https://www.linkedin.com/company/wild-moose

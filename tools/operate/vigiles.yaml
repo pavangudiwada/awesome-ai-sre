@@ -1,13 +1,13 @@
 name: Vigiles
-website: https://vigileshq.com
-summary: "Incident management platform for modern teams with outage detection, on-call alerting, response coordination, status pages, and AI postmortems."
-added_at: 2026-03-13
-
-tags:
-  - incident-response
-  - observability
-
+slug: vigiles
+url: https://vigileshq.com
+summary: >-
+  Incident management platform for modern teams with outage detection, on-call alerting, response coordination, status
+  pages, and AI postmortems.
 deployment:
   - saas
-
-open_source: false
+opensource: false
+tags:
+  - Incident Response
+dateAdded: '2026-03-13'
+claimed: false

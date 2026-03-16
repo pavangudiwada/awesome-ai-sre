@@ -1,20 +1,19 @@
 name: Infrabase
-website: https://infrabase.co
-summary: "Infrabase scans code and organizational context to surface security gaps, cost spikes, and policy breaks before they ever hit your cloud."
-
-tags:
-  - cost-optimization
-  - infrastructure
-  - security
-
+slug: infrabase
+url: https://infrabase.co
+summary: >-
+  Infrabase scans code and organizational context to surface security gaps, cost spikes, and policy breaks before they
+  ever hit your cloud.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Security
+  - IaC
+  - FinOps
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Reviews Terraform and Kubernetes pull requests for misconfigurations and policy violations
   - Provides natural language explanations of detected risks and suggested fixes
   - Integrates with GitHub and other VCS platforms to comment directly on PRs
-
-links:

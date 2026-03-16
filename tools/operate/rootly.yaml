@@ -1,21 +1,19 @@
 name: Rootly
-website: https://rootly.com
-summary: "The all-in-one incident management platform, including AI SRE agents—built for fast-moving engineering teams to detect, manage, learn from, and resolve incidents faster."
-
-tags:
-  - incident-response
-  - infrastructure
-  - automation
-
+slug: rootly
+url: https://rootly.com
+summary: >-
+  The all-in-one incident management platform, including AI SRE agents—built for fast-moving engineering teams to
+  detect, manage, learn from, and resolve incidents faster.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Automates key incident response steps and handoffs
   - Integrates with communication and on-call tools
   - Supports postmortems and reliability operations
-
-links:
-  linkedin: https://www.linkedin.com/company/rootlyhq
+linkedin: https://www.linkedin.com/company/rootlyhq

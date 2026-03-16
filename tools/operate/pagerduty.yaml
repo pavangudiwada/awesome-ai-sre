@@ -1,23 +1,21 @@
 name: PagerDuty SRE Agent
-website: https://www.pagerduty.com/platform/ai-agents/sre/
-summary: "Transform critical operations with PagerDuty&#039;s AI first Operations Platform. Harness agentic AI and automation to accelerate work and build resilience."
-
-tags:
-  - incident-response
-  - infrastructure
-  - automation
-
+slug: pagerduty
+url: https://www.pagerduty.com/platform/ai-agents/sre/
+summary: >-
+  Transform critical operations with PagerDuty&#039;s AI first Operations Platform. Harness agentic AI and automation to
+  accelerate work and build resilience.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Manages alerting, escalation, and on-call schedules
   - Orchestrates incident response workflows
   - Improves operational visibility and service reliability
-
-links:
-  github: https://github.com/PagerDuty
-  linkedin: https://www.linkedin.com/company/pagerduty
-  x: https://x.com/pagerduty
+linkedin: https://www.linkedin.com/company/pagerduty
+github: https://github.com/PagerDuty
+x: https://x.com/pagerduty

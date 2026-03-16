@@ -1,22 +1,18 @@
 name: NudgeBee
-website: https://www.nudgebee.com
-summary: "Agentic AI platform for SRE & CloudOps, troubleshooting, cost optimization, and no-code workflow automation."
-
-tags:
-  - cost-optimization
-  - incident-response
-  - infrastructure
-  - automation
-
+slug: nudgebee
+url: https://www.nudgebee.com
+summary: Agentic AI platform for SRE & CloudOps, troubleshooting, cost optimization, and no-code workflow automation.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - AIOps
+  - FinOps
+  - Incident Response
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Prioritizes and contextualizes operational alerts
   - Suggests next-best actions during incidents
   - Integrates into existing SRE workflows
-
-links:
-  linkedin: https://www.linkedin.com/company/nudgebee
+linkedin: https://www.linkedin.com/company/nudgebee

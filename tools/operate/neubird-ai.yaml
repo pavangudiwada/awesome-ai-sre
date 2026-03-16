@@ -1,21 +1,19 @@
 name: NeuBird AI
-website: https://neubird.ai
-summary: "NeuBird AI's agentic AI SRE delivers autonomous incident resolution, helping teams cut MTTR by up to 90% and reclaim engineering hours lost to troubleshooting."
-
-tags:
-  - incident-response
-  - infrastructure
-  - automation
-
+slug: neubird-ai
+url: https://neubird.ai
+summary: >-
+  NeuBird AI's agentic AI SRE delivers autonomous incident resolution, helping teams cut MTTR by up to 90% and reclaim
+  engineering hours lost to troubleshooting.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Investigates alerts and operational anomalies
   - Assists with root cause analysis across systems
   - Guides remediation workflows for faster recovery
-
-links:
-  linkedin: https://www.linkedin.com/company/neubird-ai
+linkedin: https://www.linkedin.com/company/neubird-ai

@@ -1,21 +1,17 @@
 name: Vibranium Labs
-website: https://vibraniumlabs.ai
+slug: vibranium-labs
+url: https://vibraniumlabs.ai
 summary: AI reliability tooling company focused on incident response automation and operations intelligence.
-
-tags:
-  - incident-response
-  - infrastructure
-  - automation
-
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Uses AI to accelerate production incident investigations
   - Supports operational decision-making with contextual insights
   - Helps teams reduce MTTR across critical services
-
-links:
-  linkedin: https://www.linkedin.com/company/vibraniumlabs/
+linkedin: https://www.linkedin.com/company/vibraniumlabs/

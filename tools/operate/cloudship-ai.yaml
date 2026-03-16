@@ -1,21 +1,17 @@
 name: Cloudship AI
-website: https://www.cloudshipai.com
+slug: cloudship-ai
+url: https://www.cloudshipai.com
 summary: AI platform for cloud and platform engineering workflows focused on reliability and operations.
-
-tags:
-  - infrastructure
-  - incident-response
-  - automation
-
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - AIOps
+  - Deployment
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Automates repetitive cloud operations tasks
   - Provides AI guidance for platform and SRE workflows
   - Integrates with cloud-native toolchains
-
-links:
-  linkedin: https://www.linkedin.com/company/cloudshipai/
+linkedin: https://www.linkedin.com/company/cloudshipai/

@@ -1,293 +1,122 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
+const yaml = require("js-yaml");
 
-const TOOLS_DIR = path.join(__dirname, 'tools', 'operate');
-const README_PATH = path.join(__dirname, 'README.md');
+const ROOT = __dirname;
+const TOOLS_DIR = path.join(ROOT, "tools", "operate");
+const README_PATH = path.join(ROOT, "README.md");
 const ICON_ASSETS = {
-  website: 'assets/icons/website.svg',
-  oss: 'assets/icons/oss.svg',
-  github: 'assets/icons/github.svg',
-  linkedin: 'assets/icons/linkedin.svg',
-  x: 'assets/icons/x.svg',
-  producthunt: 'assets/icons/producthunt.svg'
+  website: "assets/icons/website.svg",
+  oss: "assets/icons/oss.svg",
+  github: "assets/icons/github.svg",
+  linkedin: "assets/icons/linkedin.svg",
+  x: "assets/icons/x.svg",
+  producthunt: "assets/icons/producthunt.svg",
 };
 
-const REQUIRED_FIELDS = ['name', 'website', 'summary', 'tags', 'deployment', 'open_source'];
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
-const CANONICAL_DEPLOYMENTS = new Map([
-  ['saas', 'SaaS'],
-  ['on-prem', 'On-Prem'],
-  ['hybrid', 'Hybrid']
-]);
-const VALID_TAGS = new Set([
-  "incident-response",
-  "observability",
-  "automation",
-  "infrastructure",
-  "cost-optimization",
-  "security"
-]);
-const TAG_LABELS = new Map([
-  ["incident-response", "Incident Response"],
-  ["observability", "Observability"],
-  ["automation", "Automation"],
-  ["infrastructure", "Infrastructure"],
-  ["cost-optimization", "Cost Optimization"],
-  ["security", "Security"]
-]);
-const VALID_LINK_KEYS = new Set(['github', 'linkedin', 'x', 'producthunt']);
+const TAG_ORDER = [
+  "Incident Response",
+  "Observability",
+  "AIOps",
+  "IDP",
+  "IaC",
+  "FinOps",
+  "Security",
+  "Deployment",
+  "Other",
+];
 
 function escapeMarkdown(value) {
-  return String(value).replace(/\|/g, '\\|');
+  return String(value).replace(/\|/g, "\\|");
 }
 
-function parseScalar(raw) {
-  const value = raw.trim();
-
-  if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
-    return value.slice(1, -1);
+function isValidDate(value) {
+  if (typeof value !== "string" || !ISO_DATE_RE.test(value)) {
+    return false;
   }
 
-  if (value === 'true') return true;
-  if (value === 'false') return false;
-  return value;
+  return !Number.isNaN(new Date(`${value}T00:00:00Z`).getTime());
 }
 
-function parsePhase1Yaml(filePath) {
-  const content = fs.readFileSync(filePath, 'utf8');
-  const lines = content.split(/\r?\n/);
-
-  const data = {};
-  let section = null;
-
-  for (const rawLine of lines) {
-    if (!rawLine.trim() || rawLine.trim().startsWith('#')) {
-      continue;
-    }
-
-    const indent = rawLine.match(/^ */)[0].length;
-    const line = rawLine.trim();
-
-    if (indent === 0) {
-      const topMatch = line.match(/^([A-Za-z_][A-Za-z0-9_-]*)\s*:\s*(.*)$/);
-      if (!topMatch) {
-        throw new Error(`Invalid top-level YAML line in ${filePath}: "${rawLine}"`);
-      }
-
-      const key = topMatch[1];
-      const rest = topMatch[2];
-
-      if (rest === '') {
-        if (key === 'deployment') {
-          data.deployment = [];
-          section = 'deployment';
-        } else if (key === 'tags') {
-          data.tags = [];
-          section = 'tags';
-        } else if (key === 'features') {
-          data.features = [];
-          section = 'features';
-        } else if (key === 'links') {
-          data.links = {};
-          section = 'links';
-        } else {
-          throw new Error(`Unsupported nested section "${key}" in ${filePath}`);
-        }
-      } else {
-        data[key] = parseScalar(rest);
-        section = null;
-      }
-
-      continue;
-    }
-
-    if (indent === 2 && section === 'deployment') {
-      const listMatch = line.match(/^-\s+(.*)$/);
-      if (!listMatch) {
-        throw new Error(`Invalid deployment list line in ${filePath}: "${rawLine}"`);
-      }
-      data.deployment.push(parseScalar(listMatch[1]));
-      continue;
-    }
-
-    if (indent === 2 && section === 'tags') {
-      const listMatch = line.match(/^-\s+(.*)$/);
-      if (!listMatch) {
-        throw new Error(`Invalid tags list line in ${filePath}: "${rawLine}"`);
-      }
-      data.tags.push(parseScalar(listMatch[1]));
-      continue;
-    }
-
-    if (indent === 2 && section === 'features') {
-      const listMatch = line.match(/^-\s+(.*)$/);
-      if (!listMatch) {
-        throw new Error(`Invalid features list line in ${filePath}: "${rawLine}"`);
-      }
-      data.features.push(parseScalar(listMatch[1]));
-      continue;
-    }
-
-    if (indent === 2 && section === 'links') {
-      const linkMatch = line.match(/^([A-Za-z_][A-Za-z0-9_-]*)\s*:\s*(.+)$/);
-      if (!linkMatch) {
-        throw new Error(`Invalid links line in ${filePath}: "${rawLine}"`);
-      }
-      data.links[linkMatch[1]] = parseScalar(linkMatch[2]);
-      continue;
-    }
-
-    throw new Error(`Unsupported indentation or structure in ${filePath}: "${rawLine}"`);
+function normalizeDeployment(value) {
+  if (Array.isArray(value)) {
+    return value.map((item) => String(item));
   }
-
-  return data;
+  if (value) {
+    return [String(value)];
+  }
+  return [];
 }
 
 function getYamlFiles(dir) {
   if (!fs.existsSync(dir)) return [];
 
-  const entries = fs.readdirSync(dir, { withFileTypes: true });
-  const files = [];
-
-  for (const entry of entries) {
-    const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      files.push(...getYamlFiles(fullPath));
-    } else if (
-      entry.isFile() &&
-      !entry.name.startsWith('_') &&
-      (entry.name.endsWith('.yml') || entry.name.endsWith('.yaml'))
-    ) {
-      files.push(fullPath);
-    }
-  }
-
-  return files;
+  return fs
+    .readdirSync(dir, { withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) => entry.name)
+    .filter((name) => !name.startsWith("_") && (name.endsWith(".yaml") || name.endsWith(".yml")))
+    .sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }))
+    .map((name) => path.join(dir, name));
 }
 
-function validateTool(tool, filePath) {
-  for (const field of REQUIRED_FIELDS) {
-    if (tool[field] === undefined || tool[field] === null || tool[field] === '') {
-      throw new Error(`Missing required field "${field}" in ${filePath}`);
-    }
+function loadTool(filePath) {
+  const raw = fs.readFileSync(filePath, "utf8");
+  const tool = yaml.load(raw);
+
+  if (!tool || typeof tool !== "object" || Array.isArray(tool)) {
+    throw new Error(`Invalid YAML object in ${filePath}`);
   }
 
-  if (!Array.isArray(tool.deployment) || tool.deployment.length === 0) {
-    throw new Error(`"deployment" must be a non-empty list in ${filePath}`);
-  }
-
-  tool.deployment = tool.deployment.map((value) => {
-    const normalized = String(value).trim().toLowerCase();
-    const canonical = CANONICAL_DEPLOYMENTS.get(normalized);
-    if (!canonical) {
-      throw new Error(`Invalid deployment "${value}" in ${filePath}. Allowed: saas, on-prem, hybrid`);
-    }
-    return canonical;
-  });
-
-  if (!Array.isArray(tool.tags) || tool.tags.length === 0) {
-    throw new Error(`"tags" must be a non-empty list in ${filePath}`);
-  }
-
-  tool.tags = tool.tags.map((value) => String(value).trim().toLowerCase());
-  for (const tag of tool.tags) {
-    if (!VALID_TAGS.has(tag)) {
-      throw new Error(
-        `Invalid tag "${tag}" in ${filePath}. Allowed: incident-response, observability, automation, infrastructure, cost-optimization, security`
-      );
-    }
-  }
-
-  const normalizedTag = tool.tags[0];
-  if (!VALID_TAGS.has(normalizedTag)) {
-    throw new Error(
-      `Invalid primary tag "${normalizedTag}" in ${filePath}. Allowed: incident-response, observability, automation, infrastructure, cost-optimization, security`
-    );
-  }
-  tool.primaryTag = normalizedTag;
-
-  if (typeof tool.open_source !== 'boolean') {
-    throw new Error(`"open_source" must be true/false in ${filePath}`);
-  }
-
-  if (tool.features !== undefined) {
-    if (!Array.isArray(tool.features)) {
-      throw new Error(`"features" must be a list in ${filePath}`);
-    }
-    if (tool.features.length > 3) {
-      throw new Error(`"features" supports at most 3 items in ${filePath}`);
-    }
-  }
-
-  if (tool.links !== undefined) {
-    if (typeof tool.links !== 'object' || Array.isArray(tool.links)) {
-      throw new Error(`"links" must be a map in ${filePath}`);
-    }
-
-    for (const key of Object.keys(tool.links)) {
-      if (!VALID_LINK_KEYS.has(key)) {
-        throw new Error(
-          `Unsupported link key "${key}" in ${filePath}. Allowed: ${Array.from(VALID_LINK_KEYS).join(', ')}`
-        );
-      }
-    }
-  }
+  tool.deployment = normalizeDeployment(tool.deployment);
+  tool.tags = Array.isArray(tool.tags) ? tool.tags.map((tag) => String(tag)) : [];
+  return tool;
 }
 
 function deploymentForReadme(deployments) {
-  if (!Array.isArray(deployments) || deployments.length === 0) return '-';
-  const unique = Array.from(new Set(deployments));
-  if (unique.length > 1) return 'Multi';
+  if (!Array.isArray(deployments) || deployments.length === 0) return "-";
+  const unique = Array.from(new Set(deployments.map((item) => String(item).trim())));
+  if (unique.length > 1) return "Multi";
+  const value = unique[0].toLowerCase();
+  if (value === "saas") return "SaaS";
+  if (value === "on-prem") return "On-Prem";
+  if (value === "hybrid") return "Hybrid";
   return unique[0];
 }
 
 function buildIconLinks(tool) {
-  const links = tool.links || {};
-
   const icon = (alt, src, url) => `[<img alt="${alt}" src="${src}" width="16" />](${url})`;
-  const hasIcon = (key) => fs.existsSync(path.join(__dirname, ICON_ASSETS[key]));
+  const hasIcon = (key) => fs.existsSync(path.join(ROOT, ICON_ASSETS[key]));
   const renderIconLink = (key, alt, url) => {
     if (!url || !hasIcon(key)) return null;
     return icon(alt, ICON_ASSETS[key], url);
   };
 
-  const result = [];
   const ordered = [
-    renderIconLink('website', 'Website', tool.website),
-    renderIconLink('github', 'GitHub', links.github),
-    renderIconLink('linkedin', 'LinkedIn', links.linkedin),
-    renderIconLink('x', 'X', links.x),
-    renderIconLink('producthunt', 'Product Hunt', links.producthunt)
+    renderIconLink("website", "Website", tool.url),
+    renderIconLink("github", "GitHub", tool.github),
+    renderIconLink("linkedin", "LinkedIn", tool.linkedin),
+    renderIconLink("x", "X", tool.x),
+    renderIconLink("producthunt", "Product Hunt", tool.producthunt),
   ];
 
-  for (const item of ordered) {
-    if (item) result.push(item);
-  }
-
-  return result.length > 0 ? result.join(' ') : '-';
+  return ordered.filter(Boolean).join(" ") || "-";
 }
 
 function buildNameCell(tool) {
-  const nameLink = `[${escapeMarkdown(tool.name)}](${tool.website})`;
-  if (tool.open_source) {
-    return `:green_heart:${nameLink}`;
-  }
-  return nameLink;
+  const nameLink = `[${escapeMarkdown(tool.name)}](${tool.url})`;
+  return tool.opensource ? `:green_heart:${nameLink}` : nameLink;
 }
 
 function parseAddedDate(value) {
-  if (typeof value !== 'string' || !ISO_DATE_RE.test(value)) {
+  if (!isValidDate(value)) {
     return null;
   }
 
-  const parsed = new Date(`${value}T00:00:00Z`);
-  if (Number.isNaN(parsed.getTime())) {
-    return null;
-  }
-
-  return parsed;
+  return new Date(`${value}T00:00:00Z`);
 }
 
 function daysSince(date, now = new Date()) {
@@ -298,12 +127,12 @@ function daysSince(date, now = new Date()) {
 
 function selectRecentTools(tools, now = new Date()) {
   const datedTools = tools
-    .filter((tool) => parseAddedDate(tool.added_at))
-    .sort((a, b) => b.added_at.localeCompare(a.added_at) || a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+    .filter((tool) => parseAddedDate(tool.dateAdded))
+    .sort((a, b) => b.dateAdded.localeCompare(a.dateAdded) || a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
 
   const withinDays = (dayLimit) =>
     datedTools.filter((tool) => {
-      const parsed = parseAddedDate(tool.added_at);
+      const parsed = parseAddedDate(tool.dateAdded);
       if (!parsed) return false;
       const age = daysSince(parsed, now);
       return age >= 0 && age <= dayLimit;
@@ -314,116 +143,94 @@ function selectRecentTools(tools, now = new Date()) {
 
   return {
     tools: expanded.slice(0, 5),
-    rangeDays: lastWeek.length >= 1 && lastWeek.length <= 2 ? 14 : 7
+    rangeDays: lastWeek.length >= 1 && lastWeek.length <= 2 ? 14 : 7,
   };
 }
 
+function anchorForTag(tag) {
+  return tag.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
 function buildReadme(tools) {
-  const groups = new Map([
-    ['incident-response', []],
-    ['observability', []],
-    ['automation', []],
-    ['infrastructure', []],
-    ['cost-optimization', []],
-    ['security', []],
-    ['Other', []]
-  ]);
+  const groups = new Map(TAG_ORDER.map((tag) => [tag, []]));
 
   for (const tool of tools) {
-    if (groups.has(tool.primaryTag)) {
-      groups.get(tool.primaryTag).push(tool);
-    } else {
-      groups.get('Other').push(tool);
-    }
+    const primaryTag = tool.tags[0] || "Other";
+    const bucket = groups.get(primaryTag) || groups.get("Other");
+    bucket.push(tool);
   }
 
-  const sectionOrder = ['incident-response', 'observability', 'automation', 'infrastructure', 'cost-optimization', 'security', 'Other'];
-  const jumpLinks = sectionOrder
-    .filter((name) => groups.get(name).length > 0)
-    .map((name) => {
-      const label = TAG_LABELS.get(name) || name;
-      return `[${label}](#${name.toLowerCase().replace(/[^a-z0-9-]/g, '-')})`;
-    })
-    .join(' | ');
+  const jumpLinks = TAG_ORDER
+    .filter((tag) => groups.get(tag).length > 0)
+    .map((tag) => `[${tag}](#${anchorForTag(tag)})`)
+    .join(" | ");
 
   const lines = [
-    '![Awesome AI SRE](assets/header-image.png)',
-    '',
-    'If this repository is useful, please consider starring :star: it.',
-    '',
-    '## Tools',
-    '',
-    'Items with :green_heart: indicate open source projects.',
-    '',
-    '> AUTO-GENERATED FILE - DO NOT EDIT MANUALLY.',
-    '> Auto-generated by CI workflow or pre-commit hooks using `node generate-readme.js`.',
-    ''
+    "![Awesome AI SRE](assets/header-image.png)",
+    "",
+    "If this repository is useful, please consider starring :star: it.",
+    "",
+    "## Tools",
+    "",
+    "Items with :green_heart: indicate open source projects.",
+    "",
+    "> AUTO-GENERATED FILE - DO NOT EDIT MANUALLY.",
+    "> Auto-generated by CI workflow or pre-commit hooks using `node generate-readme.js`.",
+    "",
   ];
 
   if (tools.length === 0) {
-    lines.push('| Name | Summary | Deployment | Links |');
-    lines.push('| --- | --- | --- | --- |');
-    lines.push('| _No tools found_ | Add YAML files under `tools/operate/`. | - | - |');
-    return `${lines.join('\n')}\n`;
+    lines.push("| Name | Summary | Deployment | Links |");
+    lines.push("| --- | --- | --- | --- |");
+    lines.push("| _No tools found_ | Add YAML files under `tools/operate/`. | - | - |");
+    return `${lines.join("\n")}\n`;
   }
 
   const recent = selectRecentTools(tools);
   if (recent.tools.length > 0) {
-    lines.push('');
     lines.push(`### Recent Additions (Last ${recent.rangeDays} Days)`);
-    lines.push('');
+    lines.push("");
     for (const tool of recent.tools) {
-      const category = TAG_LABELS.get(tool.primaryTag) || tool.primaryTag;
-      lines.push(`- ${tool.added_at} - ${buildNameCell(tool)} (${category})`);
+      lines.push(`- ${tool.dateAdded} - ${buildNameCell(tool)} (${tool.tags[0] || "Other"})`);
     }
+    lines.push("");
   }
 
-  lines.push('');
   lines.push(`Jump to: ${jumpLinks}`);
 
-  for (const sectionName of sectionOrder) {
-    const sectionTools = groups.get(sectionName);
+  for (const tag of TAG_ORDER) {
+    const sectionTools = groups.get(tag);
     if (!sectionTools || sectionTools.length === 0) continue;
 
-    lines.push('');
-    lines.push(`<a id="${sectionName}"></a>`);
-    const sectionTitle = TAG_LABELS.get(sectionName) || sectionName;
-    lines.push(`### ${sectionTitle} (${sectionTools.length})`);
-    lines.push('');
-    lines.push('| Name | Summary | Deployment | Links |');
-    lines.push('| --- | --- | --- | --- |');
+    lines.push("");
+    lines.push(`<a id="${anchorForTag(tag)}"></a>`);
+    lines.push(`### ${tag} (${sectionTools.length})`);
+    lines.push("");
+    lines.push("| Name | Summary | Deployment | Links |");
+    lines.push("| --- | --- | --- | --- |");
 
     for (const tool of sectionTools) {
-      const name = buildNameCell(tool);
-      const summary = escapeMarkdown(tool.summary);
-      const deployment = escapeMarkdown(deploymentForReadme(tool.deployment));
-      const linkIcons = buildIconLinks(tool);
-
-      lines.push(`| ${name} | ${summary} | ${deployment} | ${linkIcons} |`);
+      lines.push(
+        `| ${buildNameCell(tool)} | ${escapeMarkdown(tool.summary)} | ${escapeMarkdown(
+          deploymentForReadme(tool.deployment)
+        )} | ${buildIconLinks(tool)} |`
+      );
     }
 
-    lines.push('');
+    lines.push("");
     lines.push('<p align="left"><a href="#tools">Back to top ↑</a></p>');
   }
 
-  return `${lines.join('\n')}\n`;
+  return `${lines.join("\n")}\n`;
 }
 
 function main() {
-  const files = getYamlFiles(TOOLS_DIR).sort((a, b) =>
-    a.localeCompare(b, 'en', { sensitivity: 'base' })
-  );
-
-  const tools = files.map((filePath) => {
-    const tool = parsePhase1Yaml(filePath);
-    validateTool(tool, filePath);
-    return tool;
-  });
-
-  tools.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+  const tools = getYamlFiles(TOOLS_DIR)
+    .map(loadTool)
+    .sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
 
   const output = buildReadme(tools);
-  fs.writeFileSync(README_PATH, output, 'utf8');
+  fs.writeFileSync(README_PATH, output, "utf8");
   console.log(`README.md generated with ${tools.length} tool(s).`);
 }
 

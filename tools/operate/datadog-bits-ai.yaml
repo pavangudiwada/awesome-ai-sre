@@ -1,23 +1,22 @@
 name: Datadog (Bits AI)
-website: https://www.datadoghq.com
-summary: "See metrics from all of your apps, tools & services in one place with Datadog’s cloud monitoring as a service solution. Try it for free."
-
-tags:
-  - observability
-  - incident-response
-  - automation
-
+slug: datadog-bits-ai
+url: https://www.datadoghq.com
+summary: >-
+  See metrics from all of your apps, tools & services in one place with Datadog’s cloud monitoring as a service
+  solution. Try it for free.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Observability
+  - Incident Response
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Assists with analysis across logs, traces, and metrics
   - Speeds up incident investigation with natural language interactions
   - Integrates directly into Datadog observability workflows
-
-links:
-  github: https://github.com/DataDog
-  linkedin: https://www.linkedin.com/company/datadog
-  x: https://x.com/datadoghq
+linkedin: https://www.linkedin.com/company/datadog
+github: https://github.com/DataDog
+x: https://x.com/datadoghq
