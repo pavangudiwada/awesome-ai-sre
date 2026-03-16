@@ -1,24 +1,25 @@
 name: Harness Incident Response
-website: https://www.harness.io/blog/introducing-harness-incident-response
-summary: "Most incidents start with change—so why manage them in isolation? Learn how Harness Incident Response connects the dots between alerts, changes, and workflows, powered."
-
-tags:
-  - incident-response
-  - observability
-  - infrastructure
-  - automation
-
+slug: harness-incident-response
+url: https://www.harness.io/blog/introducing-harness-incident-response
+summary: >-
+  Most incidents start with change—so why manage them in isolation? Learn how Harness Incident Response connects the
+  dots between alerts, changes, and workflows, powered.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+  - Observability
+  - Deployment
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/harness-incident-response.png
+logo: /logos/harness-incident-response.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Detects and manages incidents across services using integrated telemetry
   - Automates runbooks and response workflows to shorten resolution time
   - Provides collaboration and communication features for incident war rooms
-
-links:
-  github: https://github.com/harness
-  linkedin: https://www.linkedin.com/company/harnessinc
-  x: https://x.com/harnessio
+linkedin: https://www.linkedin.com/company/harnessinc
+github: https://github.com/harness
+x: https://x.com/harnessio

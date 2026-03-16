@@ -1,125 +1,91 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
+const yaml = require("js-yaml");
 
-const ROOT = path.resolve(__dirname, '..');
-const TOOLS_DIR = path.join(ROOT, 'tools', 'operate');
-
-const REQUIRED_FIELDS = ['name', 'website', 'summary', 'tags', 'deployment', 'open_source'];
+const ROOT = path.resolve(__dirname, "..");
+const TOOLS_DIR = path.join(ROOT, "tools", "operate");
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
-const ALLOWED_TOP_LEVEL_KEYS = new Set([
-  'name',
-  'website',
-  'summary',
-  'added_at',
-  'tags',
-  'deployment',
-  'open_source',
-  'features',
-  'links'
-]);
-const ALLOWED_DEPLOYMENTS = new Set(['saas', 'on-prem', 'hybrid']);
-const ALLOWED_TAGS = new Set([
-  'incident-response',
-  'observability',
-  'automation',
-  'infrastructure',
-  'cost-optimization',
-  'security'
-]);
-const ALLOWED_LINK_KEYS = new Set(['github', 'linkedin', 'x', 'producthunt']);
-const USER_AGENT = 'awesome-ai-sre-validator/1.0';
+const USER_AGENT = "awesome-ai-sre-validator/2.0";
 const TIMEOUT_MS = 10000;
 const CONCURRENCY = 8;
+
+const REQUIRED_FIELDS = ["name", "slug", "url", "summary", "deployment", "opensource", "tags", "dateAdded"];
+const ALLOWED_TOP_LEVEL_KEYS = new Set([
+  "name",
+  "slug",
+  "url",
+  "summary",
+  "deployment",
+  "opensource",
+  "tags",
+  "screenshot",
+  "logo",
+  "screenshot_last_fetched",
+  "claimed",
+  "dateAdded",
+  "features",
+  "linkedin",
+  "github",
+  "x",
+  "producthunt",
+]);
+const ALLOWED_DEPLOYMENTS = new Set(["saas", "on-prem", "hybrid"]);
+const ALLOWED_TAGS = new Set([
+  "Incident Response",
+  "Observability",
+  "AIOps",
+  "IDP",
+  "IaC",
+  "FinOps",
+  "Security",
+  "Deployment",
+]);
+const ALLOWED_LINK_KEYS = ["linkedin", "github", "x", "producthunt"];
 
 function getYamlFiles(dir) {
   if (!fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir, { withFileTypes: true })
-    .filter((d) => d.isFile())
-    .map((d) => d.name)
-    .filter((name) => !name.startsWith('_') && (name.endsWith('.yaml') || name.endsWith('.yml')))
-    .sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }))
+    .filter((entry) => entry.isFile())
+    .map((entry) => entry.name)
+    .filter((name) => !name.startsWith("_") && (name.endsWith(".yaml") || name.endsWith(".yml")))
+    .sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }))
     .map((name) => path.join(dir, name));
 }
 
-function parseScalar(raw) {
-  const value = raw.trim();
-  if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
-    return value.slice(1, -1);
-  }
-  if (value === 'true') return true;
-  if (value === 'false') return false;
-  return value;
-}
+function loadYaml(filePath) {
+  const raw = fs.readFileSync(filePath, "utf8");
+  const parsed = yaml.load(raw);
 
-function parseYaml(filePath) {
-  const content = fs.readFileSync(filePath, 'utf8');
-  const lines = content.split(/\r?\n/);
-  const data = {};
-  let section = null;
-
-  for (const rawLine of lines) {
-    if (!rawLine.trim() || rawLine.trim().startsWith('#')) continue;
-
-    const indent = rawLine.match(/^ */)[0].length;
-    const line = rawLine.trim();
-
-    if (indent === 0) {
-      const m = line.match(/^([A-Za-z_][A-Za-z0-9_-]*)\s*:\s*(.*)$/);
-      if (!m) throw new Error(`Invalid top-level YAML line: "${rawLine}"`);
-      const key = m[1];
-      const rest = m[2];
-
-      if (!ALLOWED_TOP_LEVEL_KEYS.has(key)) {
-        throw new Error(`Unsupported top-level key "${key}"`);
-      }
-
-      if (rest === '') {
-        if (key === 'deployment' || key === 'features' || key === 'tags') {
-          data[key] = [];
-          section = key;
-        } else if (key === 'links') {
-          data.links = {};
-          section = 'links';
-        } else {
-          throw new Error(`Key "${key}" cannot be an empty section`);
-        }
-      } else {
-        data[key] = parseScalar(rest);
-        section = null;
-      }
-      continue;
-    }
-
-    if (indent === 2 && (section === 'deployment' || section === 'features' || section === 'tags')) {
-      const m = line.match(/^-\s+(.*)$/);
-      if (!m) throw new Error(`Invalid list line under ${section}: "${rawLine}"`);
-      data[section].push(parseScalar(m[1]));
-      continue;
-    }
-
-    if (indent === 2 && section === 'links') {
-      const m = line.match(/^([A-Za-z_][A-Za-z0-9_-]*)\s*:\s*(.+)$/);
-      if (!m) throw new Error(`Invalid links line: "${rawLine}"`);
-      data.links[m[1]] = parseScalar(m[2]);
-      continue;
-    }
-
-    throw new Error(`Unsupported indentation/structure: "${rawLine}"`);
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new Error("tool file must contain a single YAML object");
   }
 
-  return data;
+  return parsed;
 }
 
 function isValidUrl(value) {
   try {
-    const u = new URL(String(value));
-    return u.protocol === 'http:' || u.protocol === 'https:';
+    const url = new URL(String(value));
+    return url.protocol === "http:" || url.protocol === "https:";
   } catch {
     return false;
   }
+}
+
+function isValidDate(value) {
+  if (typeof value !== "string" || !ISO_DATE_RE.test(value)) {
+    return false;
+  }
+
+  return !Number.isNaN(new Date(`${value}T00:00:00Z`).getTime());
+}
+
+function normalizeDeployment(value) {
+  const list = Array.isArray(value) ? value : value ? [value] : [];
+  return list.map((item) => String(item).trim().toLowerCase());
 }
 
 function validateFileName(filePath, errors) {
@@ -131,51 +97,77 @@ function validateFileName(filePath, errors) {
 
 function validateTool(tool, filePath, errors) {
   const base = path.basename(filePath);
+  const expectedSlug = path.basename(filePath).replace(/\.(yaml|yml)$/, "");
+
+  for (const key of Object.keys(tool)) {
+    if (!ALLOWED_TOP_LEVEL_KEYS.has(key)) {
+      errors.push(`${base}: unsupported top-level key "${key}"`);
+    }
+  }
 
   for (const field of REQUIRED_FIELDS) {
-    if (tool[field] === undefined || tool[field] === null || tool[field] === '') {
+    if (tool[field] === undefined || tool[field] === null || tool[field] === "") {
       errors.push(`${base}: missing required field "${field}"`);
     }
   }
 
-  if (tool.website && !isValidUrl(tool.website)) {
-    errors.push(`${base}: invalid website URL`);
+  if (tool.slug && tool.slug !== expectedSlug) {
+    errors.push(`${base}: slug "${tool.slug}" must match filename "${expectedSlug}"`);
+  }
+
+  if (tool.slug && !/^[a-z0-9][a-z0-9-]*$/.test(String(tool.slug))) {
+    errors.push(`${base}: slug must be lowercase kebab-case`);
+  }
+
+  if (tool.url && !isValidUrl(tool.url)) {
+    errors.push(`${base}: invalid url`);
+  }
+
+  const deployments = normalizeDeployment(tool.deployment);
+  if (deployments.length === 0) {
+    errors.push(`${base}: deployment must be a non-empty string or list`);
+  } else {
+    for (const deployment of deployments) {
+      if (!ALLOWED_DEPLOYMENTS.has(deployment)) {
+        errors.push(`${base}: invalid deployment "${deployment}" (allowed: saas, on-prem, hybrid)`);
+      }
+    }
+  }
+
+  if (typeof tool.opensource !== "boolean") {
+    errors.push(`${base}: opensource must be true/false`);
   }
 
   if (!Array.isArray(tool.tags) || tool.tags.length === 0) {
     errors.push(`${base}: tags must be a non-empty list`);
   } else {
-    for (const t of tool.tags) {
-      const tag = String(t).trim().toLowerCase();
+    for (const tag of tool.tags) {
       if (!ALLOWED_TAGS.has(tag)) {
         errors.push(
-          `${base}: invalid tag "${t}" (allowed: incident-response, observability, automation, infrastructure, cost-optimization, security)`
+          `${base}: invalid tag "${tag}" (allowed: ${Array.from(ALLOWED_TAGS).join(", ")})`
         );
       }
     }
   }
 
-  if (!Array.isArray(tool.deployment) || tool.deployment.length === 0) {
-    errors.push(`${base}: deployment must be a non-empty list`);
-  } else {
-    for (const d of tool.deployment) {
-      const v = String(d).toLowerCase();
-      if (!ALLOWED_DEPLOYMENTS.has(v)) {
-        errors.push(`${base}: invalid deployment "${d}" (allowed: saas, on-prem, hybrid)`);
-      }
-    }
+  if (!isValidDate(tool.dateAdded)) {
+    errors.push(`${base}: dateAdded must be a valid YYYY-MM-DD date`);
   }
 
-  if (typeof tool.open_source !== 'boolean') {
-    errors.push(`${base}: open_source must be true/false`);
+  if (tool.screenshot !== undefined && tool.screenshot !== "" && !String(tool.screenshot).startsWith("/screenshots/")) {
+    errors.push(`${base}: screenshot must be blank or start with /screenshots/`);
   }
 
-  if (tool.added_at !== undefined) {
-    if (typeof tool.added_at !== 'string' || !ISO_DATE_RE.test(tool.added_at)) {
-      errors.push(`${base}: added_at must be in YYYY-MM-DD format`);
-    } else if (Number.isNaN(new Date(`${tool.added_at}T00:00:00Z`).getTime())) {
-      errors.push(`${base}: added_at must be a valid calendar date`);
-    }
+  if (tool.logo !== undefined && tool.logo !== "" && !String(tool.logo).startsWith("/logos/")) {
+    errors.push(`${base}: logo must be blank or start with /logos/`);
+  }
+
+  if (tool.screenshot_last_fetched !== undefined && tool.screenshot_last_fetched !== "" && !isValidDate(tool.screenshot_last_fetched)) {
+    errors.push(`${base}: screenshot_last_fetched must be blank or a valid YYYY-MM-DD date`);
+  }
+
+  if (tool.claimed !== undefined && typeof tool.claimed !== "boolean") {
+    errors.push(`${base}: claimed must be true/false`);
   }
 
   if (tool.features !== undefined) {
@@ -186,18 +178,9 @@ function validateTool(tool, filePath, errors) {
     }
   }
 
-  if (tool.links !== undefined) {
-    if (typeof tool.links !== 'object' || Array.isArray(tool.links)) {
-      errors.push(`${base}: links must be a map`);
-    } else {
-      for (const [key, url] of Object.entries(tool.links)) {
-        if (!ALLOWED_LINK_KEYS.has(key)) {
-          errors.push(`${base}: invalid links key "${key}"`);
-        }
-        if (!isValidUrl(url)) {
-          errors.push(`${base}: invalid URL for links.${key}`);
-        }
-      }
+  for (const key of ALLOWED_LINK_KEYS) {
+    if (tool[key] !== undefined && tool[key] !== "" && !isValidUrl(tool[key])) {
+      errors.push(`${base}: invalid URL for ${key}`);
     }
   }
 }
@@ -206,15 +189,13 @@ function collectUrlChecks(tool, filePath) {
   const checks = [];
   const base = path.basename(filePath);
 
-  if (tool.website && isValidUrl(tool.website)) {
-    checks.push({ file: base, label: 'website', url: tool.website });
+  if (tool.url && isValidUrl(tool.url)) {
+    checks.push({ file: base, label: "url", url: tool.url });
   }
 
-  if (tool.links && typeof tool.links === 'object' && !Array.isArray(tool.links)) {
-    for (const [key, url] of Object.entries(tool.links)) {
-      if (isValidUrl(url)) {
-        checks.push({ file: base, label: `links.${key}`, url });
-      }
+  for (const key of ALLOWED_LINK_KEYS) {
+    if (tool[key] && isValidUrl(tool[key])) {
+      checks.push({ file: base, label: key, url: tool[key] });
     }
   }
 
@@ -222,7 +203,7 @@ function collectUrlChecks(tool, filePath) {
 }
 
 async function checkUrlReachable(url) {
-  const methods = ['HEAD', 'GET'];
+  const methods = ["HEAD", "GET"];
 
   for (const method of methods) {
     const controller = new AbortController();
@@ -231,58 +212,58 @@ async function checkUrlReachable(url) {
     try {
       const res = await fetch(url, {
         method,
-        redirect: 'follow',
+        redirect: "follow",
         signal: controller.signal,
-        headers: { 'User-Agent': USER_AGENT }
+        headers: { "User-Agent": USER_AGENT },
       });
 
-      const s = res.status;
-      if ((s >= 200 && s < 400) || s === 401 || s === 403 || s === 405 || s === 429) {
-        return { ok: true, status: s };
+      const status = res.status;
+      if ((status >= 200 && status < 400) || status === 401 || status === 403 || status === 405 || status === 429) {
+        return { ok: true, status };
       }
 
-      if (method === 'HEAD' && s === 405) {
+      if (method === "HEAD" && status === 405) {
         continue;
       }
 
-      return { ok: false, status: s, reason: `HTTP ${s}` };
-    } catch (err) {
-      if (method === 'HEAD') {
+      return { ok: false, status, reason: `HTTP ${status}` };
+    } catch (error) {
+      if (method === "HEAD") {
         continue;
       }
-      return { ok: false, reason: err.message || 'network error' };
+
+      return { ok: false, reason: error.message || "network error" };
     } finally {
       clearTimeout(timer);
     }
   }
 
-  return { ok: false, reason: 'request failed' };
+  return { ok: false, reason: "request failed" };
 }
 
 async function runWithConcurrency(items, limit, fn) {
   const results = [];
-  let idx = 0;
+  let index = 0;
 
   async function worker() {
-    while (idx < items.length) {
-      const current = idx;
-      idx += 1;
+    while (index < items.length) {
+      const current = index;
+      index += 1;
       results[current] = await fn(items[current], current);
     }
   }
 
-  const workers = Array.from({ length: Math.min(limit, items.length) }, () => worker());
-  await Promise.all(workers);
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, () => worker()));
   return results;
 }
 
 async function main() {
   const args = new Set(process.argv.slice(2));
-  const checkLinks = args.has('--check-links');
-
+  const checkLinks = args.has("--check-links");
   const files = getYamlFiles(TOOLS_DIR);
   const errors = [];
   const seenNames = new Map();
+  const seenSlugs = new Map();
   const urlChecks = [];
 
   for (const file of files) {
@@ -290,9 +271,9 @@ async function main() {
 
     let tool;
     try {
-      tool = parseYaml(file);
-    } catch (err) {
-      errors.push(`${path.basename(file)}: ${err.message}`);
+      tool = loadYaml(file);
+    } catch (error) {
+      errors.push(`${path.basename(file)}: ${error.message}`);
       continue;
     }
 
@@ -302,11 +283,18 @@ async function main() {
     if (tool.name) {
       const key = String(tool.name).toLowerCase();
       if (seenNames.has(key)) {
-        errors.push(
-          `${path.basename(file)}: duplicate tool name "${tool.name}" also seen in ${path.basename(seenNames.get(key))}`
-        );
+        errors.push(`${path.basename(file)}: duplicate tool name "${tool.name}" also seen in ${path.basename(seenNames.get(key))}`);
       } else {
         seenNames.set(key, file);
+      }
+    }
+
+    if (tool.slug) {
+      const key = String(tool.slug).toLowerCase();
+      if (seenSlugs.has(key)) {
+        errors.push(`${path.basename(file)}: duplicate slug "${tool.slug}" also seen in ${path.basename(seenSlugs.get(key))}`);
+      } else {
+        seenSlugs.set(key, file);
       }
     }
   }
@@ -317,27 +305,27 @@ async function main() {
       return { ...target, ...result };
     });
 
-    for (const r of results) {
-      if (!r.ok) {
-        errors.push(`${r.file}: unreachable ${r.label} (${r.url}) - ${r.reason || 'failed'}`);
+    for (const result of results) {
+      if (!result.ok) {
+        errors.push(`${result.file}: unreachable ${result.label} (${result.url}) - ${result.reason || "failed"}`);
       }
     }
   }
 
   if (errors.length > 0) {
-    console.error('Validation failed:\n');
-    for (const e of errors) {
-      console.error(`- ${e}`);
+    console.error("Validation failed:\n");
+    for (const error of errors) {
+      console.error(`- ${error}`);
     }
     process.exit(1);
   }
 
   console.log(
-    `Validation passed for ${files.length} tool file(s).${checkLinks ? ` Checked ${urlChecks.length} URL(s).` : ''}`
+    `Validation passed for ${files.length} tool file(s).${checkLinks ? ` Checked ${urlChecks.length} URL(s).` : ""}`
   );
 }
 
-main().catch((err) => {
-  console.error(err);
+main().catch((error) => {
+  console.error(error);
   process.exit(1);
 });

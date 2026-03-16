@@ -1,20 +1,21 @@
 name: DrDroid
-website: https://drdroid.io
-summary: "AI that understands your production system, infrastructure, applications, and business context to investigate incidents and explain root causes."
-added_at: 2026-03-13
-
-tags:
-  - incident-response
-  - infrastructure
-  - observability
-  - automation
-
+slug: drdroid
+url: https://drdroid.io
+summary: >-
+  AI that understands your production system, infrastructure, applications, and business context to investigate
+  incidents and explain root causes.
 deployment:
   - saas
-
-open_source: false
-
-links:
-  github: https://github.com/DrDroidLab
-  linkedin: https://www.linkedin.com/company/dr-droid
-  x: https://x.com/DrDroidDev
+opensource: false
+tags:
+  - Incident Response
+  - Observability
+  - AIOps
+dateAdded: '2026-03-13'
+claimed: false
+screenshot: /screenshots/drdroid.png
+logo: /logos/drdroid.png
+screenshot_last_fetched: '2026-03-16'
+linkedin: https://www.linkedin.com/company/dr-droid
+github: https://github.com/DrDroidLab
+x: https://x.com/DrDroidDev

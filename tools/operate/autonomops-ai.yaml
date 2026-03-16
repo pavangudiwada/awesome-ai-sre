@@ -1,22 +1,21 @@
 name: AutonomOps AI
-website: https://autonomops.ai
+slug: autonomops-ai
+url: https://autonomops.ai
 summary: Autonomous operations platform that applies AI to improve SRE and incident management workflows.
-
-tags:
-  - infrastructure
-  - incident-response
-  - observability
-  - automation
-
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+  - Observability
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/autonomops-ai.png
+logo: /logos/autonomops-ai.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Automates portions of operational response workflows
   - Surfaces insights from operational telemetry and events
   - Helps teams reduce manual toil in incident handling
-
-links:
-  linkedin: https://www.linkedin.com/company/autonomops-ai/
+linkedin: https://www.linkedin.com/company/autonomops-ai/

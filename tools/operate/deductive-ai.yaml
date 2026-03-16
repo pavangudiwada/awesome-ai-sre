@@ -1,21 +1,23 @@
 name: Deductive AI
-website: https://www.deductive.ai
-summary: "Deductive AI transforms your root-causing process by effortlessly understanding your entire codebase along with the telemetry data."
-
-tags:
-  - observability
-  - incident-response
-  - automation
-
+slug: deductive-ai
+url: https://www.deductive.ai
+summary: >-
+  Deductive AI transforms your root-causing process by effortlessly understanding your entire codebase along with the
+  telemetry data.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Observability
+  - Incident Response
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/deductive-ai.png
+logo: /logos/deductive-ai.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Correlates telemetry to identify probable incident causes
   - Helps reduce investigation time during outages
   - Provides insights for reliability and operations workflows
-
-links:
-  linkedin: https://www.linkedin.com/company/deductive-ai
+linkedin: https://www.linkedin.com/company/deductive-ai

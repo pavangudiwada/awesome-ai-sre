@@ -1,22 +1,22 @@
 name: Phoebe
-website: https://phoebe.ai
-summary: "The immune system for your software. AI agents that continuously investigate live data, diagnose emerging issues and generate preemptive fixes."
-
-tags:
-  - incident-response
-  - infrastructure
-  - automation
-
+slug: phoebe
+url: https://phoebe.ai
+summary: >-
+  The immune system for your software. AI agents that continuously investigate live data, diagnose emerging issues and
+  generate preemptive fixes.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/phoebe.png
+logo: /logos/phoebe.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Assists engineers during production incident investigations
   - Provides context-aware troubleshooting guidance
   - Helps teams move from alert to resolution faster
-
-links:
-  linkedin: https://www.linkedin.com/company/phoebe-ai
-
+linkedin: https://www.linkedin.com/company/phoebe-ai

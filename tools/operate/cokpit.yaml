@@ -1,22 +1,21 @@
 name: Cokpit
-website: https://cokpit.ai
-summary: "Cokpit scales with your needs — from startups to global enterprises."
-
-tags:
-  - infrastructure
-  - incident-response
-  - automation
-
+slug: cokpit
+url: https://cokpit.ai
+summary: Cokpit scales with your needs — from startups to global enterprises.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - AIOps
+  - Incident Response
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/cokpit.png
+logo: /logos/cokpit.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Assists with operational investigations and troubleshooting
   - Guides responders with contextual action recommendations
   - Supports automation across engineering workflows
-
-links:
-  linkedin: https://www.linkedin.com/company/cokpit-ai/
-  x: https://x.com/Cokpit_ai
+linkedin: https://www.linkedin.com/company/cokpit-ai/
+x: https://x.com/Cokpit_ai

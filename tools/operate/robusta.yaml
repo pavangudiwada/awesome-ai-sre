@@ -1,24 +1,26 @@
 name: Robusta Dev
-website: https://home.robusta.dev
-summary: "Robusta's AI assistant empowers teams to troubleshoot Prometheus and Kubernetes alerts faster, leading to reduced MTTR and enhanced engineering productivity."
-
-tags:
-  - infrastructure
-  - incident-response
-  - automation
-
+slug: robusta
+url: https://home.robusta.dev
+summary: >-
+  Robusta's AI assistant empowers teams to troubleshoot Prometheus and Kubernetes alerts faster, leading to reduced MTTR
+  and enhanced engineering productivity.
 deployment:
   - hybrid
   - on-prem
-
-open_source: false
-
+opensource: false
+tags:
+  - AIOps
+  - Incident Response
+  - Observability
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/robusta.png
+logo: /logos/robusta.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Detects Kubernetes issues automatically
   - Suggests remediation actions
   - Integrates with Slack for alert workflows
-
-links:
-  github: https://github.com/robusta-dev/robusta
-  linkedin: https://linkedin.com/company/robusta-dev
-  x: https://x.com/RobustaDev
+linkedin: https://linkedin.com/company/robusta-dev
+github: https://github.com/robusta-dev/robusta
+x: https://x.com/RobustaDev

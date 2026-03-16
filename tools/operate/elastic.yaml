@@ -1,24 +1,21 @@
 name: Elastic
-website: https://www.elastic.co/observability
-summary: "Learn more about Elastic Observability. Elastic Observability resolves problems faster at reduced cost with an open source, AI-powered observability, that is accurate,."
-
-tags:
-  - observability
-  - incident-response
-  - cost-optimization
-  - automation
-
+slug: elastic
+url: https://www.elastic.co/observability
+summary: >-
+  Learn more about Elastic Observability. Elastic Observability resolves problems faster at reduced cost with an open
+  source, AI-powered observability, that is accurate,.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Observability
+  - Incident Response
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Unifies observability data across distributed systems
   - Accelerates troubleshooting with search and analytics
   - Supports reliability and incident response workflows
-
-links:
-  github: https://github.com/elastic
-  linkedin: https://www.linkedin.com/company/elastic-co
-  x: https://x.com/elastic
+linkedin: https://www.linkedin.com/company/elastic-co
+github: https://github.com/elastic
+x: https://x.com/elastic

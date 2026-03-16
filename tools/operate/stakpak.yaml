@@ -1,19 +1,18 @@
 name: Stakpak
-website: https://www.stakpak.dev
-summary: "An open source agent that lives on your machines 24/7, keeps your apps running, and only pings when it needs a human."
-added_at: 2026-03-13
-
-tags:
-  - infrastructure
-  - incident-response
-  - automation
-
+slug: stakpak
+url: https://www.stakpak.dev
+summary: An open source agent that lives on your machines 24/7, keeps your apps running, and only pings when it needs a human.
 deployment:
   - saas
-
-open_source: true
-
-links:
-  github: https://github.com/stakpak/agent
-  linkedin: https://www.linkedin.com/company/dvpzla/
-  x: http://x.com/stakpak_dev
+opensource: true
+tags:
+  - AIOps
+  - Incident Response
+dateAdded: '2026-03-13'
+claimed: false
+screenshot: /screenshots/stakpak.png
+logo: /logos/stakpak.png
+screenshot_last_fetched: '2026-03-16'
+linkedin: https://www.linkedin.com/company/dvpzla/
+github: https://github.com/stakpak/agent
+x: http://x.com/stakpak_dev

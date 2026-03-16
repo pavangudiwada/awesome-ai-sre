@@ -1,21 +1,22 @@
 name: Causely
-website: https://www.causely.ai
-summary: "Causely pinpoints the root cause of errors so that you can consistently meet reliability expectations of application users in complex, cloud native environments."
-
-tags:
-  - observability
-  - incident-response
-
+slug: causely
+url: https://www.causely.ai
+summary: >-
+  Causely pinpoints the root cause of errors so that you can consistently meet reliability expectations of application
+  users in complex, cloud native environments.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Observability
+  - Incident Response
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/causely.png
+logo: /logos/causely.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Uses causal inference to identify likely failure paths
   - Correlates telemetry across services and dependencies
   - Supports faster diagnosis during incidents
-
-links:
-  linkedin: https://www.linkedin.com/company/causely-ai
-
+linkedin: https://www.linkedin.com/company/causely-ai

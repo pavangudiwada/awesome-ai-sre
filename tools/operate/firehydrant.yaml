@@ -1,20 +1,21 @@
 name: FireHydrant
-website: https://firehydrant.com
-summary: "All-in-one incident management software for modern teams. FireHydrant helps you plan, respond, and resolve faster with smart alerting, on-call scheduling, AI-powered."
-
-tags:
-  - incident-response
-  - infrastructure
-
+slug: firehydrant
+url: https://firehydrant.com
+summary: >-
+  All-in-one incident management software for modern teams. FireHydrant helps you plan, respond, and resolve faster with
+  smart alerting, on-call scheduling, AI-powered.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/firehydrant.png
+logo: /logos/firehydrant.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Structured incident lifecycle management
   - Integrated communication and status updates
   - Supports postmortems and operational learning
-
-links:
-  linkedin: https://www.linkedin.com/company/firehydrant
+linkedin: https://www.linkedin.com/company/firehydrant

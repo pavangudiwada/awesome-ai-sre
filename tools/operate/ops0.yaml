@@ -1,23 +1,24 @@
 name: Ops0
-website: https://www.ops0.com
-summary: "ops0 automates how infrastructure is created, managed, and operated. Turn intent into IaC, apply updates intelligently, and resolve issues before they happen all powered."
-
-tags:
-  - infrastructure
-  - incident-response
-  - observability
-  - automation
-
+slug: ops0
+url: https://www.ops0.com
+summary: >-
+  ops0 automates how infrastructure is created, managed, and operated. Turn intent into IaC, apply updates
+  intelligently, and resolve issues before they happen all powered.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - IaC
+  - Deployment
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/ops0.png
+logo: /logos/ops0.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Generates and manages CI/CD pipelines from natural language descriptions
   - Analyzes logs, events, and metrics to find root causes and propose fixes
   - Monitors infrastructure and exposes an AI chat interface for troubleshooting
-
-links:
-  linkedin: https://www.linkedin.com/company/ops0
-  x: https://x.com/Ops0HQ
+linkedin: https://www.linkedin.com/company/ops0
+x: https://x.com/Ops0HQ

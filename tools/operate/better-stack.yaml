@@ -1,23 +1,22 @@
 name: Better Stack
-website: https://betterstack.com
-summary: "Observability and incident management platform with AI SRE, eBPF-based tracing, logs, metrics, uptime monitoring, and on-call workflows."
-added_at: 2026-03-07
-
-tags:
-  - observability
-  - incident-response
-  - infrastructure
-  - cost-optimization
-
+slug: better-stack
+url: https://betterstack.com
+summary: >-
+  Observability and incident management platform with AI SRE, eBPF-based tracing, logs, metrics, uptime monitoring, and
+  on-call workflows.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Observability
+  - Incident Response
+dateAdded: '2026-03-07'
+claimed: false
+screenshot: /screenshots/better-stack.png
+logo: /logos/better-stack.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Correlates logs, metrics, traces, and errors for AI-assisted incident investigation
   - Includes incident management, on-call, uptime monitoring, and status pages
   - Uses OpenTelemetry-native and eBPF-based monitoring across services and infrastructure
-
-links:
-  linkedin: https://www.linkedin.com/company/betterstack
+linkedin: https://www.linkedin.com/company/betterstack

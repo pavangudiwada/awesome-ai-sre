@@ -1,21 +1,22 @@
 name: TierZero AI
-website: https://www.tierzero.ai
-summary: "TierZero's AI agents investigate incidents, triage alerts, and fix production problems automatically — so your engineers can ship faster."
-
-tags:
-  - incident-response
-  - infrastructure
-  - automation
-
+slug: tierzero-ai
+url: https://www.tierzero.ai
+summary: >-
+  TierZero's AI agents investigate incidents, triage alerts, and fix production problems automatically — so your
+  engineers can ship faster.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/tierzero-ai.png
+logo: /logos/tierzero-ai.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Assists with incident triage and operational diagnosis
   - Helps automate repetitive reliability tasks
   - Integrates with existing engineering workflows
-
-links:
-  linkedin: https://linkedin.com/company/tierzeroai
+linkedin: https://linkedin.com/company/tierzeroai

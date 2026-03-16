@@ -1,21 +1,23 @@
 name: Sentry
-website: https://sentry.io
-summary: "Application performance monitoring for developers and software teams to see errors more clearly, solve issues faster, and improve reliability continuously."
-
-tags:
-  - observability
-  - incident-response
-
+slug: sentry
+url: https://sentry.io
+summary: >-
+  Application performance monitoring for developers and software teams to see errors more clearly, solve issues faster,
+  and improve reliability continuously.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Observability
+  - Incident Response
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/sentry.png
+logo: /logos/sentry.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Captures errors and performance issues in production
   - Prioritizes issues with rich diagnostic context
   - Improves incident response for application reliability
-
-links:
-  github: https://github.com/getsentry
-  x: https://x.com/getsentry
+github: https://github.com/getsentry
+x: https://x.com/getsentry

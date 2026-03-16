@@ -1,21 +1,22 @@
 name: Mezmo
-website: https://www.mezmo.com
-summary: "Combine intelligent telemetry with AI-driven observability to detect issues, pinpoint root cause, and power agentic operations across logs, metrics, and traces."
-
-tags:
-  - observability
-  - incident-response
-  - automation
-
+slug: mezmo
+url: https://www.mezmo.com
+summary: >-
+  Combine intelligent telemetry with AI-driven observability to detect issues, pinpoint root cause, and power agentic
+  operations across logs, metrics, and traces.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Observability
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/mezmo.png
+logo: /logos/mezmo.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Centralizes logs and observability data pipelines
   - Improves signal quality for incident investigations
   - Routes and transforms telemetry for downstream tools
-
-links:
-  linkedin: https://www.linkedin.com/company/mezmo
+linkedin: https://www.linkedin.com/company/mezmo

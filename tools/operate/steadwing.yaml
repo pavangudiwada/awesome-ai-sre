@@ -1,23 +1,26 @@
 name: Steadwing
-website: https://www.steadwing.com
-
-summary: Steadwing is an autonomous on-call engineer that finds root causes in under 5 minutes and fixes them. It correlates logs, metrics, traces, and code to deliver actionable RCAs and real remediation-PRs, rollbacks, config changes, and more-with 20+ integrations.
-
-tags:
-  - incident-response
-  - automation
-
+slug: steadwing
+url: https://www.steadwing.com
+summary: >-
+  Steadwing is an autonomous on-call engineer that finds root causes in under 5 minutes and fixes them. It correlates
+  logs, metrics, traces, and code to deliver actionable RCAs and real remediation-PRs, rollbacks, config changes, and
+  more-with 20+ integrations.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+  - Observability
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/steadwing.png
+logo: /logos/steadwing.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Correlates logs, metrics, traces, and code changes to find root cause and resolve incidents in under 5 minutes
   - Supports 20+ widely used integrations for observability, logging, and alerting
   - Autonomous PR generation and infrastructure remediation
-
-links:
-  linkedin: https://www.linkedin.com/company/steadwing
-  x: https://x.com/steadwing
-  producthunt: https://www.producthunt.com/products/steadwing
+linkedin: https://www.linkedin.com/company/steadwing
+x: https://x.com/steadwing
+producthunt: https://www.producthunt.com/products/steadwing

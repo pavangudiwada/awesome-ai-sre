@@ -1,21 +1,20 @@
 name: NOFire AI
-website: https://www.nofire.ai
-summary: "NOFire handles alerts, flags risky changes, turns incidents and tribal knowledge into lasting reliability memory."
-
-tags:
-  - incident-response
-  - infrastructure
-  - automation
-
+slug: nofire-ai
+url: https://www.nofire.ai
+summary: NOFire handles alerts, flags risky changes, turns incidents and tribal knowledge into lasting reliability memory.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/nofire-ai.png
+logo: /logos/nofire-ai.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Detects and prioritizes reliability risks
   - Assists with incident triage and response workflows
   - Helps teams reduce on-call noise and operational toil
-
-links:
-  linkedin: https://www.linkedin.com/company/nofire-ai
+linkedin: https://www.linkedin.com/company/nofire-ai

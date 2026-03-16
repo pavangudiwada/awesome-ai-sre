@@ -1,21 +1,22 @@
 name: Traversal
-website: https://traversal.com
-summary: "Traversal cuts through alert noise, surfaces root causes, and guides your team to remediation — so incidents get fixed in minutes, not hours."
-
-tags:
-  - incident-response
-  - infrastructure
-  - automation
-
+slug: traversal
+url: https://traversal.com
+summary: >-
+  Traversal cuts through alert noise, surfaces root causes, and guides your team to remediation — so incidents get fixed
+  in minutes, not hours.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/traversal.png
+logo: /logos/traversal.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Aggregates operational context during incidents
   - Guides teams through troubleshooting workflows
   - Improves collaboration during response and recovery
-
-links:
-  linkedin: https://www.linkedin.com/company/traversal-ai/
+linkedin: https://www.linkedin.com/company/traversal-ai/

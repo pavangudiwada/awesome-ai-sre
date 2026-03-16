@@ -1,20 +1,19 @@
 name: Kura
-website: https://www.usekura.com/
+slug: kura
+url: https://www.usekura.com/
 summary: AI platform for engineering operations and incident response automation in modern infrastructure environments.
-
-tags:
-  - infrastructure
-  - incident-response
-  - automation
-
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - AIOps
+  - Incident Response
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/kura.png
+logo: /logos/kura.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Helps automate operational response tasks
   - Improves incident investigation speed with AI support
   - Integrates into existing SRE and DevOps workflows
-
-links:

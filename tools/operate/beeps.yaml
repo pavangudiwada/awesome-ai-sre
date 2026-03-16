@@ -1,21 +1,20 @@
 name: Beeps
-website: https://beeps.ai/
+slug: beeps
+url: https://beeps.ai/
 summary: AI-powered operations assistant focused on helping teams handle alerts and incident workflows faster.
-
-tags:
-  - incident-response
-  - infrastructure
-  - automation
-
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/beeps.png
+logo: /logos/beeps.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Assists responders during alert triage and incident handling
   - Surfaces context to reduce time-to-diagnosis
   - Supports reliability and on-call workflows
-
-links:
-  linkedin: https://www.linkedin.com/company/beepsdev/
+linkedin: https://www.linkedin.com/company/beepsdev/

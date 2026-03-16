@@ -2,21 +2,51 @@ import React, { useCallback, useEffect, useState } from "react";
 import yaml from "js-yaml";
 import { Navigate, Outlet, Route, Routes, useNavigate, useParams } from "react-router-dom";
 
-const TAG_TO_CATEGORY = {
-  "incident-response": "Incident Response",
-  observability: "Observability",
-  infrastructure: "Infrastructure",
-  "cost-optimization": "Cost Optimization",
-  automation: "Infrastructure",
-  security: "Incident Response",
-};
-
-const CATEGORY_ORDER = [
+const TAG_ORDER = [
   "Incident Response",
   "Observability",
-  "Infrastructure",
-  "Cost Optimization",
+  "AIOps",
+  "IDP",
+  "IaC",
+  "FinOps",
+  "Security",
+  "Deployment",
 ];
+
+const TAG_META = {
+  "Incident Response": {
+    color: "#ff4444",
+    gradient: "linear-gradient(140deg, #180808 0%, #1e0d0d 60%, #120606 100%)",
+  },
+  Observability: {
+    color: "#00d4ff",
+    gradient: "linear-gradient(140deg, #060e1a 0%, #091525 60%, #050b14 100%)",
+  },
+  AIOps: {
+    color: "#00ff88",
+    gradient: "linear-gradient(140deg, #071508 0%, #0a1c0c 60%, #060f07 100%)",
+  },
+  IDP: {
+    color: "#a78bfa",
+    gradient: "linear-gradient(140deg, #12091d 0%, #1b1029 60%, #100718 100%)",
+  },
+  IaC: {
+    color: "#34d399",
+    gradient: "linear-gradient(140deg, #071511 0%, #0a1e18 60%, #06110d 100%)",
+  },
+  FinOps: {
+    color: "#ffaa00",
+    gradient: "linear-gradient(140deg, #161004 0%, #1d1508 60%, #100d03 100%)",
+  },
+  Security: {
+    color: "#f97316",
+    gradient: "linear-gradient(140deg, #1b0c05 0%, #251109 60%, #120904 100%)",
+  },
+  Deployment: {
+    color: "#60a5fa",
+    gradient: "linear-gradient(140deg, #07101c 0%, #0b1728 60%, #050b14 100%)",
+  },
+};
 
 const DEPLOYMENT_LABELS = {
   saas: "SaaS",
@@ -30,46 +60,21 @@ const YAML_FILES = import.meta.glob("../tools/operate/*.yaml", {
   import: "default",
 });
 
-const CAT = {
-  "Incident Response": { color: "#ff4444", label: "IR" },
-  Observability: { color: "#00d4ff", label: "OBS" },
-  Infrastructure: { color: "#00ff88", label: "INFRA" },
-  "Cost Optimization": { color: "#ffaa00", label: "COST" },
-};
-
-const CARD_BG = {
-  "Incident Response": "linear-gradient(140deg, #180808 0%, #1e0d0d 60%, #120606 100%)",
-  Observability: "linear-gradient(140deg, #060e1a 0%, #091525 60%, #050b14 100%)",
-  Infrastructure: "linear-gradient(140deg, #071508 0%, #0a1c0c 60%, #060f07 100%)",
-  "Cost Optimization": "linear-gradient(140deg, #161004 0%, #1d1508 60%, #100d03 100%)",
-};
-
 const SOCIAL_ICON = {
   linkedin: new URL("../assets/icons/linkedin.svg", import.meta.url).href,
   github: new URL("../assets/icons/github.svg", import.meta.url).href,
   x: new URL("../assets/icons/x.svg", import.meta.url).href,
+  producthunt: new URL("../assets/icons/producthunt.svg", import.meta.url).href,
 };
 
 function deploymentLabel(deployment) {
-  if (!Array.isArray(deployment) || deployment.length === 0) {
-    return "Unknown";
-  }
-  if (deployment.length > 1) {
-    return "Multi";
-  }
-  return DEPLOYMENT_LABELS[String(deployment[0]).toLowerCase()] || String(deployment[0]);
+  const values = Array.isArray(deployment) ? deployment : deployment ? [deployment] : [];
+  if (values.length === 0) return "Unknown";
+  if (values.length > 1) return "Multi";
+  return DEPLOYMENT_LABELS[String(values[0]).toLowerCase()] || String(values[0]);
 }
 
-function slugifyToolName(name) {
-  return String(name).trim().toLowerCase().replace(/\s+/g, "-");
-}
-
-function categoryFromTags(tags) {
-  const primary = Array.isArray(tags) && tags.length ? String(tags[0]).toLowerCase() : "";
-  return TAG_TO_CATEGORY[primary] || "Infrastructure";
-}
-
-function normalizeAddedAt(value) {
+function normalizeDate(value) {
   if (value instanceof Date && !Number.isNaN(value.getTime())) {
     return value.toISOString().slice(0, 10);
   }
@@ -82,16 +87,11 @@ function normalizeAddedAt(value) {
 }
 
 function parseAddedDate(value) {
-  const normalized = normalizeAddedAt(value);
-  if (!normalized) {
-    return null;
-  }
+  const normalized = normalizeDate(value);
+  if (!normalized) return null;
 
   const parsed = new Date(`${normalized}T00:00:00Z`);
-  if (Number.isNaN(parsed.getTime())) {
-    return null;
-  }
-
+  if (Number.isNaN(parsed.getTime())) return null;
   return parsed;
 }
 
@@ -101,8 +101,15 @@ function daysSince(date, now = new Date()) {
   return Math.floor((utcNow - utcDate) / 86400000);
 }
 
-function getRecentTools(tools, now = new Date()) {
-  const datedTools = tools
+function isNewTool(tool, now = new Date()) {
+  const parsed = parseAddedDate(tool.dateAdded);
+  if (!parsed) return false;
+  const age = daysSince(parsed, now);
+  return age >= 0 && age <= 14;
+}
+
+function getRecentTools(tools) {
+  const datedTools = [...tools]
     .filter((tool) => parseAddedDate(tool.dateAdded))
     .sort((a, b) => b.dateAdded.localeCompare(a.dateAdded) || a.name.localeCompare(b.name));
 
@@ -110,7 +117,7 @@ function getRecentTools(tools, now = new Date()) {
     datedTools.filter((tool) => {
       const parsed = parseAddedDate(tool.dateAdded);
       if (!parsed) return false;
-      const age = daysSince(parsed, now);
+      const age = daysSince(parsed);
       return age >= 0 && age <= dayLimit;
     });
 
@@ -124,18 +131,13 @@ function getRecentTools(tools, now = new Date()) {
 }
 
 function buildToolsData() {
-  const grouped = {
-    "Incident Response": [],
-    Observability: [],
-    Infrastructure: [],
-    "Cost Optimization": [],
-  };
+  const tools = [];
 
   for (const [filePath, raw] of Object.entries(YAML_FILES)) {
     const slugMatch = filePath.match(/\/([^/]+)\.yaml$/);
-    const assetSlug = slugMatch ? slugMatch[1] : null;
+    const fallbackSlug = slugMatch ? slugMatch[1] : null;
 
-    if (!assetSlug || assetSlug.startsWith("_")) {
+    if (!fallbackSlug || fallbackSlug.startsWith("_")) {
       continue;
     }
 
@@ -146,44 +148,48 @@ function buildToolsData() {
       continue;
     }
 
-    if (!parsed || typeof parsed !== "object" || !parsed.name || !parsed.website || !parsed.summary) {
+    if (!parsed || typeof parsed !== "object" || !parsed.name || !parsed.url || !parsed.summary) {
       continue;
     }
 
-    const category = categoryFromTags(parsed.tags);
-    const links = parsed.links && typeof parsed.links === "object" ? parsed.links : {};
+    const tags = Array.isArray(parsed.tags)
+      ? parsed.tags.map((tag) => String(tag).trim()).filter((tag) => TAG_META[tag])
+      : [];
+    const primaryTag = tags[0] || "AIOps";
 
-    grouped[category].push({
+    tools.push({
       name: parsed.name,
-      url: parsed.website,
+      slug: parsed.slug || fallbackSlug,
+      url: parsed.url,
       summary: parsed.summary,
-      features: Array.isArray(parsed.features) ? parsed.features.slice(0, 3) : [],
       deployment: deploymentLabel(parsed.deployment),
-      opensource: !!parsed.open_source,
-      linkedin: links.linkedin,
-      github: links.github,
-      x: links.x,
-      icon: "/favicons/" + assetSlug + ".png",
-      slug: slugifyToolName(parsed.name),
-      dateAdded: normalizeAddedAt(parsed.added_at),
+      opensource: !!parsed.opensource,
+      tags,
+      primaryTag,
+      screenshot: typeof parsed.screenshot === "string" ? parsed.screenshot : "",
+      claimed: !!parsed.claimed,
+      dateAdded: normalizeDate(parsed.dateAdded),
+      features: Array.isArray(parsed.features) ? parsed.features.slice(0, 3) : [],
+      linkedin: parsed.linkedin,
+      github: parsed.github,
+      x: parsed.x,
+      producthunt: parsed.producthunt,
     });
   }
 
-  for (const category of CATEGORY_ORDER) {
-    grouped[category].sort((a, b) => a.name.localeCompare(b.name));
-  }
-
-  return grouped;
+  tools.sort((a, b) => a.name.localeCompare(b.name));
+  return tools;
 }
 
-const TOOLS_DATA = buildToolsData();
-const ALL_TOOLS = CATEGORY_ORDER.flatMap((category) =>
-  TOOLS_DATA[category].map((tool) => ({ ...tool, category }))
-);
+const ALL_TOOLS = buildToolsData();
 const TOOLS_BY_SLUG = new Map(ALL_TOOLS.map((tool) => [tool.slug, tool]));
-const WHATS_NEW_META = getRecentTools(ALL_TOOLS);
-const WHATS_NEW = WHATS_NEW_META.tools;
-const WHATS_NEW_SLUGS = new Set(WHATS_NEW.map((tool) => tool.slug));
+const RECENT_TOOLS_META = getRecentTools(ALL_TOOLS);
+const RECENT_TOOLS = RECENT_TOOLS_META.tools;
+const NEW_TOOL_SLUGS = new Set(ALL_TOOLS.filter((tool) => isNewTool(tool)).map((tool) => tool.slug));
+const TAG_COUNTS = TAG_ORDER.reduce((counts, tag) => {
+  counts[tag] = ALL_TOOLS.filter((tool) => tool.tags.includes(tag)).length;
+  return counts;
+}, {});
 const TOTAL = ALL_TOOLS.length;
 
 function getDomain(url) {
@@ -195,11 +201,131 @@ function getDomain(url) {
 }
 
 function favicon(url) {
-  return `https://www.google.com/s2/favicons?sz=64&domain_url=${encodeURIComponent(url)}`;
+  return `https://www.google.com/s2/favicons?sz=128&domain_url=${encodeURIComponent(url)}`;
 }
 
-function CheckboxBadge({ category, checked, onToggle }) {
-  const meta = CAT[category];
+function ToolLogo({ tool, size = 28 }) {
+  const color = TAG_META[tool.primaryTag]?.color || "#00ff88";
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    setFailed(false);
+  }, [tool.url]);
+
+  if (failed) {
+    return (
+      <span
+        style={{
+          width: `${size}px`,
+          height: `${size}px`,
+          borderRadius: "4px",
+          background: color,
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "#ffffff",
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: `${Math.max(12, size / 2)}px`,
+          fontWeight: 700,
+          flexShrink: 0,
+        }}
+      >
+        {tool.name.slice(0, 1).toUpperCase()}
+      </span>
+    );
+  }
+
+  return (
+    <img
+      src={favicon(tool.url)}
+      alt=""
+      onError={() => setFailed(true)}
+      style={{
+        width: `${size}px`,
+        height: `${size}px`,
+        borderRadius: "4px",
+        objectFit: "cover",
+        background: "rgba(255,255,255,0.06)",
+        border: "1px solid rgba(255,255,255,0.12)",
+        flexShrink: 0,
+      }}
+    />
+  );
+}
+
+function ScreenshotSurface({ tool, height = 180, compact = false }) {
+  const [showScreenshot, setShowScreenshot] = useState(Boolean(tool.screenshot));
+  const color = TAG_META[tool.primaryTag]?.color || "#00ff88";
+  const gradient = TAG_META[tool.primaryTag]?.gradient || TAG_META.AIOps.gradient;
+
+  useEffect(() => {
+    setShowScreenshot(Boolean(tool.screenshot));
+  }, [tool.screenshot]);
+
+  if (showScreenshot) {
+    return (
+      <img
+        src={tool.screenshot}
+        alt={`${tool.name} screenshot`}
+        onError={() => setShowScreenshot(false)}
+        style={{
+          width: "100%",
+          height: `${height}px`,
+          objectFit: "cover",
+          objectPosition: "15% top",
+          display: "block",
+        }}
+      />
+    );
+  }
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: `${height}px`,
+        background: gradient,
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: `linear-gradient(${color}12 1px, transparent 1px), linear-gradient(90deg, ${color}12 1px, transparent 1px)`,
+          backgroundSize: "22px 22px",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: compact ? "8px" : "12px",
+          textAlign: "center",
+        }}
+      >
+        <span
+          style={{
+            color: "rgba(232,232,232,0.7)",
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: compact ? "9px" : "10px",
+            letterSpacing: "1px",
+          }}
+        >
+          {getDomain(tool.url)}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function TagFilterRow({ tag, count, checked, onToggle }) {
+  const meta = TAG_META[tag];
   return (
     <button
       className="pressable pressable--chip"
@@ -209,57 +335,22 @@ function CheckboxBadge({ category, checked, onToggle }) {
         width: "100%",
         display: "flex",
         alignItems: "center",
+        justifyContent: "space-between",
         gap: "10px",
-        padding: "8px 0",
-        background: "transparent",
-        border: "none",
-        color: "var(--text-primary)",
+        padding: "10px 12px",
+        background: checked ? `${meta.color}12` : "transparent",
+        border: "1px solid rgba(255,255,255,0.06)",
+        borderLeft: checked ? `2px solid ${meta.color}` : "2px solid transparent",
+        color: checked ? meta.color : "var(--text-secondary)",
         cursor: "pointer",
+        borderRadius: "8px",
         textAlign: "left",
       }}
     >
-      <span
-        style={{
-          width: "16px",
-          height: "16px",
-          borderRadius: "4px",
-          border: `1px solid ${checked ? meta.color : "rgba(255,255,255,0.18)"}`,
-          background: checked ? meta.color : "transparent",
-          boxShadow: checked ? `0 0 14px ${meta.color}33` : "none",
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexShrink: 0,
-          transition: "all 0.16s ease",
-        }}
-      >
-        {checked && (
-          <span
-            style={{
-              width: "6px",
-              height: "6px",
-              borderRadius: "50%",
-              background: "#0a0a0a",
-            }}
-          />
-        )}
+      <span style={{ fontSize: "12px", lineHeight: 1.4 }}>{tag}</span>
+      <span style={{ color: checked ? meta.color : "var(--text-muted)", fontFamily: "'JetBrains Mono', monospace", fontSize: "11px" }}>
+        ({count})
       </span>
-      <span
-        style={{
-          padding: "2px 6px",
-          borderRadius: "999px",
-          background: `${meta.color}14`,
-          color: meta.color,
-          border: `1px solid ${meta.color}33`,
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: "8px",
-          letterSpacing: "0.8px",
-          flexShrink: 0,
-        }}
-      >
-        {meta.label}
-      </span>
-      <span style={{ fontSize: "12px", color: "var(--text-secondary)", lineHeight: 1.4 }}>{category}</span>
     </button>
   );
 }
@@ -311,29 +402,20 @@ function ToggleRow({ enabled, onToggle, label }) {
   );
 }
 
-function FilterRail({
-  selectedCategories,
-  onToggleCategory,
-  ossOnly,
-  onToggleOss,
-  newOnly,
-  onToggleNewOnly,
-  mobile,
-  onClose,
-}) {
+function FilterRail({ selectedTags, onToggleTag, onClearTags, tagCounts, ossOnly, onToggleOss, mobile, onClose }) {
   return (
     <aside
       data-filter-rail="true"
       style={{
         position: mobile ? "fixed" : "sticky",
         left: mobile ? 0 : "auto",
-        right: "auto",
         top: mobile ? 0 : "16px",
         bottom: mobile ? 0 : "auto",
-        width: mobile ? "220px" : "240px",
+        width: mobile ? "220px" : "200px",
         padding: mobile ? "24px 18px" : "20px 16px",
         background: "rgba(255,255,255,0.02)",
         border: "1px solid rgba(255,255,255,0.07)",
+        borderRight: mobile ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(255,255,255,0.07)",
         backdropFilter: "blur(18px)",
         zIndex: 80,
         overflowY: "auto",
@@ -344,15 +426,8 @@ function FilterRail({
       }}
     >
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "18px" }}>
-        <div
-          style={{
-            color: "#00ff88",
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "10px",
-            letterSpacing: "2px",
-          }}
-        >
-          FILTERS
+        <div style={{ color: "#00ff88", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "2px" }}>
+          FILTER BY TAG
         </div>
         {mobile && (
           <button
@@ -373,57 +448,46 @@ function FilterRail({
         )}
       </div>
 
-      <div
-        style={{
-          color: "var(--text-muted)",
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: "9px",
-          letterSpacing: "2px",
-          marginBottom: "10px",
-        }}
-      >
-        CATEGORY
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-        {CATEGORY_ORDER.map((category) => (
-          <CheckboxBadge
-            key={category}
-            category={category}
-            checked={selectedCategories.includes(category)}
-            onToggle={() => onToggleCategory(category)}
+      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+        <button
+          className="pressable pressable--chip"
+          type="button"
+          onClick={onClearTags}
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "10px",
+            padding: "10px 12px",
+            background: selectedTags.length === 0 ? "rgba(255,255,255,0.05)" : "transparent",
+            border: "1px solid rgba(255,255,255,0.06)",
+            borderRadius: "8px",
+            color: selectedTags.length === 0 ? "var(--text-primary)" : "var(--text-secondary)",
+            cursor: "pointer",
+          }}
+        >
+          <span style={{ fontSize: "12px" }}>All</span>
+          <span style={{ color: "var(--text-muted)", fontFamily: "'JetBrains Mono', monospace", fontSize: "11px" }}>
+            ({TOTAL})
+          </span>
+        </button>
+
+        <div style={{ height: "1px", background: "rgba(255,255,255,0.08)", margin: "4px 0" }} />
+
+        {TAG_ORDER.map((tag) => (
+          <TagFilterRow
+            key={tag}
+            tag={tag}
+            count={tagCounts[tag] || 0}
+            checked={selectedTags.includes(tag)}
+            onToggle={() => onToggleTag(tag)}
           />
         ))}
       </div>
 
       <div style={{ height: "1px", background: "rgba(255,255,255,0.08)", margin: "18px 0 16px" }} />
-
-      <div
-        style={{
-          color: "var(--text-muted)",
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: "9px",
-          letterSpacing: "2px",
-          marginBottom: "10px",
-        }}
-      >
-        OPEN SOURCE
-      </div>
-      <ToggleRow enabled={ossOnly} onToggle={onToggleOss} label="Only open source tools" />
-
-      <div style={{ height: "1px", background: "rgba(255,255,255,0.08)", margin: "18px 0 16px" }} />
-
-      <div
-        style={{
-          color: "var(--text-muted)",
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: "9px",
-          letterSpacing: "2px",
-          marginBottom: "10px",
-        }}
-      >
-        NEW
-      </div>
-      <ToggleRow enabled={newOnly} onToggle={onToggleNewOnly} label="Only newly added tools" />
+      <ToggleRow enabled={ossOnly} onToggle={onToggleOss} label="OSS only" />
     </aside>
   );
 }
@@ -466,25 +530,11 @@ function TopBannerCarousel({ items, activeIndex, onSelectIndex, onSelectTool }) 
           >
             <div style={{ display: "flex", flexDirection: "column", gap: "4px", maxWidth: "760px" }}>
               <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
-                <span
-                  style={{
-                    color: "#00ff88",
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: "9px",
-                    letterSpacing: "2px",
-                  }}
-                >
+                <span style={{ color: "#00ff88", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "2px" }}>
                   {item.eyebrow}
                 </span>
                 {item.meta && (
-                  <span
-                    style={{
-                      color: "var(--text-muted)",
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: "8px",
-                      letterSpacing: "1px",
-                    }}
-                  >
+                  <span style={{ color: "var(--text-muted)", fontFamily: "'JetBrains Mono', monospace", fontSize: "8px", letterSpacing: "1px" }}>
                     {item.meta}
                   </span>
                 )}
@@ -495,14 +545,7 @@ function TopBannerCarousel({ items, activeIndex, onSelectIndex, onSelectTool }) 
               {item.type === "recent" && item.tools.length > 0 && (
                 <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                   {item.tools.map((tool) => (
-                    <div
-                      key={tool.slug}
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "8px",
-                      }}
-                    >
+                    <div key={tool.slug} style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
                       <span
                         style={{
                           padding: "2px 8px",
@@ -538,7 +581,7 @@ function TopBannerCarousel({ items, activeIndex, onSelectIndex, onSelectTool }) 
               )}
             </div>
             <a
-              className="pressable pressable--strong"
+              className="pressable"
               href={item.cta.href}
               target="_blank"
               rel="noopener noreferrer"
@@ -560,15 +603,7 @@ function TopBannerCarousel({ items, activeIndex, onSelectIndex, onSelectTool }) 
           </div>
         ))}
       </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "12px",
-          padding: "0 14px 10px",
-        }}
-      >
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", padding: "0 14px 10px" }}>
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
           {items.map((item, index) => (
             <button
@@ -649,7 +684,7 @@ function buildTopBannerItems(tools, rangeDays) {
       type: "recent",
       eyebrow: "RECENT ADDITIONS",
       meta: `LAST ${rangeDays} DAYS`,
-      message: "New tools landed in the watchlist recently.",
+      message: "New tools added to the watchlist recently.",
       tools,
       cta: {
         href: "https://www.linkedin.com/company/ai-sre-watchlist",
@@ -661,147 +696,115 @@ function buildTopBannerItems(tools, rangeDays) {
   return items;
 }
 
-function ScreenshotCard({ tool, isSelected, onClick, category, isNew }) {
-  const color = CAT[category].color;
+function ScreenshotCard({ tool, isSelected, onClick, isNew }) {
+  const color = TAG_META[tool.primaryTag]?.color || "#00ff88";
 
   return (
     <div
       data-tool-card="true"
-      onClick={() => onClick(tool, category)}
+      onClick={() => onClick(tool)}
       style={{
-        borderRadius: "8px",
+        borderRadius: "10px",
         overflow: "hidden",
         cursor: "pointer",
-        background: isSelected ? "rgba(255,255,255,0.10)" : "rgba(255,255,255,0.02)",
-        border: `1px solid ${isSelected ? color + "60" : "rgba(255,255,255,0.07)"}`,
-        transition: "all 0.18s",
+        background: isSelected ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.02)",
+        border: `1px solid ${isSelected ? `${color}66` : "rgba(255,255,255,0.07)"}`,
+        transition: "all 0.18s ease",
         display: "flex",
         flexDirection: "column",
       }}
       onMouseEnter={(event) => {
-        if (isSelected) {
-          return;
-        }
-
-        event.currentTarget.style.background = "rgba(255,255,255,0.05)";
-        event.currentTarget.style.borderColor = color + "40";
+        if (isSelected) return;
+        event.currentTarget.style.background = "rgba(255,255,255,0.04)";
+        event.currentTarget.style.borderColor = `${color}66`;
         event.currentTarget.style.transform = "translateY(-2px)";
       }}
       onMouseLeave={(event) => {
-        if (isSelected) {
-          return;
-        }
-
+        if (isSelected) return;
         event.currentTarget.style.background = "rgba(255,255,255,0.02)";
         event.currentTarget.style.borderColor = "rgba(255,255,255,0.07)";
         event.currentTarget.style.transform = "translateY(0)";
       }}
     >
-      <div
-        style={{
-          position: "relative",
-          width: "100%",
-          paddingTop: "52%",
-          background: CARD_BG[category] || "#111",
-          overflow: "hidden",
-        }}
-      >
+      <div style={{ position: "relative" }}>
+        <ScreenshotSurface tool={tool} height={180} />
         <div
           style={{
             position: "absolute",
-            inset: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: "48px",
+            background: "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.42) 100%)",
             display: "flex",
-            flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "space-between",
             gap: "10px",
+            padding: "8px 10px",
           }}
         >
-          <img
-            src={favicon(tool.url)}
-            style={{ width: "40px", height: "40px", borderRadius: "10px", boxShadow: `0 4px 20px ${color}22` }}
-            alt=""
-          />
-          <span style={{ color: "var(--text-muted)", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "1px" }}>
-            {getDomain(tool.url)}
-          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", minWidth: 0 }}>
+            <ToolLogo tool={tool} size={28} />
+            <span
+              style={{
+                padding: "2px 8px",
+                borderRadius: "999px",
+                background: `${color}16`,
+                border: `1px solid ${color}40`,
+                color,
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "8px",
+                letterSpacing: "0.8px",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {tool.primaryTag}
+            </span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", flexShrink: 0 }}>
+            {tool.claimed && (
+              <span
+                style={{
+                  background: "rgba(0,180,255,0.15)",
+                  color: "#00b4ff",
+                  border: "1px solid rgba(0,180,255,0.3)",
+                  borderRadius: "999px",
+                  padding: "2px 6px",
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: "8px",
+                }}
+              >
+                Verified
+              </span>
+            )}
+            {isNew && (
+              <span
+                style={{
+                  background: "rgba(0,255,136,0.14)",
+                  color: "#00ff88",
+                  border: "1px solid rgba(0,255,136,0.25)",
+                  borderRadius: "999px",
+                  padding: "2px 6px",
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: "8px",
+                }}
+              >
+                NEW
+              </span>
+            )}
+          </div>
         </div>
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage: `linear-gradient(${color}08 1px, transparent 1px), linear-gradient(90deg, ${color}08 1px, transparent 1px)`,
-            backgroundSize: "20px 20px",
-            pointerEvents: "none",
-          }}
-        />
-        <span
-          style={{
-            position: "absolute",
-            top: 7,
-            left: 7,
-            background: "rgba(0,0,0,0.6)",
-            backdropFilter: "blur(4px)",
-            padding: "2px 6px",
-            borderRadius: "3px",
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "8px",
-            color,
-            border: `1px solid ${color}30`,
-            letterSpacing: "1px",
-          }}
-        >
-          {CAT[category].label}
-        </span>
-        {isNew && (
-          <span
-            style={{
-              position: "absolute",
-              top: 7,
-              left: `${CAT[category].label.length > 3 ? 52 : 42}px`,
-              background: "rgba(0,255,136,0.14)",
-              backdropFilter: "blur(4px)",
-              padding: "2px 6px",
-              borderRadius: "3px",
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "8px",
-              color: "#00ff88",
-              border: "1px solid rgba(0,255,136,0.25)",
-              letterSpacing: "0.8px",
-            }}
-          >
-            NEW
-          </span>
-        )}
-        {tool.opensource && (
-          <span
-            style={{
-              position: "absolute",
-              top: 7,
-              right: 7,
-              background: "rgba(0,255,136,0.12)",
-              backdropFilter: "blur(4px)",
-              padding: "2px 6px",
-              borderRadius: "3px",
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "8px",
-              color: "#00ff88",
-              border: "1px solid rgba(0,255,136,0.25)",
-            }}
-          >
-            OSS
-          </span>
-        )}
       </div>
 
-      <div style={{ padding: "11px 12px", flex: 1, display: "flex", flexDirection: "column", gap: "5px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
-          <img src={favicon(tool.url)} style={{ width: "14px", height: "14px", borderRadius: "3px", flexShrink: 0 }} alt="" />
+      <div style={{ padding: "12px", display: "flex", flexDirection: "column", gap: "6px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px" }}>
           <span
             style={{
               color: "var(--text-primary)",
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "11px",
+              fontSize: "13px",
               fontWeight: 600,
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -810,12 +813,28 @@ function ScreenshotCard({ tool, isSelected, onClick, category, isNew }) {
           >
             {tool.name}
           </span>
+          {tool.opensource && (
+            <span
+              style={{
+                padding: "2px 6px",
+                borderRadius: "999px",
+                background: "rgba(0,255,136,0.12)",
+                border: "1px solid rgba(0,255,136,0.25)",
+                color: "#00ff88",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "8px",
+                flexShrink: 0,
+              }}
+            >
+              OSS
+            </span>
+          )}
         </div>
         <p
           style={{
             color: "var(--text-secondary)",
-            fontSize: "10px",
-            lineHeight: "1.5",
+            fontSize: "12px",
+            lineHeight: 1.5,
             margin: 0,
             display: "-webkit-box",
             WebkitLineClamp: 2,
@@ -830,8 +849,9 @@ function ScreenshotCard({ tool, isSelected, onClick, category, isNew }) {
   );
 }
 
-function Panel({ tool, category, onClose, mobile }) {
-  const color = CAT[category].color;
+function Panel({ tool, onClose, mobile }) {
+  const color = TAG_META[tool.primaryTag]?.color || "#00ff88";
+  const gradient = TAG_META[tool.primaryTag]?.gradient || TAG_META.AIOps.gradient;
 
   return (
     <div
@@ -857,37 +877,16 @@ function Panel({ tool, category, onClose, mobile }) {
           style={{
             position: "relative",
             width: "100%",
-            paddingTop: "52%",
-            background: CARD_BG[category] || "#111",
+            background: gradient,
             overflow: "hidden",
           }}
         >
+          <ScreenshotSurface tool={tool} height={220} />
           <div
             style={{
               position: "absolute",
               inset: 0,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "12px",
-            }}
-          >
-            <img
-              src={favicon(tool.url)}
-              alt=""
-              style={{ width: "64px", height: "64px", borderRadius: "16px", boxShadow: `0 10px 32px ${color}22` }}
-            />
-            <span style={{ color: "var(--text-secondary)", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "1px" }}>
-              {getDomain(tool.url)}
-            </span>
-          </div>
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              backgroundImage: `linear-gradient(${color}08 1px, transparent 1px), linear-gradient(90deg, ${color}08 1px, transparent 1px)`,
-              backgroundSize: "20px 20px",
+              background: "linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 100%)",
               pointerEvents: "none",
             }}
           />
@@ -916,20 +915,23 @@ function Panel({ tool, category, onClose, mobile }) {
         <div style={{ padding: "20px 18px 28px", display: "flex", flexDirection: "column", gap: "18px" }}>
           <div>
             <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap", marginBottom: "10px" }}>
-              <span
-                style={{
-                  padding: "3px 7px",
-                  borderRadius: "999px",
-                  background: `${color}14`,
-                  border: `1px solid ${color}33`,
-                  color,
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: "9px",
-                  letterSpacing: "0.8px",
-                }}
-              >
-                {CAT[category].label}
-              </span>
+              {tool.tags.slice(0, 3).map((tag) => (
+                <span
+                  key={tag}
+                  style={{
+                    padding: "3px 7px",
+                    borderRadius: "999px",
+                    background: `${TAG_META[tag]?.color || color}14`,
+                    border: `1px solid ${(TAG_META[tag]?.color || color)}33`,
+                    color: TAG_META[tag]?.color || color,
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: "9px",
+                    letterSpacing: "0.8px",
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
               <span
                 style={{
                   padding: "3px 7px",
@@ -939,7 +941,6 @@ function Panel({ tool, category, onClose, mobile }) {
                   color: "var(--text-secondary)",
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: "9px",
-                  letterSpacing: "0.6px",
                 }}
               >
                 {tool.deployment}
@@ -954,10 +955,24 @@ function Panel({ tool, category, onClose, mobile }) {
                     color: "#00ff88",
                     fontFamily: "'JetBrains Mono', monospace",
                     fontSize: "9px",
-                    letterSpacing: "0.6px",
                   }}
                 >
                   OPEN SOURCE
+                </span>
+              )}
+              {tool.claimed && (
+                <span
+                  style={{
+                    padding: "3px 7px",
+                    borderRadius: "999px",
+                    background: "rgba(0,180,255,0.15)",
+                    border: "1px solid rgba(0,180,255,0.3)",
+                    color: "#00b4ff",
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: "9px",
+                  }}
+                >
+                  VERIFIED
                 </span>
               )}
             </div>
@@ -969,15 +984,7 @@ function Panel({ tool, category, onClose, mobile }) {
 
           {tool.features.length > 0 && (
             <div>
-              <div
-                style={{
-                  color: "var(--text-muted)",
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: "9px",
-                  letterSpacing: "2px",
-                  marginBottom: "10px",
-                }}
-              >
+              <div style={{ color: "var(--text-muted)", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "2px", marginBottom: "10px" }}>
                 CAPABILITIES
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -1002,15 +1009,7 @@ function Panel({ tool, category, onClose, mobile }) {
           )}
 
           <div>
-            <div
-              style={{
-                color: "var(--text-muted)",
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: "9px",
-                letterSpacing: "2px",
-                marginBottom: "10px",
-              }}
-            >
+            <div style={{ color: "var(--text-muted)", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "2px", marginBottom: "10px" }}>
               LINKS
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
@@ -1034,147 +1033,36 @@ function Panel({ tool, category, onClose, mobile }) {
               >
                 VISIT WEBSITE
               </a>
-              {tool.linkedin && (
-                <a
-                  className="pressable pressable--chip"
-                  href={tool.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    flex: 1,
-                    padding: "8px",
-                    borderRadius: "6px",
-                    textDecoration: "none",
-                    background: "rgba(255,255,255,0.09)",
-                    border: "1px solid rgba(255,255,255,0.18)",
-                    color: "var(--text-secondary)",
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: "9px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "6px",
-                  }}
-                >
-                  <img src={SOCIAL_ICON.linkedin} alt="" style={{ width: "12px", height: "12px", opacity: 0.95 }} />
-                  LinkedIn
-                </a>
-              )}
-              {tool.github && (
-                <a
-                  className="pressable pressable--chip"
-                  href={tool.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    flex: 1,
-                    padding: "8px",
-                    borderRadius: "6px",
-                    textDecoration: "none",
-                    background: "rgba(255,255,255,0.09)",
-                    border: "1px solid rgba(255,255,255,0.18)",
-                    color: "var(--text-secondary)",
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: "9px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "6px",
-                  }}
-                >
-                  <img src={SOCIAL_ICON.github} alt="" style={{ width: "12px", height: "12px", opacity: 0.95 }} />
-                  GitHub
-                </a>
-              )}
-              {tool.x && (
-                <a
-                  className="pressable pressable--chip"
-                  href={tool.x}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    flex: 1,
-                    padding: "8px",
-                    borderRadius: "6px",
-                    textDecoration: "none",
-                    background: "rgba(255,255,255,0.09)",
-                    border: "1px solid rgba(255,255,255,0.18)",
-                    color: "var(--text-secondary)",
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: "9px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "6px",
-                  }}
-                >
-                  <img src={SOCIAL_ICON.x} alt="" style={{ width: "12px", height: "12px", opacity: 0.95 }} />
-                  X
-                </a>
+              {["linkedin", "github", "x", "producthunt"].map((key) =>
+                tool[key] ? (
+                  <a
+                    key={key}
+                    className="pressable pressable--chip"
+                    href={tool[key]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      flex: 1,
+                      padding: "8px",
+                      borderRadius: "6px",
+                      textDecoration: "none",
+                      background: "rgba(255,255,255,0.09)",
+                      border: "1px solid rgba(255,255,255,0.18)",
+                      color: "var(--text-secondary)",
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: "9px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "6px",
+                    }}
+                  >
+                    <img src={SOCIAL_ICON[key]} alt="" style={{ width: "12px", height: "12px", opacity: 0.95 }} />
+                    {key === "producthunt" ? "Product Hunt" : key === "x" ? "X" : key.charAt(0).toUpperCase() + key.slice(1)}
+                  </a>
+                ) : null
               )}
             </div>
-          </div>
-
-          <div style={{ position: "relative" }}>
-            <style>{`
-              .update-btn-tooltip::after {
-                content: "Create an issue on GitHub";
-                position: absolute;
-                bottom: calc(100% + 6px);
-                left: 50%;
-                transform: translateX(-50%);
-                background: #1a1a1a;
-                border: 1px solid rgba(255,255,255,0.15);
-                color: var(--text-secondary);
-                font-family: 'JetBrains Mono', monospace;
-                font-size: 10px;
-                white-space: nowrap;
-                padding: 4px 8px;
-                border-radius: 4px;
-                pointer-events: none;
-                opacity: 0;
-                transition: opacity 0s;
-              }
-              .update-btn-tooltip:hover::after {
-                opacity: 1;
-              }
-            `}</style>
-            <button
-              type="button"
-              className="update-btn-tooltip"
-              onClick={() => {
-                const name = encodeURIComponent(tool.name);
-                const url = encodeURIComponent(tool.url);
-                window.open(
-                  `https://github.com/pavangudiwada/awesome-ai-sre/issues/new?title=Update:%20${name}&body=Tool:%20${name}%0AWebsite:%20${url}%0A%0AWhat%20I%27d%20like%20to%20update:%0A`,
-                  "_blank",
-                  "noopener,noreferrer"
-                );
-              }}
-              style={{
-                width: "100%",
-                padding: "10px",
-                border: "1px solid rgba(255,255,255,0.1)",
-                background: "transparent",
-                color: "#00ff88",
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: "12px",
-                letterSpacing: "0.5px",
-                cursor: "pointer",
-                borderRadius: "8px",
-                transition: "border-color 0.15s, background 0.15s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "rgba(0,255,136,0.3)";
-                e.currentTarget.style.background = "rgba(0,255,136,0.05)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
-                e.currentTarget.style.background = "transparent";
-              }}
-            >
-              UPDATE THIS PAGE
-            </button>
           </div>
         </div>
       </div>
@@ -1190,11 +1078,11 @@ function ShareBar() {
     let success = false;
 
     try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
+      if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(url);
         success = true;
       }
-    } catch { }
+    } catch {}
 
     if (!success) {
       try {
@@ -1207,7 +1095,7 @@ function ShareBar() {
         area.select();
         success = document.execCommand("copy");
         document.body.removeChild(area);
-      } catch { }
+      } catch {}
     }
 
     if (success) {
@@ -1217,9 +1105,9 @@ function ShareBar() {
   };
 
   const buttons = [
-    { icon: "in", label: "LinkedIn", color: "#0077b5", href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}` },
-    { icon: "𝕏", label: "X", color: "var(--text-primary)", href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent("The AI SRE Watchlist: tracking what's shipping across 60+ AI SRE vendors")}` },
-    { icon: copied ? "✓" : "⎘", label: "Copy", color: "#00ff88", onClick: copy, active: copied },
+    { icon: "in", label: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}` },
+    { icon: "𝕏", label: "X", href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent("The AI SRE Watchlist: tracking what's shipping across AI SRE vendors")}` },
+    { icon: copied ? "✓" : "⎘", label: "Copy", onClick: copy, active: copied },
   ];
 
   return (
@@ -1246,7 +1134,6 @@ function ShareBar() {
               fontSize: "11px",
               fontWeight: 700,
               textDecoration: "none",
-              transition: "all 0.15s",
               fontFamily: "'JetBrains Mono', monospace",
             }}
           >
@@ -1270,7 +1157,6 @@ function ShareBar() {
               color: button.active ? "#00ff88" : "var(--text-muted)",
               fontSize: "11px",
               cursor: "pointer",
-              transition: "all 0.15s",
               fontFamily: "'JetBrains Mono', monospace",
             }}
           >
@@ -1287,16 +1173,14 @@ function AppFrame() {
   const { slug: routeSlug } = useParams();
   const activeTool = routeSlug ? TOOLS_BY_SLUG.get(routeSlug) || null : null;
   const [search, setSearch] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [ossOnly, setOssOnly] = useState(false);
-  const [newOnly, setNewOnly] = useState(false);
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== "undefined" ? window.innerWidth < 768 : false
-  );
+  const [isMobile, setIsMobile] = useState(() => (typeof window !== "undefined" ? window.innerWidth < 768 : false));
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [activeBannerIndex, setActiveBannerIndex] = useState(0);
-  const bannerItems = buildTopBannerItems(WHATS_NEW, WHATS_NEW_META.rangeDays);
-  const selectedTool = activeTool ? { tool: activeTool, category: activeTool.category } : null;
+  const bannerItems = buildTopBannerItems(RECENT_TOOLS, RECENT_TOOLS_META.rangeDays);
+  const selectedTool = activeTool || null;
+
   const closeSelectedTool = useCallback(() => {
     navigate("/");
   }, [navigate]);
@@ -1308,43 +1192,25 @@ function AppFrame() {
     [navigate, routeSlug]
   );
 
-  const openToolFromBanner = useCallback(
-    (tool) => {
-      navigate(`/tool/${tool.slug}`);
-    },
-    [navigate]
-  );
+  const toggleTag = useCallback((tag) => {
+    if (routeSlug) navigate("/");
+    setSelectedTags((current) => (current.includes(tag) ? current.filter((item) => item !== tag) : [...current, tag]));
+  }, [navigate, routeSlug]);
 
-  const toggleCategory = useCallback((category) => {
-    if (routeSlug) {
-      navigate("/");
-    }
-    setSelectedCategories((current) =>
-      current.includes(category) ? current.filter((item) => item !== category) : [...current, category]
-    );
+  const clearTags = useCallback(() => {
+    if (routeSlug) navigate("/");
+    setSelectedTags([]);
   }, [navigate, routeSlug]);
 
   const toggleOss = useCallback(() => {
-    if (routeSlug) {
-      navigate("/");
-    }
+    if (routeSlug) navigate("/");
     setOssOnly((current) => !current);
   }, [navigate, routeSlug]);
 
-  const toggleNewOnly = useCallback(() => {
-    if (routeSlug) {
-      navigate("/");
-    }
-    setNewOnly((current) => !current);
-  }, [navigate, routeSlug]);
-
   const clearAllFilters = useCallback(() => {
-    if (routeSlug) {
-      navigate("/");
-    }
-    setSelectedCategories([]);
+    if (routeSlug) navigate("/");
+    setSelectedTags([]);
     setOssOnly(false);
-    setNewOnly(false);
   }, [navigate, routeSlug]);
 
   useEffect(() => {
@@ -1357,9 +1223,7 @@ function AppFrame() {
     const onResize = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-      if (!mobile) {
-        setFiltersOpen(false);
-      }
+      if (!mobile) setFiltersOpen(false);
     };
 
     onResize();
@@ -1368,35 +1232,15 @@ function AppFrame() {
   }, []);
 
   useEffect(() => {
-    if (!selectedTool && !filtersOpen) {
-      return undefined;
-    }
+    if (!selectedTool && !filtersOpen) return undefined;
 
     const onPointerDown = (event) => {
       const target = event.target;
-      if (!(target instanceof Element)) {
-        return;
-      }
-
-      if (selectedTool) {
-        if (target.closest('[data-side-panel="true"]')) {
-          return;
-        }
-        if (target.closest('[data-tool-card="true"]')) {
-          return;
-        }
-      }
-
-      if (filtersOpen && target.closest('[data-filter-rail="true"]')) {
-        return;
-      }
-
-      if (selectedTool) {
-        closeSelectedTool();
-      }
-      if (filtersOpen) {
-        setFiltersOpen(false);
-      }
+      if (!(target instanceof Element)) return;
+      if (selectedTool && (target.closest('[data-side-panel="true"]') || target.closest('[data-tool-card="true"]'))) return;
+      if (filtersOpen && target.closest('[data-filter-rail="true"]')) return;
+      if (selectedTool) closeSelectedTool();
+      if (filtersOpen) setFiltersOpen(false);
     };
 
     document.addEventListener("pointerdown", onPointerDown);
@@ -1407,7 +1251,6 @@ function AppFrame() {
     if (activeBannerIndex < bannerItems.length) {
       return;
     }
-
     setActiveBannerIndex(0);
   }, [activeBannerIndex, bannerItems.length]);
 
@@ -1424,45 +1267,25 @@ function AppFrame() {
   }, [bannerItems.length]);
 
   const normalizedSearch = search.trim().toLowerCase();
-  const filteredGroups = CATEGORY_ORDER.reduce((groups, category) => {
-    if (selectedCategories.length > 0 && !selectedCategories.includes(category)) {
-      return groups;
+  const filteredTools = ALL_TOOLS.filter((tool) => {
+    if (selectedTags.length > 0 && !tool.tags.some((tag) => selectedTags.includes(tag))) {
+      return false;
     }
-
-    const matches = TOOLS_DATA[category].filter((tool) => {
-      if (ossOnly && !tool.opensource) {
-        return false;
-      }
-
-      if (newOnly && !WHATS_NEW_SLUGS.has(tool.slug)) {
-        return false;
-      }
-
-      if (!normalizedSearch) {
-        return true;
-      }
-
-      return (
-        tool.name.toLowerCase().includes(normalizedSearch) ||
-        tool.summary.toLowerCase().includes(normalizedSearch)
-      );
-    });
-
-    if (matches.length > 0) {
-      groups.push({ category, tools: matches });
+    if (ossOnly && !tool.opensource) {
+      return false;
     }
+    if (!normalizedSearch) {
+      return true;
+    }
+    return tool.name.toLowerCase().includes(normalizedSearch) || tool.summary.toLowerCase().includes(normalizedSearch);
+  });
 
-    return groups;
-  }, []);
-
-  const count = filteredGroups.reduce((total, group) => total + group.tools.length, 0);
-  const panelOpen = !!selectedTool;
   const activeFilterChips = [
-    ...selectedCategories.map((category) => ({
-      key: `category-${category}`,
-      label: category,
-      color: CAT[category].color,
-      onRemove: () => toggleCategory(category),
+    ...selectedTags.map((tag) => ({
+      key: tag,
+      label: tag,
+      color: TAG_META[tag]?.color || "#00ff88",
+      onRemove: () => toggleTag(tag),
     })),
     ...(ossOnly
       ? [{
@@ -1470,14 +1293,6 @@ function AppFrame() {
         label: "OSS only",
         color: "#00ff88",
         onRemove: toggleOss,
-      }]
-      : []),
-    ...(newOnly
-      ? [{
-        key: "new-only",
-        label: "New only",
-        color: "#00d4ff",
-        onRemove: toggleNewOnly,
       }]
       : []),
   ];
@@ -1492,7 +1307,7 @@ function AppFrame() {
         body{margin:0;color:var(--text-primary);background:#0a0a0a}
         button,input{font:inherit}
         a,button{outline:none}
-        ::-webkit-scrollbar{width:3px}
+        ::-webkit-scrollbar{width:3px;height:3px}
         ::-webkit-scrollbar-track{background:#0a0a0a}
         ::-webkit-scrollbar-thumb{background:#222;border-radius:2px}
         .blink{animation:blink 1.2s step-end infinite}
@@ -1503,8 +1318,6 @@ function AppFrame() {
         .pressable:hover{transform:translateY(-1px);filter:brightness(1.05)}
         .pressable:active,.pressable--active{transform:translateY(1px) scale(.985);filter:brightness(.98)}
         .pressable:focus-visible{box-shadow:0 0 0 2px rgba(10,10,10,.9),0 0 0 4px rgba(0,255,136,.32)}
-        .pressable--strong:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.28)}
-        .pressable--chip:hover{box-shadow:0 8px 18px rgba(0,0,0,.2)}
       `}</style>
 
       <div
@@ -1522,71 +1335,54 @@ function AppFrame() {
         <>
           <div style={{ position: "fixed", inset: 0, zIndex: 70, background: "rgba(0,0,0,0.58)" }} />
           <FilterRail
-            selectedCategories={selectedCategories}
-            onToggleCategory={toggleCategory}
+            selectedTags={selectedTags}
+            onToggleTag={toggleTag}
+            onClearTags={clearTags}
+            tagCounts={TAG_COUNTS}
             ossOnly={ossOnly}
             onToggleOss={toggleOss}
-            newOnly={newOnly}
-            onToggleNewOnly={toggleNewOnly}
             mobile
             onClose={() => setFiltersOpen(false)}
           />
         </>
       )}
 
-      <div
-        style={{
-          position: "relative",
-          zIndex: 1,
-          width: "100%",
-        }}
-      >
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: isMobile ? "0 16px 0" : "0 28px 0" }}>
+      <div style={{ position: "relative", zIndex: 1, width: "100%" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: isMobile ? "0 16px" : "0 28px" }}>
           <TopBannerCarousel
             items={bannerItems}
             activeIndex={activeBannerIndex}
             onSelectIndex={setActiveBannerIndex}
-            onSelectTool={openToolFromBanner}
+            onSelectTool={handleSelectTool}
           />
-          <header style={{ paddingTop: "26px", paddingBottom: "28px" }}>
+
+          <header style={{ paddingTop: "22px", paddingBottom: "24px" }}>
             <div style={{ marginBottom: "8px" }}>
-              <span style={{ color: "#00ff88", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "4px" }}>AI SRE /// WATCHLIST</span>
+              <span style={{ color: "#00ff88", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "4px" }}>
+                AI SRE /// WATCHLIST
+              </span>
             </div>
             <h1 style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(24px, 4vw, 42px)", fontWeight: 700, margin: "0 0 12px", lineHeight: 1.1, letterSpacing: "-0.5px" }}>
               Tracking what&apos;s <span style={{ color: "#00ff88" }}>shipping</span><br />in AI SRE<span className="blink" style={{ color: "#00ff88" }}>_</span>
             </h1>
-            <p style={{ color: "var(--text-secondary)", fontSize: "13px", maxWidth: "500px", lineHeight: "1.6", margin: "0 0 24px" }}>
-              {TOTAL}+ vendors building the future of autonomous reliability engineering. Brought to you by <span style={{ color: "#00ff88" }}>The AI SRE Watchlist</span>.
+            <p style={{ color: "var(--text-secondary)", fontSize: "13px", maxWidth: "520px", lineHeight: 1.6, margin: "0 0 18px" }}>
+              {TOTAL}+ vendors building the future of autonomous reliability engineering, from incident response to observability, platform engineering, and deployment workflows.
             </p>
             <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-              <a className="pressable pressable--strong" href="https://www.linkedin.com/company/ai-sre-watchlist" target="_blank" rel="noopener noreferrer" style={{ background: "#00ff88", color: "#0a0a0a", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px" }}>→ FOLLOW ON LINKEDIN</a>
-              <a className="pressable pressable--strong" href="https://github.com/pavangudiwada/awesome-ai-sre" target="_blank" rel="noopener noreferrer" style={{ background: "transparent", color: "#00ff88", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px", border: "1px solid rgba(0,255,136,0.3)" }}>★ STAR ON GITHUB</a>
+              <a className="pressable" href="https://www.linkedin.com/company/ai-sre-watchlist" target="_blank" rel="noopener noreferrer" style={{ background: "#00ff88", color: "#0a0a0a", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px" }}>→ FOLLOW ON LINKEDIN</a>
+              <a className="pressable" href="https://github.com/pavangudiwada/awesome-ai-sre" target="_blank" rel="noopener noreferrer" style={{ background: "transparent", color: "#00ff88", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px", border: "1px solid rgba(0,255,136,0.3)" }}>★ STAR ON GITHUB</a>
             </div>
           </header>
-
-          <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", padding: "14px 0", borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)", marginBottom: "28px" }}>
-            {CATEGORY_ORDER.map((category) => (
-              <div key={category} style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: CAT[category].color, boxShadow: `0 0 4px ${CAT[category].color}` }} />
-                <span style={{ color: "var(--text-muted)", fontSize: "10px", fontFamily: "'JetBrains Mono', monospace" }}>{CAT[category].label}</span>
-                <span style={{ color: "var(--text-primary)", fontSize: "11px", fontFamily: "'JetBrains Mono', monospace", fontWeight: 600 }}>{TOOLS_DATA[category].length}</span>
-              </div>
-            ))}
-            <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "5px" }}>
-              <span style={{ color: "#00ff88", fontSize: "9px", fontFamily: "'JetBrains Mono', monospace" }}>LIVE</span>
-              <div className="blink" style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#00ff88" }} />
-            </div>
-          </div>
 
           <div style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
             {!isMobile && (
               <FilterRail
-                selectedCategories={selectedCategories}
-                onToggleCategory={toggleCategory}
+                selectedTags={selectedTags}
+                onToggleTag={toggleTag}
+                onClearTags={clearTags}
+                tagCounts={TAG_COUNTS}
                 ossOnly={ossOnly}
                 onToggleOss={toggleOss}
-                newOnly={newOnly}
-                onToggleNewOnly={toggleNewOnly}
                 mobile={false}
               />
             )}
@@ -1614,7 +1410,7 @@ function AppFrame() {
                 </div>
                 {isMobile && (
                   <button
-                    className="pressable pressable--strong"
+                    className="pressable"
                     type="button"
                     onClick={() => setFiltersOpen(true)}
                     style={{
@@ -1634,13 +1430,13 @@ function AppFrame() {
                 )}
               </div>
 
-              <div style={{ marginBottom: "20px", display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+              <div style={{ marginBottom: "18px", display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
                 <span style={{ color: "var(--text-muted)", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px" }}>
-                  {count} tools{search && ` matching "${search}"`}
+                  {filteredTools.length} tools{search && ` matching "${search}"`}
                 </span>
-                {selectedCategories.length > 0 && (
+                {selectedTags.length > 0 && (
                   <span style={{ color: "var(--text-muted)", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px" }}>
-                    category filter active
+                    {selectedTags.length} tag filter{selectedTags.length > 1 ? "s" : ""} active
                   </span>
                 )}
                 {ossOnly && (
@@ -1648,52 +1444,41 @@ function AppFrame() {
                     OSS only
                   </span>
                 )}
-                {newOnly && (
-                  <span style={{ color: "#00d4ff", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px" }}>
-                    New only
-                  </span>
-                )}
               </div>
 
-              {filteredGroups.map(({ category, tools }) => (
-                <div key={category} style={{ marginBottom: "40px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "14px" }}>
-                    <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: CAT[category].color, boxShadow: `0 0 6px ${CAT[category].color}` }} />
-                    <h2 style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", fontWeight: 600, margin: 0, color: "var(--text-primary)", letterSpacing: "2px", textTransform: "uppercase" }}>{category}</h2>
-                    <span style={{ color: CAT[category].color, fontFamily: "'JetBrains Mono', monospace", fontSize: "9px" }}>({tools.length})</span>
-                    <div style={{ flex: 1, height: "1px", background: "rgba(255,255,255,0.08)" }} />
-                  </div>
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: isMobile ? "1fr" : "repeat(4, minmax(0, 1fr))",
-                      gap: "10px",
-                    }}
-                  >
-                    {tools.map((tool) => (
-                      <ScreenshotCard
-                        key={tool.name}
-                        tool={tool}
-                        category={category}
-                        isSelected={selectedTool?.tool.name === tool.name}
-                        onClick={handleSelectTool}
-                        isNew={WHATS_NEW_SLUGS.has(tool.slug)}
-                      />
-                    ))}
-                  </div>
+              {filteredTools.length > 0 ? (
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(260px, 1fr))",
+                    gap: "14px",
+                    marginBottom: "40px",
+                  }}
+                >
+                  {filteredTools.map((tool) => (
+                    <ScreenshotCard
+                      key={tool.slug}
+                      tool={tool}
+                      isSelected={selectedTool?.slug === tool.slug}
+                      onClick={handleSelectTool}
+                      isNew={NEW_TOOL_SLUGS.has(tool.slug)}
+                    />
+                  ))}
                 </div>
-              ))}
-
-              {count === 0 && (
+              ) : (
                 <div style={{ border: "1px solid rgba(255,255,255,0.07)", background: "rgba(255,255,255,0.02)", borderRadius: "10px", padding: "18px 16px", marginBottom: "40px" }}>
-                  <div style={{ color: "var(--text-primary)", fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", marginBottom: "6px" }}>NO MATCHES</div>
-                  <div style={{ color: "var(--text-secondary)", fontSize: "12px", lineHeight: 1.6 }}>Try clearing search terms or relaxing the active filters.</div>
+                  <div style={{ color: "var(--text-primary)", fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", marginBottom: "6px" }}>
+                    NO MATCHES
+                  </div>
+                  <div style={{ color: "var(--text-secondary)", fontSize: "12px", lineHeight: 1.6 }}>
+                    Try clearing search terms or removing one of the active filters.
+                  </div>
                   {activeFilterChips.length > 0 && (
                     <div style={{ marginTop: "14px", display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
                       {activeFilterChips.map((filter) => (
                         <button
                           key={filter.key}
-                          className="pressable pressable--chip"
+                          className="pressable"
                           type="button"
                           onClick={filter.onRemove}
                           style={{
@@ -1715,7 +1500,7 @@ function AppFrame() {
                         </button>
                       ))}
                       <button
-                        className="pressable pressable--chip"
+                        className="pressable"
                         type="button"
                         onClick={clearAllFilters}
                         style={{
@@ -1744,12 +1529,18 @@ function AppFrame() {
                 <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#00ff88", boxShadow: "0 0 5px #00ff88" }} />
                 <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "3px", color: "#00ff88" }}>ABOUT THE WATCHLIST</span>
               </div>
-              <h3 style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "16px", fontWeight: 700, color: "var(--text-primary)", margin: "0 0 10px" }}>The AI SRE Watchlist</h3>
-              <p style={{ color: "var(--text-secondary)", fontSize: "12px", lineHeight: "1.7", margin: "0 0 10px" }}>The AI SRE space is moving fast. New tools launch weekly. Existing vendors ship agentic features quietly. It&apos;s hard to keep up unless someone is watching.</p>
-              <p style={{ color: "var(--text-secondary)", fontSize: "12px", lineHeight: "1.7", margin: "0 0 18px" }}>{TOTAL} vendors tracked across incident response, observability, infrastructure, and cost optimization.</p>
+              <h3 style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "16px", fontWeight: 700, color: "var(--text-primary)", margin: "0 0 10px" }}>
+                The AI SRE Watchlist
+              </h3>
+              <p style={{ color: "var(--text-secondary)", fontSize: "12px", lineHeight: 1.7, margin: "0 0 10px" }}>
+                The AI SRE space is moving fast. New tools launch weekly. Existing vendors ship agentic features quietly. It&apos;s hard to keep up unless someone is watching.
+              </p>
+              <p style={{ color: "var(--text-secondary)", fontSize: "12px", lineHeight: 1.7, margin: "0 0 18px" }}>
+                {TOTAL} vendors tracked across incident response, observability, platform engineering, infrastructure automation, security, and deployment.
+              </p>
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                <a className="pressable pressable--strong" href="https://www.linkedin.com/company/ai-sre-watchlist" target="_blank" rel="noopener noreferrer" style={{ background: "#00ff88", color: "#0a0a0a", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px" }}>→ FOLLOW ON LINKEDIN</a>
-                <a className="pressable pressable--strong" href="https://github.com/pavangudiwada/awesome-ai-sre" target="_blank" rel="noopener noreferrer" style={{ background: "transparent", color: "#00ff88", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px", border: "1px solid rgba(0,255,136,0.3)" }}>★ STAR ON GITHUB</a>
+                <a className="pressable" href="https://www.linkedin.com/company/ai-sre-watchlist" target="_blank" rel="noopener noreferrer" style={{ background: "#00ff88", color: "#0a0a0a", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px" }}>→ FOLLOW ON LINKEDIN</a>
+                <a className="pressable" href="https://github.com/pavangudiwada/awesome-ai-sre" target="_blank" rel="noopener noreferrer" style={{ background: "transparent", color: "#00ff88", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px", border: "1px solid rgba(0,255,136,0.3)" }}>★ STAR ON GITHUB</a>
               </div>
             </div>
           </section>
@@ -1757,7 +1548,9 @@ function AppFrame() {
           <footer style={{ borderTop: "1px solid rgba(255,255,255,0.08)", padding: "24px 0 44px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
             <div>
               <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "var(--text-primary)", marginBottom: "2px", fontWeight: 600 }}>The AI SRE Watchlist</div>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", color: "var(--text-muted)" }}>by <a href="https://www.linkedin.com/in/pavangudiwada/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--text-muted)", textDecoration: "none" }}>Pavan Gudiwada</a></div>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", color: "var(--text-muted)" }}>
+                by <a href="https://www.linkedin.com/in/pavangudiwada/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--text-muted)", textDecoration: "none" }}>Pavan Gudiwada</a>
+              </div>
             </div>
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
               {[{ label: "GitHub", href: "https://github.com/pavangudiwada/awesome-ai-sre" }, { label: "LinkedIn", href: "https://www.linkedin.com/company/ai-sre-watchlist" }, { label: "pavangudiwada.dev", href: "https://pavangudiwada.dev" }].map((item) => (
@@ -1770,8 +1563,8 @@ function AppFrame() {
         </div>
       </div>
 
-      {selectedTool && <Panel tool={selectedTool.tool} category={selectedTool.category} onClose={closeSelectedTool} mobile={isMobile} />}
-      {!panelOpen && !isMobile && <ShareBar />}
+      {selectedTool && <Panel tool={selectedTool} onClose={closeSelectedTool} mobile={isMobile} />}
+      {!selectedTool && !isMobile && <ShareBar />}
     </div>
   );
 }

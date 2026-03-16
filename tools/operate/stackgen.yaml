@@ -1,22 +1,23 @@
 name: StackGen
-website: https://stackgen.com
-summary: "Autonomous infrastructure platform powered by Aiden for platform engineering, DevOps, and SRE teams to automate provisioning, governance, and operations."
-added_at: 2026-03-09
-
-tags:
-  - infrastructure
-  - automation
-  - incident-response
-
+slug: stackgen
+url: https://stackgen.com
+summary: >-
+  Autonomous infrastructure platform powered by Aiden for platform engineering, DevOps, and SRE teams to automate
+  provisioning, governance, and operations.
 deployment:
   - hybrid
-
-open_source: false
-
+opensource: false
+tags:
+  - IDP
+  - Deployment
+  - AIOps
+dateAdded: '2026-03-09'
+claimed: false
+screenshot: /screenshots/stackgen.png
+logo: /logos/stackgen.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Automates self-service infrastructure provisioning with governance controls
   - Turns DevOps knowledge into reusable skills, tasks, and integrations
   - Extends into SRE workflows for incident triage and observability context
-
-links:
-  linkedin: https://www.linkedin.com/company/stackgenai
+linkedin: https://www.linkedin.com/company/stackgenai
