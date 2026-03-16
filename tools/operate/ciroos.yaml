@@ -13,6 +13,9 @@ tags:
   - Observability
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/ciroos.png
+logo: /logos/ciroos.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Monitors operational health signals and alerts
   - Assists with diagnosis and remediation steps

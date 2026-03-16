@@ -10,6 +10,9 @@ tags:
   - AIOps
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/nofire-ai.png
+logo: /logos/nofire-ai.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Detects and prioritizes reliability risks
   - Assists with incident triage and response workflows

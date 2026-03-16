@@ -10,6 +10,9 @@ tags:
   - Observability
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/sre-bench.png
+logo: /logos/sre-bench.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Benchmarks SRE agent performance on reliability tasks
   - Provides repeatable evaluation workflows for agent capabilities

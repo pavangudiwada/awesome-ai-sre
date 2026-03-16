@@ -10,6 +10,8 @@ tags:
   - Incident Response
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/sixta.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Helps investigate and contextualize production incidents
   - Supports automated troubleshooting workflows

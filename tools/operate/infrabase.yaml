@@ -13,6 +13,9 @@ tags:
   - FinOps
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/infrabase.png
+logo: /logos/infrabase.svg
+screenshot_last_fetched: '2026-03-16'
 features:
   - Reviews Terraform and Kubernetes pull requests for misconfigurations and policy violations
   - Provides natural language explanations of detected risks and suggested fixes

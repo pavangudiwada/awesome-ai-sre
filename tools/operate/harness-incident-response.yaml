@@ -13,6 +13,9 @@ tags:
   - Deployment
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/harness-incident-response.png
+logo: /logos/harness-incident-response.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Detects and manages incidents across services using integrated telemetry
   - Automates runbooks and response workflows to shorten resolution time

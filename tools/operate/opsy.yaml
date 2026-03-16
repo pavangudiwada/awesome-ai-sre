@@ -10,6 +10,9 @@ tags:
   - Incident Response
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/opsy.png
+logo: /logos/opsy.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Automates operational workflows for infrastructure and reliability teams
   - Speeds up incident investigation with AI-assisted analysis

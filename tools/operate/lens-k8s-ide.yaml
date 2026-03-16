@@ -11,6 +11,9 @@ tags:
   - Incident Response
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/lens-k8s-ide.png
+logo: /logos/lens-k8s-ide.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Provides a Kubernetes-native IDE experience for viewing workloads, events, logs, and cluster health in one place
   - Includes Lens Prism AI assistance to explain issues and guide debugging with contextual Kubernetes insights

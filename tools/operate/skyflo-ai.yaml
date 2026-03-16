@@ -13,6 +13,9 @@ tags:
   - Incident Response
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/skyflo-ai.png
+logo: /logos/skyflo-ai.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - AI copilot that triages incidents and recommends or executes next actions in Kubernetes and Jenkins
   - Uses LangGraph-style orchestration and typed tools for kubectl, Helm, Argo, and Jenkins

@@ -13,6 +13,9 @@ tags:
   - Deployment
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/rebase.png
+logo: /logos/rebase.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Automates common DevOps and infrastructure tasks via AI-driven workflows
   - Centralizes operations for modern cloud-native environments

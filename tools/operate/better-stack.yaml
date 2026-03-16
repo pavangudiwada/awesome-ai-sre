@@ -12,6 +12,9 @@ tags:
   - Incident Response
 dateAdded: '2026-03-07'
 claimed: false
+screenshot: /screenshots/better-stack.png
+logo: /logos/better-stack.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Correlates logs, metrics, traces, and errors for AI-assisted incident investigation
   - Includes incident management, on-call, uptime monitoring, and status pages

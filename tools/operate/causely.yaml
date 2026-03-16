@@ -12,6 +12,9 @@ tags:
   - Incident Response
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/causely.png
+logo: /logos/causely.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Uses causal inference to identify likely failure paths
   - Correlates telemetry across services and dependencies

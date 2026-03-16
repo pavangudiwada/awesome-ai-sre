@@ -10,6 +10,9 @@ tags:
   - Incident Response
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/logz-io.png
+logo: /logos/logz-io.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Centralizes telemetry for faster troubleshooting
   - Provides analytics to improve incident response

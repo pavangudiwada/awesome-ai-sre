@@ -10,6 +10,9 @@ tags:
   - AIOps
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/vibranium-labs.png
+logo: /logos/vibranium-labs.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Uses AI to accelerate production incident investigations
   - Supports operational decision-making with contextual insights

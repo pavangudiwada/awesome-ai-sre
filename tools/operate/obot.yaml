@@ -10,6 +10,9 @@ tags:
   - IDP
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/obot.png
+logo: /logos/obot.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Builds and manages custom AI agents
   - Integrates agents with external systems and tools

@@ -12,6 +12,9 @@ tags:
   - AIOps
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/rootly.png
+logo: /logos/rootly.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Automates key incident response steps and handoffs
   - Integrates with communication and on-call tools

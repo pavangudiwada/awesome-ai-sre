@@ -11,6 +11,9 @@ tags:
   - Observability
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/bigpanda.png
+logo: /logos/bigpanda.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Correlates alerts and events across observability and ITSM tools
   - Reduces noise and groups related incidents for faster triage

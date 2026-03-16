@@ -12,6 +12,9 @@ tags:
   - Incident Response
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/cutover.png
+logo: /logos/cutover.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Orchestrates complex operational workflows and runbooks
   - Coordinates multi-team response during incidents

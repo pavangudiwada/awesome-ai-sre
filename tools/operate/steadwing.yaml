@@ -14,6 +14,9 @@ tags:
   - AIOps
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/steadwing.png
+logo: /logos/steadwing.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Correlates logs, metrics, traces, and code changes to find root cause and resolve incidents in under 5 minutes
   - Supports 20+ widely used integrations for observability, logging, and alerting

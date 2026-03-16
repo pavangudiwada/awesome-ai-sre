@@ -12,6 +12,9 @@ tags:
   - Incident Response
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/lightrun.png
+logo: /logos/lightrun.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Adds dynamic logs and snapshots in production
   - Accelerates debugging without full redeploy cycles

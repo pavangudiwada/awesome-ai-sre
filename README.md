@@ -11,19 +11,24 @@ Items with :green_heart: indicate open source projects.
 
 ### Recent Additions (Last 7 Days)
 
-- 2026-03-16 - [Beeps](https://beeps.ai/) (Incident Response)
-- 2026-03-16 - [BigPanda](https://www.bigpanda.io) (AIOps)
-- 2026-03-16 - [Causely](https://www.causely.ai) (Observability)
-- 2026-03-16 - [Ciroos](https://ciroos.ai) (AIOps)
-- 2026-03-16 - [Cleric](https://cleric.ai) (Incident Response)
+- 2026-03-16 - [Agent SRE](https://agentsre.ai) (Incident Response)
+- 2026-03-16 - [AlertD](https://alertd.ai) (Incident Response)
+- 2026-03-16 - [AutonomOps AI](https://autonomops.ai) (Incident Response)
+- 2026-03-16 - [Azure SRE Agent](https://azure.microsoft.com/products/sre-agent) (Incident Response)
+- 2026-03-16 - [Bacca.ai](https://www.bacca.ai) (Incident Response)
 
-Jump to: [Incident Response](#incident-response) | [Observability](#observability) | [AIOps](#aiops) | [IDP](#idp) | [IaC](#iac) | [Security](#security) | [Deployment](#deployment) | [Other](#other)
+Jump to: [Incident Response](#incident-response) | [Observability](#observability) | [AIOps](#aiops) | [IDP](#idp) | [IaC](#iac) | [Security](#security) | [Deployment](#deployment)
 
 <a id="incident-response"></a>
-### Incident Response (25)
+### Incident Response (30)
 
 | Name | Summary | Deployment | Links |
 | --- | --- | --- | --- |
+| [Agent SRE](https://agentsre.ai) | AgentSRE is built for enterprises that can't afford downtime. A fleet of AI agents automates detection, root cause analysis, and remediation - delivering faster recovery, lower cloud costs, and resilient operations. | Hybrid | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://agentsre.ai) |
+| [AlertD](https://alertd.ai) | AlertD is an agentic AI teammate for SRE and DevOps on AWS, cutting alert noise and dashboard fatigue while delivering contextual answers and automated actions. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://alertd.ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/alertd) |
+| [AutonomOps AI](https://autonomops.ai) | Autonomous operations platform that applies AI to improve SRE and incident management workflows. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://autonomops.ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/autonomops-ai/) |
+| [Azure SRE Agent](https://azure.microsoft.com/products/sre-agent) | AI-powered reliability assistant for Azure that automates incident response, root-cause analysis, and mitigation workflows. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://azure.microsoft.com/products/sre-agent) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/microsoft/sre-agent) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/microsoft) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://x.com/azure) |
+| [Bacca.ai](https://www.bacca.ai) | Cut downtime with AI SRE Tool. Automate monitoring, pinpoint root causes, fix errors and optimize site performance. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://www.bacca.ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/bacca-ai) |
 | [Beeps](https://beeps.ai/) | AI-powered operations assistant focused on helping teams handle alerts and incident workflows faster. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://beeps.ai/) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/beepsdev/) |
 | [Cleric](https://cleric.ai) | Cleric is an autonomous AI SRE that helps engineering teams quickly diagnose production issues in complex cloud-native environments. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://cleric.ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/cleric-ai) |
 | [DrDroid](https://drdroid.io) | AI that understands your production system, infrastructure, applications, and business context to investigate incidents and explain root causes. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://drdroid.io) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/DrDroidLab) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/dr-droid) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://x.com/DrDroidDev) |
@@ -136,18 +141,5 @@ Jump to: [Incident Response](#incident-response) | [Observability](#observabilit
 | [Cutover](https://www.cutover.com) | Cutover's cloud-hosted Collaborative Automation platform connects teams and technology, helping you manage disaster recovery, migration, and release. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://www.cutover.com) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/cutover/) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://twitter.com/gocutover) |
 | [Lens K8s IDE](https://lenshq.io/products/lens-k8s-ide) | Kubernetes IDE for cluster operations and troubleshooting with AI-assisted diagnostics via Lens Prism. | Hybrid | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://lenshq.io/products/lens-k8s-ide) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/lensapp/lens) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/k8slens) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://x.com/k8slens) |
 | :green_heart:[Skyflo.ai](https://skyflo.ai) | Skyflo is an open-source AI agent for DevOps and cloud operations. It plans, executes, and verifies infrastructure changes across Kubernetes, CI/CD, and cloud platforms. | Hybrid | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://skyflo.ai) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/skyflo-ai) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://x.com/skyflo_ai) |
-
-<p align="left"><a href="#tools">Back to top ↑</a></p>
-
-<a id="other"></a>
-### Other (5)
-
-| Name | Summary | Deployment | Links |
-| --- | --- | --- | --- |
-| [Agent SRE](undefined) | AgentSRE is built for enterprises that can’t afford downtime. A fleet of AI agents automates detection, root cause analysis, and remediation - delivering faster recovery, lower cloud costs, and resilient operations | Hybrid | - |
-| [AlertD](undefined) | AlertD is an agentic AI teammate for SRE and DevOps on AWS, cutting alert noise and dashboard fatigue while delivering contextual answers and automated actions. | SaaS | - |
-| [AutonomOps AI](undefined) | Autonomous operations platform that applies AI to improve SRE and incident management workflows. | SaaS | - |
-| [Azure SRE Agent](undefined) | AI-powered reliability assistant for Azure that automates incident response, root-cause analysis, and mitigation workflows. | SaaS | - |
-| [Bacca.ai](undefined) | Cut downtime with AI SRE Tool. Automate monitoring, pinpoint root causes, fix errors and optimize site performance. Try it now! | SaaS | - |
 
 <p align="left"><a href="#tools">Back to top ↑</a></p>

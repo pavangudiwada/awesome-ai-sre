@@ -12,6 +12,9 @@ tags:
   - AIOps
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/sherlocks-ai.png
+logo: /logos/sherlocks-ai.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Investigates incidents using AI-assisted analysis
   - Correlates operational data to identify likely causes

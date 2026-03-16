@@ -10,6 +10,9 @@ tags:
   - Incident Response
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/kura.png
+logo: /logos/kura.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Helps automate operational response tasks
   - Improves incident investigation speed with AI support

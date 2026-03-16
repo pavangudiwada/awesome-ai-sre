@@ -14,6 +14,9 @@ tags:
   - Observability
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/robusta.png
+logo: /logos/robusta.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Detects Kubernetes issues automatically
   - Suggests remediation actions

@@ -12,6 +12,9 @@ tags:
   - Incident Response
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/sentry.png
+logo: /logos/sentry.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Captures errors and performance issues in production
   - Prioritizes issues with rich diagnostic context

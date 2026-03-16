@@ -10,6 +10,9 @@ tags:
   - Incident Response
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/deeptrace.png
+logo: /logos/deeptrace.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Helps analyze telemetry during production incidents
   - Surfaces insights to accelerate root cause identification

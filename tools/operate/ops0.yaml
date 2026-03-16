@@ -13,6 +13,9 @@ tags:
   - AIOps
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/ops0.png
+logo: /logos/ops0.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Generates and manages CI/CD pipelines from natural language descriptions
   - Analyzes logs, events, and metrics to find root causes and propose fixes

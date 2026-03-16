@@ -3,13 +3,11 @@
 const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
-const { parse } = require("node-html-parser");
 const puppeteer = require("puppeteer");
 
 const ROOT = path.resolve(__dirname, "..");
 const TOOLS_DIR = path.join(ROOT, "tools", "operate");
 const SCREENSHOT_DIR = path.join(ROOT, "public", "screenshots");
-const LOGO_DIR = path.join(ROOT, "public", "logos");
 const SCREENSHOT_WIDTH = 1280;
 const SCREENSHOT_HEIGHT = 800;
 const TODAY = new Date().toISOString().slice(0, 10);
@@ -17,7 +15,7 @@ const STALE_DAYS = 30;
 const USER_AGENT = "awesome-ai-sre-image-fetcher/1.0";
 
 function parseArgs(argv) {
-  const args = { limit: null, slug: null, force: false };
+  const args = { limit: null, slug: null, force: false, batch: null, delay: 3000 };
 
   for (let i = 0; i < argv.length; i += 1) {
     const value = argv[i];
@@ -28,6 +26,12 @@ function parseArgs(argv) {
       i += 1;
     } else if (value === "--slug") {
       args.slug = argv[i + 1] || null;
+      i += 1;
+    } else if (value === "--batch") {
+      args.batch = Number.parseInt(argv[i + 1], 10);
+      i += 1;
+    } else if (value === "--delay") {
+      args.delay = Number.parseInt(argv[i + 1], 10);
       i += 1;
     }
   }
@@ -63,91 +67,6 @@ function shouldFetch(tool, force) {
   return isStale(tool.screenshot_last_fetched);
 }
 
-function withTimeout(url, options = {}, timeoutMs = 15000) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-  return fetch(url, {
-    ...options,
-    headers: {
-      "user-agent": USER_AGENT,
-      ...(options.headers || {}),
-    },
-    signal: controller.signal,
-  }).finally(() => clearTimeout(timer));
-}
-
-function absolutize(baseUrl, value) {
-  if (!value || typeof value !== "string") return null;
-  try {
-    return new URL(value.trim(), baseUrl).toString();
-  } catch {
-    return null;
-  }
-}
-
-async function fetchHtml(url) {
-  try {
-    const response = await withTimeout(url, { redirect: "follow" });
-    if (!response.ok) return null;
-    return await response.text();
-  } catch {
-    return null;
-  }
-}
-
-async function fetchBinary(url) {
-  try {
-    const response = await withTimeout(url, { redirect: "follow" });
-    if (!response.ok) return null;
-    const contentType = (response.headers.get("content-type") || "").toLowerCase();
-    return {
-      buffer: Buffer.from(await response.arrayBuffer()),
-      contentType,
-    };
-  } catch {
-    return null;
-  }
-}
-
-function logoExtensionFromContentType(url, contentType) {
-  if (contentType.includes("image/png")) return "png";
-  if (contentType.includes("image/svg")) return "svg";
-  try {
-    const pathname = new URL(url).pathname.toLowerCase();
-    if (pathname.endsWith(".png")) return "png";
-    if (pathname.endsWith(".svg")) return "svg";
-  } catch {}
-  return null;
-}
-
-async function fetchLogoAsset(tool) {
-  const html = await fetchHtml(tool.url);
-  if (html) {
-    const root = parse(html);
-    const ogImage =
-      root.querySelector('meta[property="og:image"]')?.getAttribute("content") ||
-      root.querySelector('meta[name="og:image"]')?.getAttribute("content");
-
-    const ogUrl = absolutize(tool.url, ogImage);
-    if (ogUrl) {
-      const asset = await fetchBinary(ogUrl);
-      if (asset) {
-        const ext = logoExtensionFromContentType(ogUrl, asset.contentType);
-        if (ext === "png" || ext === "svg") {
-          return { ext, buffer: asset.buffer };
-        }
-      }
-    }
-  }
-
-  const faviconUrl = `https://www.google.com/s2/favicons?sz=128&domain_url=${encodeURIComponent(tool.url)}`;
-  const favicon = await fetchBinary(faviconUrl);
-  if (favicon) {
-    return { ext: "png", buffer: favicon.buffer };
-  }
-
-  return null;
-}
 
 function orderedTool(tool) {
   const result = {
@@ -163,7 +82,6 @@ function orderedTool(tool) {
   };
 
   if (tool.screenshot) result.screenshot = tool.screenshot;
-  if (tool.logo) result.logo = tool.logo;
   if (tool.screenshot_last_fetched) result.screenshot_last_fetched = tool.screenshot_last_fetched;
   if (Array.isArray(tool.features) && tool.features.length > 0) result.features = tool.features;
   if (tool.linkedin) result.linkedin = tool.linkedin;
@@ -177,7 +95,6 @@ async function main() {
   const args = parseArgs(process.argv.slice(2));
 
   fs.mkdirSync(SCREENSHOT_DIR, { recursive: true });
-  fs.mkdirSync(LOGO_DIR, { recursive: true });
 
   let files = getToolFiles();
   if (args.slug) {
@@ -195,55 +112,67 @@ async function main() {
   const failed = [];
   const updated = [];
 
+  async function processTool(filePath) {
+    const tool = loadTool(filePath);
+    if (!tool || !tool.slug || !tool.url) {
+      failed.push(`${path.basename(filePath)}: missing slug or url`);
+      return;
+    }
+
+    if (!shouldFetch(tool, args.force)) {
+      return;
+    }
+
+    try {
+      const page = await browser.newPage();
+      await page.setUserAgent(USER_AGENT);
+      await page.setViewport({ width: SCREENSHOT_WIDTH, height: SCREENSHOT_HEIGHT });
+      await page.goto(tool.url, { waitUntil: "networkidle2", timeout: 30000 });
+
+      const screenshotPath = path.join(SCREENSHOT_DIR, `${tool.slug}.png`);
+      await page.screenshot({
+        path: screenshotPath,
+        type: "png",
+        clip: { x: 0, y: 0, width: SCREENSHOT_WIDTH, height: SCREENSHOT_HEIGHT },
+      });
+      await page.close();
+
+      tool.screenshot = `/screenshots/${tool.slug}.png`;
+      tool.screenshot_last_fetched = TODAY;
+
+      fs.writeFileSync(
+        filePath,
+        yaml.dump(orderedTool(tool), {
+          lineWidth: 120,
+          noRefs: true,
+          sortKeys: false,
+        })
+      );
+
+      updated.push(tool.slug);
+      console.log(`  ✓ ${tool.slug}`);
+    } catch (error) {
+      failed.push(`${tool.slug}: ${error.message}`);
+      console.log(`  ✗ ${tool.slug}: ${error.message}`);
+    }
+  }
+
   try {
-    for (const filePath of files) {
-      const tool = loadTool(filePath);
-      if (!tool || !tool.slug || !tool.url) {
-        failed.push(`${path.basename(filePath)}: missing slug or url`);
-        continue;
-      }
-
-      if (!shouldFetch(tool, args.force)) {
-        continue;
-      }
-
-      try {
-        const page = await browser.newPage();
-        await page.setUserAgent(USER_AGENT);
-        await page.setViewport({ width: SCREENSHOT_WIDTH, height: SCREENSHOT_HEIGHT });
-        await page.goto(tool.url, { waitUntil: "networkidle2", timeout: 30000 });
-        await page.evaluate(() => window.scrollBy(0, 180));
-
-        const screenshotPath = path.join(SCREENSHOT_DIR, `${tool.slug}.png`);
-        await page.screenshot({
-          path: screenshotPath,
-          type: "png",
-          clip: { x: 0, y: 0, width: SCREENSHOT_WIDTH, height: SCREENSHOT_HEIGHT },
-        });
-        await page.close();
-
-        tool.screenshot = `/screenshots/${tool.slug}.png`;
-        tool.screenshot_last_fetched = TODAY;
-
-        const logoAsset = await fetchLogoAsset(tool);
-        if (logoAsset) {
-          const logoPath = path.join(LOGO_DIR, `${tool.slug}.${logoAsset.ext}`);
-          fs.writeFileSync(logoPath, logoAsset.buffer);
-          tool.logo = `/logos/${tool.slug}.${logoAsset.ext}`;
+    if (args.batch && args.batch > 0) {
+      for (let i = 0; i < files.length; i += args.batch) {
+        const chunk = files.slice(i, i + args.batch);
+        console.log(`Batch ${Math.floor(i / args.batch) + 1}: processing ${chunk.length} tool(s)...`);
+        for (const filePath of chunk) {
+          await processTool(filePath);
         }
-
-        fs.writeFileSync(
-          filePath,
-          yaml.dump(orderedTool(tool), {
-            lineWidth: 120,
-            noRefs: true,
-            sortKeys: false,
-          })
-        );
-
-        updated.push(tool.slug);
-      } catch (error) {
-        failed.push(`${tool.slug}: ${error.message}`);
+        if (i + args.batch < files.length) {
+          console.log(`  Pausing ${args.delay}ms before next batch...`);
+          await new Promise((resolve) => setTimeout(resolve, args.delay));
+        }
+      }
+    } else {
+      for (const filePath of files) {
+        await processTool(filePath);
       }
     }
   } finally {

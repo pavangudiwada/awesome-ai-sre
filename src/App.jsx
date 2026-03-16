@@ -167,7 +167,6 @@ function buildToolsData() {
       tags,
       primaryTag,
       screenshot: typeof parsed.screenshot === "string" ? parsed.screenshot : "",
-      logo: typeof parsed.logo === "string" ? parsed.logo : "",
       claimed: !!parsed.claimed,
       dateAdded: normalizeDate(parsed.dateAdded),
       features: Array.isArray(parsed.features) ? parsed.features.slice(0, 3) : [],
@@ -207,13 +206,13 @@ function favicon(url) {
 
 function ToolLogo({ tool, size = 28 }) {
   const color = TAG_META[tool.primaryTag]?.color || "#00ff88";
-  const [mode, setMode] = useState(tool.logo ? "logo" : "favicon");
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    setMode(tool.logo ? "logo" : "favicon");
-  }, [tool.logo, tool.url]);
+    setFailed(false);
+  }, [tool.url]);
 
-  if (mode === "letter") {
+  if (failed) {
     return (
       <span
         style={{
@@ -236,12 +235,11 @@ function ToolLogo({ tool, size = 28 }) {
     );
   }
 
-  const src = mode === "logo" ? tool.logo : favicon(tool.url);
   return (
     <img
-      src={src}
+      src={favicon(tool.url)}
       alt=""
-      onError={() => setMode((current) => (current === "logo" ? "favicon" : "letter"))}
+      onError={() => setFailed(true)}
       style={{
         width: `${size}px`,
         height: `${size}px`,

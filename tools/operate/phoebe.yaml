@@ -12,6 +12,9 @@ tags:
   - AIOps
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/phoebe.png
+logo: /logos/phoebe.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Assists engineers during production incident investigations
   - Provides context-aware troubleshooting guidance

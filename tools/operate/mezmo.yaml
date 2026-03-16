@@ -12,6 +12,9 @@ tags:
   - AIOps
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/mezmo.png
+logo: /logos/mezmo.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Centralizes logs and observability data pipelines
   - Improves signal quality for incident investigations

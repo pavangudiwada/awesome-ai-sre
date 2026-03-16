@@ -12,6 +12,9 @@ tags:
   - AIOps
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/robinrelay.png
+logo: /logos/robinrelay.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Routes and contextualizes alerts for responders
   - Helps coordinate response actions across teams

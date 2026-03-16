@@ -13,6 +13,9 @@ tags:
   - Observability
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/holmesgpt.png
+logo: /logos/holmesgpt.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Iterative investigation loop that gathers more telemetry until it reaches a confident root cause
   - Connects to Kubernetes, logging, and monitoring tools via extensible integrations

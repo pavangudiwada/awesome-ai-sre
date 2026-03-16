@@ -13,6 +13,9 @@ tags:
   - FinOps
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/komodor.png
+logo: /logos/komodor.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Provides cluster context for faster incident triage
   - Tracks changes to identify causes of outages

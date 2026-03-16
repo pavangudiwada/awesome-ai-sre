@@ -13,6 +13,9 @@ tags:
   - AIOps
 dateAdded: '2026-03-09'
 claimed: false
+screenshot: /screenshots/stackgen.png
+logo: /logos/stackgen.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Automates self-service infrastructure provisioning with governance controls
   - Turns DevOps knowledge into reusable skills, tasks, and integrations

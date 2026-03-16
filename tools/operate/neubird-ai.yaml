@@ -12,6 +12,9 @@ tags:
   - AIOps
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/neubird-ai.png
+logo: /logos/neubird-ai.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Investigates alerts and operational anomalies
   - Assists with root cause analysis across systems

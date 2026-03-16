@@ -10,6 +10,9 @@ tags:
   - AIOps
 dateAdded: '2026-03-16'
 claimed: false
+screenshot: /screenshots/resolve-ai.png
+logo: /logos/resolve-ai.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Automates routine operational and response tasks
   - Supports incident workflows with AI-driven actions
