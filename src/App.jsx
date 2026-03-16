@@ -274,7 +274,7 @@ function ScreenshotSurface({ tool, height = 180, compact = false }) {
           width: "100%",
           height: `${height}px`,
           objectFit: "cover",
-          objectPosition: "top left",
+          objectPosition: "15% top",
           display: "block",
         }}
       />

@@ -212,6 +212,7 @@ async function main() {
         await page.setUserAgent(USER_AGENT);
         await page.setViewport({ width: SCREENSHOT_WIDTH, height: SCREENSHOT_HEIGHT });
         await page.goto(tool.url, { waitUntil: "networkidle2", timeout: 30000 });
+        await page.evaluate(() => window.scrollBy(0, 180));
 
         const screenshotPath = path.join(SCREENSHOT_DIR, `${tool.slug}.png`);
         await page.screenshot({
