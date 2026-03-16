@@ -316,6 +316,8 @@ function FilterRail({
   onToggleCategory,
   ossOnly,
   onToggleOss,
+  newOnly,
+  onToggleNewOnly,
   mobile,
   onClose,
 }) {
@@ -407,6 +409,21 @@ function FilterRail({
         OPEN SOURCE
       </div>
       <ToggleRow enabled={ossOnly} onToggle={onToggleOss} label="Only open source tools" />
+
+      <div style={{ height: "1px", background: "rgba(255,255,255,0.08)", margin: "18px 0 16px" }} />
+
+      <div
+        style={{
+          color: "var(--text-muted)",
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: "9px",
+          letterSpacing: "2px",
+          marginBottom: "10px",
+        }}
+      >
+        NEW
+      </div>
+      <ToggleRow enabled={newOnly} onToggle={onToggleNewOnly} label="Only newly added tools" />
     </aside>
   );
 }
@@ -1272,6 +1289,7 @@ function AppFrame() {
   const [search, setSearch] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [ossOnly, setOssOnly] = useState(false);
+  const [newOnly, setNewOnly] = useState(false);
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== "undefined" ? window.innerWidth < 768 : false
   );
@@ -1311,6 +1329,13 @@ function AppFrame() {
       navigate("/");
     }
     setOssOnly((current) => !current);
+  }, [navigate, routeSlug]);
+
+  const toggleNewOnly = useCallback(() => {
+    if (routeSlug) {
+      navigate("/");
+    }
+    setNewOnly((current) => !current);
   }, [navigate, routeSlug]);
 
   useEffect(() => {
@@ -1400,6 +1425,10 @@ function AppFrame() {
         return false;
       }
 
+      if (newOnly && !WHATS_NEW_SLUGS.has(tool.slug)) {
+        return false;
+      }
+
       if (!normalizedSearch) {
         return true;
       }
@@ -1464,6 +1493,8 @@ function AppFrame() {
             onToggleCategory={toggleCategory}
             ossOnly={ossOnly}
             onToggleOss={toggleOss}
+            newOnly={newOnly}
+            onToggleNewOnly={toggleNewOnly}
             mobile
             onClose={() => setFiltersOpen(false)}
           />
@@ -1521,6 +1552,8 @@ function AppFrame() {
                 onToggleCategory={toggleCategory}
                 ossOnly={ossOnly}
                 onToggleOss={toggleOss}
+                newOnly={newOnly}
+                onToggleNewOnly={toggleNewOnly}
                 mobile={false}
               />
             )}
@@ -1580,6 +1613,11 @@ function AppFrame() {
                 {ossOnly && (
                   <span style={{ color: "#00ff88", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px" }}>
                     OSS only
+                  </span>
+                )}
+                {newOnly && (
+                  <span style={{ color: "#00d4ff", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px" }}>
+                    New only
                   </span>
                 )}
               </div>
