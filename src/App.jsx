@@ -264,7 +264,7 @@ function CheckboxBadge({ category, checked, onToggle }) {
   );
 }
 
-function OssToggle({ enabled, onToggle }) {
+function ToggleRow({ enabled, onToggle, label }) {
   return (
     <button
       className="pressable pressable--chip"
@@ -281,7 +281,7 @@ function OssToggle({ enabled, onToggle }) {
         justifyContent: "space-between",
       }}
     >
-      <span style={{ color: "var(--text-secondary)", fontSize: "12px" }}>Only open source tools</span>
+      <span style={{ color: "var(--text-secondary)", fontSize: "12px" }}>{label}</span>
       <span
         style={{
           width: "42px",
@@ -311,7 +311,16 @@ function OssToggle({ enabled, onToggle }) {
   );
 }
 
-function FilterRail({ selectedCategories, onToggleCategory, ossOnly, onToggleOss, mobile, onClose }) {
+function FilterRail({
+  selectedCategories,
+  onToggleCategory,
+  ossOnly,
+  onToggleOss,
+  newOnly,
+  onToggleNewOnly,
+  mobile,
+  onClose,
+}) {
   return (
     <aside
       data-filter-rail="true"
@@ -399,90 +408,257 @@ function FilterRail({ selectedCategories, onToggleCategory, ossOnly, onToggleOss
       >
         OPEN SOURCE
       </div>
-      <OssToggle enabled={ossOnly} onToggle={onToggleOss} />
+      <ToggleRow enabled={ossOnly} onToggle={onToggleOss} label="Only open source tools" />
+
+      <div style={{ height: "1px", background: "rgba(255,255,255,0.08)", margin: "18px 0 16px" }} />
+
+      <div
+        style={{
+          color: "var(--text-muted)",
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: "9px",
+          letterSpacing: "2px",
+          marginBottom: "10px",
+        }}
+      >
+        NEW
+      </div>
+      <ToggleRow enabled={newOnly} onToggle={onToggleNewOnly} label="Only newly added tools" />
     </aside>
   );
 }
 
-function WhatsNewBanner({ tools, rangeDays, onSelectTool }) {
+function TopBannerCarousel({ items, activeIndex, onSelectIndex, onSelectTool }) {
   return (
     <section
       style={{
-        background: "rgba(0,255,136,0.04)",
-        borderBottom: "1px solid rgba(0,255,136,0.15)",
-        padding: "14px 20px",
-        marginBottom: "26px",
+        position: "relative",
+        overflow: "hidden",
+        background: "linear-gradient(135deg, rgba(0,255,136,0.08) 0%, rgba(0,212,255,0.07) 100%)",
+        border: "1px solid rgba(0,255,136,0.18)",
+        boxShadow: "0 18px 40px rgba(0,0,0,0.24)",
+        borderRadius: "12px",
+        marginTop: "14px",
+        marginBottom: "14px",
       }}
     >
-      <div style={{ display: "flex", gap: "12px", alignItems: "flex-start", flexWrap: "wrap" }}>
-        <span
-          style={{
-            color: "#00ff88",
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "10px",
-            letterSpacing: "2px",
-            paddingTop: "6px",
-          }}
-        >
-          RECENT ADDITIONS
-        </span>
-        <span
-          style={{
-            color: "var(--text-muted)",
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "9px",
-            letterSpacing: "1px",
-            paddingTop: "7px",
-          }}
-        >
-          LAST {rangeDays} DAYS
-        </span>
-        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", flex: 1 }}>
-          {tools.map((tool) => (
-            <div
-              key={tool.slug}
+      <div
+        style={{
+          display: "flex",
+          width: `${items.length * 100}%`,
+          transform: `translateX(-${activeIndex * (100 / items.length)}%)`,
+          transition: "transform 0.45s ease",
+        }}
+      >
+        {items.map((item) => (
+          <div
+            key={item.id}
+            style={{
+              width: `${100 / items.length}%`,
+              flexShrink: 0,
+              padding: "12px 14px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "12px",
+              flexWrap: "wrap",
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "column", gap: "4px", maxWidth: "760px" }}>
+              <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
+                <span
+                  style={{
+                    color: "#00ff88",
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: "9px",
+                    letterSpacing: "2px",
+                  }}
+                >
+                  {item.eyebrow}
+                </span>
+                {item.meta && (
+                  <span
+                    style={{
+                      color: "var(--text-muted)",
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: "8px",
+                      letterSpacing: "1px",
+                    }}
+                  >
+                    {item.meta}
+                  </span>
+                )}
+              </div>
+              <p style={{ margin: 0, color: "var(--text-primary)", fontSize: "13px", lineHeight: 1.45 }}>
+                {item.message}
+              </p>
+              {item.type === "recent" && item.tools.length > 0 && (
+                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                  {item.tools.map((tool) => (
+                    <div
+                      key={tool.slug}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "8px",
+                      }}
+                    >
+                      <span
+                        style={{
+                          padding: "2px 8px",
+                          borderRadius: "999px",
+                          background: "rgba(0,255,136,0.14)",
+                          color: "#00ff88",
+                          border: "1px solid rgba(0,255,136,0.25)",
+                          fontFamily: "'JetBrains Mono', monospace",
+                          fontSize: "8px",
+                          letterSpacing: "0.8px",
+                        }}
+                      >
+                        NEW
+                      </span>
+                      <button
+                        className="pressable pressable--chip"
+                        type="button"
+                        onClick={() => onSelectTool(tool)}
+                        style={{
+                          background: "transparent",
+                          border: "none",
+                          color: "var(--text-primary)",
+                          padding: 0,
+                          cursor: "pointer",
+                          fontSize: "12px",
+                        }}
+                      >
+                        {tool.name}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <a
+              className="pressable pressable--strong"
+              href={item.cta.href}
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                padding: "4px 0",
+                background: "#00ff88",
+                color: "#0a0a0a",
+                padding: "8px 12px",
+                borderRadius: "6px",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "9px",
+                fontWeight: 700,
+                textDecoration: "none",
+                letterSpacing: "1px",
+                whiteSpace: "nowrap",
               }}
             >
-              <span
-                style={{
-                  padding: "2px 8px",
-                  borderRadius: "999px",
-                  background: "rgba(0,255,136,0.14)",
-                  color: "#00ff88",
-                  border: "1px solid rgba(0,255,136,0.25)",
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: "8px",
-                  letterSpacing: "0.8px",
-                }}
-              >
-                NEW
-              </span>
-              <button
-                className="pressable pressable--chip"
-                type="button"
-                onClick={() => onSelectTool(tool)}
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  color: "var(--text-primary)",
-                  padding: 0,
-                  cursor: "pointer",
-                  fontSize: "12px",
-                }}
-              >
-                {tool.name}
-              </button>
-            </div>
+              {item.cta.label}
+            </a>
+          </div>
+        ))}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "12px",
+          padding: "0 14px 10px",
+        }}
+      >
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          {items.map((item, index) => (
+            <button
+              key={item.id}
+              type="button"
+              aria-label={`Show banner ${index + 1}`}
+              onClick={() => onSelectIndex(index)}
+              style={{
+                width: index === activeIndex ? "20px" : "8px",
+                height: "8px",
+                borderRadius: "999px",
+                border: "none",
+                padding: 0,
+                cursor: "pointer",
+                background: index === activeIndex ? "#00ff88" : "rgba(255,255,255,0.2)",
+                transition: "all 0.2s ease",
+              }}
+            />
           ))}
+        </div>
+        <div style={{ display: "flex", gap: "8px" }}>
+          <button
+            className="pressable pressable--chip"
+            type="button"
+            onClick={() => onSelectIndex((activeIndex - 1 + items.length) % items.length)}
+            style={{
+              background: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.14)",
+              color: "var(--text-primary)",
+              width: "28px",
+              height: "28px",
+              borderRadius: "999px",
+              cursor: "pointer",
+            }}
+          >
+            ←
+          </button>
+          <button
+            className="pressable pressable--chip"
+            type="button"
+            onClick={() => onSelectIndex((activeIndex + 1) % items.length)}
+            style={{
+              background: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.14)",
+              color: "var(--text-primary)",
+              width: "28px",
+              height: "28px",
+              borderRadius: "999px",
+              cursor: "pointer",
+            }}
+          >
+            →
+          </button>
         </div>
       </div>
     </section>
   );
+}
+
+function buildTopBannerItems(tools, rangeDays) {
+  const items = [
+    {
+      id: "kubecon-eu",
+      type: "cta",
+      eyebrow: "KUBECON EU",
+      meta: null,
+      message: "Attending KubeCon EU? If you are an AI SRE practitioner or vendor, let’s connect.",
+      cta: {
+        href: "https://www.linkedin.com/in/pavangudiwada/",
+        label: "CONNECT WITH PAVAN",
+      },
+    },
+  ];
+
+  if (tools.length > 0) {
+    items.push({
+      id: "recent-additions",
+      type: "recent",
+      eyebrow: "RECENT ADDITIONS",
+      meta: `LAST ${rangeDays} DAYS`,
+      message: "New tools landed in the watchlist recently.",
+      tools,
+      cta: {
+        href: "https://www.linkedin.com/company/ai-sre-watchlist",
+        label: "FOLLOW THE WATCHLIST",
+      },
+    });
+  }
+
+  return items;
 }
 
 function ScreenshotCard({ tool, isSelected, onClick, category, isNew }) {
@@ -1113,10 +1289,13 @@ function AppFrame() {
   const [search, setSearch] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [ossOnly, setOssOnly] = useState(false);
+  const [newOnly, setNewOnly] = useState(false);
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== "undefined" ? window.innerWidth < 768 : false
   );
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [activeBannerIndex, setActiveBannerIndex] = useState(0);
+  const bannerItems = buildTopBannerItems(WHATS_NEW, WHATS_NEW_META.rangeDays);
   const selectedTool = activeTool ? { tool: activeTool, category: activeTool.category } : null;
   const closeSelectedTool = useCallback(() => {
     navigate("/");
@@ -1150,6 +1329,22 @@ function AppFrame() {
       navigate("/");
     }
     setOssOnly((current) => !current);
+  }, [navigate, routeSlug]);
+
+  const toggleNewOnly = useCallback(() => {
+    if (routeSlug) {
+      navigate("/");
+    }
+    setNewOnly((current) => !current);
+  }, [navigate, routeSlug]);
+
+  const clearAllFilters = useCallback(() => {
+    if (routeSlug) {
+      navigate("/");
+    }
+    setSelectedCategories([]);
+    setOssOnly(false);
+    setNewOnly(false);
   }, [navigate, routeSlug]);
 
   useEffect(() => {
@@ -1208,6 +1403,26 @@ function AppFrame() {
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, [closeSelectedTool, selectedTool, filtersOpen]);
 
+  useEffect(() => {
+    if (activeBannerIndex < bannerItems.length) {
+      return;
+    }
+
+    setActiveBannerIndex(0);
+  }, [activeBannerIndex, bannerItems.length]);
+
+  useEffect(() => {
+    if (bannerItems.length <= 1) {
+      return undefined;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setActiveBannerIndex((current) => (current + 1) % bannerItems.length);
+    }, 5000);
+
+    return () => window.clearInterval(intervalId);
+  }, [bannerItems.length]);
+
   const normalizedSearch = search.trim().toLowerCase();
   const filteredGroups = CATEGORY_ORDER.reduce((groups, category) => {
     if (selectedCategories.length > 0 && !selectedCategories.includes(category)) {
@@ -1216,6 +1431,10 @@ function AppFrame() {
 
     const matches = TOOLS_DATA[category].filter((tool) => {
       if (ossOnly && !tool.opensource) {
+        return false;
+      }
+
+      if (newOnly && !WHATS_NEW_SLUGS.has(tool.slug)) {
         return false;
       }
 
@@ -1238,6 +1457,30 @@ function AppFrame() {
 
   const count = filteredGroups.reduce((total, group) => total + group.tools.length, 0);
   const panelOpen = !!selectedTool;
+  const activeFilterChips = [
+    ...selectedCategories.map((category) => ({
+      key: `category-${category}`,
+      label: category,
+      color: CAT[category].color,
+      onRemove: () => toggleCategory(category),
+    })),
+    ...(ossOnly
+      ? [{
+        key: "oss-only",
+        label: "OSS only",
+        color: "#00ff88",
+        onRemove: toggleOss,
+      }]
+      : []),
+    ...(newOnly
+      ? [{
+        key: "new-only",
+        label: "New only",
+        color: "#00d4ff",
+        onRemove: toggleNewOnly,
+      }]
+      : []),
+  ];
 
   return (
     <div style={{ minHeight: "100vh", background: "#0a0a0a", color: "var(--text-primary)", fontFamily: "'Inter', sans-serif" }}>
@@ -1283,6 +1526,8 @@ function AppFrame() {
             onToggleCategory={toggleCategory}
             ossOnly={ossOnly}
             onToggleOss={toggleOss}
+            newOnly={newOnly}
+            onToggleNewOnly={toggleNewOnly}
             mobile
             onClose={() => setFiltersOpen(false)}
           />
@@ -1297,9 +1542,12 @@ function AppFrame() {
         }}
       >
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: isMobile ? "0 16px 0" : "0 28px 0" }}>
-          {WHATS_NEW.length > 0 && (
-            <WhatsNewBanner tools={WHATS_NEW} rangeDays={WHATS_NEW_META.rangeDays} onSelectTool={openToolFromBanner} />
-          )}
+          <TopBannerCarousel
+            items={bannerItems}
+            activeIndex={activeBannerIndex}
+            onSelectIndex={setActiveBannerIndex}
+            onSelectTool={openToolFromBanner}
+          />
           <header style={{ paddingTop: "26px", paddingBottom: "28px" }}>
             <div style={{ marginBottom: "8px" }}>
               <span style={{ color: "#00ff88", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "4px" }}>AI SRE /// WATCHLIST</span>
@@ -1337,6 +1585,8 @@ function AppFrame() {
                 onToggleCategory={toggleCategory}
                 ossOnly={ossOnly}
                 onToggleOss={toggleOss}
+                newOnly={newOnly}
+                onToggleNewOnly={toggleNewOnly}
                 mobile={false}
               />
             )}
@@ -1398,6 +1648,11 @@ function AppFrame() {
                     OSS only
                   </span>
                 )}
+                {newOnly && (
+                  <span style={{ color: "#00d4ff", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px" }}>
+                    New only
+                  </span>
+                )}
               </div>
 
               {filteredGroups.map(({ category, tools }) => (
@@ -1432,7 +1687,52 @@ function AppFrame() {
               {count === 0 && (
                 <div style={{ border: "1px solid rgba(255,255,255,0.07)", background: "rgba(255,255,255,0.02)", borderRadius: "10px", padding: "18px 16px", marginBottom: "40px" }}>
                   <div style={{ color: "var(--text-primary)", fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", marginBottom: "6px" }}>NO MATCHES</div>
-                  <div style={{ color: "var(--text-secondary)", fontSize: "12px", lineHeight: 1.6 }}>Try clearing search terms or relaxing the category and open source filters.</div>
+                  <div style={{ color: "var(--text-secondary)", fontSize: "12px", lineHeight: 1.6 }}>Try clearing search terms or relaxing the active filters.</div>
+                  {activeFilterChips.length > 0 && (
+                    <div style={{ marginTop: "14px", display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
+                      {activeFilterChips.map((filter) => (
+                        <button
+                          key={filter.key}
+                          className="pressable pressable--chip"
+                          type="button"
+                          onClick={filter.onRemove}
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            borderRadius: "999px",
+                            border: `1px solid ${filter.color}40`,
+                            background: `${filter.color}14`,
+                            color: filter.color,
+                            padding: "6px 10px",
+                            cursor: "pointer",
+                            fontFamily: "'JetBrains Mono', monospace",
+                            fontSize: "10px",
+                          }}
+                        >
+                          {filter.label}
+                          <span style={{ color: "var(--text-primary)" }}>×</span>
+                        </button>
+                      ))}
+                      <button
+                        className="pressable pressable--chip"
+                        type="button"
+                        onClick={clearAllFilters}
+                        style={{
+                          borderRadius: "999px",
+                          border: "1px solid rgba(255,255,255,0.16)",
+                          background: "transparent",
+                          color: "var(--text-primary)",
+                          padding: "6px 10px",
+                          cursor: "pointer",
+                          fontFamily: "'JetBrains Mono', monospace",
+                          fontSize: "10px",
+                        }}
+                      >
+                        Clear all filters
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
