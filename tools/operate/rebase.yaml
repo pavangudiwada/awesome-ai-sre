@@ -1,21 +1,20 @@
 name: Rebase
-website: https://rebase.run
-summary: "Every company needs to become an AI company. Rebase is the infrastructure to get there — connect all your systems, access any LLMs, and deploy AI agents across your."
-
-tags:
-  - infrastructure
-  - incident-response
-  - automation
-
+slug: rebase
+url: https://rebase.run
+summary: >-
+  Every company needs to become an AI company. Rebase is the infrastructure to get there — connect all your systems,
+  access any LLMs, and deploy AI agents across your.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - IDP
+  - AIOps
+  - Deployment
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Automates common DevOps and infrastructure tasks via AI-driven workflows
   - Centralizes operations for modern cloud-native environments
   - Integrates with existing tooling to orchestrate deployments and incident actions
-
-links:
-  linkedin: https://www.linkedin.com/company/rebase-ai/
+linkedin: https://www.linkedin.com/company/rebase-ai/

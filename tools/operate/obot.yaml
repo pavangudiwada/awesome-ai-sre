@@ -1,21 +1,17 @@
 name: Obot
-website: https://github.com/obot-platform/obot
+slug: obot
+url: https://github.com/obot-platform/obot
 summary: Open source agent platform for creating, running, and integrating autonomous assistants across workflows.
-
-tags:
-  - infrastructure
-  - incident-response
-  - automation
-
 deployment:
   - hybrid
-
-open_source: true
-
+opensource: true
+tags:
+  - AIOps
+  - IDP
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Builds and manages custom AI agents
   - Integrates agents with external systems and tools
   - Supports self-hosted deployment patterns
-
-links:
-  github: https://github.com/obot-platform/obot
+github: https://github.com/obot-platform/obot

@@ -1,24 +1,20 @@
 name: Lens K8s IDE
-website: https://lenshq.io/products/lens-k8s-ide
+slug: lens-k8s-ide
+url: https://lenshq.io/products/lens-k8s-ide
 summary: Kubernetes IDE for cluster operations and troubleshooting with AI-assisted diagnostics via Lens Prism.
-
-tags:
-  - incident-response
-  - observability
-  - infrastructure
-  - automation
-
 deployment:
   - hybrid
-
-open_source: false
-
+opensource: false
+tags:
+  - Deployment
+  - Observability
+  - Incident Response
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Provides a Kubernetes-native IDE experience for viewing workloads, events, logs, and cluster health in one place
   - Includes Lens Prism AI assistance to explain issues and guide debugging with contextual Kubernetes insights
   - Supports day-2 operations workflows such as troubleshooting, resource management, and multi-cluster navigation
-
-links:
-  github: https://github.com/lensapp/lens
-  linkedin: https://www.linkedin.com/company/k8slens
-  x: https://x.com/k8slens
+linkedin: https://www.linkedin.com/company/k8slens
+github: https://github.com/lensapp/lens
+x: https://x.com/k8slens

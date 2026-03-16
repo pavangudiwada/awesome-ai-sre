@@ -1,21 +1,17 @@
 name: Resolve AI
-website: https://resolve.ai
-summary: "Resolve AI handles all alerts, performs root cause analysis, and troubleshoots incidents within minutes"
-
-tags:
-  - incident-response
-  - infrastructure
-  - automation
-
+slug: resolve-ai
+url: https://resolve.ai
+summary: Resolve AI handles all alerts, performs root cause analysis, and troubleshoots incidents within minutes
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Automates routine operational and response tasks
   - Supports incident workflows with AI-driven actions
   - Integrates with enterprise operations tooling
-
-links:
-  linkedin: https://www.linkedin.com/company/resolveai
+linkedin: https://www.linkedin.com/company/resolveai

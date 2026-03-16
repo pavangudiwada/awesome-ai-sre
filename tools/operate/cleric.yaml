@@ -1,20 +1,19 @@
 name: Cleric
-website: https://cleric.ai
-summary: "Cleric is an autonomous AI SRE that helps engineering teams quickly diagnose production issues in complex cloud-native environments."
-
-tags:
-  - incident-response
-  - infrastructure
-
+slug: cleric
+url: https://cleric.ai
+summary: >-
+  Cleric is an autonomous AI SRE that helps engineering teams quickly diagnose production issues in complex cloud-native
+  environments.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Automatically investigates alerts and identifies likely root causes
   - Learns from feedback and prior incidents to improve over time
   - Delivers concise diagnoses with evidence and fix recommendations directly in Slack
-
-links:
-  linkedin: https://www.linkedin.com/company/cleric-ai
+linkedin: https://www.linkedin.com/company/cleric-ai

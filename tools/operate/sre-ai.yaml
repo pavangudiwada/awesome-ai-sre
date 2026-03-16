@@ -1,23 +1,20 @@
 name: SRE.ai
-website: https://www.sre.ai
-summary: "SRE.ai is the most advanced natural language DevOps platform, powering automation and software delivery for fast-moving organizations at scale, freeing up teams to build."
-
-tags:
-  - infrastructure
-  - incident-response
-  - observability
-  - automation
-
+slug: sre-ai
+url: https://www.sre.ai
+summary: >-
+  SRE.ai is the most advanced natural language DevOps platform, powering automation and software delivery for
+  fast-moving organizations at scale, freeing up teams to build.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - AIOps
+  - Deployment
+  - Incident Response
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Automates parts of incident investigation and triage
   - Provides reliability insights across system telemetry
   - Supports faster operations decision-making
-
-links:
-  linkedin: https://www.linkedin.com/company/sre-ai
-
+linkedin: https://www.linkedin.com/company/sre-ai

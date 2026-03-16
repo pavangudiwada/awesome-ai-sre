@@ -1,21 +1,17 @@
 name: SRE Bench
-website: https://srebench.com/
+slug: sre-bench
+url: https://srebench.com/
 summary: Evaluation and benchmarking platform for SRE agents and operational AI reliability workflows.
-
-tags:
-  - observability
-  - infrastructure
-  - automation
-
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - AIOps
+  - Observability
+dateAdded: '2026-03-16'
+claimed: false
 features:
   - Benchmarks SRE agent performance on reliability tasks
   - Provides repeatable evaluation workflows for agent capabilities
   - Helps teams compare operational AI approaches
-
-links:
-  linkedin: https://www.linkedin.com/company/srebench
+linkedin: https://www.linkedin.com/company/srebench

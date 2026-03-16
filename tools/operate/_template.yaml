@@ -1,38 +1,22 @@
 name: Tool Name
-website: https://example.com
-
-# Required: One-line summary for README.
+slug: tool-name
+url: https://example.com
 summary: One-line summary of what the tool does.
-
-# Optional: Date first added to the watchlist in YYYY-MM-DD format.
-added_at: 2026-03-13
-
-# Required: Exactly one tag for README grouping.
-# Allowed values: incident-response, observability, automation, infrastructure, cost-optimization, security
-# You can add multiple tags. The first tag controls where the tool appears in README.
-tags:
-  - incident-response
-
-# Required: Deployment options.
-# Allowed values: saas, on-prem, hybrid
-# Use one option when possible. Multiple options are allowed and will display as "Multi" in README.
 deployment:
   - saas
-
-# Required: true or false
-open_source: false
-
-# Optional (good to have): up to 3 features.
-# Not displayed in README currently, but will be used in future enhancements.
+opensource: false
+tags:
+  - AIOps
+dateAdded: '2026-03-16'
+claimed: false
+screenshot: /screenshots/tool-name.png
+logo: /logos/tool-name.png
+screenshot_last_fetched: '2026-03-16'
 features:
   - Feature one
   - Feature two
   - Feature three
-
-# Optional (good to have): include only links you have.
-# Supported keys: github, linkedin, x, producthunt
-links:
-  github: https://github.com/org/repo
-  linkedin: https://linkedin.com/company/example
-  x: https://x.com/example
-  producthunt: https://www.producthunt.com/products/example
+linkedin: https://linkedin.com/company/example
+github: https://github.com/org/repo
+x: https://x.com/example
+producthunt: https://www.producthunt.com/products/example

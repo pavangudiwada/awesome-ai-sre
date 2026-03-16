@@ -1,22 +1,20 @@
 name: Kagent
-website: https://kagent.dev
-summary: "Open-source Kubernetes-native framework for building and running AI agents that automate DevOps operations and troubleshooting tasks."
-added_at: 2026-03-08
-
-tags:
-  - infrastructure
-  - automation
-  - observability
-
+slug: kagent
+url: https://kagent.dev
+summary: >-
+  Open-source Kubernetes-native framework for building and running AI agents that automate DevOps operations and
+  troubleshooting tasks.
 deployment:
   - hybrid
-
-open_source: true
-
+opensource: true
+tags:
+  - AIOps
+  - Deployment
+  - Observability
+dateAdded: '2026-03-08'
+claimed: false
 features:
   - Runs AI agents, tools, and models as Kubernetes-native resources
   - Ships MCP tooling for Kubernetes, Istio, Helm, Argo, Prometheus, Grafana, and more
   - Supports OpenTelemetry tracing for agent and tool observability
-
-links:
-  github: https://github.com/kagent-dev/kagent
+github: https://github.com/kagent-dev/kagent
