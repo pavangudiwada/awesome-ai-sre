@@ -1338,6 +1338,15 @@ function AppFrame() {
     setNewOnly((current) => !current);
   }, [navigate, routeSlug]);
 
+  const clearAllFilters = useCallback(() => {
+    if (routeSlug) {
+      navigate("/");
+    }
+    setSelectedCategories([]);
+    setOssOnly(false);
+    setNewOnly(false);
+  }, [navigate, routeSlug]);
+
   useEffect(() => {
     if (routeSlug && !activeTool) {
       navigate("/", { replace: true });
@@ -1448,6 +1457,30 @@ function AppFrame() {
 
   const count = filteredGroups.reduce((total, group) => total + group.tools.length, 0);
   const panelOpen = !!selectedTool;
+  const activeFilterChips = [
+    ...selectedCategories.map((category) => ({
+      key: `category-${category}`,
+      label: category,
+      color: CAT[category].color,
+      onRemove: () => toggleCategory(category),
+    })),
+    ...(ossOnly
+      ? [{
+        key: "oss-only",
+        label: "OSS only",
+        color: "#00ff88",
+        onRemove: toggleOss,
+      }]
+      : []),
+    ...(newOnly
+      ? [{
+        key: "new-only",
+        label: "New only",
+        color: "#00d4ff",
+        onRemove: toggleNewOnly,
+      }]
+      : []),
+  ];
 
   return (
     <div style={{ minHeight: "100vh", background: "#0a0a0a", color: "var(--text-primary)", fontFamily: "'Inter', sans-serif" }}>
@@ -1654,7 +1687,52 @@ function AppFrame() {
               {count === 0 && (
                 <div style={{ border: "1px solid rgba(255,255,255,0.07)", background: "rgba(255,255,255,0.02)", borderRadius: "10px", padding: "18px 16px", marginBottom: "40px" }}>
                   <div style={{ color: "var(--text-primary)", fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", marginBottom: "6px" }}>NO MATCHES</div>
-                  <div style={{ color: "var(--text-secondary)", fontSize: "12px", lineHeight: 1.6 }}>Try clearing search terms or relaxing the category and open source filters.</div>
+                  <div style={{ color: "var(--text-secondary)", fontSize: "12px", lineHeight: 1.6 }}>Try clearing search terms or relaxing the active filters.</div>
+                  {activeFilterChips.length > 0 && (
+                    <div style={{ marginTop: "14px", display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
+                      {activeFilterChips.map((filter) => (
+                        <button
+                          key={filter.key}
+                          className="pressable pressable--chip"
+                          type="button"
+                          onClick={filter.onRemove}
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            borderRadius: "999px",
+                            border: `1px solid ${filter.color}40`,
+                            background: `${filter.color}14`,
+                            color: filter.color,
+                            padding: "6px 10px",
+                            cursor: "pointer",
+                            fontFamily: "'JetBrains Mono', monospace",
+                            fontSize: "10px",
+                          }}
+                        >
+                          {filter.label}
+                          <span style={{ color: "var(--text-primary)" }}>×</span>
+                        </button>
+                      ))}
+                      <button
+                        className="pressable pressable--chip"
+                        type="button"
+                        onClick={clearAllFilters}
+                        style={{
+                          borderRadius: "999px",
+                          border: "1px solid rgba(255,255,255,0.16)",
+                          background: "transparent",
+                          color: "var(--text-primary)",
+                          padding: "6px 10px",
+                          cursor: "pointer",
+                          fontFamily: "'JetBrains Mono', monospace",
+                          fontSize: "10px",
+                        }}
+                      >
+                        Clear all filters
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
