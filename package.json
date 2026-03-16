@@ -15,10 +15,13 @@
     "build:with-favicons": "npm run fetch:favicons && vite build",
     "preview": "vite preview",
     "fetch:favicons": "node scripts/fetch-favicons.js",
+    "fetch:images": "node scripts/fetch-images.js",
     "generate:readme": "node generate-readme.js",
     "validate:tools": "node scripts/validate-tools.js"
   },
   "devDependencies": {
+    "node-html-parser": "^7.1.0",
+    "puppeteer": "^24.39.1",
     "vite": "^5.4.21"
   }
 }
