@@ -1,8 +1,8 @@
-name: Harness Incident Response
-slug: harness-incident-response
-url: https://www.harness.io/blog/introducing-harness-incident-response
+name: Harness AI-SRE
+slug: harness-ai-sre
+url: https://www.harness.io/products/ai-sre
 summary: >-
-  Most incidents start with change—so why manage them in isolation? Learn how Harness Incident Response connects the
+  Most incidents start with change—so why manage them in isolation? Learn how Harness AI-SRE connects the
   dots between alerts, changes, and workflows, powered.
 deployment:
   - saas
@@ -13,8 +13,8 @@ tags:
   - Deployment
 dateAdded: '2026-03-16'
 claimed: false
-screenshot: /screenshots/harness-incident-response.png
-logo: /logos/harness-incident-response.png
+screenshot: /screenshots/harness-ai-sre.png
+logo: /logos/harness-ai-sre.png
 screenshot_last_fetched: '2026-03-16'
 features:
   - Detects and manages incidents across services using integrated telemetry
