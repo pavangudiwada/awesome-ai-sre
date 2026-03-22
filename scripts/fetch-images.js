@@ -60,10 +60,20 @@ function isStale(dateString) {
   return diff > STALE_DAYS;
 }
 
+function screenshotFileExists(tool) {
+  const relativePath =
+    typeof tool.screenshot === "string" && tool.screenshot.startsWith("/screenshots/")
+      ? tool.screenshot.slice(1)
+      : `screenshots/${tool.slug}.png`;
+
+  return fs.existsSync(path.join(ROOT, "public", relativePath));
+}
+
 function shouldFetch(tool, force) {
   if (tool.claimed) return false;
   if (force) return true;
   if (!tool.screenshot) return true;
+  if (!screenshotFileExists(tool)) return true;
   return isStale(tool.screenshot_last_fetched);
 }
 

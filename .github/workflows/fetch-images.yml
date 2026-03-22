@@ -2,8 +2,6 @@ name: Fetch Tool Images
 
 on:
   push:
-    branches:
-      - main
     paths:
       - "tools/operate/**"
   schedule:
