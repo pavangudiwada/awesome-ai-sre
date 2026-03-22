@@ -11,11 +11,11 @@ Items with :green_heart: indicate open source projects.
 
 ### Recent Additions (Last 7 Days)
 
+- 2026-03-22 - [Agent0 by Dash0](https://www.dash0.com/ai-sre-agent) (Observability)
+- 2026-03-22 - [Cloudgeni](https://cloudgeni.ai) (Security)
 - 2026-03-16 - [Agent SRE](https://agentsre.ai) (Incident Response)
 - 2026-03-16 - [AlertD](https://alertd.ai) (Incident Response)
 - 2026-03-16 - [AutonomOps AI](https://autonomops.ai) (Incident Response)
-- 2026-03-16 - [Azure SRE Agent](https://azure.microsoft.com/products/sre-agent) (Incident Response)
-- 2026-03-16 - [Bacca.ai](https://www.bacca.ai) (Incident Response)
 
 Jump to: [Incident Response](#incident-response) | [Observability](#observability) | [AIOps](#aiops) | [IDP](#idp) | [IaC](#iac) | [Security](#security) | [Deployment](#deployment)
 
@@ -58,10 +58,11 @@ Jump to: [Incident Response](#incident-response) | [Observability](#observabilit
 <p align="left"><a href="#tools">Back to top ↑</a></p>
 
 <a id="observability"></a>
-### Observability (14)
+### Observability (15)
 
 | Name | Summary | Deployment | Links |
 | --- | --- | --- | --- |
+| [Agent0 by Dash0](https://www.dash0.com/ai-sre-agent) | Dash0's agentic AI platform for observability that helps engineers with incident triage, query building, instrumentation guidance, trace analysis, and dashboard creation. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://www.dash0.com/ai-sre-agent) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/dash0hq) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/dash0hq) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://x.com/dash0hq) |
 | [Better Stack](https://betterstack.com) | Observability and incident management platform with AI SRE, eBPF-based tracing, logs, metrics, uptime monitoring, and on-call workflows. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://betterstack.com) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/betterstack) |
 | [Causely](https://www.causely.ai) | Causely pinpoints the root cause of errors so that you can consistently meet reliability expectations of application users in complex, cloud native environments. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://www.causely.ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/causely-ai) |
 | [DagKnows, Inc](https://dagknows.ai) | AI operations company focused on improving incident diagnostics and reliability workflows. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://dagknows.ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/dagknows-inc/) |
@@ -125,10 +126,11 @@ Jump to: [Incident Response](#incident-response) | [Observability](#observabilit
 <p align="left"><a href="#tools">Back to top ↑</a></p>
 
 <a id="security"></a>
-### Security (1)
+### Security (2)
 
 | Name | Summary | Deployment | Links |
 | --- | --- | --- | --- |
+| [Cloudgeni](https://cloudgeni.ai) | AI-powered cloud infrastructure platform that detects misconfigurations, remediates security and compliance issues, and generates reviewable infrastructure changes through deterministic workflows. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://cloudgeni.ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/cloudgeni-ai/) |
 | [Infrabase](https://infrabase.co) | Infrabase scans code and organizational context to surface security gaps, cost spikes, and policy breaks before they ever hit your cloud. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://infrabase.co) |
 
 <p align="left"><a href="#tools">Back to top ↑</a></p>

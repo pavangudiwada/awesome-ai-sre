@@ -1,0 +1,23 @@
+name: Cloudgeni
+slug: cloudgeni
+url: https://cloudgeni.ai
+summary: >-
+  AI-powered cloud infrastructure platform that detects misconfigurations, remediates security and compliance issues,
+  and generates reviewable infrastructure changes through deterministic workflows.
+deployment:
+  - saas
+opensource: false
+tags:
+  - Security
+  - IaC
+  - AIOps
+dateAdded: '2026-03-22'
+claimed: false
+screenshot: /screenshots/cloudgeni.png
+logo: /logos/cloudgeni.png
+screenshot_last_fetched: '2026-03-22'
+features:
+  - Detects cloud security, compliance, and configuration issues automatically
+  - Generates reviewable remediation changes for infrastructure workflows
+  - Uses deterministic AI workflows to reduce risk in cloud operations
+linkedin: https://www.linkedin.com/company/cloudgeni-ai/
