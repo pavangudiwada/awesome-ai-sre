@@ -92,6 +92,7 @@ function orderedTool(tool) {
   };
 
   if (tool.screenshot) result.screenshot = tool.screenshot;
+  if (tool.logo) result.logo = tool.logo;
   if (tool.screenshot_last_fetched) result.screenshot_last_fetched = tool.screenshot_last_fetched;
   if (Array.isArray(tool.features) && tool.features.length > 0) result.features = tool.features;
   if (tool.linkedin) result.linkedin = tool.linkedin;
