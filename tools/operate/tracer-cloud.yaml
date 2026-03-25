@@ -1,0 +1,23 @@
+name: Tracer
+slug: tracer-cloud
+url: https://www.tracer.cloud
+summary: >-
+  OS-level AI SRE platform for high-compute workloads that accelerates alert investigation, root-cause analysis, and
+  mitigation inside your environment.
+deployment:
+  - on-prem
+opensource: true
+tags:
+  - Incident Response
+  - Observability
+  - AIOps
+dateAdded: '2026-03-24'
+claimed: false
+screenshot: /screenshots/tracer-cloud.png
+logo: /logos/tracer-cloud.png
+screenshot_last_fetched: '2026-03-24'
+features:
+  - Monitors real system behavior at the OS level for pipeline and infrastructure visibility
+  - Uses AI to investigate alerts, surface likely root causes, and generate incident reports
+  - Runs within customer environments to keep operational data local for regulated workloads
+github: https://github.com/Tracer-Cloud/open-sre-agent
