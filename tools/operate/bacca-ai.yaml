@@ -1,7 +1,7 @@
 name: Bacca.ai
 slug: bacca-ai
 url: https://www.bacca.ai
-summary: Cut downtime with AI SRE Tool. Automate monitoring, pinpoint root causes, fix errors and optimize site performance.
+summary: AI SRE for high-scale platforms that uses tribal knowledge to triage and mitigate incidents accurately.
 deployment:
   - saas
 opensource: false
