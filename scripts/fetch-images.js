@@ -14,6 +14,20 @@ const TODAY = new Date().toISOString().slice(0, 10);
 const STALE_DAYS = 30;
 const USER_AGENT = "awesome-ai-sre-image-fetcher/1.0";
 
+async function navigateForScreenshot(page, url) {
+  try {
+    await page.goto(url, { waitUntil: "networkidle2", timeout: 30000 });
+    return;
+  } catch (error) {
+    if (!String(error && error.message).includes("Navigation timeout")) {
+      throw error;
+    }
+  }
+
+  await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
+  await new Promise((resolve) => setTimeout(resolve, 5000));
+}
+
 function parseArgs(argv) {
   const args = { limit: null, slug: null, force: false, batch: null, delay: 3000 };
 
@@ -138,7 +152,7 @@ async function main() {
       const page = await browser.newPage();
       await page.setUserAgent(USER_AGENT);
       await page.setViewport({ width: SCREENSHOT_WIDTH, height: SCREENSHOT_HEIGHT });
-      await page.goto(tool.url, { waitUntil: "networkidle2", timeout: 30000 });
+      await navigateForScreenshot(page, tool.url);
 
       const screenshotPath = path.join(SCREENSHOT_DIR, `${tool.slug}.png`);
       await page.screenshot({
