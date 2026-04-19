@@ -664,19 +664,7 @@ function TopBannerCarousel({ items, activeIndex, onSelectIndex, onSelectTool }) 
 }
 
 function buildTopBannerItems(tools, rangeDays) {
-  const items = [
-    {
-      id: "kubecon-eu",
-      type: "cta",
-      eyebrow: "KUBECON EU",
-      meta: null,
-      message: "Attending KubeCon EU? If you are an AI SRE practitioner or vendor, let’s connect.",
-      cta: {
-        href: "https://www.linkedin.com/in/pavangudiwada/",
-        label: "CONNECT WITH PAVAN",
-      },
-    },
-  ];
+  const items = [];
 
   if (tools.length > 0) {
     items.push({
