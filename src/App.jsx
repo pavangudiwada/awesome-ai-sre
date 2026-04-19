@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import yaml from "js-yaml";
-import { Navigate, Outlet, Route, Routes, useNavigate, useParams } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom";
 
 const TAG_ORDER = [
   "Incident Response",
@@ -1156,7 +1156,102 @@ function ShareBar() {
   );
 }
 
-function AppFrame() {
+function NavTabs() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isLandscape = location.pathname === "/landscape";
+  const tab = { fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, letterSpacing: "1.5px", padding: "6px 14px", borderRadius: "4px", border: "1px solid", cursor: "pointer", background: "transparent", transition: "all .15s ease" };
+  return (
+    <div style={{ display: "flex", gap: "6px", paddingTop: "18px", paddingBottom: "4px" }}>
+      <button className="pressable" onClick={() => navigate("/")} style={{ ...tab, color: !isLandscape ? "#00ff88" : "var(--text-muted)", borderColor: !isLandscape ? "rgba(0,255,136,0.4)" : "rgba(255,255,255,0.07)", background: !isLandscape ? "rgba(0,255,136,0.06)" : "transparent" }}>
+        WATCHLIST
+      </button>
+      <button className="pressable" onClick={() => navigate("/landscape")} style={{ ...tab, color: isLandscape ? "#00ff88" : "var(--text-muted)", borderColor: isLandscape ? "rgba(0,255,136,0.4)" : "rgba(255,255,255,0.07)", background: isLandscape ? "rgba(0,255,136,0.06)" : "transparent" }}>
+        LANDSCAPE
+      </button>
+    </div>
+  );
+}
+
+const PHASE_COMING_SOON = [
+  { key: "plan", label: "PLAN", desc: "AI-powered planning, sprint intelligence, and engineering metrics tools." },
+  { key: "build", label: "BUILD", desc: "AI-assisted CI/CD, code review, and developer workflow automation." },
+  { key: "deploy", label: "DEPLOY", desc: "AI-driven progressive delivery, rollback, and release intelligence." },
+  { key: "learn", label: "LEARN", desc: "AI tools for incident retrospectives, runbook generation, and knowledge capture." },
+];
+
+function LandscapeToolCard({ tool }) {
+  const faviconUrl = `https://www.google.com/s2/favicons?sz=64&domain_url=${encodeURIComponent(tool.url)}`;
+  return (
+    <div className="pressable" title={tool.summary} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px", width: "80px", cursor: "default" }}>
+      <div style={{ width: "56px", height: "56px", borderRadius: "10px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+        <img src={faviconUrl} alt={tool.name} width={28} height={28} style={{ imageRendering: "crisp-edges" }} onError={e => { e.target.style.display = "none"; }} />
+      </div>
+      <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "10px", color: "var(--text-secondary)", textAlign: "center", lineHeight: 1.3, wordBreak: "break-word" }}>{tool.name}</span>
+    </div>
+  );
+}
+
+function LandscapePage() {
+  const groupedByTag = {};
+  for (const tag of TAG_ORDER) groupedByTag[tag] = [];
+  for (const tool of ALL_TOOLS) {
+    const tags = Array.isArray(tool.tags) ? tool.tags : tool.tags ? [tool.tags] : ["Incident Response"];
+    const primary = TAG_ORDER.find(t => tags.includes(t)) || TAG_ORDER[0];
+    groupedByTag[primary].push(tool);
+  }
+
+  return (
+    <div style={{ paddingTop: "8px", paddingBottom: "60px" }}>
+      <div style={{ marginBottom: "32px" }}>
+        <h2 style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(18px, 3vw, 28px)", fontWeight: 700, margin: "0 0 8px" }}>
+          AI SRE <span style={{ color: "#00ff88" }}>Landscape</span>
+        </h2>
+        <p style={{ color: "var(--text-secondary)", fontSize: "13px", margin: 0, maxWidth: "560px", lineHeight: 1.6 }}>
+          Every tool with a genuine AI layer across the SRE lifecycle. Not every tool that mentions AI — only tools where removing the AI layer kills the core value proposition.
+        </p>
+      </div>
+
+      {/* Operate — live */}
+      <div style={{ marginBottom: "32px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
+          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", fontWeight: 700, letterSpacing: "2px", color: "#00ff88", background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.25)", padding: "3px 10px", borderRadius: "4px" }}>OPERATE</span>
+          <span style={{ color: "var(--text-muted)", fontSize: "11px", fontFamily: "'JetBrains Mono', monospace" }}>{ALL_TOOLS.length} tools</span>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+          {TAG_ORDER.filter(tag => groupedByTag[tag].length > 0).map(tag => {
+            const meta = TAG_META[tag];
+            return (
+              <div key={tag} style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "8px", padding: "16px 20px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+                  <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: meta.color, display: "inline-block", flexShrink: 0 }} />
+                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, letterSpacing: "1.5px", color: meta.color }}>{tag.toUpperCase()}</span>
+                  <span style={{ color: "var(--text-muted)", fontSize: "10px", fontFamily: "'JetBrains Mono', monospace" }}>{groupedByTag[tag].length}</span>
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
+                  {groupedByTag[tag].map(tool => <LandscapeToolCard key={tool.slug} tool={tool} />)}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Coming soon phases */}
+      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        {PHASE_COMING_SOON.map(phase => (
+          <div key={phase.key} style={{ background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "8px", padding: "16px 20px", display: "flex", alignItems: "center", gap: "16px" }}>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", fontWeight: 700, letterSpacing: "2px", color: "var(--text-muted)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", padding: "3px 10px", borderRadius: "4px", flexShrink: 0 }}>{phase.label}</span>
+            <span style={{ fontSize: "12px", color: "var(--text-muted)", fontFamily: "'Inter', sans-serif" }}>{phase.desc}</span>
+            <span style={{ marginLeft: "auto", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "1px", color: "rgba(255,255,255,0.2)", flexShrink: 0 }}>PHASE 3</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function AppFrame({ landscapeMode = false }) {
   const navigate = useNavigate();
   const { slug: routeSlug } = useParams();
   const activeTool = routeSlug ? TOOLS_BY_SLUG.get(routeSlug) || null : null;
@@ -1344,6 +1439,8 @@ function AppFrame() {
             onSelectTool={handleSelectTool}
           />
 
+          <NavTabs />
+
           <header style={{ paddingTop: "22px", paddingBottom: "24px" }}>
             <div style={{ marginBottom: "8px" }}>
               <span style={{ color: "#00ff88", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "4px" }}>
@@ -1362,7 +1459,8 @@ function AppFrame() {
             </div>
           </header>
 
-          <div style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
+          {landscapeMode && <LandscapePage />}
+          {!landscapeMode && <div style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
             {!isMobile && (
               <FilterRail
                 selectedTags={selectedTags}
@@ -1509,7 +1607,7 @@ function AppFrame() {
                 </div>
               )}
             </div>
-          </div>
+          </div>}
 
           <section style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "52px 0" }}>
             <div>
@@ -1564,6 +1662,7 @@ export default function App() {
         <Route index element={null} />
         <Route path="tool/:slug" element={null} />
       </Route>
+      <Route path="/landscape" element={<AppFrame landscapeMode />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
