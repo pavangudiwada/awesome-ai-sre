@@ -1,0 +1,21 @@
+name: KubeStellar Console
+slug: kubestellar-console
+url: https://console.kubestellar.io
+summary: Open source AI-powered multi-cluster Kubernetes dashboard with AI chat for cluster operations, real-time observability, and CNCF integrations (Argo, Kyverno, Prometheus, and 20+ others).
+deployment:
+  - on-prem
+  - saas
+opensource: true
+tags:
+  - Observability
+  - AIOps
+dateAdded: '2026-04-23'
+claimed: false
+github: https://github.com/kubestellar/console
+features:
+  - AI chat interface for cluster troubleshooting and operations
+  - Multi-cluster management across edge and cloud environments
+  - Real-time observability with Prometheus and Grafana integrations
+  - 20+ CNCF project integrations (Argo, Kyverno, Istio, Flux, and more)
+  - Compliance dashboards with Falco and OPA/Gatekeeper support
+  - CNCF Sandbox project with active open source community
