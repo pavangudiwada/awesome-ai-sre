@@ -842,6 +842,28 @@ function Panel({ tool, onClose, mobile }) {
   );
 }
 
+function PanelBackdrop({ onClose }) {
+  return (
+    <button
+      type="button"
+      aria-label="Close sidebar"
+      onClick={onClose}
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 85,
+        border: "none",
+        padding: 0,
+        margin: 0,
+        cursor: "pointer",
+        background: "rgba(5,8,10,0.28)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+      }}
+    />
+  );
+}
+
 function ShareBar() {
   const [copied, setCopied] = useState(false);
   const url = typeof window !== "undefined" ? window.location.href : "https://aisrewatchlist.vercel.app";
@@ -1307,6 +1329,7 @@ function AppFrame() {
         </div>
       </div>
 
+      {selectedTool && <PanelBackdrop onClose={closeSelectedTool} />}
       {selectedTool && <Panel tool={selectedTool} onClose={closeSelectedTool} mobile={isMobile} />}
       {!selectedTool && !isMobile && <ShareBar />}
     </div>
