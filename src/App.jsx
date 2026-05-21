@@ -108,28 +108,6 @@ function isNewTool(tool, now = new Date()) {
   return age >= 0 && age <= 14;
 }
 
-function getRecentTools(tools) {
-  const datedTools = [...tools]
-    .filter((tool) => parseAddedDate(tool.dateAdded))
-    .sort((a, b) => b.dateAdded.localeCompare(a.dateAdded) || a.name.localeCompare(b.name));
-
-  const withinDays = (dayLimit) =>
-    datedTools.filter((tool) => {
-      const parsed = parseAddedDate(tool.dateAdded);
-      if (!parsed) return false;
-      const age = daysSince(parsed);
-      return age >= 0 && age <= dayLimit;
-    });
-
-  const lastWeek = withinDays(7);
-  const expanded = lastWeek.length >= 1 && lastWeek.length <= 2 ? withinDays(14) : lastWeek;
-
-  return {
-    tools: expanded.slice(0, 5),
-    rangeDays: lastWeek.length >= 1 && lastWeek.length <= 2 ? 14 : 7,
-  };
-}
-
 function buildToolsData() {
   const tools = [];
 
@@ -183,8 +161,6 @@ function buildToolsData() {
 
 const ALL_TOOLS = buildToolsData();
 const TOOLS_BY_SLUG = new Map(ALL_TOOLS.map((tool) => [tool.slug, tool]));
-const RECENT_TOOLS_META = getRecentTools(ALL_TOOLS);
-const RECENT_TOOLS = RECENT_TOOLS_META.tools;
 const NEW_TOOL_SLUGS = new Set(ALL_TOOLS.filter((tool) => isNewTool(tool)).map((tool) => tool.slug));
 const TAG_COUNTS = TAG_ORDER.reduce((counts, tag) => {
   counts[tag] = ALL_TOOLS.filter((tool) => tool.tags.includes(tag)).length;
@@ -490,198 +466,6 @@ function FilterRail({ selectedTags, onToggleTag, onClearTags, tagCounts, ossOnly
       <ToggleRow enabled={ossOnly} onToggle={onToggleOss} label="OSS only" />
     </aside>
   );
-}
-
-function TopBannerCarousel({ items, activeIndex, onSelectIndex, onSelectTool }) {
-  return (
-    <section
-      style={{
-        position: "relative",
-        overflow: "hidden",
-        background: "linear-gradient(135deg, rgba(0,255,136,0.08) 0%, rgba(0,212,255,0.07) 100%)",
-        border: "1px solid rgba(0,255,136,0.18)",
-        boxShadow: "0 18px 40px rgba(0,0,0,0.24)",
-        borderRadius: "12px",
-        marginTop: "14px",
-        marginBottom: "14px",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          width: `${items.length * 100}%`,
-          transform: `translateX(-${activeIndex * (100 / items.length)}%)`,
-          transition: "transform 0.45s ease",
-        }}
-      >
-        {items.map((item) => (
-          <div
-            key={item.id}
-            style={{
-              width: `${100 / items.length}%`,
-              flexShrink: 0,
-              padding: "12px 14px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "12px",
-              flexWrap: "wrap",
-            }}
-          >
-            <div style={{ display: "flex", flexDirection: "column", gap: "4px", maxWidth: "760px" }}>
-              <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
-                <span style={{ color: "#00ff88", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "2px" }}>
-                  {item.eyebrow}
-                </span>
-                {item.meta && (
-                  <span style={{ color: "var(--text-muted)", fontFamily: "'JetBrains Mono', monospace", fontSize: "8px", letterSpacing: "1px" }}>
-                    {item.meta}
-                  </span>
-                )}
-              </div>
-              <p style={{ margin: 0, color: "var(--text-primary)", fontSize: "13px", lineHeight: 1.45 }}>
-                {item.message}
-              </p>
-              {item.type === "recent" && item.tools.length > 0 && (
-                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                  {item.tools.map((tool) => (
-                    <div key={tool.slug} style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
-                      <span
-                        style={{
-                          padding: "2px 8px",
-                          borderRadius: "999px",
-                          background: "rgba(0,255,136,0.14)",
-                          color: "#00ff88",
-                          border: "1px solid rgba(0,255,136,0.25)",
-                          fontFamily: "'JetBrains Mono', monospace",
-                          fontSize: "8px",
-                          letterSpacing: "0.8px",
-                        }}
-                      >
-                        NEW
-                      </span>
-                      <button
-                        className="pressable pressable--chip"
-                        type="button"
-                        onClick={() => onSelectTool(tool)}
-                        style={{
-                          background: "transparent",
-                          border: "none",
-                          color: "var(--text-primary)",
-                          padding: 0,
-                          cursor: "pointer",
-                          fontSize: "12px",
-                        }}
-                      >
-                        {tool.name}
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-            <a
-              className="pressable"
-              href={item.cta.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                background: "#00ff88",
-                color: "#0a0a0a",
-                padding: "8px 12px",
-                borderRadius: "6px",
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: "9px",
-                fontWeight: 700,
-                textDecoration: "none",
-                letterSpacing: "1px",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {item.cta.label}
-            </a>
-          </div>
-        ))}
-      </div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", padding: "0 14px 10px" }}>
-        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          {items.map((item, index) => (
-            <button
-              key={item.id}
-              type="button"
-              aria-label={`Show banner ${index + 1}`}
-              onClick={() => onSelectIndex(index)}
-              style={{
-                width: index === activeIndex ? "20px" : "8px",
-                height: "8px",
-                borderRadius: "999px",
-                border: "none",
-                padding: 0,
-                cursor: "pointer",
-                background: index === activeIndex ? "#00ff88" : "rgba(255,255,255,0.2)",
-                transition: "all 0.2s ease",
-              }}
-            />
-          ))}
-        </div>
-        <div style={{ display: "flex", gap: "8px" }}>
-          <button
-            className="pressable pressable--chip"
-            type="button"
-            onClick={() => onSelectIndex((activeIndex - 1 + items.length) % items.length)}
-            style={{
-              background: "rgba(255,255,255,0.08)",
-              border: "1px solid rgba(255,255,255,0.14)",
-              color: "var(--text-primary)",
-              width: "28px",
-              height: "28px",
-              borderRadius: "999px",
-              cursor: "pointer",
-            }}
-          >
-            ←
-          </button>
-          <button
-            className="pressable pressable--chip"
-            type="button"
-            onClick={() => onSelectIndex((activeIndex + 1) % items.length)}
-            style={{
-              background: "rgba(255,255,255,0.08)",
-              border: "1px solid rgba(255,255,255,0.14)",
-              color: "var(--text-primary)",
-              width: "28px",
-              height: "28px",
-              borderRadius: "999px",
-              cursor: "pointer",
-            }}
-          >
-            →
-          </button>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function buildTopBannerItems(tools, rangeDays) {
-  const items = [];
-
-  if (tools.length > 0) {
-    items.push({
-      id: "recent-additions",
-      type: "recent",
-      eyebrow: "RECENT ADDITIONS",
-      meta: `LAST ${rangeDays} DAYS`,
-      message: "New tools added to the watchlist recently.",
-      tools,
-      cta: {
-        href: "https://www.linkedin.com/company/ai-sre-watchlist",
-        label: "FOLLOW THE WATCHLIST",
-      },
-    });
-  }
-
-  return items;
 }
 
 function ScreenshotCard({ tool, isSelected, onClick, isNew }) {
@@ -1058,6 +842,28 @@ function Panel({ tool, onClose, mobile }) {
   );
 }
 
+function PanelBackdrop({ onClose }) {
+  return (
+    <button
+      type="button"
+      aria-label="Close sidebar"
+      onClick={onClose}
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 85,
+        border: "none",
+        padding: 0,
+        margin: 0,
+        cursor: "pointer",
+        background: "rgba(5,8,10,0.28)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+      }}
+    />
+  );
+}
+
 function ShareBar() {
   const [copied, setCopied] = useState(false);
   const url = typeof window !== "undefined" ? window.location.href : "https://aisrewatchlist.vercel.app";
@@ -1165,8 +971,6 @@ function AppFrame() {
   const [ossOnly, setOssOnly] = useState(false);
   const [isMobile, setIsMobile] = useState(() => (typeof window !== "undefined" ? window.innerWidth < 768 : false));
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [activeBannerIndex, setActiveBannerIndex] = useState(0);
-  const bannerItems = buildTopBannerItems(RECENT_TOOLS, RECENT_TOOLS_META.rangeDays);
   const selectedTool = activeTool || null;
 
   const closeSelectedTool = useCallback(() => {
@@ -1234,25 +1038,6 @@ function AppFrame() {
     document.addEventListener("pointerdown", onPointerDown);
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, [closeSelectedTool, selectedTool, filtersOpen]);
-
-  useEffect(() => {
-    if (activeBannerIndex < bannerItems.length) {
-      return;
-    }
-    setActiveBannerIndex(0);
-  }, [activeBannerIndex, bannerItems.length]);
-
-  useEffect(() => {
-    if (bannerItems.length <= 1) {
-      return undefined;
-    }
-
-    const intervalId = window.setInterval(() => {
-      setActiveBannerIndex((current) => (current + 1) % bannerItems.length);
-    }, 5000);
-
-    return () => window.clearInterval(intervalId);
-  }, [bannerItems.length]);
 
   const normalizedSearch = search.trim().toLowerCase();
   const filteredTools = ALL_TOOLS.filter((tool) => {
@@ -1337,13 +1122,6 @@ function AppFrame() {
 
       <div style={{ position: "relative", zIndex: 1, width: "100%" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: isMobile ? "0 16px" : "0 28px" }}>
-          <TopBannerCarousel
-            items={bannerItems}
-            activeIndex={activeBannerIndex}
-            onSelectIndex={setActiveBannerIndex}
-            onSelectTool={handleSelectTool}
-          />
-
           <header style={{ paddingTop: "22px", paddingBottom: "24px" }}>
             <div style={{ marginBottom: "8px" }}>
               <span style={{ color: "#00ff88", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "4px" }}>
@@ -1551,6 +1329,7 @@ function AppFrame() {
         </div>
       </div>
 
+      {selectedTool && <PanelBackdrop onClose={closeSelectedTool} />}
       {selectedTool && <Panel tool={selectedTool} onClose={closeSelectedTool} mobile={isMobile} />}
       {!selectedTool && !isMobile && <ShareBar />}
     </div>
