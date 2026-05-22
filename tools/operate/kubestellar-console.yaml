@@ -1,0 +1,24 @@
+name: KubeStellar Console
+slug: kubestellar-console
+url: https://console.kubestellar.io
+summary: >-
+  Open-source multi-cluster Kubernetes dashboard with AI-powered operations via an MCP server that bridges
+  kubeconfig contexts to LLM agents.
+deployment:
+  - hybrid
+opensource: true
+tags:
+  - AIOps
+  - Deployment
+  - Observability
+dateAdded: '2026-05-22'
+claimed: false
+screenshot: /screenshots/kubestellar-console.png
+logo: /logos/kubestellar-console.png
+screenshot_last_fetched: '2026-05-22'
+features:
+  - Bridges kubeconfig contexts to LLM agents through the kc-agent MCP server
+  - Supports natural-language cluster operations such as pod management, logs, and deployments
+  - Provides multi-cluster Kubernetes visibility across edge and cloud environments
+github: https://github.com/kubestellar/console
+x: https://x.com/kuaborcloud
