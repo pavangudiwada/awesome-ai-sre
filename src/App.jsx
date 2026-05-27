@@ -166,7 +166,60 @@ const TAG_COUNTS = TAG_ORDER.reduce((counts, tag) => {
   counts[tag] = ALL_TOOLS.filter((tool) => tool.tags.includes(tag)).length;
   return counts;
 }, {});
+const PRIMARY_TAG_COUNTS = TAG_ORDER.reduce((counts, tag) => {
+  counts[tag] = ALL_TOOLS.filter((tool) => tool.primaryTag === tag).length;
+  return counts;
+}, {});
 const TOTAL = ALL_TOOLS.length;
+
+const MARKET_SIGNALS = [
+  {
+    label: "CROWDED WEDGE",
+    title: "Incident response is where the market is densest.",
+    body: "Most AI SRE products still start with alert triage, investigation, RCA, or remediation. Useful signal: which tools close the loop with evidence, not just chat.",
+  },
+  {
+    label: "TRUST GAP",
+    title: "Autonomy claims need operational proof.",
+    body: "The watchlist tracks shipping surfaces, deployment model, open-source status, screenshots, and links so teams can separate demos from production-ready workflows.",
+  },
+  {
+    label: "OPEN-SOURCE WEDGE",
+    title: "Hybrid and OSS tools matter for SRE buyers.",
+    body: "Reliability teams care where data runs, what actions agents can take, and how easily behavior can be inspected before production access is granted.",
+  },
+];
+
+const BUYER_QUESTIONS = [
+  "What evidence does the agent cite before suggesting root cause or remediation?",
+  "Can it run inside your environment, or does sensitive telemetry leave your boundary?",
+  "Which actions are read-only, approval-gated, or fully autonomous?",
+  "Does it learn from runbooks, incidents, code, topology, and deploy history together?",
+  "How does it fail safely when context is missing, stale, or contradictory?",
+];
+
+const CONTENT_PIPELINE = [
+  {
+    label: "FRAMEWORK",
+    title: "6 stages of AI in SRE",
+    body: "A practical maturity model for readers who need language beyond vendor categories.",
+  },
+  {
+    label: "FIELD NOTES",
+    title: "Scheduled agents in AI SRE",
+    body: "A look at HolmesGPT, Datadog Bits AI, Azure SRE Agent, NeuBird, and similar always-on reliability workflows.",
+  },
+  {
+    label: "BUYER GUIDE",
+    title: "Questions to ask vendors",
+    body: "A neutral checklist for teams evaluating remediation, autonomy, data access, and evidence quality.",
+  },
+  {
+    label: "RESEARCH QUEUE",
+    title: "MCP and tool access in AI SRE",
+    body: "Publish after validating context and tool-count hypotheses with practitioner input.",
+  },
+];
 
 function getDomain(url) {
   try {
@@ -864,6 +917,31 @@ function PanelBackdrop({ onClose }) {
   );
 }
 
+function SectionLabel({ children }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "14px" }}>
+      <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#00ff88", boxShadow: "0 0 5px #00ff88" }} />
+      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "3px", color: "#00ff88" }}>{children}</span>
+    </div>
+  );
+}
+
+function StrategyCard({ item }) {
+  return (
+    <div style={{ border: "1px solid rgba(255,255,255,0.07)", background: "rgba(255,255,255,0.025)", borderRadius: "10px", padding: "16px", minHeight: "148px" }}>
+      <div style={{ color: "#00ff88", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "2px", marginBottom: "10px" }}>
+        {item.label}
+      </div>
+      <h4 style={{ color: "var(--text-primary)", fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", lineHeight: 1.45, margin: "0 0 8px" }}>
+        {item.title}
+      </h4>
+      <p style={{ color: "var(--text-secondary)", fontSize: "12px", lineHeight: 1.7, margin: 0 }}>
+        {item.body}
+      </p>
+    </div>
+  );
+}
+
 function ShareBar() {
   const [copied, setCopied] = useState(false);
   const url = typeof window !== "undefined" ? window.location.href : "https://aisrewatchlist.vercel.app";
@@ -1289,12 +1367,73 @@ function AppFrame() {
             </div>
           </div>
 
-          <section style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "52px 0" }}>
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "14px" }}>
-                <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#00ff88", boxShadow: "0 0 5px #00ff88" }} />
-                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "3px", color: "#00ff88" }}>ABOUT THE WATCHLIST</span>
+          <section style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "52px 0 24px" }}>
+            <SectionLabel>MARKET READOUT</SectionLabel>
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.1fr 0.9fr", gap: "14px", alignItems: "stretch" }}>
+              <div style={{ border: "1px solid rgba(0,255,136,0.14)", background: "rgba(0,255,136,0.035)", borderRadius: "10px", padding: "18px" }}>
+                <h3 style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "17px", fontWeight: 700, color: "var(--text-primary)", margin: "0 0 10px" }}>
+                  A practitioner map, not a vendor leaderboard.
+                </h3>
+                <p style={{ color: "var(--text-secondary)", fontSize: "12px", lineHeight: 1.7, margin: "0 0 14px" }}>
+                  The AI SRE Watchlist tracks what is shipping across {TOTAL} tools, then turns the noise into useful questions for SREs, platform teams, founders, and buyers.
+                </p>
+                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: "10px" }}>
+                  {[
+                    { label: "TOOLS", value: TOTAL },
+                    { label: "INCIDENT RESPONSE", value: PRIMARY_TAG_COUNTS["Incident Response"] || 0 },
+                    { label: "OSS", value: ALL_TOOLS.filter((tool) => tool.opensource).length },
+                  ].map((stat) => (
+                    <div key={stat.label} style={{ border: "1px solid rgba(255,255,255,0.07)", background: "rgba(255,255,255,0.025)", borderRadius: "8px", padding: "12px" }}>
+                      <div style={{ fontFamily: "'JetBrains Mono', monospace", color: "#00ff88", fontSize: "18px", fontWeight: 700, marginBottom: "4px" }}>{stat.value}</div>
+                      <div style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-muted)", fontSize: "9px", letterSpacing: "2px" }}>{stat.label}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
+              <div style={{ border: "1px solid rgba(255,255,255,0.07)", background: "rgba(255,255,255,0.025)", borderRadius: "10px", padding: "18px" }}>
+                <div style={{ color: "#00ff88", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "2px", marginBottom: "10px" }}>
+                  POSITIONING
+                </div>
+                <p style={{ color: "var(--text-secondary)", fontSize: "12px", lineHeight: 1.7, margin: 0 }}>
+                  Useful before promotional. Independent enough for practitioners to trust, practical enough for vendors to see how the category is being evaluated.
+                </p>
+              </div>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: "14px", marginTop: "14px" }}>
+              {MARKET_SIGNALS.map((item) => <StrategyCard key={item.label} item={item} />)}
+            </div>
+          </section>
+
+          <section style={{ padding: "28px 0", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+            <SectionLabel>BUYER QUESTIONS</SectionLabel>
+            <div style={{ border: "1px solid rgba(255,255,255,0.07)", background: "rgba(255,255,255,0.025)", borderRadius: "10px", padding: "18px" }}>
+              <h3 style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "16px", fontWeight: 700, color: "var(--text-primary)", margin: "0 0 12px" }}>
+                Questions that cut through AI SRE claims.
+              </h3>
+              <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(5, 1fr)", gap: "10px" }}>
+                {BUYER_QUESTIONS.map((question, index) => (
+                  <div key={question} style={{ borderLeft: "1px solid rgba(0,255,136,0.35)", paddingLeft: "12px" }}>
+                    <div style={{ color: "#00ff88", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", marginBottom: "8px" }}>
+                      Q{index + 1}
+                    </div>
+                    <p style={{ color: "var(--text-secondary)", fontSize: "12px", lineHeight: 1.65, margin: 0 }}>{question}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section style={{ padding: "28px 0", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+            <SectionLabel>CONTENT PIPELINE</SectionLabel>
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(4, 1fr)", gap: "14px" }}>
+              {CONTENT_PIPELINE.map((item) => <StrategyCard key={item.label} item={item} />)}
+            </div>
+          </section>
+
+          <section style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "28px 0 52px" }}>
+            <div>
+              <SectionLabel>ABOUT THE WATCHLIST</SectionLabel>
               <h3 style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "16px", fontWeight: 700, color: "var(--text-primary)", margin: "0 0 10px" }}>
                 The AI SRE Watchlist
               </h3>
