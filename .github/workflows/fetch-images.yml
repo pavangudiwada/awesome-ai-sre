@@ -30,7 +30,26 @@ jobs:
         run: npm ci
 
       - name: Fetch screenshots and logos
-        run: node scripts/fetch-images.js
+        run: |
+          if [ "${{ github.event_name }}" = "push" ] && [ -n "${{ github.event.before }}" ]; then
+            mapfile -t slugs < <(
+              git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" -- tools/operate \
+                | sed -n 's#^tools/operate/\(.*\)\.ya\?ml$#\1#p' \
+                | sort -u
+            )
+
+            if [ "${#slugs[@]}" -eq 0 ]; then
+              echo "No changed tool files detected."
+              exit 0
+            fi
+
+            for slug in "${slugs[@]}"; do
+              echo "Fetching images for ${slug}..."
+              node scripts/fetch-images.js --slug "${slug}"
+            done
+          else
+            node scripts/fetch-images.js
+          fi
 
       - name: Commit image updates
         run: |
