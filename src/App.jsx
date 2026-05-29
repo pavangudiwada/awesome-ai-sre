@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import yaml from "js-yaml";
-import { Link, Navigate, Route, Routes, useParams } from "react-router-dom";
+import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 
 const TAG_ORDER = [
   "Incident Response",
@@ -40,6 +40,15 @@ const DEPLOYMENT_LABELS = {
   "on-prem": "On-prem",
   hybrid: "Hybrid",
 };
+
+const DEPLOYMENT_FILTERS = ["All", "SaaS", "Hybrid", "On-prem"];
+
+const SORT_OPTIONS = [
+  { value: "az", label: "A-Z" },
+  { value: "recent", label: "Recently added" },
+  { value: "open-source", label: "Open source first" },
+  { value: "complete", label: "Most complete profile" },
+];
 
 const YAML_FILES = import.meta.glob("../tools/operate/*.yaml", {
   eager: true,
@@ -88,6 +97,38 @@ function isNewCompany(company) {
   const now = new Date();
   const diff = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()) - Date.UTC(added.getUTCFullYear(), added.getUTCMonth(), added.getUTCDate());
   return diff >= 0 && diff / 86400000 <= 14;
+}
+
+function profileScore(company) {
+  return [
+    company.screenshot,
+    company.logo,
+    company.links.linkedin,
+    company.links.github,
+    company.links.x,
+    company.links.producthunt,
+    company.dateAdded,
+    company.claimed,
+    company.features.length >= 3,
+  ].filter(Boolean).length;
+}
+
+function sortCompanies(companies, sortBy) {
+  const list = [...companies];
+  if (sortBy === "recent") {
+    return list.sort((a, b) => (b.dateAdded || "").localeCompare(a.dateAdded || "") || a.name.localeCompare(b.name));
+  }
+  if (sortBy === "open-source") {
+    return list.sort((a, b) => Number(b.openSource) - Number(a.openSource) || a.name.localeCompare(b.name));
+  }
+  if (sortBy === "complete") {
+    return list.sort((a, b) => profileScore(b) - profileScore(a) || a.name.localeCompare(b.name));
+  }
+  return list.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function sharedTagCount(a, b) {
+  return a.tags.filter((tag) => b.tags.includes(tag)).length;
 }
 
 function loadCompanies() {
@@ -214,10 +255,14 @@ function CompanyCard({ company }) {
         <p className="company-card__summary">{company.summary}</p>
 
         <div className="company-card__meta">
-          {company.tags.slice(0, 3).map((tag) => (
+          {company.deployment.slice(0, 2).map((deployment) => (
+            <span key={deployment}>{deployment}</span>
+          ))}
+          {company.tags.slice(0, 2).map((tag) => (
             <span key={tag}>{tag}</span>
           ))}
           {company.openSource && <span>Open source</span>}
+          {company.claimed && <span>Claimed</span>}
           {isNewCompany(company) && <span>New</span>}
         </div>
       </Link>
@@ -263,28 +308,69 @@ function FeaturedCompany({ company }) {
   );
 }
 
+function ScreenshotFrame({ company }) {
+  const [failed, setFailed] = useState(false);
+  const hasScreenshot = Boolean(company.screenshot) && !failed;
+
+  return (
+    <figure className={`screenshot-frame${hasScreenshot ? "" : " screenshot-frame--placeholder"}`}>
+      {hasScreenshot ? (
+        <img src={company.screenshot} alt={`${company.name} website screenshot`} onError={() => setFailed(true)} />
+      ) : (
+        <div className="screenshot-placeholder">
+          <CompanyLogo company={company} size={64} />
+          <div>
+            <span>Screenshot pending</span>
+            <strong>{company.name}</strong>
+            <p>Profile is listed from verified directory data. A product capture will appear here once available.</p>
+          </div>
+        </div>
+      )}
+    </figure>
+  );
+}
+
 function DirectoryPage() {
   const params = new URLSearchParams(typeof window !== "undefined" ? window.location.search : "");
   const tagFromUrl = params.get("tag");
+  const searchInputRef = useRef(null);
   const [search, setSearch] = useState("");
   const [activeTag, setActiveTag] = useState(TAG_ORDER.includes(tagFromUrl) ? tagFromUrl : "All");
   const [openSourceOnly, setOpenSourceOnly] = useState(false);
+  const [deploymentFilter, setDeploymentFilter] = useState("All");
+  const [sortBy, setSortBy] = useState("az");
+
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) return;
+      const target = event.target;
+      const isTyping = target instanceof HTMLElement && ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName);
+      if (isTyping) return;
+      event.preventDefault();
+      searchInputRef.current?.focus();
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
-    return COMPANIES.filter((company) => {
+    const matches = COMPANIES.filter((company) => {
       if (activeTag !== "All" && !company.tags.includes(activeTag)) return false;
       if (openSourceOnly && !company.openSource) return false;
+      if (deploymentFilter !== "All" && !company.deployment.includes(deploymentFilter)) return false;
       if (!query) return true;
       return [company.name, company.summary, company.domain, ...company.tags, ...company.features]
         .join(" ")
         .toLowerCase()
         .includes(query);
     });
-  }, [activeTag, openSourceOnly, search]);
+    return sortCompanies(matches, sortBy);
+  }, [activeTag, deploymentFilter, openSourceOnly, search, sortBy]);
 
   const featured = COMPANIES.find((company) => company.slug === "holmesgpt") || COMPANIES[0];
-  const showFeatured = !search.trim() && activeTag === "All" && !openSourceOnly;
+  const showFeatured = !search.trim() && activeTag === "All" && !openSourceOnly && deploymentFilter === "All";
 
   return (
     <main>
@@ -300,6 +386,7 @@ function DirectoryPage() {
         <div className="search-box">
           <span>⌕</span>
           <input
+            ref={searchInputRef}
             autoComplete="off"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
@@ -338,6 +425,22 @@ function DirectoryPage() {
               <input type="checkbox" checked={openSourceOnly} onChange={() => setOpenSourceOnly((value) => !value)} />
               <span>Open source only</span>
             </label>
+            <label className="select-row">
+              <span>Deployment</span>
+              <select value={deploymentFilter} onChange={(event) => setDeploymentFilter(event.target.value)}>
+                {DEPLOYMENT_FILTERS.map((deployment) => (
+                  <option key={deployment} value={deployment}>{deployment}</option>
+                ))}
+              </select>
+            </label>
+            <label className="select-row">
+              <span>Sort by</span>
+              <select value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
+                {SORT_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
+              </select>
+            </label>
           </div>
         </aside>
 
@@ -349,13 +452,15 @@ function DirectoryPage() {
               <p className="eyebrow">Directory</p>
               <h2>{filtered.length} companies found</h2>
             </div>
-            {(activeTag !== "All" || openSourceOnly || search) && (
+            {(activeTag !== "All" || openSourceOnly || deploymentFilter !== "All" || sortBy !== "az" || search) && (
               <button
                 className="clear-button"
                 type="button"
                 onClick={() => {
                   setActiveTag("All");
                   setOpenSourceOnly(false);
+                  setDeploymentFilter("All");
+                  setSortBy("az");
                   setSearch("");
                 }}
               >
@@ -375,7 +480,21 @@ function DirectoryPage() {
           ) : (
             <div className="empty-state">
               <h3>No companies found.</h3>
-              <p>Try a broader search term or remove one of the active filters.</p>
+              <p>Try a broader search term, clear filters, or submit a missing AI SRE company.</p>
+              <div className="empty-state__actions">
+                <button className="button button--ghost" type="button" onClick={() => {
+                  setActiveTag("All");
+                  setOpenSourceOnly(false);
+                  setDeploymentFilter("All");
+                  setSortBy("az");
+                  setSearch("");
+                }}>
+                  Clear filters
+                </button>
+                <a className="button button--primary" href="https://github.com/pavangudiwada/awesome-ai-sre/issues/new?template=add-operate-tool.yml" target="_blank" rel="noreferrer">
+                  Submit company ↗
+                </a>
+              </div>
             </div>
           )}
         </section>
@@ -396,7 +515,7 @@ function SiteHeader() {
       <nav>
         <a href="https://github.com/pavangudiwada/awesome-ai-sre" target="_blank" rel="noreferrer">GitHub</a>
         <a href="https://www.linkedin.com/company/ai-sre-watchlist" target="_blank" rel="noreferrer">LinkedIn</a>
-        <a className="submit-link" href="https://github.com/pavangudiwada/awesome-ai-sre" target="_blank" rel="noreferrer">Submit company</a>
+        <a className="submit-link" href="https://github.com/pavangudiwada/awesome-ai-sre/issues/new?template=add-operate-tool.yml" target="_blank" rel="noreferrer">Submit company</a>
       </nav>
     </header>
   );
@@ -408,9 +527,9 @@ function CompanyPage() {
 
   if (!company) return <Navigate to="/" replace />;
 
-  const related = COMPANIES.filter((candidate) =>
-    candidate.slug !== company.slug && candidate.tags.some((tag) => company.tags.includes(tag))
-  ).slice(0, 6);
+  const related = COMPANIES.filter((candidate) => candidate.slug !== company.slug && sharedTagCount(candidate, company) > 0)
+    .sort((a, b) => sharedTagCount(b, company) - sharedTagCount(a, company) || a.name.localeCompare(b.name))
+    .slice(0, 6);
 
   return (
     <main>
@@ -448,11 +567,7 @@ function CompanyPage() {
 
       <section className="detail-layout">
         <article className="detail-content">
-          {company.screenshot && (
-            <figure className="screenshot-frame">
-              <img src={company.screenshot} alt={`${company.name} website screenshot`} />
-            </figure>
-          )}
+          <ScreenshotFrame company={company} />
 
           <section className="content-section">
             <p className="eyebrow">Overview</p>
@@ -542,13 +657,26 @@ function Footer() {
   );
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [pathname]);
+
+  return null;
+}
+
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<DirectoryPage />} />
-      <Route path="/company/:slug" element={<CompanyPage />} />
-      <Route path="/tool/:slug" element={<CompanyPage />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<DirectoryPage />} />
+        <Route path="/company/:slug" element={<CompanyPage />} />
+        <Route path="/tool/:slug" element={<CompanyPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   );
 }
