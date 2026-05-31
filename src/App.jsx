@@ -145,6 +145,7 @@ function buildToolsData() {
       tags,
       primaryTag,
       screenshot: typeof parsed.screenshot === "string" ? parsed.screenshot : "",
+      screenshotLastFetched: normalizeDate(parsed.screenshot_last_fetched),
       claimed: !!parsed.claimed,
       dateAdded: normalizeDate(parsed.dateAdded),
       features: Array.isArray(parsed.features) ? parsed.features.slice(0, 3) : [],
@@ -171,6 +172,12 @@ const TAG_COUNTS = TAG_ORDER.reduce((counts, tag) => {
   return counts;
 }, {});
 const TOTAL = ALL_TOOLS.length;
+const SCREENSHOT_COUNT = ALL_TOOLS.filter((tool) => tool.screenshot).length;
+const SCREENSHOT_REFRESHED_COUNT = ALL_TOOLS.filter((tool) => tool.screenshotLastFetched).length;
+const LATEST_SCREENSHOT_REFRESH = ALL_TOOLS.reduce((latest, tool) => {
+  if (!tool.screenshotLastFetched) return latest;
+  return !latest || tool.screenshotLastFetched > latest ? tool.screenshotLastFetched : latest;
+}, null);
 
 function parseFilters(searchString) {
   const params = new URLSearchParams(searchString || "");
@@ -816,6 +823,16 @@ function Panel({ tool, onClose, mobile }) {
 
           <div>
             <div style={{ color: "var(--text-muted)", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "2px", marginBottom: "10px" }}>
+              SCREENSHOT STATUS
+            </div>
+            <div style={{ border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)", borderRadius: "8px", padding: "10px 12px", color: "var(--text-secondary)", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", lineHeight: 1.6 }}>
+              {tool.screenshot ? "CAPTURE AVAILABLE" : "GRADIENT FALLBACK"}
+              {tool.screenshotLastFetched ? ` / refreshed ${tool.screenshotLastFetched}` : " / refresh date pending"}
+            </div>
+          </div>
+
+          <div>
+            <div style={{ color: "var(--text-muted)", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "2px", marginBottom: "10px" }}>
               LINKS
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
@@ -1199,9 +1216,17 @@ function AppFrame() {
             <h1 style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(24px, 4vw, 42px)", fontWeight: 700, margin: "0 0 12px", lineHeight: 1.1, letterSpacing: "-0.5px" }}>
               Tracking what&apos;s <span style={{ color: "#00ff88" }}>shipping</span><br />in AI SRE<span className="blink" style={{ color: "#00ff88" }}>_</span>
             </h1>
-            <p style={{ color: "var(--text-secondary)", fontSize: "13px", maxWidth: "520px", lineHeight: 1.6, margin: "0 0 18px" }}>
+            <p style={{ color: "var(--text-secondary)", fontSize: "13px", maxWidth: "520px", lineHeight: 1.6, margin: "0 0 12px" }}>
               {TOTAL}+ vendors building the future of autonomous reliability engineering, from incident response to observability, platform engineering, and deployment workflows.
             </p>
+            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "18px" }}>
+              <span style={{ border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)", color: "var(--text-secondary)", borderRadius: "999px", padding: "5px 9px", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px" }}>
+                {SCREENSHOT_COUNT}/{TOTAL} screenshots captured
+              </span>
+              <span style={{ border: "1px solid rgba(0,255,136,0.18)", background: "rgba(0,255,136,0.06)", color: "#00ff88", borderRadius: "999px", padding: "5px 9px", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px" }}>
+                {SCREENSHOT_REFRESHED_COUNT} refresh stamps{LATEST_SCREENSHOT_REFRESH ? ` / latest ${LATEST_SCREENSHOT_REFRESH}` : ""}
+              </span>
+            </div>
             <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
               <a className="pressable" href="https://www.linkedin.com/company/ai-sre-watchlist" target="_blank" rel="noopener noreferrer" style={{ background: "#00ff88", color: "#0a0a0a", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px" }}>→ FOLLOW ON LINKEDIN</a>
               <a className="pressable" href="https://github.com/pavangudiwada/awesome-ai-sre" target="_blank" rel="noopener noreferrer" style={{ background: "transparent", color: "#00ff88", padding: "8px 16px", borderRadius: "4px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fontWeight: 700, textDecoration: "none", letterSpacing: "1px", border: "1px solid rgba(0,255,136,0.3)" }}>★ STAR ON GITHUB</a>
