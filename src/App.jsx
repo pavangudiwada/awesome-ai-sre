@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import yaml from "js-yaml";
-import { Navigate, Outlet, Route, Routes, useNavigate, useParams } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom";
 
 const TAG_ORDER = [
   "Incident Response",
@@ -162,11 +162,45 @@ function buildToolsData() {
 const ALL_TOOLS = buildToolsData();
 const TOOLS_BY_SLUG = new Map(ALL_TOOLS.map((tool) => [tool.slug, tool]));
 const NEW_TOOL_SLUGS = new Set(ALL_TOOLS.filter((tool) => isNewTool(tool)).map((tool) => tool.slug));
+const RECENTLY_ADDED_TOOLS = ALL_TOOLS
+  .filter((tool) => tool.dateAdded)
+  .sort((a, b) => String(b.dateAdded).localeCompare(String(a.dateAdded)))
+  .slice(0, 4);
 const TAG_COUNTS = TAG_ORDER.reduce((counts, tag) => {
   counts[tag] = ALL_TOOLS.filter((tool) => tool.tags.includes(tag)).length;
   return counts;
 }, {});
 const TOTAL = ALL_TOOLS.length;
+
+function parseFilters(searchString) {
+  const params = new URLSearchParams(searchString || "");
+  const tags = (params.get("tags") || "")
+    .split(",")
+    .map((tag) => tag.trim())
+    .filter((tag) => TAG_META[tag]);
+
+  return {
+    search: params.get("q") || "",
+    selectedTags: [...new Set(tags)],
+    ossOnly: params.get("oss") === "1",
+  };
+}
+
+function buildFilterSearch(search, selectedTags, ossOnly) {
+  const params = new URLSearchParams();
+  const query = search.trim();
+
+  if (query) params.set("q", query);
+  if (selectedTags.length > 0) params.set("tags", selectedTags.join(","));
+  if (ossOnly) params.set("oss", "1");
+
+  const serialized = params.toString();
+  return serialized ? `?${serialized}` : "";
+}
+
+function filtersEqual(a, b) {
+  return a.search === b.search && a.ossOnly === b.ossOnly && a.selectedTags.join(",") === b.selectedTags.join(",");
+}
 
 function getDomain(url) {
   try {
@@ -864,33 +898,36 @@ function PanelBackdrop({ onClose }) {
   );
 }
 
+async function copyToClipboard(text) {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch {}
+
+  try {
+    const area = document.createElement("textarea");
+    area.value = text;
+    area.setAttribute("readonly", "");
+    area.style.position = "absolute";
+    area.style.left = "-9999px";
+    document.body.appendChild(area);
+    area.select();
+    const success = document.execCommand("copy");
+    document.body.removeChild(area);
+    return success;
+  } catch {
+    return false;
+  }
+}
+
 function ShareBar() {
   const [copied, setCopied] = useState(false);
   const url = typeof window !== "undefined" ? window.location.href : "https://aisrewatchlist.vercel.app";
 
   const copy = async () => {
-    let success = false;
-
-    try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(url);
-        success = true;
-      }
-    } catch {}
-
-    if (!success) {
-      try {
-        const area = document.createElement("textarea");
-        area.value = url;
-        area.setAttribute("readonly", "");
-        area.style.position = "absolute";
-        area.style.left = "-9999px";
-        document.body.appendChild(area);
-        area.select();
-        success = document.execCommand("copy");
-        document.body.removeChild(area);
-      } catch {}
-    }
+    const success = await copyToClipboard(url);
 
     if (success) {
       setCopied(true);
@@ -964,24 +1001,27 @@ function ShareBar() {
 
 function AppFrame() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { slug: routeSlug } = useParams();
   const activeTool = routeSlug ? TOOLS_BY_SLUG.get(routeSlug) || null : null;
-  const [search, setSearch] = useState("");
-  const [selectedTags, setSelectedTags] = useState([]);
-  const [ossOnly, setOssOnly] = useState(false);
+  const initialFilters = parseFilters(typeof window !== "undefined" ? window.location.search : "");
+  const [search, setSearch] = useState(initialFilters.search);
+  const [selectedTags, setSelectedTags] = useState(initialFilters.selectedTags);
+  const [ossOnly, setOssOnly] = useState(initialFilters.ossOnly);
   const [isMobile, setIsMobile] = useState(() => (typeof window !== "undefined" ? window.innerWidth < 768 : false));
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [copiedFilterLink, setCopiedFilterLink] = useState(false);
   const selectedTool = activeTool || null;
 
   const closeSelectedTool = useCallback(() => {
-    navigate("/");
-  }, [navigate]);
+    navigate(`/${location.search}`);
+  }, [location.search, navigate]);
 
   const handleSelectTool = useCallback(
     (tool) => {
-      navigate(routeSlug === tool.slug ? "/" : `/tool/${tool.slug}`);
+      navigate(routeSlug === tool.slug ? `/${location.search}` : `/tool/${tool.slug}${location.search}`);
     },
-    [navigate, routeSlug]
+    [location.search, navigate, routeSlug]
   );
 
   const toggleTag = useCallback((tag) => {
@@ -1005,11 +1045,39 @@ function AppFrame() {
     setOssOnly(false);
   }, [navigate, routeSlug]);
 
+  const copyFilteredView = useCallback(async () => {
+    const nextSearch = buildFilterSearch(search, selectedTags, ossOnly);
+    const origin = typeof window !== "undefined" ? window.location.origin : "https://aisrewatchlist.vercel.app";
+    const shareUrl = `${origin}/${nextSearch}`;
+    const success = await copyToClipboard(shareUrl);
+
+    if (success) {
+      setCopiedFilterLink(true);
+      setTimeout(() => setCopiedFilterLink(false), 2000);
+    }
+  }, [ossOnly, search, selectedTags]);
+
   useEffect(() => {
     if (routeSlug && !activeTool) {
-      navigate("/", { replace: true });
+      navigate(`/${location.search}`, { replace: true });
     }
-  }, [activeTool, navigate, routeSlug]);
+  }, [activeTool, location.search, navigate, routeSlug]);
+
+  useEffect(() => {
+    const nextFilters = parseFilters(location.search);
+    const currentFilters = { search, selectedTags, ossOnly };
+    if (filtersEqual(nextFilters, currentFilters)) return;
+
+    setSearch(nextFilters.search);
+    setSelectedTags(nextFilters.selectedTags);
+    setOssOnly(nextFilters.ossOnly);
+  }, [location.search]);
+
+  useEffect(() => {
+    const nextSearch = buildFilterSearch(search, selectedTags, ossOnly);
+    if (nextSearch === location.search) return;
+    navigate(`${location.pathname}${nextSearch}`, { replace: true });
+  }, [location.pathname, location.search, navigate, ossOnly, search, selectedTags]);
 
   useEffect(() => {
     const onResize = () => {
@@ -1140,6 +1208,59 @@ function AppFrame() {
             </div>
           </header>
 
+          {RECENTLY_ADDED_TOOLS.length > 0 && (
+            <section style={{ marginBottom: "24px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", marginBottom: "10px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
+                  <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#00ff88", boxShadow: "0 0 5px #00ff88" }} />
+                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "3px", color: "#00ff88" }}>RECENTLY ADDED</span>
+                </div>
+                <span style={{ color: "var(--text-muted)", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px" }}>latest dataset updates</span>
+              </div>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: isMobile ? "1fr" : "repeat(4, minmax(0, 1fr))",
+                  gap: "10px",
+                }}
+              >
+                {RECENTLY_ADDED_TOOLS.map((tool) => {
+                  const color = TAG_META[tool.primaryTag]?.color || "#00ff88";
+                  return (
+                    <button
+                      key={tool.slug}
+                      className="pressable pressable--chip"
+                      type="button"
+                      onClick={() => handleSelectTool(tool)}
+                      style={{
+                        minWidth: 0,
+                        textAlign: "left",
+                        borderRadius: "10px",
+                        border: "1px solid rgba(255,255,255,0.07)",
+                        background: "rgba(255,255,255,0.025)",
+                        padding: "10px",
+                        cursor: "pointer",
+                        display: "flex",
+                        gap: "9px",
+                        alignItems: "center",
+                      }}
+                    >
+                      <ToolLogo tool={tool} size={24} />
+                      <span style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: "3px" }}>
+                        <span style={{ color: "var(--text-primary)", fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                          {tool.name}
+                        </span>
+                        <span style={{ color, fontFamily: "'JetBrains Mono', monospace", fontSize: "8px", letterSpacing: "0.8px" }}>
+                          {tool.dateAdded} / {tool.primaryTag}
+                        </span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+
           <div style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
             {!isMobile && (
               <FilterRail
@@ -1194,6 +1315,24 @@ function AppFrame() {
                     FILTERS
                   </button>
                 )}
+                <button
+                  className={`pressable${copiedFilterLink ? " pressable--active" : ""}`}
+                  type="button"
+                  onClick={copyFilteredView}
+                  style={{
+                    padding: "0 12px",
+                    minHeight: "38px",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: "10px",
+                    color: copiedFilterLink ? "#00ff88" : "var(--text-secondary)",
+                    border: copiedFilterLink ? "1px solid rgba(0,255,136,0.38)" : "1px solid rgba(255,255,255,0.09)",
+                    background: copiedFilterLink ? "rgba(0,255,136,0.1)" : "rgba(255,255,255,0.04)",
+                  }}
+                >
+                  {copiedFilterLink ? "COPIED" : "COPY VIEW"}
+                </button>
               </div>
 
               <div style={{ marginBottom: "18px", display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
