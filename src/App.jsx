@@ -191,6 +191,8 @@ const TAG_COUNTS = TAG_ORDER.reduce((acc, tag) => {
 const TOTAL = COMPANIES.length;
 const OBSERVABILITY_TOTAL = OBSERVABILITY_TOOLS.length;
 const RESOURCE_TOTAL = RESOURCES.length;
+const OBSERVABILITY_BY_SLUG = new Map(OBSERVABILITY_TOOLS.map((item) => [item.slug, item]));
+const RESOURCE_BY_SLUG = new Map(RESOURCES.map((item) => [item.slug, item]));
 
 function CompanyLogo({ company, size = 48 }) {
   const [failed, setFailed] = useState(false);
@@ -509,28 +511,30 @@ function collectOptions(items, key) {
 }
 
 function StackCard({ item }) {
-  const color = item.ossStatus === "Open source" ? "#16a34a" : item.ossStatus === "Commercial" ? "#f59e0b" : "#2563eb";
+  const color = item.ossStatus === "Open source" ? "#00ff88" : item.ossStatus === "Commercial" ? "#ffaa00" : "#00d4ff";
   return (
     <article className="stack-card" style={{ "--stack-color": color }}>
-      <div className="stack-card__top">
-        <div>
-          <p className="eyebrow">{item.type}</p>
-          <h3>{item.name}</h3>
+      <Link className="stack-card__body" to={`/observability/${item.slug}`}>
+        <div className="stack-card__top">
+          <div>
+            <p className="eyebrow">{item.type}</p>
+            <h3>{item.name}</h3>
+          </div>
+          <span>{item.ossStatus}</span>
         </div>
-        <span>{item.ossStatus}</span>
-      </div>
-      <p>{item.summary}</p>
-      <div className="mini-tags">
-        {[...item.signals.slice(0, 3), ...item.layers.slice(0, 2)].map((tag) => <span key={tag}>{tag}</span>)}
-      </div>
-      <div className="stack-card__meta">
-        <strong>{item.ecosystem.slice(0, 2).join(" / ")}</strong>
-        <span>Reviewed {item.lastReviewed}</span>
-      </div>
+        <p>{item.summary}</p>
+        <div className="mini-tags">
+          {[...item.signals.slice(0, 3), ...item.layers.slice(0, 2)].map((tag) => <span key={tag}>{tag}</span>)}
+        </div>
+        <div className="stack-card__meta">
+          <strong>{item.ecosystem.slice(0, 2).join(" / ")}</strong>
+          <span>Reviewed {item.lastReviewed}</span>
+        </div>
+      </Link>
       <div className="company-card__actions">
+        <Link to={`/observability/${item.slug}`}>Profile</Link>
         <a href={item.url} target="_blank" rel="noreferrer">Website ↗</a>
         {item.links?.docs && <a href={item.links.docs} target="_blank" rel="noreferrer">Docs ↗</a>}
-        {item.links?.github && <a href={item.links.github} target="_blank" rel="noreferrer">GitHub ↗</a>}
       </div>
     </article>
   );
@@ -539,20 +543,25 @@ function StackCard({ item }) {
 function ResourceCard({ item }) {
   return (
     <article className="resource-card">
-      <div className="resource-card__top">
-        <p className="eyebrow">{item.type}</p>
-        <span>{item.sourceType}</span>
+      <Link className="stack-card__body" to={`/resources/${item.slug}`}>
+        <div className="resource-card__top">
+          <p className="eyebrow">{item.type}</p>
+          <span>{item.sourceType}</span>
+        </div>
+        <h3>{item.title}</h3>
+        <p>{item.summary}</p>
+        <div className="mini-tags">
+          {item.topics.slice(0, 4).map((tag) => <span key={tag}>{tag}</span>)}
+        </div>
+        <div className="stack-card__meta">
+          <strong>{item.source}</strong>
+          <span>{item.frequency}</span>
+        </div>
+      </Link>
+      <div className="company-card__actions">
+        <Link to={`/resources/${item.slug}`}>Profile</Link>
+        <a href={item.url} target="_blank" rel="noreferrer">Open ↗</a>
       </div>
-      <h3>{item.title}</h3>
-      <p>{item.summary}</p>
-      <div className="mini-tags">
-        {item.topics.slice(0, 4).map((tag) => <span key={tag}>{tag}</span>)}
-      </div>
-      <div className="stack-card__meta">
-        <strong>{item.source}</strong>
-        <span>{item.frequency}</span>
-      </div>
-      <a className="resource-card__link" href={item.url} target="_blank" rel="noreferrer">Open resource ↗</a>
     </article>
   );
 }
@@ -702,6 +711,143 @@ function ResourcesPage() {
             {filtered.map((item) => <ResourceCard key={item.slug} item={item} />)}
           </div>
         </section>
+      </section>
+      <Footer />
+    </main>
+  );
+}
+
+
+function DetailMetric({ label, value }) {
+  return (
+    <div className="fact">
+      <span>{label}</span>
+      <strong>{Array.isArray(value) ? value.join(", ") : value}</strong>
+    </div>
+  );
+}
+
+function ObservabilityDetailPage() {
+  const { slug } = useParams();
+  const item = OBSERVABILITY_BY_SLUG.get(slug);
+  if (!item) return <Navigate to="/observability" replace />;
+
+  const related = OBSERVABILITY_TOOLS.filter((candidate) => candidate.slug !== item.slug && candidate.signals.some((signal) => item.signals.includes(signal)))
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .slice(0, 6);
+
+  return (
+    <main>
+      <SiteHeader />
+      <section className="detail-hero detail-hero--terminal">
+        <div className="breadcrumbs">
+          <Link to="/observability">Observability Stack</Link>
+          <span>/</span>
+          <strong>{item.name}</strong>
+        </div>
+        <div className="detail-hero__card">
+          <div>
+            <p className="eyebrow">{item.type}</p>
+            <h1>{item.name}</h1>
+            <p>{item.summary}</p>
+          </div>
+          <div className="detail-hero__actions">
+            <a className="button button--primary" href={item.url} target="_blank" rel="noreferrer">Visit website ↗</a>
+            <Link className="button button--ghost" to="/observability">Back to stack</Link>
+          </div>
+        </div>
+      </section>
+      <section className="facts-strip">
+        <DetailMetric label="Signals" value={item.signals} />
+        <DetailMetric label="Layers" value={item.layers} />
+        <DetailMetric label="Ecosystem" value={item.ecosystem} />
+        <DetailMetric label="Deployment" value={item.deployment} />
+      </section>
+      <section className="detail-layout">
+        <article className="detail-content">
+          <section className="content-section">
+            <p className="eyebrow">Stack role</p>
+            <h2>Where {item.name} fits</h2>
+            <p>{item.summary}</p>
+            <div className="feature-list">
+              {item.useCases.map((useCase) => (
+                <div key={useCase} className="feature-item"><span>›</span><p>{useCase}</p></div>
+              ))}
+            </div>
+          </section>
+          <section className="content-section">
+            <p className="eyebrow">Links</p>
+            <h2>Primary sources</h2>
+            <div className="link-grid">
+              <a href={item.url} target="_blank" rel="noreferrer">Website ↗</a>
+              {item.links?.docs && <a href={item.links.docs} target="_blank" rel="noreferrer">Docs ↗</a>}
+              {item.links?.github && <a href={item.links.github} target="_blank" rel="noreferrer">GitHub ↗</a>}
+            </div>
+          </section>
+        </article>
+        <aside className="detail-sidebar">
+          <div className="sidebar-card"><div className="sidebar-card__heading">Tags</div><div className="tag-stack">{[...item.signals, ...item.layers].map((tag) => <span className="tag-pill" key={tag}>{tag}</span>)}</div></div>
+          <div className="sidebar-card"><div className="sidebar-card__heading">Related stack</div><div className="mini-list">{related.map((relatedItem) => <Link key={relatedItem.slug} to={`/observability/${relatedItem.slug}`}><span>{relatedItem.name}</span></Link>)}</div></div>
+        </aside>
+      </section>
+      <Footer />
+    </main>
+  );
+}
+
+function ResourceDetailPage() {
+  const { slug } = useParams();
+  const item = RESOURCE_BY_SLUG.get(slug);
+  if (!item) return <Navigate to="/resources" replace />;
+
+  const related = RESOURCES.filter((candidate) => candidate.slug !== item.slug && candidate.topics.some((topic) => item.topics.includes(topic)))
+    .sort((a, b) => a.title.localeCompare(b.title))
+    .slice(0, 6);
+
+  return (
+    <main>
+      <SiteHeader />
+      <section className="detail-hero detail-hero--terminal">
+        <div className="breadcrumbs">
+          <Link to="/resources">Resources</Link>
+          <span>/</span>
+          <strong>{item.title}</strong>
+        </div>
+        <div className="detail-hero__card">
+          <div>
+            <p className="eyebrow">{item.type}</p>
+            <h1>{item.title}</h1>
+            <p>{item.summary}</p>
+          </div>
+          <div className="detail-hero__actions">
+            <a className="button button--primary" href={item.url} target="_blank" rel="noreferrer">Open resource ↗</a>
+            <Link className="button button--ghost" to="/resources">Back to resources</Link>
+          </div>
+        </div>
+      </section>
+      <section className="facts-strip">
+        <DetailMetric label="Source" value={item.source} />
+        <DetailMetric label="Source type" value={item.sourceType} />
+        <DetailMetric label="Frequency" value={item.frequency} />
+        <DetailMetric label="Topics" value={item.topics.slice(0, 3)} />
+      </section>
+      <section className="detail-layout">
+        <article className="detail-content">
+          <section className="content-section">
+            <p className="eyebrow">Why it matters</p>
+            <h2>Use this for signal, not noise</h2>
+            <p>{item.summary}</p>
+          </section>
+          <section className="content-section">
+            <p className="eyebrow">Link</p>
+            <h2>Primary source</h2>
+            <div className="link-grid"><a href={item.url} target="_blank" rel="noreferrer">Open resource ↗</a></div>
+          </section>
+        </article>
+        <aside className="detail-sidebar">
+          <div className="sidebar-card"><div className="sidebar-card__heading">Topics</div><div className="tag-stack">{item.topics.map((tag) => <span className="tag-pill" key={tag}>{tag}</span>)}</div></div>
+          <div className="sidebar-card"><div className="sidebar-card__heading">Related resources</div><div className="mini-list">{related.map((relatedItem) => <Link key={relatedItem.slug} to={`/resources/${relatedItem.slug}`}><span>{relatedItem.title}</span></Link>)}</div></div>
+        </aside>
       </section>
       <Footer />
     </main>
@@ -861,7 +1007,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<DirectoryPage />} />
         <Route path="/observability" element={<ObservabilityPage />} />
+        <Route path="/observability/:slug" element={<ObservabilityDetailPage />} />
         <Route path="/resources" element={<ResourcesPage />} />
+        <Route path="/resources/:slug" element={<ResourceDetailPage />} />
         <Route path="/company/:slug" element={<CompanyPage />} />
         <Route path="/tool/:slug" element={<CompanyPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
