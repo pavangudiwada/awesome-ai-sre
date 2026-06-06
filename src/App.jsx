@@ -511,9 +511,8 @@ function collectOptions(items, key) {
 }
 
 function StackCard({ item }) {
-  const color = item.ossStatus === "Open source" ? "#00ff88" : item.ossStatus === "Commercial" ? "#ffaa00" : "#00d4ff";
   return (
-    <article className="stack-card" style={{ "--stack-color": color }}>
+    <article className="stack-card">
       <Link className="stack-card__body" to={`/observability/${item.slug}`}>
         <div className="stack-card__top">
           <div>
