@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import yaml from "js-yaml";
-import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
+import { Link, Navigate, NavLink, Route, Routes, useLocation, useParams } from "react-router-dom";
+import { OBSERVABILITY_FILTERS, OBSERVABILITY_TOOLS } from "./data/observability.js";
+import { RESOURCE_FILTERS, RESOURCES } from "./data/resources.js";
 
 const TAG_ORDER = [
   "Incident Response",
@@ -187,6 +189,10 @@ const TAG_COUNTS = TAG_ORDER.reduce((acc, tag) => {
   return acc;
 }, {});
 const TOTAL = COMPANIES.length;
+const OBSERVABILITY_TOTAL = OBSERVABILITY_TOOLS.length;
+const RESOURCE_TOTAL = RESOURCES.length;
+const OBSERVABILITY_BY_SLUG = new Map(OBSERVABILITY_TOOLS.map((item) => [item.slug, item]));
+const RESOURCE_BY_SLUG = new Map(RESOURCES.map((item) => [item.slug, item]));
 
 function CompanyLogo({ company, size = 48 }) {
   const [failed, setFailed] = useState(false);
@@ -276,38 +282,6 @@ function CompanyCard({ company }) {
   );
 }
 
-function FeaturedCompany({ company }) {
-  if (!company) return null;
-  return (
-    <section className="featured-company">
-      <div>
-        <p className="eyebrow">Featured company</p>
-        <div className="featured-company__title">
-          <CompanyLogo company={company} size={56} />
-          <div>
-            <h2>{company.name}</h2>
-            <p>{company.domain}</p>
-          </div>
-        </div>
-        <p className="featured-company__copy">{company.summary}</p>
-        <div className="featured-company__tags">
-          {company.tags.slice(0, 4).map((tag) => (
-            <span key={tag}>{tag}</span>
-          ))}
-        </div>
-      </div>
-      <div className="featured-company__links">
-        <Link className="button button--primary" to={`/company/${company.slug}`}>
-          View profile
-        </Link>
-        <a className="button button--ghost" href={company.website} target="_blank" rel="noreferrer">
-          Visit website ↗
-        </a>
-      </div>
-    </section>
-  );
-}
-
 function ScreenshotFrame({ company }) {
   const [failed, setFailed] = useState(false);
   const hasScreenshot = Boolean(company.screenshot) && !failed;
@@ -342,7 +316,8 @@ function DirectoryPage() {
 
   useEffect(() => {
     function handleKeyDown(event) {
-      if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) return;
+      const isSlashShortcut = event.key === "/" || event.code === "Slash";
+      if (!isSlashShortcut || event.metaKey || event.ctrlKey || event.altKey) return;
       const target = event.target;
       const isTyping = target instanceof HTMLElement && ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName);
       if (isTyping) return;
@@ -369,20 +344,24 @@ function DirectoryPage() {
     return sortCompanies(matches, sortBy);
   }, [activeTag, deploymentFilter, openSourceOnly, search, sortBy]);
 
-  const featured = COMPANIES.find((company) => company.slug === "holmesgpt") || COMPANIES[0];
-  const showFeatured = !search.trim() && activeTag === "All" && !openSourceOnly && deploymentFilter === "All";
-
   return (
     <main>
       <SiteHeader />
 
       <section className="hero">
-        <p className="eyebrow">AI SRE company directory</p>
-        <h1>Find companies building AI for reliability engineering.</h1>
+        <p className="eyebrow">Tracking what's shipping in AI SRE</p>
+        <h1>
+          Track the <span className="hero-highlight hero-highlight--ai">AI</span> layer of <span className="hero-highlight hero-highlight--reliability">reliable engineering</span>.
+        </h1>
         <p>
-          A clean directory of {TOTAL} AI SRE companies across incident response, observability, AIOps,
+          A curated directory of {TOTAL} AI SRE companies across incident response, observability, AIOps,
           platform engineering, infrastructure automation, and deployment workflows.
         </p>
+        <div className="surface-tabs" aria-label="Watchlist sections">
+          <NavLink to="/" end>AI SRE Tools <strong>{TOTAL}</strong></NavLink>
+          <NavLink to="/observability">Observability Stack <strong>{OBSERVABILITY_TOTAL}</strong></NavLink>
+          <NavLink to="/resources">Resources <strong>{RESOURCE_TOTAL}</strong></NavLink>
+        </div>
         <div className="search-box">
           <span>⌕</span>
           <input
@@ -445,8 +424,6 @@ function DirectoryPage() {
         </aside>
 
         <section className="results">
-          {showFeatured && <FeaturedCompany company={featured} />}
-
           <div className="results-header">
             <div>
               <p className="eyebrow">Directory</p>
@@ -513,11 +490,366 @@ function SiteHeader() {
         <span>AI SRE Watchlist</span>
       </Link>
       <nav>
+        <NavLink to="/" end>AI SRE Tools</NavLink>
+        <NavLink to="/observability">Observability Stack</NavLink>
+        <NavLink to="/resources">Resources</NavLink>
         <a href="https://github.com/pavangudiwada/awesome-ai-sre" target="_blank" rel="noreferrer">GitHub</a>
-        <a href="https://www.linkedin.com/company/ai-sre-watchlist" target="_blank" rel="noreferrer">LinkedIn</a>
-        <a className="submit-link" href="https://github.com/pavangudiwada/awesome-ai-sre/issues/new?template=add-operate-tool.yml" target="_blank" rel="noreferrer">Submit company</a>
+        <a className="submit-link" href="https://github.com/pavangudiwada/awesome-ai-sre/issues/new?template=add-operate-tool.yml" target="_blank" rel="noreferrer">Submit</a>
       </nav>
     </header>
+  );
+}
+
+
+function arrayMatches(values, active) {
+  if (active === "All") return true;
+  return Array.isArray(values) && values.includes(active);
+}
+
+function collectOptions(items, key) {
+  return ["All", ...Array.from(new Set(items.flatMap((item) => item[key] || []))).sort((a, b) => a.localeCompare(b))];
+}
+
+function StackCard({ item }) {
+  return (
+    <article className="stack-card">
+      <Link className="stack-card__body" to={`/observability/${item.slug}`}>
+        <div className="stack-card__top">
+          <div>
+            <p className="eyebrow">{item.type}</p>
+            <h3>{item.name}</h3>
+          </div>
+          <span>{item.ossStatus}</span>
+        </div>
+        <p>{item.summary}</p>
+        <div className="mini-tags">
+          {[...item.signals.slice(0, 3), ...item.layers.slice(0, 2)].map((tag) => <span key={tag}>{tag}</span>)}
+        </div>
+        <div className="stack-card__meta">
+          <strong>{item.ecosystem.slice(0, 2).join(" / ")}</strong>
+          <span>Reviewed {item.lastReviewed}</span>
+        </div>
+      </Link>
+      <div className="company-card__actions">
+        <Link to={`/observability/${item.slug}`}>Profile</Link>
+        <a href={item.url} target="_blank" rel="noreferrer">Website ↗</a>
+        {item.links?.docs && <a href={item.links.docs} target="_blank" rel="noreferrer">Docs ↗</a>}
+      </div>
+    </article>
+  );
+}
+
+function ResourceCard({ item }) {
+  return (
+    <article className="resource-card">
+      <Link className="stack-card__body" to={`/resources/${item.slug}`}>
+        <div className="resource-card__top">
+          <p className="eyebrow">{item.type}</p>
+          <span>{item.sourceType}</span>
+        </div>
+        <h3>{item.title}</h3>
+        <p>{item.summary}</p>
+        <div className="mini-tags">
+          {item.topics.slice(0, 4).map((tag) => <span key={tag}>{tag}</span>)}
+        </div>
+        <div className="stack-card__meta">
+          <strong>{item.source}</strong>
+          <span>{item.frequency}</span>
+        </div>
+      </Link>
+      <div className="company-card__actions">
+        <Link to={`/resources/${item.slug}`}>Profile</Link>
+        <a href={item.url} target="_blank" rel="noreferrer">Open ↗</a>
+      </div>
+    </article>
+  );
+}
+
+function FilterSelect({ label, value, options, onChange }) {
+  return (
+    <label className="select-row">
+      <span>{label}</span>
+      <select value={value} onChange={(event) => onChange(event.target.value)}>
+        {options.map((option) => <option key={option} value={option}>{option}</option>)}
+      </select>
+    </label>
+  );
+}
+
+function ObservabilityPage() {
+  const [search, setSearch] = useState("");
+  const [signal, setSignal] = useState("All");
+  const [layer, setLayer] = useState("All");
+  const [ecosystem, setEcosystem] = useState("All");
+  const [deployment, setDeployment] = useState("All");
+
+  const deploymentOptions = ["All", ...OBSERVABILITY_FILTERS.deployment];
+  const filtered = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    return OBSERVABILITY_TOOLS.filter((item) => {
+      if (!arrayMatches(item.signals, signal)) return false;
+      if (!arrayMatches(item.layers, layer)) return false;
+      if (!arrayMatches(item.ecosystem, ecosystem)) return false;
+      if (deployment !== "All" && item.ossStatus !== deployment && !arrayMatches(item.deployment, deployment)) return false;
+      if (!query) return true;
+      return [item.name, item.summary, item.type, item.ossStatus, ...item.signals, ...item.layers, ...item.ecosystem, ...item.useCases]
+        .join(" ")
+        .toLowerCase()
+        .includes(query);
+    }).sort((a, b) => a.name.localeCompare(b.name));
+  }, [deployment, ecosystem, layer, search, signal]);
+
+  return (
+    <main>
+      <SiteHeader />
+      <section className="hub-hero hub-hero--observability">
+        <p className="eyebrow">Observability Stack</p>
+        <h1>Map the telemetry stack behind reliable engineering.</h1>
+        <p>Explore {OBSERVABILITY_TOTAL} standards, collectors, pipelines, backends, dashboards, alerting systems, and commercial platforms that feed modern AI SRE workflows.</p>
+        <div className="surface-tabs" aria-label="Watchlist sections">
+          <NavLink to="/" end>AI SRE Tools <strong>{TOTAL}</strong></NavLink>
+          <NavLink to="/observability">Observability Stack <strong>{OBSERVABILITY_TOTAL}</strong></NavLink>
+          <NavLink to="/resources">Resources <strong>{RESOURCE_TOTAL}</strong></NavLink>
+        </div>
+      </section>
+
+      <section className="hub-layout">
+        <aside className="sidebar">
+          <div className="sidebar-card">
+            <div className="sidebar-card__heading">Filter stack</div>
+            <FilterSelect label="Signal" value={signal} options={["All", ...OBSERVABILITY_FILTERS.signals]} onChange={setSignal} />
+            <FilterSelect label="Layer" value={layer} options={["All", ...OBSERVABILITY_FILTERS.layers]} onChange={setLayer} />
+            <FilterSelect label="Ecosystem" value={ecosystem} options={["All", ...OBSERVABILITY_FILTERS.ecosystem]} onChange={setEcosystem} />
+            <FilterSelect label="Deployment" value={deployment} options={deploymentOptions} onChange={setDeployment} />
+          </div>
+        </aside>
+        <section className="results">
+          <div className="search-box search-box--compact">
+            <span>⌕</span>
+            <input autoComplete="off" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search OTel, logs, metrics, traces, eBPF, platforms..." />
+          </div>
+          <div className="results-header">
+            <div>
+              <p className="eyebrow">Stack directory</p>
+              <h2>{filtered.length} tools found</h2>
+            </div>
+            {(search || signal !== "All" || layer !== "All" || ecosystem !== "All" || deployment !== "All") && (
+              <button className="clear-button" type="button" onClick={() => { setSearch(""); setSignal("All"); setLayer("All"); setEcosystem("All"); setDeployment("All"); }}>Clear filters</button>
+            )}
+          </div>
+          <div className="stack-grid">
+            {filtered.map((item) => <StackCard key={item.slug} item={item} />)}
+          </div>
+        </section>
+      </section>
+      <Footer />
+    </main>
+  );
+}
+
+function ResourcesPage() {
+  const [search, setSearch] = useState("");
+  const [type, setType] = useState("All");
+  const [topic, setTopic] = useState("All");
+  const [sourceType, setSourceType] = useState("All");
+  const typeOptions = collectOptions(RESOURCES, "type");
+  const topicOptions = ["All", ...Array.from(new Set([...RESOURCE_FILTERS.topics, ...RESOURCES.flatMap((item) => item.topics)])).sort((a, b) => a.localeCompare(b))];
+
+  const filtered = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    return RESOURCES.filter((item) => {
+      if (type !== "All" && item.type !== type) return false;
+      if (sourceType !== "All" && item.sourceType !== sourceType) return false;
+      if (!arrayMatches(item.topics, topic)) return false;
+      if (!query) return true;
+      return [item.title, item.source, item.type, item.sourceType, item.summary, ...item.topics]
+        .join(" ")
+        .toLowerCase()
+        .includes(query);
+    }).sort((a, b) => a.title.localeCompare(b.title));
+  }, [search, sourceType, topic, type]);
+
+  return (
+    <main>
+      <SiteHeader />
+      <section className="hub-hero hub-hero--resources">
+        <p className="eyebrow">Resources</p>
+        <h1>The reading map for AI SRE and observability.</h1>
+        <p>Find {RESOURCE_TOTAL} blogs, newsletters, communities, directories, and repos worth tracking as the AI SRE and observability ecosystems evolve.</p>
+        <div className="surface-tabs" aria-label="Watchlist sections">
+          <NavLink to="/" end>AI SRE Tools <strong>{TOTAL}</strong></NavLink>
+          <NavLink to="/observability">Observability Stack <strong>{OBSERVABILITY_TOTAL}</strong></NavLink>
+          <NavLink to="/resources">Resources <strong>{RESOURCE_TOTAL}</strong></NavLink>
+        </div>
+      </section>
+
+      <section className="hub-layout">
+        <aside className="sidebar">
+          <div className="sidebar-card">
+            <div className="sidebar-card__heading">Filter resources</div>
+            <FilterSelect label="Type" value={type} options={typeOptions} onChange={setType} />
+            <FilterSelect label="Topic" value={topic} options={topicOptions} onChange={setTopic} />
+            <FilterSelect label="Source" value={sourceType} options={["All", ...RESOURCE_FILTERS.sourceTypes]} onChange={setSourceType} />
+          </div>
+        </aside>
+        <section className="results">
+          <div className="search-box search-box--compact">
+            <span>⌕</span>
+            <input autoComplete="off" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search blogs, newsletters, communities, repos..." />
+          </div>
+          <div className="results-header">
+            <div>
+              <p className="eyebrow">Resource hub</p>
+              <h2>{filtered.length} resources found</h2>
+            </div>
+            {(search || type !== "All" || topic !== "All" || sourceType !== "All") && (
+              <button className="clear-button" type="button" onClick={() => { setSearch(""); setType("All"); setTopic("All"); setSourceType("All"); }}>Clear filters</button>
+            )}
+          </div>
+          <div className="resource-grid">
+            {filtered.map((item) => <ResourceCard key={item.slug} item={item} />)}
+          </div>
+        </section>
+      </section>
+      <Footer />
+    </main>
+  );
+}
+
+
+function DetailMetric({ label, value }) {
+  return (
+    <div className="fact">
+      <span>{label}</span>
+      <strong>{Array.isArray(value) ? value.join(", ") : value}</strong>
+    </div>
+  );
+}
+
+function ObservabilityDetailPage() {
+  const { slug } = useParams();
+  const item = OBSERVABILITY_BY_SLUG.get(slug);
+  if (!item) return <Navigate to="/observability" replace />;
+
+  const related = OBSERVABILITY_TOOLS.filter((candidate) => candidate.slug !== item.slug && candidate.signals.some((signal) => item.signals.includes(signal)))
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .slice(0, 6);
+
+  return (
+    <main>
+      <SiteHeader />
+      <section className="detail-hero detail-hero--terminal">
+        <div className="breadcrumbs">
+          <Link to="/observability">Observability Stack</Link>
+          <span>/</span>
+          <strong>{item.name}</strong>
+        </div>
+        <div className="detail-hero__card">
+          <div>
+            <p className="eyebrow">{item.type}</p>
+            <h1>{item.name}</h1>
+            <p>{item.summary}</p>
+          </div>
+          <div className="detail-hero__actions">
+            <a className="button button--primary" href={item.url} target="_blank" rel="noreferrer">Visit website ↗</a>
+            <Link className="button button--ghost" to="/observability">Back to stack</Link>
+          </div>
+        </div>
+      </section>
+      <section className="facts-strip">
+        <DetailMetric label="Signals" value={item.signals} />
+        <DetailMetric label="Layers" value={item.layers} />
+        <DetailMetric label="Ecosystem" value={item.ecosystem} />
+        <DetailMetric label="Deployment" value={item.deployment} />
+      </section>
+      <section className="detail-layout">
+        <article className="detail-content">
+          <section className="content-section">
+            <p className="eyebrow">Stack role</p>
+            <h2>Where {item.name} fits</h2>
+            <p>{item.summary}</p>
+            <div className="feature-list">
+              {item.useCases.map((useCase) => (
+                <div key={useCase} className="feature-item"><span>›</span><p>{useCase}</p></div>
+              ))}
+            </div>
+          </section>
+          <section className="content-section">
+            <p className="eyebrow">Links</p>
+            <h2>Primary sources</h2>
+            <div className="link-grid">
+              <a href={item.url} target="_blank" rel="noreferrer">Website ↗</a>
+              {item.links?.docs && <a href={item.links.docs} target="_blank" rel="noreferrer">Docs ↗</a>}
+              {item.links?.github && <a href={item.links.github} target="_blank" rel="noreferrer">GitHub ↗</a>}
+            </div>
+          </section>
+        </article>
+        <aside className="detail-sidebar">
+          <div className="sidebar-card"><div className="sidebar-card__heading">Tags</div><div className="tag-stack">{[...item.signals, ...item.layers].map((tag) => <span className="tag-pill" key={tag}>{tag}</span>)}</div></div>
+          <div className="sidebar-card"><div className="sidebar-card__heading">Related stack</div><div className="mini-list">{related.map((relatedItem) => <Link key={relatedItem.slug} to={`/observability/${relatedItem.slug}`}><span>{relatedItem.name}</span></Link>)}</div></div>
+        </aside>
+      </section>
+      <Footer />
+    </main>
+  );
+}
+
+function ResourceDetailPage() {
+  const { slug } = useParams();
+  const item = RESOURCE_BY_SLUG.get(slug);
+  if (!item) return <Navigate to="/resources" replace />;
+
+  const related = RESOURCES.filter((candidate) => candidate.slug !== item.slug && candidate.topics.some((topic) => item.topics.includes(topic)))
+    .sort((a, b) => a.title.localeCompare(b.title))
+    .slice(0, 6);
+
+  return (
+    <main>
+      <SiteHeader />
+      <section className="detail-hero detail-hero--terminal">
+        <div className="breadcrumbs">
+          <Link to="/resources">Resources</Link>
+          <span>/</span>
+          <strong>{item.title}</strong>
+        </div>
+        <div className="detail-hero__card">
+          <div>
+            <p className="eyebrow">{item.type}</p>
+            <h1>{item.title}</h1>
+            <p>{item.summary}</p>
+          </div>
+          <div className="detail-hero__actions">
+            <a className="button button--primary" href={item.url} target="_blank" rel="noreferrer">Open resource ↗</a>
+            <Link className="button button--ghost" to="/resources">Back to resources</Link>
+          </div>
+        </div>
+      </section>
+      <section className="facts-strip">
+        <DetailMetric label="Source" value={item.source} />
+        <DetailMetric label="Source type" value={item.sourceType} />
+        <DetailMetric label="Frequency" value={item.frequency} />
+        <DetailMetric label="Topics" value={item.topics.slice(0, 3)} />
+      </section>
+      <section className="detail-layout">
+        <article className="detail-content">
+          <section className="content-section">
+            <p className="eyebrow">Why it matters</p>
+            <h2>Use this for signal, not noise</h2>
+            <p>{item.summary}</p>
+          </section>
+          <section className="content-section">
+            <p className="eyebrow">Link</p>
+            <h2>Primary source</h2>
+            <div className="link-grid"><a href={item.url} target="_blank" rel="noreferrer">Open resource ↗</a></div>
+          </section>
+        </article>
+        <aside className="detail-sidebar">
+          <div className="sidebar-card"><div className="sidebar-card__heading">Topics</div><div className="tag-stack">{item.topics.map((tag) => <span className="tag-pill" key={tag}>{tag}</span>)}</div></div>
+          <div className="sidebar-card"><div className="sidebar-card__heading">Related resources</div><div className="mini-list">{related.map((relatedItem) => <Link key={relatedItem.slug} to={`/resources/${relatedItem.slug}`}><span>{relatedItem.title}</span></Link>)}</div></div>
+        </aside>
+      </section>
+      <Footer />
+    </main>
   );
 }
 
@@ -673,6 +1005,10 @@ export default function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<DirectoryPage />} />
+        <Route path="/observability" element={<ObservabilityPage />} />
+        <Route path="/observability/:slug" element={<ObservabilityDetailPage />} />
+        <Route path="/resources" element={<ResourcesPage />} />
+        <Route path="/resources/:slug" element={<ResourceDetailPage />} />
         <Route path="/company/:slug" element={<CompanyPage />} />
         <Route path="/tool/:slug" element={<CompanyPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
