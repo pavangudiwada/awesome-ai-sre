@@ -1,0 +1,17 @@
+name: KnoxOps
+slug: knoxops
+url: https://knoxops.app/?invite_token=GITHUB26
+summary: AI-native ops agent for SREs — gives agents production execution power with safety guardrails, human-in-the-loop review, and a built-in knowledge graph of your infrastructure.
+deployment:
+  - saas
+opensource: false
+tags:
+  - AIOps
+dateAdded: '2026-06-09'
+claimed: false
+features:
+  - Production execution for AI agents within safety guardrails
+  - Human review required for every production change
+  - Plan-first workflows with AI reviewing each stage
+  - Built-in knowledge graph of production infrastructure
+x: https://x.com/KnoxOpsHQ
