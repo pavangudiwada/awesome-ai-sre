@@ -1,0 +1,18 @@
+name: Hyground
+slug: hyground
+url: https://hyground.ai
+summary: Self-hosted AI SRE agent that integrates into your infrastructure for fast incident analysis and reduced manual toil.
+deployment:
+  - on-prem
+opensource: false
+tags:
+  - AIOps
+  - Incident Response
+  - Observability
+dateAdded: '2026-06-11'
+claimed: false
+features:
+  - Seamless integration with tools and communication channels
+  - Automatic root cause analysis from arbitrary external events
+  - Workflow automation with reusable skills and schedules
+linkedin: https://www.linkedin.com/company/hyground
