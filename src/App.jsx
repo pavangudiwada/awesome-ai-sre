@@ -160,6 +160,100 @@ const ALTERNATIVES = {
   firehydrant: { title: "FireHydrant" },
 };
 
+const EXAMPLE_COMPANY_PROFILE = {
+  slug: "example-company-page",
+  name: "AsterOps AI",
+  domain: "asterops.example",
+  website: "https://example.com",
+  summary: "Autonomous incident investigation and remediation for Kubernetes-heavy platform teams.",
+  longDescription:
+    "AsterOps AI connects observability, incident, deploy, and cloud metadata to investigate production incidents, draft root-cause narratives, and propose guarded remediation steps for on-call engineers.",
+  primaryCategory: "AI SRE",
+  deployment: ["Cloud", "Self-hosted"],
+  pricingModel: "Enterprise",
+  openSource: false,
+  claimed: true,
+  logo: "",
+  integrations: [
+    "OpenTelemetry",
+    "Prometheus",
+    "Grafana",
+    "Datadog",
+    "Sentry",
+    "PagerDuty",
+    "Slack",
+    "Microsoft Teams",
+    "Jira",
+    "ServiceNow",
+    "Kubernetes",
+    "GitHub",
+    "GitLab",
+    "Terraform",
+  ],
+  features: [
+    "Correlates traces, metrics, logs, deploys, and incident timelines into one investigation workspace.",
+    "Generates remediation plans with approval gates, rollback checks, and audit-ready change notes.",
+    "Learns service ownership, escalation policy, and runbook context from connected systems.",
+  ],
+  carousel: [
+    {
+      title: "Incident command center",
+      image: "/screenshots/obs-grafana.png",
+      caption: "Live incident timeline with hypotheses, owners, and linked telemetry evidence.",
+    },
+    {
+      title: "Root cause workspace",
+      image: "/screenshots/obs-datadog-observability.png",
+      caption: "Cross-tool signal correlation across logs, traces, metrics, deploys, and alerts.",
+    },
+    {
+      title: "Remediation plan",
+      image: "/screenshots/obs-prometheus.png",
+      caption: "Suggested fixes with blast-radius notes, confidence levels, and approval controls.",
+    },
+  ],
+  metrics: [
+    ["Median investigation time", "11 min"],
+    ["Connected signals", "Logs / traces / metrics / deploys"],
+    ["Guardrails", "Approval-first automation"],
+    ["Security posture", "SOC 2-ready audit exports"],
+  ],
+  blogs: [
+    {
+      title: "Designing approval-first remediation for production incidents",
+      date: "2026-05-28",
+      summary: "How teams can use AI to prepare fixes without giving up human control.",
+    },
+    {
+      title: "What high-signal incident timelines need from observability data",
+      date: "2026-05-10",
+      summary: "A practical model for linking telemetry, deploy metadata, and ownership context.",
+    },
+    {
+      title: "Moving from alert summaries to root-cause narratives",
+      date: "2026-04-18",
+      summary: "Why useful AI incident tooling must preserve evidence and uncertainty.",
+    },
+  ],
+  updates: [
+    {
+      title: "Change-risk preview for Kubernetes rollouts",
+      date: "2026-06-04",
+      summary: "New deploy analysis highlights risky service changes before rollout approval.",
+    },
+    {
+      title: "ServiceNow and Jira incident export",
+      date: "2026-05-21",
+      summary: "Investigation summaries can now be exported into existing ticket workflows.",
+    },
+    {
+      title: "Private runbook memory",
+      date: "2026-05-02",
+      summary: "Teams can ground AI recommendations in approved internal runbooks and ownership maps.",
+    },
+  ],
+};
+
 function cleanDate(value) {
   if (value instanceof Date && !Number.isNaN(value.getTime())) {
     return value.toISOString().slice(0, 10);
@@ -1713,13 +1807,6 @@ function ToolProfilePage() {
             </div>
           )}
 
-          {tool.integrations.length > 0 && (
-            <div className="content-card profile-section">
-              <p className="profile-section-title">Integrations</p>
-              <IntegrationsSection tool={tool} />
-            </div>
-          )}
-
           {related.length > 0 && (
             <div className="profile-section">
               <p className="profile-section-title" style={{ marginBottom: 12 }}>Similar tools</p>
@@ -1786,6 +1873,162 @@ function ToolProfilePage() {
               </div>
             </div>
           )}
+        </aside>
+      </section>
+      <ProfileShareBar tool={tool} />
+    </main>
+  );
+}
+
+function ExampleImageCarousel({ items }) {
+  const [index, setIndex] = useState(0);
+  const active = items[index];
+
+  return (
+    <div className="example-carousel">
+      <div className="example-carousel__image-wrap">
+        <img className="example-carousel__image" src={active.image} alt={active.title} />
+      </div>
+      <div className="example-carousel__body">
+        <div>
+          <p className="profile-section-title">Product preview</p>
+          <h2>{active.title}</h2>
+          <p>{active.caption}</p>
+        </div>
+        <div className="example-carousel__controls" aria-label="Product screenshots">
+          {items.map((item, itemIndex) => (
+            <button
+              key={item.title}
+              type="button"
+              className={`example-carousel__dot ${itemIndex === index ? "is-active" : ""}`}
+              onClick={() => setIndex(itemIndex)}
+              aria-label={`Show ${item.title}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ExampleCompanyPage() {
+  const tool = EXAMPLE_COMPANY_PROFILE;
+
+  return (
+    <main>
+      <section className="example-profile-hero">
+        <div>
+          <p className="eyebrow">Example company page</p>
+          <h1>This could be your company page</h1>
+          <p>
+            A demo profile showing the richer vendor-owned surface: product screenshots, integrations, proof points,
+            launch updates, and useful editorial content in one decision-ready page.
+          </p>
+        </div>
+        <a className="button button--primary" href={SUBMIT_URL} target="_blank" rel="noreferrer">
+          Claim or submit a profile <ExternalLink size={12} aria-hidden="true" />
+        </a>
+      </section>
+
+      <section className="profile-layout">
+        <article className="profile-content">
+          <ExampleImageCarousel items={tool.carousel} />
+
+          <div className="profile-title-block">
+            <div className="profile-title-row">
+              <ToolLogo tool={tool} size={40} />
+              <div>
+                <h1 className="profile-name">{tool.name}</h1>
+                <p className="profile-company">{tool.domain}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="content-card profile-section">
+            <p>{tool.longDescription}</p>
+          </div>
+
+          <div className="content-card profile-section">
+            <p className="profile-section-title">Core product details</p>
+            <div className="feature-list">
+              {tool.features.map((feature) => (
+                <p key={feature} className="feature-item"><Check size={13} aria-hidden="true" /> {feature}</p>
+              ))}
+            </div>
+          </div>
+
+          <div className="content-card profile-section">
+            <p className="profile-section-title">Verified integrations</p>
+            <IntegrationsSection tool={tool} />
+          </div>
+
+          <div className="profile-section">
+            <p className="profile-section-title" style={{ marginBottom: 12 }}>New features</p>
+            <div className="example-update-grid">
+              {tool.updates.map((update) => (
+                <article className="content-card" key={update.title}>
+                  <p className="content-card__meta">{toLocaleDate(update.date)}</p>
+                  <h3>{update.title}</h3>
+                  <p>{update.summary}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div className="profile-section">
+            <p className="profile-section-title" style={{ marginBottom: 12 }}>Latest from the team</p>
+            <div className="example-blog-list">
+              {tool.blogs.map((post) => (
+                <article className="content-card example-blog-card" key={post.title}>
+                  <div>
+                    <p className="content-card__meta">{toLocaleDate(post.date)}</p>
+                    <h3>{post.title}</h3>
+                    <p>{post.summary}</p>
+                  </div>
+                  <span className="chip-row__item">Blog</span>
+                </article>
+              ))}
+            </div>
+          </div>
+        </article>
+
+        <aside className="profile-sidebar">
+          <div className="content-card profile-sidebar-card">
+            <div className="profile-sidebar-identity">
+              <ToolLogo tool={tool} size={48} />
+              <div>
+                <p className="profile-sidebar-name">{tool.name}</p>
+                <p className="profile-sidebar-company">{tool.domain}</p>
+              </div>
+            </div>
+
+            <a href={tool.website} target="_blank" rel="noreferrer" className="button button--primary">
+              Example website <ExternalLink size={12} aria-hidden="true" />
+            </a>
+
+            <dl className="profile-facts">
+              <dt>Category</dt>
+              <dd><span className="chip">{tool.primaryCategory}</span></dd>
+              <dt>Deployment</dt>
+              <dd>{tool.deployment.join(", ")}</dd>
+              <dt>Pricing</dt>
+              <dd>{tool.pricingModel}</dd>
+              <dt>Profile type</dt>
+              <dd><span className="chip chip--success">Claimed demo</span></dd>
+            </dl>
+          </div>
+
+          <div className="content-card" style={{ marginTop: 12 }}>
+            <p className="eyebrow" style={{ marginBottom: 10 }}>Buyer signals</p>
+            <dl className="profile-facts">
+              {tool.metrics.map(([label, value]) => (
+                <React.Fragment key={label}>
+                  <dt>{label}</dt>
+                  <dd>{value}</dd>
+                </React.Fragment>
+              ))}
+            </dl>
+          </div>
         </aside>
       </section>
       <ProfileShareBar tool={tool} />
@@ -2424,6 +2667,7 @@ export default function App() {
         <Route path="/" element={<AppLayout><ToolDirectoryPage /></AppLayout>} />
         <Route path="/tools" element={<AppLayout><ToolDirectoryPage /></AppLayout>} />
         <Route path="/tools/:slug" element={<AppLayout><ToolProfilePage /></AppLayout>} />
+        <Route path="/example/company-page" element={<AppLayout><ExampleCompanyPage /></AppLayout>} />
         <Route path="/company/:slug" element={<LegacyCompanyAlias />} />
         <Route path="/tool/:slug" element={<LegacyRouteToolAlias />} />
         <Route path="/best/:slug" element={<AppLayout><BestToolsPage /></AppLayout>} />
