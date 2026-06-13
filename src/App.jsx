@@ -1600,6 +1600,18 @@ function IconReddit() {
   );
 }
 
+function IconLinkedIn() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M8 11v8" />
+      <path d="M8 8v.01" />
+      <path d="M12 19v-8" />
+      <path d="M12 15c0-2.2 1.2-4 3.5-4s3.5 1.8 3.5 4v4" />
+      <path d="M4 4h16v16H4z" />
+    </svg>
+  );
+}
+
 function ProfileShareBar({ tool }) {
   const [copied, setCopied] = useState(false);
   const url = typeof window !== "undefined" ? window.location.href : "";
