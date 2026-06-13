@@ -1720,15 +1720,6 @@ function ToolProfilePage() {
             </div>
           )}
 
-          <div className="content-card profile-section">
-            <p className="profile-section-title">Case Studies & Proof</p>
-            {tool.evidence.length === 0 ? (
-              <p className="empty-copy">No case studies yet.</p>
-            ) : (
-              <EvidenceList items={tool.evidence} />
-            )}
-          </div>
-
           {related.length > 0 && (
             <div className="profile-section">
               <p className="profile-section-title" style={{ marginBottom: 12 }}>Similar tools</p>
