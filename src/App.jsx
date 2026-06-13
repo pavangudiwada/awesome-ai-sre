@@ -2355,11 +2355,15 @@ function ObservabilityDetailPage() {
 
       <section className="profile-layout">
         <article className="profile-content">
-          <div className="profile-hero-placeholder">
-            <ToolLogo tool={tool} size={56} />
-            <div>
-              <h1 className="profile-name">{item.name}</h1>
-              <p className="profile-company">{getDomain(item.url)}</p>
+          <ProfileHeroImage tool={tool} />
+
+          <div className="profile-title-block">
+            <div className="profile-title-row">
+              <ToolLogo tool={tool} size={40} />
+              <div>
+                <h1 className="profile-name">{item.name}</h1>
+                <p className="profile-company">{getDomain(item.url)}</p>
+              </div>
             </div>
           </div>
 

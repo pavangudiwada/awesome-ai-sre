@@ -20,6 +20,14 @@
    - Skips tools that already have screenshots
    - Auto-patches `observability.js` with `screenshot:` fields
 
+## Visual asset QA guardrail
+
+- Do not assume images render just because the data has a `screenshot` path and the file exists.
+- Any change touching `ToolCard`, `ProfileHeroImage`, `obsToTool`, `ToolProfilePage`, `ObservabilityPage`, or `ObservabilityDetailPage` must be verified in a browser.
+- Browser verification must include at least one directory page and one detail page for both AI SRE tools and observability tools when those surfaces are affected.
+- For screenshot-backed surfaces, verify rendered `<img>` elements have non-zero `naturalWidth` and `naturalHeight`; a successful build is not sufficient.
+- Observability detail pages must render `ProfileHeroImage` from `obsToTool(item).screenshot`. Do not replace it with a logo-only placeholder unless the item truly has no screenshot.
+
 ## Logo quality checks
 
 - SVG preferred over PNG
