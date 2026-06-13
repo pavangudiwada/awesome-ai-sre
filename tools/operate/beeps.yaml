@@ -11,7 +11,7 @@ tags:
 dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/beeps.png
-logo: /logos/beeps.png
+logo: /logos/beeps.svg
 screenshot_last_fetched: '2026-03-16'
 features:
   - Assists responders during alert triage and incident handling

@@ -4,9 +4,31 @@ const fs = require('fs');
 const path = require('path');
 
 const TOOLS_DIR = path.join('tools', 'operate');
-const OUTPUT_DIR = path.join('assets', 'logos');
+const OUTPUT_DIR = path.join('public', 'logos');
 const TIMEOUT_MS = 12000;
 const MAX_HTML_BYTES = 600000;
+const FORCE = process.argv.includes('--force');
+const MIN_PNG_BYTES = 2000;
+
+// Paths that indicate a non-logo SVG/PNG (third-party icons, team photos, etc.)
+const BAD_PATH_PATTERNS = [
+  '/customers/', '/testimonials/', '/team/', '/people/', '/social/',
+  '/partners/', '/sprite', '/avatar', '/headshot', '/docker-icon',
+  '/fontawesome', '/bootstrap', '/twitter-', '/facebook-', '/linkedin-',
+  '/youtube-', '/instagram-', '/github-mark', '/check-', '/arrow-',
+  '/chevron-', '/close-', '/menu-', '/search-', '/user-', '/bell-',
+  '/adopters/', '/integrations/', '/plugins/', 'octocat', '/revisit',
+];
+
+// Third-party brand names that should not appear as the file's own logo
+const THIRD_PARTY_BRAND_FILENAMES = [
+  'slack-logo', 'slack_logo', 'github-logo', 'github_logo',
+  'docker-logo', 'kubernetes-logo', 'k8s-logo', 'k8s.svg',
+  'salesforce', 'microsoft-logo', 'google-logo', 'amazon-logo',
+  'aws-logo', 'azure-logo', 'twitter-logo', 'linkedin-logo',
+  'facebook-logo', 'datadog-logo', 'pagerduty-logo', 'jira-logo',
+  'atlassian-logo', 'notion-logo', 'krateo',
+];
 
 fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
@@ -47,43 +69,48 @@ function absolutize(baseUrl, ref) {
   }
 }
 
+// Returns { iconLinks: string[], scoredLinks: string[] }
+// iconLinks: from <link rel="icon"> — accepted even at score 0
+// scoredLinks: from general href/src/og — only accepted if score > 0
 function extractAssetLinks(baseUrl, html) {
-  const links = new Set();
-  if (!html) return [];
+  if (!html) return { iconLinks: [], scoredLinks: [] };
+
+  const iconLinks = new Set();
+  const scoredLinks = new Set();
+
+  const icon1 = /<link[^>]+rel=["'][^"']*icon[^"']*["'][^>]+href=["']([^"']+)["']/gi;
+  for (const m of html.matchAll(icon1)) {
+    const abs = absolutize(baseUrl, m[1]);
+    if (abs) iconLinks.add(abs);
+  }
+
+  const icon2 = /<link[^>]+href=["']([^"']+)["'][^>]+rel=["'][^"']*icon[^"']*["']/gi;
+  for (const m of html.matchAll(icon2)) {
+    const abs = absolutize(baseUrl, m[1]);
+    if (abs) iconLinks.add(abs);
+  }
 
   const srcHref = /(?:href|src)=["']([^"']+)["']/gi;
   for (const m of html.matchAll(srcHref)) {
     const ref = m[1];
     if (!/\.(svg|png)(?:\?|#|$)/i.test(ref)) continue;
     const abs = absolutize(baseUrl, ref);
-    if (abs) links.add(abs);
+    if (abs && !iconLinks.has(abs)) scoredLinks.add(abs);
   }
 
   const og1 = /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/gi;
   for (const m of html.matchAll(og1)) {
     const abs = absolutize(baseUrl, m[1]);
-    if (abs) links.add(abs);
+    if (abs) scoredLinks.add(abs);
   }
 
   const og2 = /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/gi;
   for (const m of html.matchAll(og2)) {
     const abs = absolutize(baseUrl, m[1]);
-    if (abs) links.add(abs);
+    if (abs) scoredLinks.add(abs);
   }
 
-  const icon1 = /<link[^>]+rel=["'][^"']*icon[^"']*["'][^>]+href=["']([^"']+)["']/gi;
-  for (const m of html.matchAll(icon1)) {
-    const abs = absolutize(baseUrl, m[1]);
-    if (abs) links.add(abs);
-  }
-
-  const icon2 = /<link[^>]+href=["']([^"']+)["'][^>]+rel=["'][^"']*icon[^"']*["']/gi;
-  for (const m of html.matchAll(icon2)) {
-    const abs = absolutize(baseUrl, m[1]);
-    if (abs) links.add(abs);
-  }
-
-  return [...links];
+  return { iconLinks: [...iconLinks], scoredLinks: [...scoredLinks] };
 }
 
 function parseGithub(url) {
@@ -146,6 +173,31 @@ function githubCandidates(githubUrl) {
   return urls;
 }
 
+// Hosts that serve site-infrastructure assets, not the tool's own logo
+const BAD_HOSTS = [
+  'github.githubassets.com',
+  'assets-cdn.github.com',
+];
+
+function scoreCandidateUrl(url) {
+  try {
+    const parsed = new URL(url);
+    if (BAD_HOSTS.some((h) => parsed.hostname.includes(h))) return -1;
+    const pathname = parsed.pathname.toLowerCase();
+    if (BAD_PATH_PATTERNS.some((p) => pathname.includes(p))) return -1;
+    const filename = pathname.split('/').pop() || '';
+    if (THIRD_PARTY_BRAND_FILENAMES.some((b) => filename.includes(b))) return -1;
+    let score = 0;
+    if (/\blogo\b/.test(pathname)) score += 20;
+    if (/\bbrand\b/.test(pathname)) score += 10;
+    if (/\bicon\b/.test(pathname)) score += 3;
+    if (/favicon/.test(pathname)) score += 1;
+    return score;
+  } catch {
+    return 0;
+  }
+}
+
 function domainFromUrl(url) {
   if (!url) return null;
   try {
@@ -158,6 +210,13 @@ function domainFromUrl(url) {
 function extFor(url, contentType, body) {
   const b = body || Buffer.alloc(0);
   const sniff = b.slice(0, 256).toString('utf8').trimStart();
+  const bodyText = b.toString('utf8').slice(0, 1024).toLowerCase();
+  const isHtml = /<\s*!?doctype html|<html[\s>]/i.test(bodyText);
+
+  if (isHtml) {
+    if (sniff.startsWith('<svg')) return 'svg';
+    return null;
+  }
 
   if (contentType.includes('image/svg') || sniff.startsWith('<svg')) return 'svg';
   if (contentType.includes('image/png')) return 'png';
@@ -195,7 +254,7 @@ function parseToolYaml(text) {
       continue;
     }
 
-    const websiteMatch = line.match(/^website:\s*(.+)\s*$/);
+    const websiteMatch = line.match(/^url:\s*(.+)\s*$/) || line.match(/^website:\s*(.+)\s*$/);
     if (websiteMatch && !result.website) {
       result.website = websiteMatch[1].trim();
       continue;
@@ -211,6 +270,11 @@ function parseToolYaml(text) {
       if (githubMatch && !result.github) {
         result.github = githubMatch[1].trim();
       }
+    }
+
+    const githubTopLevel = line.match(/^github:\s*(.+)\s*$/);
+    if (githubTopLevel && !result.github) {
+      result.github = githubTopLevel[1].trim();
     }
   }
 
@@ -233,23 +297,45 @@ async function run() {
     const website = data.website || null;
     const github = data.github || null;
 
-    const candidates = [];
-    candidates.push(...commonWebsiteCandidates(website));
+    // Skip if already have a logo and not forced
+    const existingSvg = path.join(OUTPUT_DIR, `${slug}.svg`);
+    const existingPng = path.join(OUTPUT_DIR, `${slug}.png`);
+    if (!FORCE && (fs.existsSync(existingSvg) || fs.existsSync(existingPng))) {
+      const ext = fs.existsSync(existingSvg) ? 'svg' : 'png';
+      results.push({ name, slug, format: ext, source: '(existing)' });
+      console.log(`[SKIP] ${slug} (${ext} exists)`);
+      continue;
+    }
 
+    // Reliable candidates: common logo paths + GitHub
+    const reliableCandidates = [...commonWebsiteCandidates(website), ...githubCandidates(github)];
+
+    // HTML-extracted icon links only (from <link rel="icon"> tags — trusted source)
+    let iconLinks = [];
     if (website) {
       const htmlResp = await fetchBody(website);
       if (htmlResp) {
         const html = htmlResp.body.slice(0, MAX_HTML_BYTES).toString('utf8');
-        candidates.push(...extractAssetLinks(website, html));
+        iconLinks = extractAssetLinks(website, html).iconLinks;
       }
     }
 
-    candidates.push(...githubCandidates(github));
-
     const domain = domainFromUrl(website);
-    if (domain) candidates.push(`https://logo.clearbit.com/${domain}`);
+    const clearbitUrl = domain ? `https://logo.clearbit.com/${domain}` : null;
 
-    const uniqueCandidates = [...new Set(candidates)].filter(Boolean);
+    // Priority order: explicit logo paths → icon links → clearbit
+    // Deliberately exclude page-scraped src/href assets — too noisy (integration logos, etc.)
+    const allCandidates = [
+      ...reliableCandidates,
+      ...iconLinks,
+      ...(clearbitUrl ? [clearbitUrl] : []),
+    ];
+
+    const uniqueCandidates = [...new Set(allCandidates)]
+      .filter(Boolean)
+      .filter((url) => scoreCandidateUrl(url) >= 0)
+      .sort((a, b) => scoreCandidateUrl(b) - scoreCandidateUrl(a));
+
     let svgMatch = null;
     let pngMatch = null;
 
@@ -258,6 +344,7 @@ async function run() {
       if (!resp) continue;
       const ext = extFor(url, resp.contentType, resp.body);
       if (!ext || !validImage(resp.body, ext)) continue;
+      if (ext === 'png' && resp.body.length < MIN_PNG_BYTES) continue;
 
       if (ext === 'svg' && !svgMatch) svgMatch = { url, body: resp.body };
       if (ext === 'png' && !pngMatch) pngMatch = { url, body: resp.body };

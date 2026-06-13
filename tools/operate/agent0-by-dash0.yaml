@@ -14,7 +14,7 @@ tags:
 dateAdded: '2026-03-22'
 claimed: false
 screenshot: /screenshots/agent0-by-dash0.png
-logo: /logos/agent0-by-dash0.png
+logo: /logos/agent0-by-dash0.svg
 screenshot_last_fetched: '2026-03-22'
 features:
   - Assists with incident triage across logs, metrics, and traces

@@ -14,7 +14,7 @@ tags:
 dateAdded: '2026-05-22'
 claimed: false
 screenshot: /screenshots/ingero.png
-logo: /logos/ingero.png
+logo: /logos/ingero.svg
 screenshot_last_fetched: '2026-05-29'
 features:
   - Runs as an eBPF agent for GPU causal observability with no application code changes

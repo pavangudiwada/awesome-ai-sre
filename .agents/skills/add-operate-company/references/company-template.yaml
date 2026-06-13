@@ -1,22 +1,18 @@
 name: Company Name
-website: https://example.com
-summary: One-line official company or product summary.
-
-tags:
-  - incident-response
-
+slug: company-name
+url: https://example.com
+summary: One to three sentence factual description of what this tool does for SREs.
 deployment:
   - saas
-
-open_source: false
-
+opensource: false
+tags:
+  - Incident Response
+dateAdded: '2026-01-01'
 features:
   - Feature one
   - Feature two
   - Feature three
-
-links:
-  github: https://github.com/org/repo
-  linkedin: https://www.linkedin.com/company/example
-  x: https://x.com/example
-  producthunt: https://www.producthunt.com/products/example
+linkedin: https://www.linkedin.com/company/example
+github: https://github.com/org/repo
+x: https://x.com/example
+producthunt: https://www.producthunt.com/products/example
