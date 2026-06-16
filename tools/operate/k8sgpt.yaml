@@ -14,7 +14,7 @@ tags:
 dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/k8sgpt.png
-logo: /logos/k8sgpt.png
+logo: /logos/k8sgpt.svg
 screenshot_last_fetched: '2026-03-16'
 features:
   - Scans Kubernetes clusters with analyzers to diagnose and triage issues

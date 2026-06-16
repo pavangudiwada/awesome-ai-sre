@@ -131,6 +131,7 @@ async function main() {
 
   const browser = await puppeteer.launch({
     headless: true,
+    protocolTimeout: 60000,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 

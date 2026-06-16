@@ -13,7 +13,7 @@ tags:
 dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/edge-delta.png
-logo: /logos/edge-delta.png
+logo: /logos/edge-delta.svg
 screenshot_last_fetched: '2026-03-16'
 features:
   - Processes and routes logs, metrics, and traces with edge and pipeline controls

@@ -14,7 +14,6 @@ tags:
 dateAdded: '2026-05-22'
 claimed: false
 screenshot: /screenshots/kubestellar-console.png
-logo: /logos/kubestellar-console.png
 screenshot_last_fetched: '2026-05-29'
 features:
   - Bridges kubeconfig contexts to LLM agents through the kc-agent MCP server

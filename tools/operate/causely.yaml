@@ -13,7 +13,7 @@ tags:
 dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/causely.png
-logo: /logos/causely.png
+logo: /logos/causely.svg
 screenshot_last_fetched: '2026-03-16'
 features:
   - Uses causal inference to identify likely failure paths

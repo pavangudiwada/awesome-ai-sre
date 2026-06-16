@@ -14,7 +14,7 @@ tags:
 dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/opscompanion.png
-logo: /logos/opscompanion.png
+logo: /logos/opscompanion.svg
 screenshot_last_fetched: '2026-03-16'
 features:
   - Provides guided incident investigation workflows

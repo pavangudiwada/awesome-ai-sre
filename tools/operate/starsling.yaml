@@ -12,7 +12,6 @@ tags:
 dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/starsling.png
-logo: /logos/starsling.png
 screenshot_last_fetched: '2026-03-16'
 features:
   - No-code and low-code multi-agent workflows for operational tasks and incident response

@@ -24,3 +24,14 @@ pnpm-debug.log*
 *.swo
 
 skills-lock.json
+
+# Local agent state
+.claude/
+.fp/
+
+# Root-level scratch exports. Durable references belong in docs/agent-context/.
+/image.png
+/option2.png
+
+# One-off local probes.
+/scripts/tmp-*.js
