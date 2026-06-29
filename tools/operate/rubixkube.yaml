@@ -1,0 +1,17 @@
+name: RubixKube
+slug: rubixkube
+url: https://rubixkube.ai
+summary: AI-native Site Reliability Intelligence platform that watches infrastructure, reasons about failures in business context, and safely recommends or executes remediations with guardrails, RBAC, and audit logs.
+deployment:
+  - hybrid
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-06-29'
+claimed: false
+features:
+  - Watches infrastructure and detects failures in business context
+  - Performs root cause analysis and recommends remediations
+  - Safely executes fixes with guardrails, RBAC, and audit logs
+linkedin: https://www.linkedin.com/company/rubixkube
