@@ -1,0 +1,20 @@
+name: Aurora
+slug: aurora
+url: https://www.arvoai.ca
+summary: >-
+  Open source AI SRE agent that autonomously investigates incidents and delivers root cause analysis across AWS, Azure,
+  GCP, and Kubernetes.
+deployment:
+  - on-prem
+opensource: true
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-07-02'
+claimed: false
+features:
+  - Multi-agent investigation that queries cloud APIs and runs CLI commands in sandboxed Kubernetes pods
+  - Multi-cloud support for AWS, Azure, GCP, OVH, Scaleway, Cloudflare, and Kubernetes
+  - Automatic postmortem generation with Confluence export and support for local LLMs via Ollama
+linkedin: https://www.linkedin.com/company/arvokas/
+github: https://github.com/Arvo-AI/aurora

@@ -11,18 +11,18 @@ Items with :green_heart: indicate open source projects.
 
 ### Recent Additions (Last 14 Days)
 
-- 2026-06-11 - [Hyground](https://hyground.ai) (AIOps)
-- 2026-06-09 - [KnoxOps](https://knoxops.app/) (AIOps)
+- 2026-07-02 - :green_heart:[Aurora](https://www.arvoai.ca) (Incident Response)
 
 Jump to: [Incident Response](#incident-response) | [Observability](#observability) | [AIOps](#aiops) | [IDP](#idp) | [IaC](#iac) | [Security](#security) | [Deployment](#deployment)
 
 <a id="incident-response"></a>
-### Incident Response (31)
+### Incident Response (32)
 
 | Name | Summary | Deployment | Links |
 | --- | --- | --- | --- |
 | [Agent SRE](https://agentsre.ai) | AgentSRE is built for enterprises that can't afford downtime. A fleet of AI agents automates detection, root cause analysis, and remediation - delivering faster recovery, lower cloud costs, and resilient operations. | Hybrid | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://agentsre.ai) |
 | [AlertD](https://alertd.ai) | AlertD is an agentic AI teammate for SRE and DevOps on AWS, cutting alert noise and dashboard fatigue while delivering contextual answers and automated actions. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://alertd.ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/alertd) |
+| :green_heart:[Aurora](https://www.arvoai.ca) | Open source AI SRE agent that autonomously investigates incidents and delivers root cause analysis across AWS, Azure, GCP, and Kubernetes. | On-Prem | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://www.arvoai.ca) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/Arvo-AI/aurora) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/arvokas/) |
 | [AutonomOps AI](https://autonomops.ai) | Autonomous operations platform that applies AI to improve SRE and incident management workflows. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://autonomops.ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/autonomops-ai/) |
 | [Azure SRE Agent](https://azure.microsoft.com/products/sre-agent) | AI-powered reliability assistant for Azure that automates incident response, root-cause analysis, and mitigation workflows. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://azure.microsoft.com/products/sre-agent) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/microsoft/sre-agent) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/microsoft) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://x.com/azure) |
 | [Bacca.ai](https://www.bacca.ai) | AI SRE for high-scale platforms that uses tribal knowledge to triage and mitigate incidents accurately. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://www.bacca.ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/bacca-ai) |
