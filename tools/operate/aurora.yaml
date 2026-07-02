@@ -12,6 +12,7 @@ tags:
   - AIOps
 dateAdded: '2026-07-02'
 claimed: false
+logo: /logos/aurora.png
 features:
   - Multi-agent investigation that queries cloud APIs and runs CLI commands in sandboxed Kubernetes pods
   - Multi-cloud support for AWS, Azure, GCP, OVH, Scaleway, Cloudflare, and Kubernetes
