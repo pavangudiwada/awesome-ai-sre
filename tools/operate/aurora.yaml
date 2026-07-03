@@ -1,6 +1,6 @@
 name: Aurora
 slug: aurora
-url: https://www.arvoai.ca
+url: https://www.aurorasre.ai
 summary: >-
   Open source AI SRE agent that autonomously investigates incidents and delivers root cause analysis across AWS, Azure,
   GCP, and Kubernetes.
