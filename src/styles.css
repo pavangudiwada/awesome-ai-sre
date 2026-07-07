@@ -1357,8 +1357,8 @@ button,
 }
 
 .save-button--icon {
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   padding: 0;
   justify-content: center;
   border-radius: 6px;
@@ -1520,6 +1520,7 @@ button,
 
   .main-nav__mobile-toggle {
     display: inline-flex;
+    min-height: 44px;
   }
 
   .header-actions {
@@ -2138,8 +2139,8 @@ button,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   border-radius: 6px;
   border: none;
   background: transparent;
@@ -2163,6 +2164,7 @@ button,
   display: inline-flex;
   align-items: center;
   gap: 5px;
+  min-height: 34px;
   padding: 5px 10px;
   border-radius: 6px;
   font-size: 12px;
@@ -2193,8 +2195,36 @@ button,
 }
 
 @media (max-width: 640px) {
+  .share-bar {
+    gap: 0;
+    padding: 5px 6px;
+  }
+
+  .share-bar__divider {
+    margin: 0 2px;
+  }
+
+  .save-button--icon,
+  .share-bar__btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .share-bar__action-btn,
+  .profile-sidebar .button {
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+  }
+
   .share-bar__action-btn span {
     display: none;
+  }
+
+  .accordion-header,
+  .accordion-option,
+  .category-pill {
+    min-height: 44px;
   }
 }
 

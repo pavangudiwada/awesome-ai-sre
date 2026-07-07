@@ -1,0 +1,29 @@
+name: Metoro
+slug: metoro
+url: https://metoro.io
+summary: >-
+  Metoro is an AI SRE and Kubernetes observability platform that collects telemetry with eBPF and uses AI agents to
+  detect production issues, investigate alerts, verify deployments, identify root causes, and generate fix PRs.
+deployment:
+  - saas
+  - hybrid
+  - on-prem
+opensource: false
+tags:
+  - Observability
+  - AIOps
+  - Incident Response
+  - Deployment
+dateAdded: '2026-07-07'
+claimed: false
+screenshot: /screenshots/metoro.png
+logo: /logos/metoro.png
+screenshot_last_fetched: '2026-07-07'
+features:
+  - Collects logs, metrics, traces, profiles, events, and Kubernetes context with eBPF
+  - Investigates alerts and surfaces likely root causes
+  - Verifies deployments and can generate remediation pull requests
+linkedin: https://www.linkedin.com/company/metoroai
+github: https://github.com/metoro-io
+x: https://x.com/metoro_ai
+producthunt: https://www.producthunt.com/products/metoro

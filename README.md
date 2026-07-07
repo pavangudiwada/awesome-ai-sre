@@ -11,6 +11,7 @@ Items with :green_heart: indicate open source projects.
 
 ### Recent Additions (Last 14 Days)
 
+- 2026-07-07 - [Metoro](https://metoro.io) (Observability)
 - 2026-07-02 - :green_heart:[Aurora](https://www.aurorasre.ai) (Incident Response)
 - 2026-06-29 - [RubixKube](https://rubixkube.ai) (Incident Response)
 
@@ -58,7 +59,7 @@ Jump to: [Incident Response](#incident-response) | [Observability](#observabilit
 <p align="left"><a href="#tools">Back to top ↑</a></p>
 
 <a id="observability"></a>
-### Observability (15)
+### Observability (16)
 
 | Name | Summary | Deployment | Links |
 | --- | --- | --- | --- |
@@ -73,6 +74,7 @@ Jump to: [Incident Response](#incident-response) | [Observability](#observabilit
 | [Elastic](https://www.elastic.co/observability) | Learn more about Elastic Observability. Elastic Observability resolves problems faster at reduced cost with an open source, AI-powered observability, that is accurate,. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://www.elastic.co/observability) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/elastic) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/elastic-co) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://x.com/elastic) |
 | [Lightrun](https://lightrun.com) | Lightrun&#039;s AI SRE that handles alerts, prevent issues early with live runtime context during development, and resolve alerts in minutes with verified RCA. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://lightrun.com) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/lightruntech) |
 | [Logz.io](https://logz.io) | Stop Chasing Alerts. Get Ahead of Problems with AI-Powered Observability. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://logz.io) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/logz-io) |
+| [Metoro](https://metoro.io) | Metoro is an AI SRE and Kubernetes observability platform that collects telemetry with eBPF and uses AI agents to detect production issues, investigate alerts, verify deployments, identify root causes, and generate fix PRs. | Multi | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://metoro.io) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/metoro-io) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/metoroai) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://x.com/metoro_ai) [<img alt="Product Hunt" src="assets/icons/producthunt.svg" width="16" />](https://www.producthunt.com/products/metoro) |
 | [Mezmo](https://www.mezmo.com) | Combine intelligent telemetry with AI-driven observability to detect issues, pinpoint root cause, and power agentic operations across logs, metrics, and traces. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://www.mezmo.com) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/mezmo) |
 | [Observe, Inc.](https://www.observeinc.com) | Observe is a modern observability platform built on a streaming data lake, for faster search and correlation at lower cost. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://www.observeinc.com) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/observe-inc) |
 | [Sentry](https://sentry.io) | Application performance monitoring for developers and software teams to see errors more clearly, solve issues faster, and improve reliability continuously. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://sentry.io) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/getsentry) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://x.com/getsentry) |
