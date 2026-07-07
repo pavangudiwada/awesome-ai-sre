@@ -11,6 +11,7 @@ Items with :green_heart: indicate open source projects.
 
 ### Recent Additions (Last 14 Days)
 
+- 2026-07-07 - [Oodle AI](https://oodle.ai) (Observability)
 - 2026-07-02 - :green_heart:[Aurora](https://www.aurorasre.ai) (Incident Response)
 - 2026-06-29 - [RubixKube](https://rubixkube.ai) (Incident Response)
 
@@ -58,7 +59,7 @@ Jump to: [Incident Response](#incident-response) | [Observability](#observabilit
 <p align="left"><a href="#tools">Back to top ↑</a></p>
 
 <a id="observability"></a>
-### Observability (15)
+### Observability (16)
 
 | Name | Summary | Deployment | Links |
 | --- | --- | --- | --- |
@@ -75,6 +76,7 @@ Jump to: [Incident Response](#incident-response) | [Observability](#observabilit
 | [Logz.io](https://logz.io) | Stop Chasing Alerts. Get Ahead of Problems with AI-Powered Observability. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://logz.io) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/logz-io) |
 | [Mezmo](https://www.mezmo.com) | Combine intelligent telemetry with AI-driven observability to detect issues, pinpoint root cause, and power agentic operations across logs, metrics, and traces. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://www.mezmo.com) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/mezmo) |
 | [Observe, Inc.](https://www.observeinc.com) | Observe is a modern observability platform built on a streaming data lake, for faster search and correlation at lower cost. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://www.observeinc.com) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/observe-inc) |
+| [Oodle AI](https://oodle.ai) | AI-native observability platform for infrastructure, applications, and AI agents. Compatible with [OpenTelemetry GenAI Semantic Conventions](https://github.com/open-telemetry/semantic-conventions-genai) | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://oodle.ai) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/oodle-ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/oodleai) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://x.com/oodleai) |
 | [Sentry](https://sentry.io) | Application performance monitoring for developers and software teams to see errors more clearly, solve issues faster, and improve reliability continuously. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://sentry.io) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/getsentry) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://x.com/getsentry) |
 | [SIXTA](https://sixta.ai) | AI-powered root cause analysis for database reliability | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://sixta.ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/in/efortune/) |
 
