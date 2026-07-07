@@ -1,0 +1,23 @@
+name: Oodle AI
+slug: oodle-ai
+url: https://oodle.ai
+summary: >-
+  AI-native observability platform for infrastructure, applications and AI agents.
+deployment:
+  - saas
+opensource: false
+tags:
+  - Observability
+  - AIOps
+dateAdded: '2026-07-06'
+claimed: false
+screenshot: /screenshots/oodle-ai.png
+logo: /logos/oodle-ai.png
+features:
+  - Compatible with OpenTelemetry Semantic GenAI Conventions
+  - MCP server for AI-assisted debugging from Cursor, Claude Code, and Codex
+  - Agent traces, evals, prompt management, datasets and more.
+  - Drop-in replacement for Prometheus, Grafana, and Elasticsearch
+linkedin: https://www.linkedin.com/company/oodleai
+github: https://github.com/oodle-ai
+x: https://x.com/oodleai
