@@ -1,9 +1,13 @@
 name: Resolve AI
 slug: resolve-ai
-url: https://resolve.ai
-summary: Resolve AI handles all alerts, performs root cause analysis, and troubleshoots incidents within minutes
+url: https://resolve.ai/product/overview
+summary: >-
+  Resolve AI is a production-operations platform with agents for on-call triage, incident investigation, and recurring
+  operational work. Its agents work across code, infrastructure, telemetry, and knowledge using evidence-based,
+  multi-agent investigations.
 deployment:
   - saas
+  - hybrid
 opensource: false
 tags:
   - Incident Response
@@ -11,9 +15,11 @@ tags:
 dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/resolve-ai.png
+logo: /logos/resolve-ai.svg
 screenshot_last_fetched: '2026-03-16'
 features:
-  - Automates routine operational and response tasks
-  - Supports incident workflows with AI-driven actions
-  - Integrates with enterprise operations tooling
-linkedin: https://www.linkedin.com/company/resolveai
+  - Triages alerts and recommends whether to silence, route, act, or investigate further
+  - Runs parallel incident hypotheses and exposes their evidence in a shared workbench
+  - Supports approval-governed actions across code, infrastructure, and operations tools
+linkedin: https://www.linkedin.com/company/resolveai/
+x: https://x.com/resolveai/

@@ -11,6 +11,7 @@ tags:
   - Observability
 dateAdded: '2026-06-11'
 claimed: false
+logo: /logos/hyground.png
 features:
   - Seamless integration with tools and communication channels
   - Automatic root cause analysis from arbitrary external events

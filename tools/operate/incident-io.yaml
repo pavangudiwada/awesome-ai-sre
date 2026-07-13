@@ -1,21 +1,24 @@
-name: incident.io
+name: incident.io Investigations
 slug: incident-io
-url: https://incident.io
+url: https://incident.io/investigations
 summary: >-
-  incident.io is an all-in-one incident management platform unifying on-call scheduling, real-time incident response,
-  and integrated status pages – helping teams resolve.
+  Investigations is an AI capability inside incident.io's hosted incident-management platform, not a separate
+  standalone agent. It starts from alerts and combines telemetry, code changes, past incidents, and Slack context to
+  surface likely causes and recommended next steps.
 deployment:
   - saas
 opensource: false
 tags:
   - Incident Response
+  - AIOps
 dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/incident-io.png
-logo: /logos/incident-io.svg
+logo: /logos/incident-io.png
 screenshot_last_fetched: '2026-03-16'
 features:
-  - Streamlines incident coordination across teams
-  - Automates response workflows and communications
-  - Supports post-incident review and learning loops
-linkedin: https://www.linkedin.com/company/incident-io
+  - Starts investigations when alerts fire and connects signals to code changes and incident history
+  - Supports follow-up investigation in Slack by tagging the incident.io assistant
+  - Drafts code fixes, recommended actions, and post-mortems for human review
+linkedin: https://www.linkedin.com/company/incident-io/
+x: https://x.com/incident_io

@@ -1,40 +1,42 @@
 name	slug	format	source
 Agent SRE	agent-sre	svg	(existing)
-Agent0 by Dash0	agent0-by-dash0	svg	(existing)
+Agent0 by Dash0	agent0-by-dash0	svg	https://www.dash0.com/shared/logo_colors.svg
 AlertD	alertd	png	(existing)
 AutonomOps AI	autonomops-ai	png	(existing)
 Azure SRE Agent	azure-sre-agent	png	(existing)
 Bacca.ai	bacca-ai	svg	(existing)
 Beeps	beeps	svg	(existing)
-Better Stack	better-stack	svg	(existing)
+Better Stack AI SRE	better-stack	svg	(existing)
 BigPanda	bigpanda	svg	(existing)
-Causely	causely	svg	(existing)
+Causely	causely	png	https://www.causely.ai/apple-touch-icon.png
 Ciroos	ciroos	svg	(existing)
 Cleric	cleric	png	(existing)
 Cloudgeni	cloudgeni	svg	(existing)
 Cloudship AI	cloudship-ai	svg	(existing)
 Cokpit	cokpit	png	(existing)
 Cutover	cutover	svg	(existing)
-DagKnows, Inc	dagknows-inc	none	
-Datadog (Bits AI)	datadog-bits-ai	png	(existing)
+DagKnows, Inc	dagknows-inc	png	https://dagknows.ai/favicon.ico
+Datadog (Bits AI)	datadog-bits-ai	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/datadog.svg
 Deductive AI	deductive-ai	svg	(existing)
-Deeptrace	deeptrace	none	
+Deeptrace	deeptrace	png	https://www.deeptrace.com/favicon.ico?favicon.1b9fb2e4.ico
 DrDroid	drdroid	svg	(existing)
 Edge Delta	edge-delta	svg	(existing)
 Elastic	elastic	svg	(existing)
 FireHydrant	firehydrant	svg	(existing)
 Harness AI-SRE	harness-ai-sre	png	(existing)
 HolmesGPT	holmesgpt	png	(existing)
-incident.io	incident-io	png	(existing)
+Hyground	hyground	png	https://hyground.ai/apple-touch-icon.png
+incident.io Investigations	incident-io	png	(existing)
 IncidentFox	incidentfox	png	(existing)
 Infrabase	infrabase	svg	(existing)
 Ingero	ingero	png	(existing)
 K8sGPT	k8sgpt	svg	(existing)
 Kagent	kagent	png	(existing)
+KnoxOps	knoxops	png	https://knoxops.app/icon.png?icon.16din2zd.dihs.png
 Komodor	komodor	svg	(existing)
 KubeStellar Console	kubestellar-console	png	(existing)
 Kura	kura	svg	(existing)
-Lens K8s IDE	lens-k8s-ide	png	(existing)
+Lens K8s IDE	lens-k8s-ide	png	https://lenshq.io/apple-icon1.png?aa9a8b6b33b90fdf
 Lightrun	lightrun	svg	(existing)
 Logz.io	logz-io	svg	(existing)
 Metoro	metoro	png	https://github.com/metoro-io.png
@@ -44,6 +46,7 @@ NOFire AI	nofire-ai	svg	(existing)
 NudgeBee	nudgebee	svg	(existing)
 Obot	obot	png	(existing)
 Observe, Inc.	observe-inc	svg	(existing)
+Oodle	oodle	png	https://github.com/oodle-ai.png
 Ops0	ops0	svg	(existing)
 OpsCompanion	opscompanion	svg	(existing)
 Opsy	opsy	svg	(existing)
@@ -57,7 +60,7 @@ Robusta Dev	robusta	svg	(existing)
 Rootly	rootly	svg	(existing)
 RunLLM	runllm	svg	(existing)
 RunWhen	runwhen	svg	(existing)
-Scoutflo	scoutflo	none	
+Scoutflo	scoutflo	png	https://scoutflo.com/favicon.ico
 Sentry	sentry	png	(existing)
 Sherlocks.ai	sherlocks-ai	png	(existing)
 SIXTA	sixta	svg	(existing)
@@ -65,12 +68,39 @@ Skyflo.ai	skyflo-ai	png	(existing)
 SRE.ai	sre-ai	png	(existing)
 SRE Bench	sre-bench	png	(existing)
 StackGen	stackgen	svg	(existing)
-Stakpak	stakpak	none	
-StarSling	starsling	svg	(existing)
+Stakpak	stakpak	png	https://www.stakpak.dev/main-assets/cropped-favicon-192x192.png
+StarSling	starsling	svg	https://www.starsling.dev/images/logos/starsling-logo-dark.svg
 Steadwing	steadwing	svg	(existing)
 TierZero AI	tierzero-ai	svg	(existing)
 Tracer	tracer-cloud	png	(existing)
 Traversal	traversal	svg	(existing)
-Vibranium Labs	vibranium-labs	svg	(existing)
+Vibranium Labs	vibranium-labs	png	https://cdn.prod.website-files.com/69dccda4b68389b2f42a3789/69dcd00b92061afc1ed2c24e_256.png
 Vigiles	vigiles	png	(existing)
 Wild Moose	wild-moose	png	(existing)
+Observability: Cilium Hubble	obs-cilium-hubble	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/cilium.svg
+Observability: Datadog	obs-datadog-observability	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/datadog.svg
+Observability: Dynatrace	obs-dynatrace	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/dynatrace.svg
+Observability: Elasticsearch	obs-elasticsearch	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/elasticsearch.svg
+Observability: Fluent Bit	obs-fluent-bit	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/fluentbit.svg
+Observability: Graphite	obs-graphite	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/graphite.svg
+Observability: Icinga 2	obs-icinga-2	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/icinga.svg
+Observability: InfluxDB	obs-influxdb	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/influxdb.svg
+Observability: Jaeger	obs-jaeger	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/jaeger.svg
+Observability: Netdata	obs-netdata	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/netdata.svg
+Observability: New Relic	obs-new-relic	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/newrelic.svg
+Observability: OpenSearch	obs-opensearch	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/opensearch.svg
+Observability: OpenTelemetry	obs-opentelemetry	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/opentelemetry.svg
+Observability: Prometheus	obs-prometheus	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/prometheus.svg
+Observability: Uptime Kuma	obs-uptime-kuma	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/uptimekuma.svg
+Observability: VictoriaMetrics	obs-victoriametrics	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/victoriametrics.svg
+Observability: Alerta	obs-alerta	png	https://alerta.io/favicon.ico
+Observability: Honeycomb	obs-honeycomb	png	https://www.honeycomb.io/favicon.ico?favicon.07o~09ebmt8eg.ico
+Observability: Last9	obs-last9	png	https://last9.io/favicon.png
+Observability: LibreNMS	obs-librenms	png	https://www.librenms.org/images/apple-touch-icon.png
+Observability: Nagios	obs-nagios	svg	https://www.nagios.org/wp-content/uploads/2023/01/Nagios-Blue-N.svg
+Observability: Pixie	obs-pixie	png	https://px.dev/icons/icon-192x192.png?v=d80ef861563ca159b3b53cdb30546180
+Observability: SigNoz	obs-signoz	svg	https://signoz.io/static/favicons/favicon.svg
+Observability: Vector	obs-vector	svg	https://raw.githubusercontent.com/vectordotdev/vector/master/website/static/img/logos/vector.svg
+Observability: Zabbix	obs-zabbix	png	https://assets.zabbix.com/img/apple-touch-icon-180x180-precomposed.png
+Observability: AWS CloudWatch	obs-aws-cloudwatch	svg	https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/architecture/approved/architecture-icons/Icon-package_04302026.4705b90f5aa45b019271a2699e9ce9b97b941ee1.zip
+Observability: Loggly	obs-loggly	svg	https://www.loggly.com/wp-content/uploads/2026/06/SW_Logo2025_Loggly_Web_Orange-1.svg

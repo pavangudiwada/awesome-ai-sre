@@ -1,0 +1,9 @@
+name: Causely
+slug: causely
+website: https://www.causely.ai
+productSlugs:
+  - causely
+mappingStatus: confirmed
+sources:
+  - label: Official website
+    url: https://www.causely.ai

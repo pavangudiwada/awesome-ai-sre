@@ -1,11 +1,12 @@
 name: Traversal
 slug: traversal
-url: https://traversal.com
+url: https://www.traversal.com/
 summary: >-
-  Traversal cuts through alert noise, surfaces root causes, and guides your team to remediation — so incidents get fixed
-  in minutes, not hours.
+  Traversal is an enterprise AI SRE platform for automated alert triage, incident investigation, root-cause analysis,
+  and remediation. Its agents combine causal machine learning with production telemetry and support read-only access
+  and flexible on-premise deployments.
 deployment:
-  - saas
+  - on-prem
 opensource: false
 tags:
   - Incident Response
@@ -16,7 +17,8 @@ screenshot: /screenshots/traversal.png
 logo: /logos/traversal.svg
 screenshot_last_fetched: '2026-03-16'
 features:
-  - Aggregates operational context during incidents
-  - Guides teams through troubleshooting workflows
-  - Improves collaboration during response and recovery
+  - Automates alert triage and incident investigation across enterprise observability data
+  - Uses causal analysis to identify evidence-backed root causes rather than symptoms alone
+  - Runs proactive health checks and supports read-only access to customer data
 linkedin: https://www.linkedin.com/company/traversal-ai/
+x: https://x.com/traversal_ai

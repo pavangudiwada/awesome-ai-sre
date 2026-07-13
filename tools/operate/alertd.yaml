@@ -13,7 +13,7 @@ tags:
 dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/alertd.png
-logo: /logos/alertd.svg
+logo: /logos/alertd.png
 screenshot_last_fetched: '2026-03-16'
 features:
   - Aggregates and prioritizes alerts to reduce noise

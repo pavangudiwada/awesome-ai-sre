@@ -1,0 +1,13 @@
+name: Better Stack
+slug: better-stack
+website: https://betterstack.com
+productSlugs:
+  - better-stack
+mappingStatus: confirmed
+sources:
+  - label: Official AI SRE product page
+    url: https://betterstack.com/ai-sre
+    checkedAt: '2026-07-10'
+  - label: Official AI SRE documentation
+    url: https://betterstack.com/docs/ai-sre/welcome/
+    checkedAt: '2026-07-10'

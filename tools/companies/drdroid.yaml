@@ -1,0 +1,9 @@
+name: DrDroid
+slug: drdroid
+website: https://drdroid.io
+productSlugs:
+  - drdroid
+mappingStatus: confirmed
+sources:
+  - label: Official website
+    url: https://drdroid.io

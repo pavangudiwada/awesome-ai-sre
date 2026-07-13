@@ -1,9 +1,10 @@
 name: Cleric
 slug: cleric
-url: https://cleric.ai
+url: https://cleric.ai/
 summary: >-
-  Cleric is an autonomous AI SRE that helps engineering teams quickly diagnose production issues in complex cloud-native
-  environments.
+  Cleric is a self-learning AI SRE that autonomously investigates production alerts and returns evidence-linked findings
+  in Slack. It builds operational memory from prior investigations and engineer feedback while integrating with
+  existing observability, CI/CD, and incident tooling.
 deployment:
   - saas
 opensource: false
@@ -13,10 +14,11 @@ tags:
 dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/cleric.png
-logo: /logos/cleric.svg
+logo: /logos/cleric.png
 screenshot_last_fetched: '2026-03-16'
 features:
-  - Automatically investigates alerts and identifies likely root causes
-  - Learns from feedback and prior incidents to improve over time
-  - Delivers concise diagnoses with evidence and fix recommendations directly in Slack
-linkedin: https://www.linkedin.com/company/cleric-ai
+  - Tests multiple root-cause hypotheses in parallel across production systems
+  - Delivers Slack findings with supporting evidence and confidence scores
+  - Builds operational memory from investigations and engineer feedback
+linkedin: https://www.linkedin.com/company/cleric-ai/
+x: https://x.com/cleric_io

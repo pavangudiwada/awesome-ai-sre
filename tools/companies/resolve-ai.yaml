@@ -1,0 +1,16 @@
+name: Resolve AI
+slug: resolve-ai
+website: https://resolve.ai
+productSlugs:
+  - resolve-ai
+mappingStatus: confirmed
+sources:
+  - label: Official product overview
+    url: https://resolve.ai/product/overview
+    checkedAt: '2026-07-10'
+  - label: Official documentation overview
+    url: https://docs.resolve.ai/
+    checkedAt: '2026-07-10'
+  - label: Official security and deployment documentation
+    url: https://docs.resolve.ai/security
+    checkedAt: '2026-07-10'

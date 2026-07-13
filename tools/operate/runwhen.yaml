@@ -2,10 +2,13 @@ name: RunWhen
 slug: runwhen
 url: https://www.runwhen.com
 summary: >-
-  RunWhen is committed to simplifying troubleshooting for complex cloud systems with the help of AI powered Engineering
-  Assistants capable of suggesting what to run, and.
+  RunWhen is an AI SRE platform whose foreground and background agents select and run diagnostic automation inside
+  connected environments, then return evidence-backed findings and remediation guidance. It supports hosted, hybrid,
+  and self-hosted deployments.
 deployment:
   - saas
+  - hybrid
+  - on-prem
 opensource: false
 tags:
   - AIOps
@@ -13,9 +16,11 @@ tags:
 dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/runwhen.png
+logo: /logos/runwhen.svg
 screenshot_last_fetched: '2026-03-28'
 features:
-  - Standardizes and automates runbook execution
-  - Provides context for resolving recurring operational issues
-  - Supports SRE teams in reducing manual response overhead
-linkedin: https://www.linkedin.com/company/runwhen
+  - Runs diagnostic tasks through a local runner in the connected environment
+  - Supports interactive troubleshooting and background alert-driven investigations
+  - Returns structured findings with severity, evidence, and remediation steps
+linkedin: https://www.linkedin.com/company/runwhen/
+github: https://github.com/runwhen-contrib

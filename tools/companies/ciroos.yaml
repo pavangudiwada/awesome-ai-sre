@@ -1,0 +1,9 @@
+name: Ciroos
+slug: ciroos
+website: https://ciroos.ai
+productSlugs:
+  - ciroos
+mappingStatus: confirmed
+sources:
+  - label: Official website
+    url: https://ciroos.ai

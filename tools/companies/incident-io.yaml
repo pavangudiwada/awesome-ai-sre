@@ -1,0 +1,13 @@
+name: incident.io
+slug: incident-io
+website: https://incident.io
+productSlugs:
+  - incident-io
+mappingStatus: confirmed
+sources:
+  - label: Official Investigations product page
+    url: https://incident.io/investigations
+    checkedAt: '2026-07-10'
+  - label: Official hands-on Investigations walkthrough
+    url: https://incident.io/blog/how-it-feels-to-run-an-incident-with-ai-sre
+    checkedAt: '2026-07-10'

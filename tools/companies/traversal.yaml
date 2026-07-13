@@ -1,0 +1,13 @@
+name: Traversal
+slug: traversal
+website: https://traversal.com
+productSlugs:
+  - traversal
+mappingStatus: confirmed
+sources:
+  - label: Official website
+    url: https://www.traversal.com/
+    checkedAt: '2026-07-10'
+  - label: Official launch announcement
+    url: https://www.traversal.com/blog/launch-announcement
+    checkedAt: '2026-07-10'

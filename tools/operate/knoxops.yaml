@@ -9,6 +9,7 @@ opensource: false
 tags:
   - AIOps
 claimed: false
+logo: /logos/knoxops.png
 features:
   - Production execution for AI agents within safety guardrails
   - Human review required for every production change

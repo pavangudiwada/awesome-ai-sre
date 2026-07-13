@@ -1,0 +1,110 @@
+---
+kind: resource
+resourceType: guide
+title: "Map AI SRE products to the incident workflow"
+slug: ai-sre-incident-workflow-map
+description: "A guide to separating detection, triage, investigation, remediation, coordination, and learning claims."
+status: published
+publishedAt: '2026-07-10'
+updatedAt: '2026-07-10'
+authors:
+  - Pavan Gudiwada
+tags:
+  - incident response
+  - workflow
+  - evaluation
+---
+
+AI incident-response products often use the same words for different jobs. “Resolve incidents” might mean detecting an anomaly, assembling evidence, suggesting a runbook, coordinating responders, or executing a change. Map a product to the work it demonstrably performs before comparing it.
+
+This guide uses six stages:
+
+**Detect → triage → investigate → remediate → coordinate → learn**
+
+The stages are a comparison tool, not a claim that every organization follows a linear process. Real incidents loop: a failed remediation can create new evidence, coordination can change investigation priorities, and learning can improve future detection.
+
+## The workflow map
+
+| Stage | Question | Typical inputs | Useful output | Evidence to request |
+| --- | --- | --- | --- | --- |
+| Detect | Is something important wrong? | SLOs, alerts, events, changes, telemetry | A signal tied to user or service impact | Detection rule, time window, affected service, confidence limits |
+| Triage | What deserves attention now? | Alerts, topology, ownership, severity policy | Priority, owner, deduplication, initial scope | Correlation basis, suppressed signals, routing decision |
+| Investigate | What happened and what supports that hypothesis? | Logs, metrics, traces, changes, tickets, runbooks | Timeline, hypotheses, cited evidence, remaining unknowns | Queries, source links, timestamps, failed checks, alternative hypotheses |
+| Remediate | What should change, and under what approval? | Investigation evidence, runbooks, change policy | Recommendation or bounded action with verification and rollback | Exact target, diff or command, approver, result, rollback state |
+| Coordinate | Who needs to act or know? | Severity, ownership, incident roles, stakeholder policy | Roles, handoffs, updates, escalation, status communication | Actor, channel, audience, approval, delivery status |
+| Learn | What should improve after recovery? | Timeline, actions, impact, contributing conditions | Post-incident record, follow-ups, detection or runbook improvements | Source timeline, decision record, owners, due dates, completion state |
+
+## Map capabilities at the verb level
+
+Avoid assigning a whole stage based on a broad marketing phrase. Record the narrow verb and its object:
+
+- “Reads logs from selected indexes” is more testable than “understands your stack.”
+- “Groups alerts using service topology” is more testable than “reduces noise.”
+- “Suggests a Kubernetes rollback for approval” is different from “executes a rollback.”
+- “Drafts a status update” is different from “publishes to customers.”
+
+For each verb, record four properties:
+
+1. **Input:** what systems and data it can use.
+2. **Output:** what the operator actually receives.
+3. **Authority:** read, recommend, approve, or execute.
+4. **Evidence:** how a reviewer can verify the result.
+
+## Separate investigation from explanation
+
+A summary can be useful without being an investigation. Mark these separately:
+
+- **Retrieval:** fetches existing telemetry or documents.
+- **Synthesis:** organizes retrieved material into a timeline or summary.
+- **Hypothesis:** proposes a possible cause or next check.
+- **Verification:** runs a check that can support or reject a hypothesis.
+- **Decision:** selects a response based on evidence and policy.
+- **Action:** changes a production system or workflow.
+
+A product may perform several of these, but a generated explanation alone should not be counted as verified root-cause analysis.
+
+## Build a coverage worksheet
+
+Use one row per tested capability:
+
+| Stage | Capability | Product or module | Input | Output | Authority | Evidence state | Last reviewed |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Investigate | Query logs for a named service and time range |  |  |  |  | Vendor claim / primary source / observed / unknown |  |
+
+Use these evidence states consistently:
+
+- **Vendor claim:** the company describes the capability.
+- **Primary source:** official documentation specifies how it works.
+- **Watchlist observed:** the behavior was directly tested with the method and date disclosed.
+- **Practitioner observed:** an attributed practitioner describes their experience and approved the wording.
+- **Unknown:** available evidence does not answer the question.
+
+Never convert “unknown” to “no,” and never convert an integration logo into proof that a specific workflow works.
+
+## Identify the handoffs
+
+Most incident risk sits between stages. Review these transitions explicitly:
+
+- **Detect → triage:** Can the responder see why signals were grouped or suppressed?
+- **Triage → investigate:** Does the investigation inherit the correct service, time window, and severity context?
+- **Investigate → remediate:** Is the recommendation tied to evidence, change policy, and current system state?
+- **Remediate → coordinate:** Are responders told what changed, by whom, and whether it worked?
+- **Coordinate → learn:** Does the final record preserve decisions and evidence rather than only a chat summary?
+- **Learn → detect:** Do approved follow-ups reach alerting, runbooks, ownership, or architecture backlogs?
+
+## Use the map in an evaluation
+
+1. Choose the two or three stages causing the most practitioner pain.
+2. Name the exact capability needed at each stage.
+3. Identify the systems and permissions required.
+4. Gather primary-source evidence before granting access.
+5. Replay representative incidents and observe the capability.
+6. Record gaps, unsafe behavior, and operator corrections.
+7. Compare products only on the stages and verbs actually tested.
+
+The map prevents a directory from rewarding feature breadth over useful, controlled behavior. A product that does one stage well may be a better pilot than a platform that claims the entire lifecycle but cannot show inspectable evidence.
+
+## Further reading
+
+- [Google SRE Incident Management Guide](https://sre.google/resources/practices-and-processes/incident-management-guide/)
+- [Google SRE: Anatomy of an Incident](https://sre.google/resources/practices-and-processes/anatomy-of-an-incident/)

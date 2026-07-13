@@ -13,6 +13,7 @@ tags:
 dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/elastic.png
+logo: /logos/elastic.svg
 screenshot_last_fetched: '2026-03-28'
 features:
   - Unifies observability data across distributed systems

@@ -1,22 +1,26 @@
-name: Better Stack
+name: Better Stack AI SRE
 slug: better-stack
-url: https://betterstack.com
+url: https://betterstack.com/ai-sre
 summary: >-
-  Observability and incident management platform with AI SRE, eBPF-based tracing, logs, metrics, uptime monitoring, and
-  on-call workflows.
+  Better Stack AI SRE is a chat-based assistant within Better Stack's hosted observability and incident-management
+  platform, rather than a separate standalone agent. It investigates using Better Stack telemetry and connected tools,
+  while write actions require human approval.
 deployment:
   - saas
 opensource: false
 tags:
   - Observability
   - Incident Response
+  - AIOps
 dateAdded: '2026-03-07'
 claimed: false
 screenshot: /screenshots/better-stack.png
 logo: /logos/better-stack.svg
 screenshot_last_fetched: '2026-03-16'
 features:
-  - Correlates logs, metrics, traces, and errors for AI-assisted incident investigation
-  - Includes incident management, on-call, uptime monitoring, and status pages
-  - Uses OpenTelemetry-native and eBPF-based monitoring across services and infrastructure
+  - Correlates deployments, errors, traces, metrics, and logs to suggest incident hypotheses
+  - Works in the Better Stack app, Slack, Microsoft Teams, and MCP-compatible clients
+  - Proposes GitHub pull requests and requires approval before automated actions
 linkedin: https://www.linkedin.com/company/betterstack
+github: https://github.com/BetterStackHQ
+x: https://x.com/betterstackhq

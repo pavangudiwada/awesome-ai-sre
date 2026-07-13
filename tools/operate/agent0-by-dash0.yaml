@@ -1,9 +1,10 @@
 name: Agent0 by Dash0
 slug: agent0-by-dash0
-url: https://www.dash0.com/ai-sre-agent
+url: https://www.dash0.com/agent0
 summary: >-
-  Dash0's agentic AI platform for observability that helps engineers with incident triage, query building,
-  instrumentation guidance, trace analysis, and dashboard creation.
+  Agent0 is Dash0's production AI built into its OpenTelemetry-native hosted observability platform. It surfaces
+  production issues, investigates telemetry and code, and creates validated artifacts such as dashboards, alerts, and
+  pull-request drafts.
 deployment:
   - saas
 opensource: false
@@ -17,9 +18,9 @@ screenshot: /screenshots/agent0-by-dash0.png
 logo: /logos/agent0-by-dash0.svg
 screenshot_last_fetched: '2026-03-22'
 features:
-  - Assists with incident triage across logs, metrics, and traces
-  - Generates and explains PromQL queries from natural language
-  - Guides telemetry onboarding and builds dashboards and alerts
+  - Surfaces service-scoped production issues and missing alert coverage through Live Insights
+  - Runs multi-step investigations in an isolated sandbox with an evidence-backed hypothesis tree
+  - Validates dashboards, alerts, and pull-request drafts against live telemetry before creating them
 linkedin: https://www.linkedin.com/company/dash0hq
 github: https://github.com/dash0hq
 x: https://x.com/dash0hq
