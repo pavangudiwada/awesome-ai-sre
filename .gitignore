@@ -8,6 +8,11 @@
 # Node.js artifacts
 node_modules/
 dist/
+.next/
+coverage/
+playwright-report/
+test-results/
+/output/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -16,6 +21,7 @@ pnpm-debug.log*
 # Env / local config
 .env
 .env.*
+!.env.example
 
 # Editor/IDE
 .vscode/
