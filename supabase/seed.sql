@@ -1,0 +1,2 @@
+-- Catalog reference rows are synchronized from the repository with:
+-- npm run sync:catalog-refs
