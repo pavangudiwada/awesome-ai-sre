@@ -2,19 +2,15 @@
 
 const fs = require("fs");
 const path = require("path");
+const matter = require("gray-matter");
 const yaml = require("js-yaml");
 
 const ROOT = __dirname;
 const TOOLS_DIR = path.join(ROOT, "tools", "operate");
+const RESOURCES_DIR = path.join(ROOT, "content", "resources");
 const README_PATH = path.join(ROOT, "README.md");
-const ICON_ASSETS = {
-  website: "assets/icons/website.svg",
-  oss: "assets/icons/oss.svg",
-  github: "assets/icons/github.svg",
-  linkedin: "assets/icons/linkedin.svg",
-  x: "assets/icons/x.svg",
-  producthunt: "assets/icons/producthunt.svg",
-};
+const SITE_URL = "https://aisrewatchlist.vercel.app";
+const REPOSITORY_URL = "https://github.com/pavangudiwada/awesome-ai-sre";
 
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const TAG_ORDER = [
@@ -29,8 +25,8 @@ const TAG_ORDER = [
   "Other",
 ];
 
-function escapeMarkdown(value) {
-  return String(value).replace(/\|/g, "\\|");
+function cleanText(value) {
+  return String(value).replace(/\s+/g, " ").trim();
 }
 
 function isValidDate(value) {
@@ -41,24 +37,18 @@ function isValidDate(value) {
   return !Number.isNaN(new Date(`${value}T00:00:00Z`).getTime());
 }
 
-function normalizeDeployment(value) {
-  if (Array.isArray(value)) {
-    return value.map((item) => String(item));
-  }
-  if (value) {
-    return [String(value)];
-  }
-  return [];
-}
-
-function getYamlFiles(dir) {
+function getFiles(dir, extensions) {
   if (!fs.existsSync(dir)) return [];
 
   return fs
     .readdirSync(dir, { withFileTypes: true })
     .filter((entry) => entry.isFile())
     .map((entry) => entry.name)
-    .filter((name) => !name.startsWith("_") && (name.endsWith(".yaml") || name.endsWith(".yml")))
+    .filter(
+      (name) =>
+        !name.startsWith("_") &&
+        extensions.some((extension) => name.endsWith(extension))
+    )
     .sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }))
     .map((name) => path.join(dir, name));
 }
@@ -71,51 +61,38 @@ function loadTool(filePath) {
     throw new Error(`Invalid YAML object in ${filePath}`);
   }
 
-  tool.deployment = normalizeDeployment(tool.deployment);
   tool.tags = Array.isArray(tool.tags) ? tool.tags.map((tag) => String(tag)) : [];
   return tool;
 }
 
-function deploymentForReadme(deployments) {
-  if (!Array.isArray(deployments) || deployments.length === 0) return "-";
-  const unique = Array.from(new Set(deployments.map((item) => String(item).trim())));
-  if (unique.length > 1) return "Multi";
-  const value = unique[0].toLowerCase();
-  if (value === "saas") return "SaaS";
-  if (value === "on-prem") return "On-Prem";
-  if (value === "hybrid") return "Hybrid";
-  return unique[0];
-}
+function loadResource(filePath) {
+  const { data } = matter(fs.readFileSync(filePath, "utf8"));
 
-function buildIconLinks(tool) {
-  const icon = (alt, src, url) => `[<img alt="${alt}" src="${src}" width="16" />](${url})`;
-  const hasIcon = (key) => fs.existsSync(path.join(ROOT, ICON_ASSETS[key]));
-  const renderIconLink = (key, alt, url) => {
-    if (!url || !hasIcon(key)) return null;
-    return icon(alt, ICON_ASSETS[key], url);
-  };
-
-  const ordered = [
-    renderIconLink("website", "Website", tool.url),
-    renderIconLink("github", "GitHub", tool.github),
-    renderIconLink("linkedin", "LinkedIn", tool.linkedin),
-    renderIconLink("x", "X", tool.x),
-    renderIconLink("producthunt", "Product Hunt", tool.producthunt),
-  ];
-
-  return ordered.filter(Boolean).join(" ") || "-";
-}
-
-function buildNameCell(tool) {
-  const nameLink = `[${escapeMarkdown(tool.name)}](${tool.url})`;
-  return tool.opensource ? `:green_heart:${nameLink}` : nameLink;
-}
-
-function parseAddedDate(value) {
-  if (!isValidDate(value)) {
+  if (data.kind !== "resource" || data.status !== "published") {
     return null;
   }
 
+  if (!data.title || !data.slug || !data.description) {
+    throw new Error(`Published resource is missing README metadata in ${filePath}`);
+  }
+
+  return data;
+}
+
+function buildToolLink(tool) {
+  const marker = tool.opensource ? "💚 " : "";
+  return `${marker}[${cleanText(tool.name)}](${SITE_URL}/tools/${tool.slug})`;
+}
+
+function buildToolItem(tool) {
+  const links = [`[Website](${tool.url})`];
+  if (tool.github) links.push(`[GitHub](${tool.github})`);
+
+  return `- ${buildToolLink(tool)} — ${cleanText(tool.summary)} ${links.join(" · ")}`;
+}
+
+function parseAddedDate(value) {
+  if (!isValidDate(value)) return null;
   return new Date(`${value}T00:00:00Z`);
 }
 
@@ -128,30 +105,29 @@ function daysSince(date, now = new Date()) {
 function selectRecentTools(tools, now = new Date()) {
   const datedTools = tools
     .filter((tool) => parseAddedDate(tool.dateAdded))
-    .sort((a, b) => b.dateAdded.localeCompare(a.dateAdded) || a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
+    .sort(
+      (a, b) =>
+        b.dateAdded.localeCompare(a.dateAdded) ||
+        a.name.localeCompare(b.name, "en", { sensitivity: "base" })
+    );
 
   const withinDays = (dayLimit) =>
     datedTools.filter((tool) => {
-      const parsed = parseAddedDate(tool.dateAdded);
-      if (!parsed) return false;
-      const age = daysSince(parsed, now);
+      const age = daysSince(parseAddedDate(tool.dateAdded), now);
       return age >= 0 && age <= dayLimit;
     });
 
   const lastWeek = withinDays(7);
-  const expanded = lastWeek.length >= 1 && lastWeek.length <= 2 ? withinDays(14) : lastWeek;
+  const rangeDays = lastWeek.length >= 1 && lastWeek.length <= 2 ? 14 : 7;
 
-  return {
-    tools: expanded.slice(0, 5),
-    rangeDays: lastWeek.length >= 1 && lastWeek.length <= 2 ? 14 : 7,
-  };
+  return { tools: withinDays(rangeDays).slice(0, 5), rangeDays };
 }
 
 function anchorForTag(tag) {
   return tag.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
-function buildReadme(tools) {
+function buildReadme(tools, resources) {
   const groups = new Map(TAG_ORDER.map((tag) => [tag, []]));
 
   for (const tool of tools) {
@@ -163,75 +139,111 @@ function buildReadme(tools) {
   const jumpLinks = TAG_ORDER
     .filter((tag) => groups.get(tag).length > 0)
     .map((tag) => `[${tag}](#${anchorForTag(tag)})`)
-    .join(" | ");
+    .join(" · ");
 
   const lines = [
     "![Awesome AI SRE](assets/header-image.png)",
     "",
-    "If this repository is useful, please consider starring :star: it.",
+    "# Awesome AI SRE",
+    "",
+    "A curated directory of AI-powered tools and practical resources for site reliability engineering, incident response, observability, and AIOps.",
+    "",
+    `**[Explore the AI SRE Watchlist](${SITE_URL})** for searchable profiles, filters, evidence, and evaluation guides.`,
+    "",
+    `[Browse tools](${SITE_URL}/tools) · [Read resources](${SITE_URL}/resources) · [See the methodology](${SITE_URL}/methodology) · [Get updates](${SITE_URL}/updates)`,
+    "",
+    "If this project is useful, please consider giving it a ⭐.",
+    "",
+    "> This README is generated from the catalog and published resources in this repository. Edit the source files, then run `npm run generate:readme`.",
     "",
     "## Tools",
     "",
-    "Items with :green_heart: indicate open source projects.",
-    "",
-    "> AUTO-GENERATED FILE - DO NOT EDIT MANUALLY.",
-    "> Auto-generated by CI workflow or pre-commit hooks using `node generate-readme.js`.",
+    `Browse all ${tools.length} tools on the **[Watchlist website](${SITE_URL}/tools)** for richer profiles and easier comparison. 💚 marks open-source projects.`,
     "",
   ];
 
   if (tools.length === 0) {
-    lines.push("| Name | Summary | Deployment | Links |");
-    lines.push("| --- | --- | --- | --- |");
-    lines.push("| _No tools found_ | Add YAML files under `tools/operate/`. | - | - |");
-    return `${lines.join("\n")}\n`;
-  }
-
-  const recent = selectRecentTools(tools);
-  if (recent.tools.length > 0) {
-    lines.push(`### Recent Additions (Last ${recent.rangeDays} Days)`);
-    lines.push("");
-    for (const tool of recent.tools) {
-      lines.push(`- ${tool.dateAdded} - ${buildNameCell(tool)} (${tool.tags[0] || "Other"})`);
+    lines.push("_No tools found. Add YAML files under `tools/operate/`._");
+  } else {
+    const recent = selectRecentTools(tools);
+    if (recent.tools.length > 0) {
+      lines.push(`### Recent additions (last ${recent.rangeDays} days)`);
+      lines.push("");
+      for (const tool of recent.tools) {
+        lines.push(`- ${tool.dateAdded} — ${buildToolLink(tool)} (${tool.tags[0] || "Other"})`);
+      }
+      lines.push("");
     }
-    lines.push("");
+
+    lines.push(jumpLinks);
+
+    for (const tag of TAG_ORDER) {
+      const sectionTools = groups.get(tag);
+      if (!sectionTools || sectionTools.length === 0) continue;
+
+      lines.push("");
+      lines.push(`### ${tag} (${sectionTools.length})`);
+      lines.push("");
+      for (const tool of sectionTools) {
+        lines.push(buildToolItem(tool));
+      }
+    }
   }
 
-  lines.push(`Jump to: ${jumpLinks}`);
+  lines.push("");
+  lines.push("## Resources");
+  lines.push("");
+  lines.push(
+    `Practical, evidence-led material for evaluating AI SRE products. **[Browse the full resource library](${SITE_URL}/resources)**.`
+  );
+  lines.push("");
 
-  for (const tag of TAG_ORDER) {
-    const sectionTools = groups.get(tag);
-    if (!sectionTools || sectionTools.length === 0) continue;
-
-    lines.push("");
-    lines.push(`<a id="${anchorForTag(tag)}"></a>`);
-    lines.push(`### ${tag} (${sectionTools.length})`);
-    lines.push("");
-    lines.push("| Name | Summary | Deployment | Links |");
-    lines.push("| --- | --- | --- | --- |");
-
-    for (const tool of sectionTools) {
+  if (resources.length === 0) {
+    lines.push("_No published resources found._");
+  } else {
+    for (const resource of resources) {
       lines.push(
-        `| ${buildNameCell(tool)} | ${escapeMarkdown(tool.summary)} | ${escapeMarkdown(
-          deploymentForReadme(tool.deployment)
-        )} | ${buildIconLinks(tool)} |`
+        `- [${cleanText(resource.title)}](${SITE_URL}/resources/${resource.slug}) — ${cleanText(resource.description)}`
       );
     }
-
-    lines.push("");
-    lines.push('<p align="left"><a href="#tools">Back to top ↑</a></p>');
   }
+
+  lines.push("");
+  lines.push("## Contributing");
+  lines.push("");
+  lines.push(
+    `Suggestions and corrections are welcome. [Open an issue](${REPOSITORY_URL}/issues/new/choose) or add a tool record under \`tools/operate/\`; catalog changes are reviewed before publication.`
+  );
+  lines.push("");
+  lines.push(
+    `The GitHub list is a quick overview. **[Visit AI SRE Watchlist](${SITE_URL})** for the complete browsing and evaluation experience.`
+  );
+  lines.push("");
+  lines.push("## License");
+  lines.push("");
+  lines.push("[MIT](LICENSE)");
 
   return `${lines.join("\n")}\n`;
 }
 
 function main() {
-  const tools = getYamlFiles(TOOLS_DIR)
+  const tools = getFiles(TOOLS_DIR, [".yaml", ".yml"])
     .map(loadTool)
     .sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
 
-  const output = buildReadme(tools);
-  fs.writeFileSync(README_PATH, output, "utf8");
-  console.log(`README.md generated with ${tools.length} tool(s).`);
+  const resources = getFiles(RESOURCES_DIR, [".mdx"])
+    .map(loadResource)
+    .filter(Boolean)
+    .sort(
+      (a, b) =>
+        String(b.publishedAt || "").localeCompare(String(a.publishedAt || "")) ||
+        String(a.title).localeCompare(String(b.title), "en", { sensitivity: "base" })
+    );
+
+  fs.writeFileSync(README_PATH, buildReadme(tools, resources), "utf8");
+  console.log(
+    `README.md generated with ${tools.length} tool(s) and ${resources.length} resource(s).`
+  );
 }
 
 main();
