@@ -2,6 +2,7 @@ name	slug	format	source
 Agent SRE	agent-sre	svg	(existing)
 Agent0 by Dash0	agent0-by-dash0	svg	https://www.dash0.com/shared/logo_colors.svg
 AlertD	alertd	png	(existing)
+Aurora	aurora	png	https://www.aurorasre.ai/arvo-mark.png
 AutonomOps AI	autonomops-ai	png	(existing)
 Azure SRE Agent	azure-sre-agent	png	(existing)
 Bacca.ai	bacca-ai	svg	(existing)
@@ -58,6 +59,7 @@ Resolve AI	resolve-ai	svg	(existing)
 RobinRelay	robinrelay	png	(existing)
 Robusta Dev	robusta	svg	(existing)
 Rootly	rootly	svg	(existing)
+RubixKube	rubixkube	png	https://rubixkube.ai/logo-icon.png
 RunLLM	runllm	svg	(existing)
 RunWhen	runwhen	svg	(existing)
 Scoutflo	scoutflo	png	https://scoutflo.com/favicon.ico
