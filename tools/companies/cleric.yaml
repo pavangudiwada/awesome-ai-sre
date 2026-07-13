@@ -1,0 +1,13 @@
+name: Cleric
+slug: cleric
+website: https://cleric.ai
+productSlugs:
+  - cleric
+mappingStatus: confirmed
+sources:
+  - label: Official launch announcement
+    url: https://cleric.ai/blog/cleric-launches-the-first-self-learning-ai-sre
+    checkedAt: '2026-07-10'
+  - label: Official product architecture article
+    url: https://cleric.ai/blog/the-self-improving-ai-sre
+    checkedAt: '2026-07-10'

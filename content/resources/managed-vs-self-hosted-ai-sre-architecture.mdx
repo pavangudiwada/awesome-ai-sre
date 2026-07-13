@@ -1,0 +1,137 @@
+---
+kind: resource
+resourceType: guide
+title: "Managed vs self-hosted AI SRE architecture"
+slug: managed-vs-self-hosted-ai-sre-architecture
+description: "An architecture guide for comparing responsibility, data boundaries, and operating cost."
+status: published
+publishedAt: '2026-07-10'
+updatedAt: '2026-07-10'
+authors:
+  - Pavan Gudiwada
+tags:
+  - architecture
+  - deployment
+  - security
+---
+
+“Managed,” “self-hosted,” “private,” and “open source” describe different properties. A commercial service can place a data-plane agent in your network. Open-source software can still call a hosted model. A self-hosted application can depend on a managed control plane.
+
+Choose an architecture by tracing data, authority, and operating responsibility—not by selecting a label.
+
+## Start with five components
+
+Map where each component runs and who operates it:
+
+1. **Operator interface:** chat, web application, CLI, or incident-management surface.
+2. **Control plane:** identities, policy, workflow definitions, product configuration, and audit metadata.
+3. **Investigation runtime:** the process that chooses queries, retrieves context, and assembles results.
+4. **Integration plane:** agents, collectors, API connections, credentials, and action tools.
+5. **Model and data services:** model inference, embeddings, indexes, caches, and retained prompts or outputs.
+
+Then draw the path for one real request: operator → runtime → model → telemetry query → result → recommendation → approval → action. Mark every trust boundary, credential, stored copy, and network crossing.
+
+## Four common deployment patterns
+
+### Fully managed service
+
+The provider runs the application, investigation runtime, and model connections. Your team configures integrations to internal systems.
+
+**Potential advantages:** faster setup, provider-operated upgrades, and a single support path.
+
+**Questions to resolve:** where credentials live, what production data leaves your environment, model and subprocessor boundaries, service availability, exportability, and deletion.
+
+### Managed control plane with in-environment runtime
+
+The provider manages configuration and orchestration while an agent or runtime queries systems inside your network.
+
+**Potential advantages:** some data can remain local and internal systems may not need inbound exposure.
+
+**Questions to resolve:** what metadata and results return to the control plane, who updates the runtime, how policy is enforced, and what happens when control-plane connectivity fails.
+
+### Customer-operated application with hosted model
+
+Your team runs the application and integrations, but prompts or selected context go to an external model API.
+
+**Potential advantages:** direct control over application storage, credentials, network policy, and upgrade timing.
+
+**Questions to resolve:** model-provider retention and regions, application hardening, scaling, observability, incident ownership, and version compatibility.
+
+### Fully customer-operated stack
+
+Your team runs the application, integrations, indexes, and model-serving path.
+
+**Potential advantages:** maximum architectural control and the option to keep processing inside a defined boundary.
+
+**Questions to resolve:** model quality, capacity, accelerators, patching, evaluation, reliability, security response, and the engineering time required to operate every layer.
+
+These are patterns, not guarantees. Verify the specific product architecture and configuration.
+
+## Compare responsibility, not feature lists
+
+| Responsibility | Fully managed | In-environment runtime | Customer app + hosted model | Fully customer-operated |
+| --- | --- | --- | --- | --- |
+| Application upgrades | Provider | Shared | Customer | Customer |
+| Integration credentials | Customer/provider boundary | Usually customer environment | Customer | Customer |
+| Model operation | Provider or subprocessor | Provider or subprocessor | Model provider | Customer |
+| Application availability | Provider | Shared | Customer | Customer |
+| Capacity planning | Provider | Shared | Customer plus model limits | Customer |
+| Security patching | Provider | Shared | Customer plus providers | Customer |
+| Data deletion evidence | Provider-dependent | Shared paths | Customer plus model provider | Customer |
+| Support escalation | Provider | Shared | Multiple providers | Internal team/community |
+
+Replace “usually” with a product-specific answer during evaluation.
+
+## Evaluate data and authority separately
+
+For every integration, record:
+
+- Data categories read and written.
+- Whether raw data, selected excerpts, aggregates, or only metadata cross a boundary.
+- Credential location, scope, lifetime, and revocation path.
+- Who can add a tool or broaden permissions.
+- Which actions require human approval outside the model.
+- Audit-log location and whether your organization controls a copy.
+- Failure behavior when the model, provider, network, or integration is unavailable.
+
+A local runtime does not make a system safe if it can send raw telemetry to a hosted model or execute broad actions. A managed service is not automatically unsafe if it minimizes data, uses narrow access, and provides strong controls. Test the actual path.
+
+## Include operability in total cost
+
+Compare costs over the intended evaluation horizon:
+
+- Product subscription and usage charges.
+- Model tokens or inference capacity.
+- Compute, storage, indexing, and network egress.
+- Integration setup and ongoing maintenance.
+- Security review, upgrades, backups, and disaster recovery.
+- On-call ownership for the AI SRE system itself.
+- Evaluation work needed after model, prompt, tool, or product changes.
+- Exit work: export, migration, credential removal, and data deletion.
+
+Do not price internal engineering time at zero. Also do not assume that self-hosting removes a vendor dependency; the model, packaging, support, or update path may still be external.
+
+## Run failure scenarios
+
+Before choosing a pattern, test:
+
+1. The model provider is slow or unavailable.
+2. The managed control plane cannot reach the local runtime.
+3. A telemetry API returns partial or misleading data.
+4. A credential expires during an investigation.
+5. An upgrade changes tool behavior or model output.
+6. An operator must disable the product during an active incident.
+7. The organization needs to export evidence and leave the product.
+
+Record whether normal incident response remains available and understandable.
+
+## Write the architecture decision
+
+The decision record should include the selected pattern, diagram, data classes, access tiers, responsible owners, expected operating effort, unresolved risks, rejected alternatives, exit plan, and next review date.
+
+Prefer the least complex architecture that meets the team’s evidence, access, and reliability requirements. Complexity is justified only when it buys a named control or operating outcome.
+
+## Further reading
+
+- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
+- [OWASP GenAI Security Project: Excessive Agency](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/)

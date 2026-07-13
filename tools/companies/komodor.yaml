@@ -1,0 +1,9 @@
+name: Komodor
+slug: komodor
+website: https://komodor.com
+productSlugs:
+  - komodor
+mappingStatus: confirmed
+sources:
+  - label: Official website
+    url: https://komodor.com

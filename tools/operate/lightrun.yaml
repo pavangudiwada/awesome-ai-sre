@@ -2,8 +2,7 @@ name: Lightrun
 slug: lightrun
 url: https://lightrun.com
 summary: >-
-  Lightrun&#039;s AI SRE that handles alerts, prevent issues early with live runtime context during development, and
-  resolve alerts in minutes with verified RCA.
+  Lightrun describes an AI SRE workflow for handling alerts and using live runtime context during development.
 deployment:
   - saas
 opensource: false

@@ -1,0 +1,140 @@
+---
+kind: resource
+resourceType: checklist
+title: "AI SRE security and data-access checklist"
+slug: ai-sre-security-data-access-checklist
+description: "Questions for reviewing the access, data flow, model use, and action boundaries of an AI SRE product."
+status: published
+publishedAt: '2026-07-10'
+updatedAt: '2026-07-10'
+authors:
+  - Pavan Gudiwada
+tags:
+  - security
+  - data access
+  - procurement
+---
+
+Use this checklist before connecting an AI incident-response product to production telemetry or operational tools. It is an engineering review aid, not legal advice or a substitute for your organization’s security process.
+
+Ask the vendor or maintainer for evidence, not only a yes/no answer. Record the document, configuration screen, test, contract term, or log that supports each decision.
+
+## 1. Define the system boundary
+
+- [ ] Name the product, module, version, deployment model, and model provider being reviewed.
+- [ ] Draw the path from an operator request to every model, integration, data store, and action endpoint.
+- [ ] Identify which components run in your environment, the provider’s environment, and a model provider’s environment.
+- [ ] List subprocessors and regions involved in storage and processing.
+- [ ] Separate pilot behavior from features that are merely available but disabled.
+- [ ] Name the internal owner for security, operations, and vendor escalation.
+
+## 2. Inventory data before permissions
+
+For each connected system, complete a row:
+
+| System | Data read | Data written | Sensitivity | Credential | Retention | Owner |
+| --- | --- | --- | --- | --- | --- | --- |
+| Example: log platform | Selected production logs | None | May contain customer identifiers | Pilot read-only role | Provider answer required | Observability team |
+
+Check explicitly for:
+
+- Logs containing request bodies, tokens, email addresses, or customer identifiers.
+- Traces containing database statements, URLs, or headers.
+- Tickets, chat transcripts, runbooks, and postmortems with secrets or private context.
+- Source code, configuration, deployment events, and cloud-resource metadata.
+- Model prompts, outputs, feedback, and diagnostic logs retained by any party.
+
+“We do not train on your data” does not answer where the data is processed, how long it is retained, who can access it, or whether it appears in support logs.
+
+## 3. Minimize identity and access
+
+- [ ] Use a dedicated pilot identity, never an individual operator’s long-lived credential.
+- [ ] Grant only the systems and environments in scope.
+- [ ] Separate read, query, recommend, and execute permissions.
+- [ ] Prefer short-lived credentials and document rotation and revocation.
+- [ ] Confirm whether the product can discover or call tools that were not explicitly enabled.
+- [ ] Restrict network egress and ingress where the deployment model permits it.
+- [ ] Verify tenant and environment boundaries with a negative test.
+- [ ] Confirm that support access is approved, time-bounded, and audited.
+
+Create access tiers and approve them independently:
+
+| Tier | Capability | Default pilot stance |
+| --- | --- | --- |
+| 0 | Offline historical replay | Start here when possible |
+| 1 | Read selected telemetry | Permit after data review |
+| 2 | Run bounded diagnostic queries | Permit with query and cost limits |
+| 3 | Recommend a change | Require cited evidence and operator review |
+| 4 | Execute a reversible change | Separate approval and rollback test required |
+| 5 | Execute broad or destructive action | Outside a normal first pilot |
+
+## 4. Review model and data handling
+
+- [ ] Identify every model provider and model-selection fallback.
+- [ ] Document whether prompts or outputs are retained, for how long, and for what purpose.
+- [ ] Confirm whether customer data is used for training, evaluation, abuse monitoring, or human review.
+- [ ] Verify encryption in transit and at rest for each boundary.
+- [ ] Record residency options and what happens during cross-region failover.
+- [ ] Define deletion behavior for prompts, outputs, indexes, caches, backups, and support artifacts.
+- [ ] Confirm what data is exported when the customer requests an audit or leaves the service.
+
+## 5. Treat telemetry as untrusted input
+
+Logs, tickets, code comments, dashboards, and runbooks can contain attacker-controlled or simply misleading text. If a model can read that text and call tools, the path must be threat-modeled.
+
+- [ ] Test direct and indirect prompt-injection examples in an isolated environment.
+- [ ] Ensure retrieved text cannot silently grant new tools or permissions.
+- [ ] Constrain tool arguments and validate them outside the model.
+- [ ] Keep authorization decisions in deterministic code or policy, not model output.
+- [ ] Require confirmation for consequential actions and show the exact action and target.
+- [ ] Bound iteration count, query volume, time, and spend.
+- [ ] Make failures closed and visible when an integration, policy check, or model is unavailable.
+
+The [OWASP guidance on excessive agency](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/) is a useful threat-model reference for systems that let a model call operational tools.
+
+## 6. Make outputs inspectable
+
+- [ ] Findings link to the source telemetry, query, time range, and service.
+- [ ] The product distinguishes observation, hypothesis, recommendation, and executed action.
+- [ ] Operators can see missing permissions and failed tool calls.
+- [ ] Audit logs include actor, time, model or workflow version, tool arguments, result, approval, and action outcome.
+- [ ] Logs are exportable to a system controlled by your organization.
+- [ ] Sensitive model reasoning is not required to understand or audit the operational evidence.
+- [ ] Corrections and operator feedback are access-controlled and have a retention policy.
+
+## 7. Control state-changing actions
+
+For every write action, answer:
+
+1. What exact resource and environment can change?
+2. What precondition is checked outside the model?
+3. Who sees and approves the proposed action?
+4. What is the blast-radius limit?
+5. How is the result verified?
+6. What automatically stops further action?
+7. How is the change rolled back?
+
+Do not accept a generic “human in the loop” statement. Review the actual approval screen and test rejection, timeout, duplicate execution, partial failure, and rollback.
+
+## 8. Prepare for failure and offboarding
+
+- [ ] Name the contact path and response target for a security or availability incident.
+- [ ] Define behavior when the product, model provider, or integration is unavailable.
+- [ ] Ensure normal incident response still works without the AI product.
+- [ ] Test immediate credential revocation and connection disablement.
+- [ ] Export required audit records before termination.
+- [ ] Delete provider-side data and verify the completion evidence.
+- [ ] Remove identities, webhooks, agents, network rules, API keys, and cached indexes.
+- [ ] Re-run access discovery to find anything left behind.
+
+## 9. Record the decision
+
+The security decision should name the approved access tier, services, environments, data classes, operators, expiry date, monitoring owner, and stop conditions. List unknowns and exceptions with accountable owners.
+
+Re-review after a material change to the model provider, deployment architecture, integrations, permissions, data policy, or autonomous behavior.
+
+## Further reading
+
+- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
+- [NIST Generative AI Profile](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf)
+- [OWASP GenAI Security Project: Excessive Agency](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/)

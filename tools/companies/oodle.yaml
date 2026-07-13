@@ -1,0 +1,16 @@
+name: Oodle
+slug: oodle
+website: https://www.oodle.ai
+productSlugs:
+  - oodle
+mappingStatus: confirmed
+sources:
+  - label: Official agent-driven debugging page
+    url: https://www.oodle.ai/product/agent-driven-debugging
+    checkedAt: '2026-07-10'
+  - label: Official Kubernetes monitoring and deployment page
+    url: https://www.oodle.ai/product/kubernetes-monitoring
+    checkedAt: '2026-07-10'
+  - label: Official documentation
+    url: https://docs.oodle.ai/
+    checkedAt: '2026-07-10'

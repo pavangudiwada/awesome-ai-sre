@@ -1,0 +1,112 @@
+name: Early incident-response research cohort
+slug: early-18
+status: active
+entries:
+  - priority: 1
+    wave: 1
+    targetName: RunWhen
+    productSlug: runwhen
+    companySlug: runwhen
+    researchState: source-ready
+  - priority: 2
+    wave: 1
+    targetName: Oodle
+    productSlug: oodle
+    companySlug: oodle
+    researchState: source-ready
+  - priority: 3
+    wave: 1
+    targetName: HolmesGPT
+    productSlug: holmesgpt
+    companySlug: robusta
+    researchState: source-ready
+  - priority: 4
+    wave: 1
+    targetName: Better Stack
+    productSlug: better-stack
+    companySlug: better-stack
+    researchState: needs-product-scope-review
+  - priority: 5
+    wave: 1
+    targetName: incident.io AI SRE
+    productSlug: incident-io
+    companySlug: incident-io
+    researchState: needs-product-scope-review
+  - priority: 6
+    wave: 1
+    targetName: Resolve AI
+    productSlug: resolve-ai
+    companySlug: resolve-ai
+    researchState: source-ready
+  - priority: 7
+    wave: 1
+    targetName: Agent0 by Dash0
+    productSlug: agent0-by-dash0
+    companySlug: dash0
+    researchState: source-ready
+  - priority: 8
+    wave: 1
+    targetName: Traversal
+    productSlug: traversal
+    companySlug: traversal
+    researchState: source-ready
+  - priority: 9
+    wave: 1
+    targetName: Cleric
+    productSlug: cleric
+    companySlug: cleric
+    researchState: source-ready
+  - priority: 10
+    wave: 2
+    targetName: NeuBird AI
+    productSlug: neubird-ai
+    companySlug: neubird
+    researchState: source-ready
+  - priority: 11
+    wave: 2
+    targetName: OpenObserve AI SRE
+    productSlug: openobserve-ai-sre
+    companySlug: openobserve
+    researchState: needs-product-record
+  - priority: 12
+    wave: 2
+    targetName: Datadog Bits AI SRE
+    productSlug: datadog-bits-ai
+    companySlug: datadog
+    researchState: needs-product-scope-review
+  - priority: 13
+    wave: 2
+    targetName: Klaudia by Komodor
+    productSlug: komodor
+    companySlug: komodor
+    researchState: needs-product-scope-review
+  - priority: 14
+    wave: 2
+    targetName: Ciroos
+    productSlug: ciroos
+    companySlug: ciroos
+    researchState: source-ready
+  - priority: 15
+    wave: 3
+    targetName: Rootly AI SRE
+    productSlug: rootly
+    companySlug: rootly
+    researchState: needs-product-scope-review
+  - priority: 16
+    wave: 3
+    targetName: PagerDuty SRE Agent
+    productSlug: pagerduty
+    companySlug: pagerduty
+    researchState: source-ready
+  - priority: 17
+    wave: 3
+    targetName: Causely
+    productSlug: causely
+    companySlug: causely
+    researchState: source-ready
+  - priority: 18
+    wave: 3
+    targetName: DrDroid
+    productSlug: drdroid
+    companySlug: drdroid
+    researchState: source-ready

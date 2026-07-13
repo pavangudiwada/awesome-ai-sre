@@ -1,0 +1,9 @@
+name: OpenObserve
+slug: openobserve
+website: https://openobserve.ai
+productSlugs:
+  - openobserve-ai-sre
+mappingStatus: confirmed
+sources:
+  - label: Official website
+    url: https://openobserve.ai

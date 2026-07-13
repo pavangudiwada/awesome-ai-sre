@@ -1,0 +1,13 @@
+name: RunWhen
+slug: runwhen
+website: https://www.runwhen.com
+productSlugs:
+  - runwhen
+mappingStatus: confirmed
+sources:
+  - label: Official AI SRE documentation
+    url: https://docs.runwhen.com/
+    checkedAt: '2026-07-10'
+  - label: Official security and deployment page
+    url: https://www.runwhen.com/security-and-deployment
+    checkedAt: '2026-07-10'

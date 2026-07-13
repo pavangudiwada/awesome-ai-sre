@@ -1,0 +1,9 @@
+name: PagerDuty
+slug: pagerduty
+website: https://www.pagerduty.com
+productSlugs:
+  - pagerduty
+mappingStatus: confirmed
+sources:
+  - label: Official SRE Agent page
+    url: https://www.pagerduty.com/platform/ai-agents/sre/

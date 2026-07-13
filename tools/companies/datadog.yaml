@@ -1,0 +1,9 @@
+name: Datadog
+slug: datadog
+website: https://www.datadoghq.com
+productSlugs:
+  - datadog-bits-ai
+mappingStatus: confirmed
+sources:
+  - label: Official website
+    url: https://www.datadoghq.com

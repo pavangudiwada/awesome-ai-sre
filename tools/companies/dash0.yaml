@@ -1,0 +1,16 @@
+name: Dash0
+slug: dash0
+website: https://www.dash0.com
+productSlugs:
+  - agent0-by-dash0
+mappingStatus: confirmed
+sources:
+  - label: Official Agent0 product page
+    url: https://www.dash0.com/agent0
+    checkedAt: '2026-07-10'
+  - label: Official Agent0 documentation
+    url: https://www.dash0.com/docs/dash0/ai/agent0/overview
+    checkedAt: '2026-07-10'
+  - label: Official Agent0 general availability announcement
+    url: https://www.dash0.com/blog/observability-for-the-ai-era-starts-here-agent0-is-ga
+    checkedAt: '2026-07-10'

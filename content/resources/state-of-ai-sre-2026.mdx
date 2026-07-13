@@ -1,0 +1,177 @@
+---
+kind: resource
+resourceType: report
+title: "State of AI SRE 2026: baseline and research method"
+slug: state-of-ai-sre-2026
+description: "A planned evidence-led report on the incident-response capabilities, deployment models, and evaluation needs in the market."
+status: published
+publishedAt: '2026-07-10'
+updatedAt: '2026-07-10'
+authors:
+  - Pavan Gudiwada
+tags:
+  - market report
+  - AI SRE
+  - research
+---
+
+This is the first public research baseline for AI SRE Watchlist. It documents what the catalog contains on **July 10, 2026**, what the Watchlist means by “AI SRE,” and how future profiles and comparisons will be evaluated.
+
+It is not a market-size estimate, vendor ranking, or claim that every listed product has been tested. The point of this baseline is to make the research system inspectable before publishing conclusions.
+
+## Snapshot
+
+The repository currently contains:
+
+- **76 AI SRE and adjacent reliability product records** in the legacy product catalog.
+- **34 observability product and project records** in a separate observability catalog.
+- **18 products in the first deep-research cohort** for incident-response evaluation.
+- **18 explicit company records** for that cohort, including one company that maps to more than one product.
+- **Two cohort products without a normalized product record:** Oodle and OpenObserve AI SRE.
+- **59 non-cohort product records without an explicit company mapping.** They remain usable as product records, but the Watchlist will not pretend the product and company are necessarily the same entity.
+
+These are catalog counts, not counts of every company or product in the market. Records vary in depth and evidence quality. The validation report keeps those gaps visible.
+
+## What belongs in the Watchlist
+
+The primary focus is software that materially supports reliability work through AI-assisted or agentic behavior, including incident triage, investigation, remediation, coordination, operational knowledge, and related observability workflows.
+
+A product is not included merely because it uses the word “AI.” The profile must eventually answer:
+
+1. What reliability job does the product perform?
+2. What systems and data does it need?
+3. What does it return or change?
+4. What human approval and audit boundary exists?
+5. What evidence supports each material claim?
+
+Observability products remain a separate catalog family because telemetry collection, storage, and analysis can be an input to AI SRE without being an AI SRE product itself.
+
+## The first research cohort
+
+The initial 18-product cohort is ordered for editorial research, not ranked by quality:
+
+1. RunWhen
+2. Oodle
+3. HolmesGPT
+4. Better Stack
+5. incident.io AI SRE
+6. Resolve AI
+7. Agent0 by Dash0
+8. Traversal
+9. Cleric
+10. NeuBird AI
+11. OpenObserve AI SRE
+12. Datadog Bits AI SRE
+13. Klaudia by Komodor
+14. Ciroos
+15. Rootly AI SRE
+16. PagerDuty SRE Agent
+17. Causely
+18. DrDroid
+
+Some existing catalog records describe a company or broader platform rather than the precise AI SRE product named above. Those records are marked for product-scope review. They will not be silently upgraded into a deep profile.
+
+## Research questions
+
+Every deep profile should help an SRE or platform lead answer the same practical questions.
+
+### Incident-workflow coverage
+
+- Which of detection, triage, investigation, remediation, coordination, and learning does the product support?
+- What exact verb does it perform at each stage?
+- Does it retrieve, summarize, hypothesize, verify, recommend, approve, or execute?
+
+### Evidence and uncertainty
+
+- Can an operator inspect the logs, metrics, traces, changes, tickets, or runbooks behind a finding?
+- Does the product reveal failed tool calls and missing access?
+- Does it distinguish observation from hypothesis and recommendation?
+
+### Access and safety
+
+- Which systems, environments, credentials, and data classes are required?
+- Where do the application, investigation runtime, integrations, and models run?
+- Which actions are read-only, human-approved, or autonomous?
+- What are the blast-radius, stop, audit, and rollback controls?
+
+### Evaluation fit
+
+- Can the product be tested with historical incidents or an isolated environment?
+- What setup and ongoing operating work does the team own?
+- What remains unknown without a pilot?
+
+## Evidence states
+
+Each material statement should carry one of these meanings:
+
+- **Vendor claim:** a company-controlled source states the claim.
+- **Primary source:** official documentation, repository material, security documentation, or another direct source specifies the capability.
+- **Watchlist observed:** the Watchlist directly tested the behavior and discloses the method, environment, version, and date.
+- **Practitioner observed:** an identified practitioner describes their experience and approves the published wording.
+- **Unknown:** the available evidence does not answer the question.
+
+A vendor claim is not a Watchlist verification. A screenshot is not evidence that a workflow works. An integration logo is not proof of a capability. Missing public information is **unknown**, not “no.”
+
+## Profile publication standard
+
+A deep profile is ready when it has:
+
+1. A stable product identity and explicit company mapping.
+2. A clear product boundary rather than a generic company description.
+3. Primary sources for material capability, deployment, security, and workflow statements.
+4. Visible unknowns and a real last-reviewed date.
+5. No inferred pricing, integrations, certification, or “verified” state.
+6. A correction path for maintainers and practitioners.
+7. Editorial separation between company submissions and Watchlist conclusions.
+
+The Watchlist can publish a useful profile with unknown fields. It should not publish false completeness.
+
+## Comparison standard
+
+Comparisons will use a disclosed rubric and serve one evaluation question. Products will not receive a winner, rating, or performance score unless the underlying behavior was tested under a disclosed and reasonably comparable method.
+
+Three comparison questions are queued:
+
+- AI incident-investigation agents.
+- Managed vs open-source AI SRE.
+- AI incident-management platforms.
+
+They remain unpublished until the required source and practitioner evidence exists.
+
+## Current limitations
+
+The current catalog began as a directory. Several constraints matter:
+
+- Many summaries and feature bullets originated from vendor-controlled pages and have not received deep editorial review.
+- Product and company identity was historically conflated.
+- Company mappings are currently complete only for the early cohort.
+- Two early-cohort product records still need to be created.
+- Some product records point to a broad platform when the cohort targets a named AI module.
+- Logo and screenshot coverage has known gaps; visual availability does not affect evidence status.
+- No product rating, market leader, or performance conclusion is supported by this baseline.
+
+The public validator reports structural and asset gaps so cleanup work produces an auditable change rather than an invisible rewrite.
+
+## Update cadence and corrections
+
+Deep profiles will record the date of actual review. Watchlist updates should link to primary sources and identify whether a change comes from company material, Watchlist testing, or a practitioner report.
+
+Company corrections and update submissions are inputs to editorial review; they do not directly overwrite a profile or comparison. Material corrections should update the source, evidence state, and review date together.
+
+The baseline will change as research is completed. Future reports should distinguish repository growth from market growth and show the exact snapshot and method used.
+
+## How to use this report
+
+- Practitioners can use the research questions as an evaluation checklist.
+- Product teams can see what evidence is needed for a precise profile.
+- Contributors can focus on missing sources and identity gaps instead of adding unsupported feature copy.
+- Readers can hold the Watchlist accountable when a page implies more certainty than its evidence supports.
+
+## Method references
+
+- [AI SRE pilot scorecard](/resources/ai-sre-pilot-scorecard)
+- [AI SRE security and data-access checklist](/resources/ai-sre-security-data-access-checklist)
+- [Map AI SRE products to the incident workflow](/resources/ai-sre-incident-workflow-map)
+- [Replay historical incidents safely](/resources/replay-historical-incidents-safely)
+- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
+- [Google SRE Incident Management Guide](https://sre.google/resources/practices-and-processes/incident-management-guide/)

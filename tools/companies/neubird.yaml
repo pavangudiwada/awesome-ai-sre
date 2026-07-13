@@ -1,0 +1,9 @@
+name: NeuBird
+slug: neubird
+website: https://neubird.ai
+productSlugs:
+  - neubird-ai
+mappingStatus: confirmed
+sources:
+  - label: Official website
+    url: https://neubird.ai

@@ -1,0 +1,9 @@
+name: Rootly
+slug: rootly
+website: https://rootly.com
+productSlugs:
+  - rootly
+mappingStatus: confirmed
+sources:
+  - label: Official website
+    url: https://rootly.com
