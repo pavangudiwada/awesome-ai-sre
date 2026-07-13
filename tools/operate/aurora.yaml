@@ -13,6 +13,8 @@ tags:
 dateAdded: '2026-07-02'
 claimed: false
 logo: /logos/aurora.png
+screenshot: /screenshots/aurora.png
+screenshot_last_fetched: '2026-07-13'
 features:
   - Multi-agent investigation that queries cloud APIs and runs CLI commands in sandboxed Kubernetes pods
   - Multi-cloud support for AWS, Azure, GCP, OVH, Scaleway, Cloudflare, and Kubernetes
