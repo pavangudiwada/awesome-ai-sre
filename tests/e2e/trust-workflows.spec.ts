@@ -31,23 +31,23 @@ test.describe("trust and activation workflows", () => {
     await expectPublicPageGuardrails(page, testInfo);
   });
 
-  test("sign-in uses the benefit-led split layout and passwordless form", async ({ page }, testInfo) => {
+  test("sign-in keeps public browsing clear and puts the passwordless form first on mobile", async ({ page }, testInfo) => {
     await openRoute(page, "/sign-in");
 
     const benefitSection = page.getByRole("heading", {
       level: 1,
-      name: "Your reliability research, in one place.",
+      name: "Save your research when you’re ready.",
     }).locator("xpath=ancestor::section");
     const signInSection = page.getByRole("region", { name: "Sign in" });
 
     await expect(benefitSection).toBeVisible();
     await expect(signInSection).toBeVisible();
     await expect(page.getByRole("list", { name: "Account benefits" })).toBeVisible();
-    await expect(page.getByText("Keep a focused shortlist", { exact: true })).toBeVisible();
-    await expect(page.getByText("Run structured evaluations", { exact: true })).toBeVisible();
-    await expect(page.getByText("Write private product notes", { exact: true })).toBeVisible();
-    await expect(page.getByText("Follow company updates", { exact: true })).toBeVisible();
-    await expect(page.getByLabel("Work email")).toHaveAttribute("type", "email");
+    await expect(page.getByText("Save products for later", { exact: true })).toBeVisible();
+    await expect(page.getByText("Add private notes", { exact: true })).toBeVisible();
+    await expect(page.getByText("Compare serious candidates", { exact: true })).toBeVisible();
+    await expect(page.getByText("browse every product and source without an account", { exact: false })).toBeVisible();
+    await expect(page.getByLabel("Email address")).toHaveAttribute("type", "email");
     await expect(page.getByText("No password required.", { exact: false })).toBeVisible();
 
     const emailAction = page.getByRole("button", { name: "Email me a sign-in link" });
@@ -61,9 +61,8 @@ test.describe("trust and activation workflows", () => {
     if (testInfo.project.name === "chromium") {
       expect(Math.abs(left!.y - right!.y), "Desktop split panels should begin on the same row").toBeLessThanOrEqual(1);
       expect(right!.x, "The sign-in panel should be the right half of the desktop split").toBeGreaterThanOrEqual(left!.x + left!.width - 1);
-      expect(Math.abs(left!.width - right!.width), "Desktop split panels should have balanced widths").toBeLessThanOrEqual(2);
     } else {
-      expect(right!.y, "Mobile auth panels should stack without side overflow").toBeGreaterThanOrEqual(left!.y + left!.height - 1);
+      expect(left!.y, "Mobile should put the sign-in form before supporting account details").toBeGreaterThanOrEqual(right!.y + right!.height - 1);
     }
 
     await expectPublicPageGuardrails(page, testInfo);
@@ -129,8 +128,8 @@ test.describe("trust and activation workflows", () => {
       await expect(page).toHaveURL((url) => {
         return url.pathname === "/sign-in" && url.searchParams.get("next") === route;
       });
-      await expect(page.getByText("Sign in to AI SRE Watchlist", { exact: true })).toBeVisible();
-      await expect(page.getByText("Public evidence stays public.", { exact: false })).toBeVisible();
+      await expect(page.getByText("Sign in or create your workspace", { exact: true })).toBeVisible();
+      await expect(page.getByText("browse every product and source without an account", { exact: false })).toBeVisible();
       await expectPublicPageGuardrails(page, testInfo);
     }
   });

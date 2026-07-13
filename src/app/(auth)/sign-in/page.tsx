@@ -5,8 +5,8 @@ import { AuthPanel } from "@/components/watchlist";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 export const metadata: Metadata = {
-  title: "Sign in",
-  description: "Sign in to save products, keep private notes, build evaluations, and follow company updates.",
+  title: "Sign in or create a workspace",
+  description: "Create a private place to save AI reliability products, add notes, and compare serious candidates.",
   alternates: { canonical: "/sign-in" },
 };
 

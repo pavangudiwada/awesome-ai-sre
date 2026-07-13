@@ -1,6 +1,6 @@
 import type { ReactNode } from "react"
 import Link from "next/link"
-import { CheckCircle2Icon, MailIcon, ShieldCheckIcon } from "lucide-react"
+import { CheckIcon, MailIcon, ShieldCheckIcon } from "lucide-react"
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
@@ -27,20 +27,16 @@ import type { AuthBenefit, ServerFormAction } from "./types"
 
 const DEFAULT_BENEFITS: AuthBenefit[] = [
   {
-    title: "Keep a focused shortlist",
-    description: "Save products you want to revisit without following their company.",
+    title: "Save products for later",
+    description: "Keep a simple shortlist as you browse.",
   },
   {
-    title: "Run structured evaluations",
-    description: "Group serious candidates and record goals, requirements, risks, and a decision.",
+    title: "Add private notes",
+    description: "Keep your research context next to each product.",
   },
   {
-    title: "Write private product notes",
-    description: "Keep research context attached to the product profile where you found it.",
-  },
-  {
-    title: "Follow company updates",
-    description: "Receive reviewed Watchlist updates only for companies you explicitly follow.",
+    title: "Compare serious candidates",
+    description: "Organize products into a structured evaluation when you need one.",
   },
 ]
 
@@ -66,8 +62,8 @@ export function AuthPanel({
   googleAction,
   githubAction,
   benefits = DEFAULT_BENEFITS,
-  title = "Your reliability research, in one place.",
-  description = "Sign in to build a private evaluation workspace. Public evidence stays public.",
+  title = "Save your research when you’re ready.",
+  description = "You can browse every product and source without an account. Sign in only when you want a private place to keep your work.",
   nextPath,
   emailDefaultValue,
   errorMessage,
@@ -80,12 +76,12 @@ export function AuthPanel({
   const hasOAuth = Boolean(googleAction || githubAction)
 
   return (
-    <main className="grid min-h-[calc(100svh-4rem)] lg:grid-cols-2">
-      <section className="flex items-center border-b bg-muted/40 px-4 py-10 sm:px-8 lg:border-b-0 lg:border-r lg:px-12">
-        <div className="mx-auto flex w-full max-w-xl flex-col gap-8">
+    <main className="grid min-h-[calc(100svh-4rem)] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+      <section className="order-2 flex items-center border-t bg-muted/30 px-4 py-10 sm:px-8 lg:order-1 lg:border-r lg:border-t-0 lg:px-12">
+        <div className="mx-auto flex w-full max-w-lg flex-col gap-7">
           <div className="flex flex-col gap-4">
             <p className="text-sm font-medium text-primary">Practitioner workspace</p>
-            <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
+            <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
               {title}
             </h1>
             <p className="max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -93,12 +89,12 @@ export function AuthPanel({
             </p>
           </div>
 
-          <ul className="grid gap-5 sm:grid-cols-2" aria-label="Account benefits">
+          <ul className="flex flex-col gap-4" aria-label="Account benefits">
             {benefits.map((benefit) => (
               <li key={benefit.title} className="flex items-start gap-3">
                 {benefit.icon ?? (
-                  <CheckCircle2Icon
-                    className="mt-0.5 size-5 shrink-0 text-primary"
+                  <CheckIcon
+                    className="mt-0.5 size-4 shrink-0 text-muted-foreground"
                     aria-hidden="true"
                   />
                 )}
@@ -112,22 +108,22 @@ export function AuthPanel({
             ))}
           </ul>
 
-          <Alert>
+          <Alert className="bg-background">
             <ShieldCheckIcon />
-            <AlertTitle>Your notes and evaluation work stay private</AlertTitle>
+            <AlertTitle>Your workspace stays private</AlertTitle>
             <AlertDescription>
-              Company-facing analytics never expose saves, evaluations, or note contents.
+              Companies never see your saves, evaluations, or note contents.
             </AlertDescription>
           </Alert>
         </div>
       </section>
 
-      <section className="flex items-center px-4 py-10 sm:px-8 lg:px-12" aria-label="Sign in">
+      <section className="order-1 flex items-center px-4 py-10 sm:px-8 lg:order-2 lg:px-12" aria-label="Sign in">
         <Card className="mx-auto w-full max-w-md">
           <CardHeader>
-            <CardTitle>Sign in to AI SRE Watchlist</CardTitle>
+            <CardTitle>Sign in or create your workspace</CardTitle>
             <CardDescription>
-              Continue with a provider or receive a secure email link. No password required.
+              Use a provider or a secure email link. No password required.
             </CardDescription>
           </CardHeader>
 
@@ -201,14 +197,14 @@ export function AuthPanel({
                 {nextPath ? <input type="hidden" name="next" value={nextPath} /> : null}
                 <FieldGroup>
                   <Field>
-                    <FieldLabel htmlFor="auth-email">Work email</FieldLabel>
+                    <FieldLabel htmlFor="auth-email">Email address</FieldLabel>
                     <Input
                       id="auth-email"
                       name="email"
                       type="email"
                       autoComplete="email"
                       inputMode="email"
-                      placeholder="you@company.com"
+                      placeholder="you@example.com"
                       defaultValue={emailDefaultValue}
                       required
                     />

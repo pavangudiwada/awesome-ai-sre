@@ -29,12 +29,12 @@ export const metadata: Metadata = {
     template: "%s | AI SRE Watchlist",
   },
   description:
-    "Evidence-led profiles, comparisons, and evaluation workflows for AI incident response and reliability tools.",
+    "Find AI SRE, observability, and incident-response tools through clear, source-linked product profiles.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "AI SRE Watchlist",
     description:
-      "Find and evaluate AI incident-response and reliability tools with evidence you can inspect.",
+      "Find AI SRE, observability, and incident-response tools through clear, source-linked product profiles.",
     url: "/",
     siteName: "AI SRE Watchlist",
     type: "website",

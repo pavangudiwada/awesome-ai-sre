@@ -18,7 +18,7 @@ describe("AuthPanel form composition", () => {
 
     expect(screen.getByText("Sign-in providers")).toBeInTheDocument()
     expect(screen.getByText("or use email")).toBeInTheDocument()
-    expect(screen.getByLabelText("Work email")).toHaveAttribute(
+    expect(screen.getByLabelText("Email address")).toHaveAttribute(
       "autocomplete",
       "email",
     )

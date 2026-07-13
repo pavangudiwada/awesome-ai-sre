@@ -42,11 +42,11 @@ test.describe("public Watchlist routes", () => {
     await expect(
       page.getByRole("heading", {
         level: 1,
-        name: "Find the AI tools that improve reliability.",
+        name: "Find the right tools for reliable systems.",
       }),
     ).toBeVisible();
-    await expect(page.getByText("Private evaluation workspace is now available")).toBeVisible();
-    await expect(page.getByText("Unknown stays unknown")).toBeVisible();
+    await expect(page.getByText("No account needed to browse.")).toBeVisible();
+    await expect(page.getByText("Useful information, without the vendor pitch.")).toBeVisible();
 
     const bell = await expectBellWithoutFakeUnread(page);
     await bell.click();

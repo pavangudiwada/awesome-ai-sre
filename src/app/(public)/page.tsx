@@ -1,27 +1,18 @@
 import Link from "next/link";
-import { ArrowRightIcon, BellIcon, FolderSearch2Icon } from "lucide-react";
+import { ArrowRightIcon, BookmarkIcon, SearchCheckIcon, SquareLibraryIcon } from "lucide-react";
 
 import { saveProductAction } from "@/actions/workflows";
-import { MarketplaceHero, ProductCard, ProductGrid } from "@/components/watchlist";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
+import { MarketplaceHero, ProductCard } from "@/components/watchlist";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from "@/components/ui/item";
 import {
   getCompanies,
   getEarlyCohort,
   getProducts,
-  getPublishedContentDocuments,
 } from "@/lib/catalog";
 import { companyMap, toProductSummary } from "@/lib/presentation/catalog";
 import { getSavedProductSlugs } from "@/lib/workflows/queries";
+import type { CatalogProduct } from "@/types/catalog";
 
 export default async function HomePage() {
   const products = getProducts();
@@ -31,41 +22,24 @@ export default async function HomePage() {
   const cohort = getEarlyCohort();
   const featured = cohort.entries
     .map((entry) => productsBySlug.get(entry.productSlug))
-    .filter((product) => product !== undefined)
-    .slice(0, 8);
-  const resources = getPublishedContentDocuments("resource").slice(0, 3);
+    .filter(
+      (product): product is CatalogProduct =>
+        product !== undefined && product.screenshot !== undefined,
+    )
+    .slice(0, 3);
   const savedSlugs = new Set(await getSavedProductSlugs());
 
   return (
     <main>
-      <div className="mx-auto max-w-screen-2xl px-4 pt-4 sm:px-6 lg:px-8">
-        <Alert>
-          <FolderSearch2Icon />
-          <AlertTitle>Private evaluation workspace is now available</AlertTitle>
-          <AlertDescription className="flex flex-wrap items-center gap-x-3 gap-y-2">
-            Save products, keep private notes, build named evaluations, and follow reviewed company updates.
-            <Link href="/sign-in" className="font-medium text-foreground underline-offset-4 hover:underline">
-              Create your workspace
-            </Link>
-          </AlertDescription>
-        </Alert>
-      </div>
+      <MarketplaceHero />
 
-      <MarketplaceHero
-        proofPoints={[
-          `${products.length} AI reliability products`,
-          `${companies.length} researched companies`,
-          "Unknown stays unknown",
-        ]}
-      />
-
-      <section className="mx-auto flex max-w-screen-2xl flex-col gap-6 px-4 py-10 sm:px-6 lg:px-8">
+      <section className="mx-auto flex max-w-screen-2xl flex-col gap-6 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div className="flex max-w-3xl flex-col gap-2">
-            <p className="text-sm font-medium text-primary">Initial incident-response cohort</p>
-            <h2 className="text-3xl font-semibold tracking-tight">Start with products under active review</h2>
+            <p className="text-sm font-medium text-primary">A useful place to start</p>
+            <h2 className="text-3xl font-semibold tracking-tight">Explore the first products in the Watchlist</h2>
             <p className="text-muted-foreground">
-              These profiles are prioritized for deeper evidence review. Unreviewed facts are labeled rather than guessed.
+              Read the overview, check deployment details, and follow the sources that matter to your evaluation.
             </p>
           </div>
           <Button asChild variant="outline">
@@ -75,7 +49,7 @@ export default async function HomePage() {
             </Link>
           </Button>
         </div>
-        <ProductGrid>
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {featured.map((product, index) => {
             const summary = toProductSummary(product, companiesBySlug);
             return (
@@ -84,83 +58,52 @@ export default async function HomePage() {
                 product={summary}
                 saved={savedSlugs.has(product.slug)}
                 saveAction={saveProductAction}
-                mediaPriority={index < 8}
+                mediaPriority={index < 3}
               />
             );
           })}
-        </ProductGrid>
-      </section>
-
-      <section className="border-y bg-card">
-        <div className="mx-auto flex max-w-screen-2xl flex-col gap-6 px-4 py-10 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-2">
-            <p className="text-sm font-medium text-primary">Practitioner resources</p>
-            <h2 className="text-3xl font-semibold tracking-tight">Run a safer AI incident-response pilot</h2>
-            <p className="max-w-3xl text-muted-foreground">
-              Use transparent scorecards, security checks, and replay protocols before granting an agent production access.
-            </p>
-          </div>
-          <div className="grid gap-5 lg:grid-cols-3">
-            {resources.map((resource) => (
-              <Card key={resource.metadata.slug}>
-                <CardHeader>
-                  <Badge variant="outline" className="w-fit">
-                    {resource.metadata.kind === "resource"
-                      ? resource.metadata.resourceType
-                      : "resource"}
-                  </Badge>
-                  <CardTitle>{resource.metadata.title}</CardTitle>
-                  <CardDescription>{resource.metadata.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="text-sm text-muted-foreground">
-                  Published {resource.metadata.publishedAt}
-                </CardContent>
-                <CardFooter>
-                  <Button asChild variant="link" className="px-0">
-                    <Link href={`/resources/${resource.metadata.slug}`}>
-                      Open resource
-                      <ArrowRightIcon data-icon="inline-end" />
-                    </Link>
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-          <Button asChild variant="outline" className="w-fit">
-            <Link href="/resources">View all resources</Link>
-          </Button>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-screen-2xl gap-5 px-4 py-10 sm:px-6 lg:grid-cols-2 lg:px-8">
-        <Card>
-          <CardHeader>
-            <BellIcon />
-            <CardTitle>Follow companies without exposing your research</CardTitle>
-            <CardDescription>
-              Company follows power reviewed updates in your Bell. Saves, notes, and evaluations remain separate and private.
-            </CardDescription>
-          </CardHeader>
-          <CardFooter>
-            <Button asChild variant="outline">
-              <Link href="/tools">Find a company to follow</Link>
+      <section className="border-y bg-muted/30">
+        <div className="mx-auto grid max-w-screen-2xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] lg:px-8 lg:py-16">
+          <div className="flex max-w-md flex-col gap-3">
+            <p className="text-sm font-medium text-primary">Built to make research simpler</p>
+            <h2 className="text-3xl font-semibold tracking-tight">Useful information, without the vendor pitch.</h2>
+            <p className="leading-relaxed text-muted-foreground">
+              The Watchlist gives reliability teams a calm place to understand products before spending time on demos and trials.
+            </p>
+            <Button asChild variant="link" className="h-11 w-fit px-0">
+              <Link href="/methodology">
+                How the Watchlist researches products
+                <ArrowRightIcon data-icon="inline-end" />
+              </Link>
             </Button>
-          </CardFooter>
-        </Card>
-        <Card>
-          <CardHeader>
-            <FolderSearch2Icon />
-            <CardTitle>Move serious candidates into an evaluation</CardTitle>
-            <CardDescription>
-              Save broadly, then create a named evaluation only when a product becomes a real pilot candidate.
-            </CardDescription>
-          </CardHeader>
-          <CardFooter>
-            <Button asChild>
-              <Link href="/workspace/evaluations">Open evaluations</Link>
-            </Button>
-          </CardFooter>
-        </Card>
+          </div>
+          <ItemGroup className="grid gap-3 sm:grid-cols-3">
+            <Item variant="outline" className="items-start bg-background">
+              <ItemMedia variant="icon"><SquareLibraryIcon aria-hidden="true" /></ItemMedia>
+              <ItemContent>
+                <ItemTitle>Understand the product</ItemTitle>
+                <ItemDescription>See the problem it addresses, key capabilities, and deployment options.</ItemDescription>
+              </ItemContent>
+            </Item>
+            <Item variant="outline" className="items-start bg-background">
+              <ItemMedia variant="icon"><SearchCheckIcon aria-hidden="true" /></ItemMedia>
+              <ItemContent>
+                <ItemTitle>Check the sources</ItemTitle>
+                <ItemDescription>Inspect source-linked claims and see clearly when information is still unknown.</ItemDescription>
+              </ItemContent>
+            </Item>
+            <Item variant="outline" className="items-start bg-background">
+              <ItemMedia variant="icon"><BookmarkIcon aria-hidden="true" /></ItemMedia>
+              <ItemContent>
+                <ItemTitle>Keep track when ready</ItemTitle>
+                <ItemDescription>Browse freely, then sign in only if you want to save products or add private notes.</ItemDescription>
+              </ItemContent>
+            </Item>
+          </ItemGroup>
+        </div>
       </section>
     </main>
   );
