@@ -2,11 +2,13 @@
 
 const fs = require("fs");
 const path = require("path");
+const vm = require("vm");
 const matter = require("gray-matter");
 const yaml = require("js-yaml");
 
 const ROOT = __dirname;
 const TOOLS_DIR = path.join(ROOT, "tools", "operate");
+const OBSERVABILITY_PATH = path.join(ROOT, "src", "data", "observability.js");
 const RESOURCES_DIR = path.join(ROOT, "content", "resources");
 const README_PATH = path.join(ROOT, "README.md");
 const SITE_URL = "https://aisrewatchlist.vercel.app";
@@ -24,6 +26,9 @@ const TAG_ORDER = [
   "Deployment",
   "Other",
 ];
+const TAG_LABELS = {
+  Observability: "AI-powered observability",
+};
 
 function cleanText(value) {
   return String(value).replace(/\s+/g, " ").trim();
@@ -79,6 +84,20 @@ function loadResource(filePath) {
   return data;
 }
 
+function loadObservabilityTools(filePath) {
+  const source = fs
+    .readFileSync(filePath, "utf8")
+    .replace(/export const/g, "const")
+    .concat("\nOBSERVABILITY_TOOLS;");
+  const tools = vm.runInNewContext(source, {}, { filename: filePath });
+
+  if (!Array.isArray(tools)) {
+    throw new Error(`Observability catalog must export an array in ${filePath}`);
+  }
+
+  return tools;
+}
+
 function buildToolLink(tool) {
   const marker = tool.opensource ? "💚 " : "";
   return `${marker}[${cleanText(tool.name)}](${SITE_URL}/tools/${tool.slug})`;
@@ -89,6 +108,18 @@ function buildToolItem(tool) {
   if (tool.github) links.push(`[GitHub](${tool.github})`);
 
   return `- ${buildToolLink(tool)} — ${cleanText(tool.summary)} ${links.join(" · ")}`;
+}
+
+function buildObservabilityLink(tool) {
+  const marker = tool.ossStatus === "Open source" ? "💚 " : "";
+  return `${marker}[${cleanText(tool.name)}](${SITE_URL}/observability/${tool.slug})`;
+}
+
+function buildObservabilityItem(tool) {
+  const links = [`[Website](${tool.url})`];
+  if (tool.links?.github) links.push(`[GitHub](${tool.links.github})`);
+
+  return `- ${buildObservabilityLink(tool)} — ${cleanText(tool.summary)} ${links.join(" · ")}`;
 }
 
 function parseAddedDate(value) {
@@ -127,7 +158,7 @@ function anchorForTag(tag) {
   return tag.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
-function buildReadme(tools, resources) {
+function buildReadme(tools, observabilityTools, resources) {
   const groups = new Map(TAG_ORDER.map((tag) => [tag, []]));
 
   for (const tool of tools) {
@@ -138,7 +169,10 @@ function buildReadme(tools, resources) {
 
   const jumpLinks = TAG_ORDER
     .filter((tag) => groups.get(tag).length > 0)
-    .map((tag) => `[${tag}](#${anchorForTag(tag)})`)
+    .map((tag) => {
+      const label = TAG_LABELS[tag] || tag;
+      return `[${label}](#${anchorForTag(label)})`;
+    })
     .join(" · ");
 
   const lines = [
@@ -152,13 +186,16 @@ function buildReadme(tools, resources) {
     "",
     `[Browse tools](${SITE_URL}/tools) · [Read resources](${SITE_URL}/resources) · [See the methodology](${SITE_URL}/methodology) · [Get updates](${SITE_URL}/updates)`,
     "",
+    "Jump to: [AI SRE tools](#ai-sre-tools) · [Observability tools](#observability-tools) · [Resources](#resources)",
+    "",
     "If this project is useful, please consider giving it a ⭐.",
     "",
     "> This README is generated from the catalog and published resources in this repository. Edit the source files, then run `npm run generate:readme`.",
     "",
-    "## Tools",
+    '<a id="ai-sre-tools"></a>',
+    "## AI SRE tools",
     "",
-    `Browse all ${tools.length} tools on the **[Watchlist website](${SITE_URL}/tools)** for richer profiles and easier comparison. 💚 marks open-source projects.`,
+    `Browse all ${tools.length} AI SRE tools on the **[Watchlist website](${SITE_URL}/tools)** for richer profiles and easier comparison. 💚 marks open-source projects.`,
     "",
   ];
 
@@ -180,9 +217,11 @@ function buildReadme(tools, resources) {
     for (const tag of TAG_ORDER) {
       const sectionTools = groups.get(tag);
       if (!sectionTools || sectionTools.length === 0) continue;
+      const label = TAG_LABELS[tag] || tag;
 
       lines.push("");
-      lines.push(`### ${tag} (${sectionTools.length})`);
+      lines.push(`<a id="${anchorForTag(label)}"></a>`);
+      lines.push(`### ${label} (${sectionTools.length})`);
       lines.push("");
       for (const tool of sectionTools) {
         lines.push(buildToolItem(tool));
@@ -191,6 +230,24 @@ function buildReadme(tools, resources) {
   }
 
   lines.push("");
+  lines.push('<a id="observability-tools"></a>');
+  lines.push("## Observability tools");
+  lines.push("");
+  lines.push(
+    `Browse all ${observabilityTools.length} observability tools on the **[Observability directory](${SITE_URL}/observability)**. This catalog covers telemetry standards, collectors, storage, monitoring, and visualization tools separately from AI SRE products.`
+  );
+  lines.push("");
+
+  if (observabilityTools.length === 0) {
+    lines.push("_No observability tools found._");
+  } else {
+    for (const tool of observabilityTools) {
+      lines.push(buildObservabilityItem(tool));
+    }
+  }
+
+  lines.push("");
+  lines.push('<a id="resources"></a>');
   lines.push("## Resources");
   lines.push("");
   lines.push(
@@ -231,6 +288,10 @@ function main() {
     .map(loadTool)
     .sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
 
+  const observabilityTools = loadObservabilityTools(OBSERVABILITY_PATH).sort((a, b) =>
+    a.name.localeCompare(b.name, "en", { sensitivity: "base" })
+  );
+
   const resources = getFiles(RESOURCES_DIR, [".mdx"])
     .map(loadResource)
     .filter(Boolean)
@@ -240,9 +301,13 @@ function main() {
         String(a.title).localeCompare(String(b.title), "en", { sensitivity: "base" })
     );
 
-  fs.writeFileSync(README_PATH, buildReadme(tools, resources), "utf8");
+  fs.writeFileSync(
+    README_PATH,
+    buildReadme(tools, observabilityTools, resources),
+    "utf8"
+  );
   console.log(
-    `README.md generated with ${tools.length} tool(s) and ${resources.length} resource(s).`
+    `README.md generated with ${tools.length} AI SRE tool(s), ${observabilityTools.length} observability tool(s), and ${resources.length} resource(s).`
   );
 }
 

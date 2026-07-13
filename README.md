@@ -8,13 +8,16 @@ A curated directory of AI-powered tools and practical resources for site reliabi
 
 [Browse tools](https://aisrewatchlist.vercel.app/tools) · [Read resources](https://aisrewatchlist.vercel.app/resources) · [See the methodology](https://aisrewatchlist.vercel.app/methodology) · [Get updates](https://aisrewatchlist.vercel.app/updates)
 
+Jump to: [AI SRE tools](#ai-sre-tools) · [Observability tools](#observability-tools) · [Resources](#resources)
+
 If this project is useful, please consider giving it a ⭐.
 
 > This README is generated from the catalog and published resources in this repository. Edit the source files, then run `npm run generate:readme`.
 
-## Tools
+<a id="ai-sre-tools"></a>
+## AI SRE tools
 
-Browse all 80 tools on the **[Watchlist website](https://aisrewatchlist.vercel.app/tools)** for richer profiles and easier comparison. 💚 marks open-source projects.
+Browse all 80 AI SRE tools on the **[Watchlist website](https://aisrewatchlist.vercel.app/tools)** for richer profiles and easier comparison. 💚 marks open-source projects.
 
 ### Recent additions (last 14 days)
 
@@ -23,8 +26,9 @@ Browse all 80 tools on the **[Watchlist website](https://aisrewatchlist.vercel.a
 - 2026-07-02 — 💚 [Aurora](https://aisrewatchlist.vercel.app/tools/aurora) (Incident Response)
 - 2026-06-29 — [RubixKube](https://aisrewatchlist.vercel.app/tools/rubixkube) (Incident Response)
 
-[Incident Response](#incident-response) · [Observability](#observability) · [AIOps](#aiops) · [IDP](#idp) · [IaC](#iac) · [Security](#security) · [Deployment](#deployment)
+[Incident Response](#incident-response) · [AI-powered observability](#ai-powered-observability) · [AIOps](#aiops) · [IDP](#idp) · [IaC](#iac) · [Security](#security) · [Deployment](#deployment)
 
+<a id="incident-response"></a>
 ### Incident Response (33)
 
 - [Agent SRE](https://aisrewatchlist.vercel.app/tools/agent-sre) — AgentSRE is built for enterprises that can't afford downtime. A fleet of AI agents automates detection, root cause analysis, and remediation - delivering faster recovery, lower cloud costs, and resilient operations. [Website](https://agentsre.ai)
@@ -61,7 +65,8 @@ Browse all 80 tools on the **[Watchlist website](https://aisrewatchlist.vercel.a
 - [Vigiles](https://aisrewatchlist.vercel.app/tools/vigiles) — Incident management platform for modern teams with outage detection, on-call alerting, response coordination, status pages, and AI postmortems. [Website](https://vigileshq.com)
 - [Wild Moose](https://aisrewatchlist.vercel.app/tools/wild-moose) — Wild Moose helps developers solve production issues faster, kicking off any root cause investigation automatically. Triggered by alerts, the AI moose autonomously. [Website](https://www.wildmoose.ai)
 
-### Observability (17)
+<a id="ai-powered-observability"></a>
+### AI-powered observability (17)
 
 - [Agent0 by Dash0](https://aisrewatchlist.vercel.app/tools/agent0-by-dash0) — Agent0 is Dash0's production AI built into its OpenTelemetry-native hosted observability platform. It surfaces production issues, investigates telemetry and code, and creates validated artifacts such as dashboards, alerts, and pull-request drafts. [Website](https://www.dash0.com/agent0) · [GitHub](https://github.com/dash0hq)
 - [Better Stack AI SRE](https://aisrewatchlist.vercel.app/tools/better-stack) — Better Stack AI SRE is a chat-based assistant within Better Stack's hosted observability and incident-management platform, rather than a separate standalone agent. It investigates using Better Stack telemetry and connected tools, while write actions require human approval. [Website](https://betterstack.com/ai-sre) · [GitHub](https://github.com/BetterStackHQ)
@@ -81,6 +86,7 @@ Browse all 80 tools on the **[Watchlist website](https://aisrewatchlist.vercel.a
 - [Sentry](https://aisrewatchlist.vercel.app/tools/sentry) — Application performance monitoring for developers and software teams to see errors more clearly, solve issues faster, and improve reliability continuously. [Website](https://sentry.io) · [GitHub](https://github.com/getsentry)
 - [SIXTA](https://aisrewatchlist.vercel.app/tools/sixta) — AI-powered root cause analysis for database reliability [Website](https://sixta.ai)
 
+<a id="aiops"></a>
 ### AIOps (22)
 
 - [BigPanda](https://aisrewatchlist.vercel.app/tools/bigpanda) — AIOps platform for event correlation, incident detection, and response orchestration across modern IT operations. [Website](https://www.bigpanda.io)
@@ -106,26 +112,71 @@ Browse all 80 tools on the **[Watchlist website](https://aisrewatchlist.vercel.a
 - 💚 [Stakpak](https://aisrewatchlist.vercel.app/tools/stakpak) — An open source agent that lives on your machines 24/7, keeps your apps running, and only pings when it needs a human. [Website](https://www.stakpak.dev) · [GitHub](https://github.com/stakpak/agent)
 - [StarSling](https://aisrewatchlist.vercel.app/tools/starsling) — Multi-agent automation platform that orchestrates AI workflows for operations, troubleshooting, and remediation. [Website](https://www.starsling.dev)
 
+<a id="idp"></a>
 ### IDP (2)
 
 - [Rebase](https://aisrewatchlist.vercel.app/tools/rebase) — Every company needs to become an AI company. Rebase is the infrastructure to get there — connect all your systems, access any LLMs, and deploy AI agents across your. [Website](https://rebase.run)
 - [StackGen](https://aisrewatchlist.vercel.app/tools/stackgen) — Autonomous infrastructure platform powered by Aiden for platform engineering, DevOps, and SRE teams to automate provisioning, governance, and operations. [Website](https://stackgen.com)
 
+<a id="iac"></a>
 ### IaC (1)
 
 - [Ops0](https://aisrewatchlist.vercel.app/tools/ops0) — ops0 automates how infrastructure is created, managed, and operated. Turn intent into IaC, apply updates intelligently, and resolve issues before they happen all powered. [Website](https://www.ops0.com)
 
+<a id="security"></a>
 ### Security (2)
 
 - [Cloudgeni](https://aisrewatchlist.vercel.app/tools/cloudgeni) — AI-powered cloud infrastructure platform that detects misconfigurations, remediates security and compliance issues, and generates reviewable infrastructure changes through deterministic workflows. [Website](https://cloudgeni.ai)
 - [Infrabase](https://aisrewatchlist.vercel.app/tools/infrabase) — Infrabase scans code and organizational context to surface security gaps, cost spikes, and policy breaks before they ever hit your cloud. [Website](https://infrabase.co)
 
+<a id="deployment"></a>
 ### Deployment (3)
 
 - [Cutover](https://aisrewatchlist.vercel.app/tools/cutover) — Cutover's cloud-hosted Collaborative Automation platform connects teams and technology, helping you manage disaster recovery, migration, and release. [Website](https://www.cutover.com)
 - [Lens K8s IDE](https://aisrewatchlist.vercel.app/tools/lens-k8s-ide) — Kubernetes IDE for cluster operations and troubleshooting with AI-assisted diagnostics via Lens Prism. [Website](https://lenshq.io/products/lens-k8s-ide) · [GitHub](https://github.com/lensapp/lens)
 - 💚 [Skyflo.ai](https://aisrewatchlist.vercel.app/tools/skyflo-ai) — Skyflo is an open-source AI agent for DevOps and cloud operations. It plans, executes, and verifies infrastructure changes across Kubernetes, CI/CD, and cloud platforms. [Website](https://skyflo.ai) · [GitHub](https://github.com/skyflo-ai)
 
+<a id="observability-tools"></a>
+## Observability tools
+
+Browse all 34 observability tools on the **[Observability directory](https://aisrewatchlist.vercel.app/observability)**. This catalog covers telemetry standards, collectors, storage, monitoring, and visualization tools separately from AI SRE products.
+
+- 💚 [Alerta](https://aisrewatchlist.vercel.app/observability/alerta) — Open-source alert management and deduplication system with multi-source ingestion, silencing, and escalation. [Website](https://alerta.io/) · [GitHub](https://github.com/alerta/alerta)
+- [AWS CloudWatch](https://aisrewatchlist.vercel.app/observability/aws-cloudwatch) — AWS-native monitoring and observability service for metrics, logs, traces, alarms, and application signals. [Website](https://aws.amazon.com/cloudwatch/)
+- 💚 [Cilium Hubble](https://aisrewatchlist.vercel.app/observability/cilium-hubble) — Network, service, and security observability for Kubernetes powered by Cilium and eBPF. [Website](https://docs.cilium.io/en/stable/observability/hubble/) · [GitHub](https://github.com/cilium/hubble)
+- [Datadog Observability](https://aisrewatchlist.vercel.app/observability/datadog-observability) — Commercial observability platform covering infrastructure, logs, metrics, traces, RUM, synthetics, and incident workflows. [Website](https://www.datadoghq.com/)
+- [Dynatrace](https://aisrewatchlist.vercel.app/observability/dynatrace) — Enterprise observability and application security platform with topology, automation, and Davis AI capabilities. [Website](https://www.dynatrace.com/)
+- [Elasticsearch](https://aisrewatchlist.vercel.app/observability/elasticsearch) — Search and analytics engine commonly used for logs, events, and observability workflows. [Website](https://www.elastic.co/elasticsearch) · [GitHub](https://github.com/elastic/elasticsearch)
+- 💚 [Fluent Bit](https://aisrewatchlist.vercel.app/observability/fluent-bit) — Lightweight telemetry agent for collecting, processing, and forwarding logs, metrics, and traces. [Website](https://fluentbit.io/) · [GitHub](https://github.com/fluent/fluent-bit)
+- [Grafana](https://aisrewatchlist.vercel.app/observability/grafana) — Visualization and alerting layer for metrics, logs, traces, profiles, and mixed observability data sources. [Website](https://grafana.com/grafana/) · [GitHub](https://github.com/grafana/grafana)
+- 💚 [Grafana Loki](https://aisrewatchlist.vercel.app/observability/grafana-loki) — Log aggregation system built around labels and Grafana-native correlation workflows. [Website](https://grafana.com/oss/loki/) · [GitHub](https://github.com/grafana/loki)
+- 💚 [Grafana Mimir](https://aisrewatchlist.vercel.app/observability/grafana-mimir) — Horizontally scalable Prometheus-compatible metrics backend from Grafana Labs. [Website](https://grafana.com/oss/mimir/) · [GitHub](https://github.com/grafana/mimir)
+- 💚 [Grafana Pyroscope](https://aisrewatchlist.vercel.app/observability/grafana-pyroscope) — Continuous profiling backend for finding performance bottlenecks and correlating code-level cost with telemetry. [Website](https://grafana.com/oss/pyroscope/) · [GitHub](https://github.com/grafana/pyroscope)
+- 💚 [Grafana Tempo](https://aisrewatchlist.vercel.app/observability/grafana-tempo) — Distributed tracing backend designed for object storage and Grafana correlation. [Website](https://grafana.com/oss/tempo/) · [GitHub](https://github.com/grafana/tempo)
+- 💚 [Graphite](https://aisrewatchlist.vercel.app/observability/graphite) — Time-series metrics storage and graphing system with a plaintext line protocol and simple dashboard UI. [Website](https://graphiteapp.org/) · [GitHub](https://github.com/graphite-project/graphite-web)
+- [Honeycomb](https://aisrewatchlist.vercel.app/observability/honeycomb) — Observability platform focused on high-cardinality event analytics, tracing, and production debugging. [Website](https://www.honeycomb.io/)
+- 💚 [Icinga 2](https://aisrewatchlist.vercel.app/observability/icinga-2) — Modern scalable monitoring framework forked from Nagios with distributed checks, HA, and a REST API. [Website](https://icinga.com/) · [GitHub](https://github.com/Icinga/icinga2)
+- [InfluxDB](https://aisrewatchlist.vercel.app/observability/influxdb) — Purpose-built time-series database for high-write-throughput metrics storage with Flux and SQL query support. [Website](https://www.influxdata.com/products/influxdb/) · [GitHub](https://github.com/influxdata/influxdb)
+- 💚 [Jaeger](https://aisrewatchlist.vercel.app/observability/jaeger) — Distributed tracing system for monitoring and troubleshooting transactions in microservice environments. [Website](https://www.jaegertracing.io/) · [GitHub](https://github.com/jaegertracing/jaeger)
+- [Last9](https://aisrewatchlist.vercel.app/observability/last9) — OpenTelemetry-native observability platform for APM, high-cardinality metrics, logs, and traces at scale. [Website](https://last9.io/)
+- 💚 [LibreNMS](https://aisrewatchlist.vercel.app/observability/librenms) — Auto-discovering network monitoring system with SNMP, alerting, and broad device support. [Website](https://www.librenms.org/) · [GitHub](https://github.com/librenms/librenms)
+- [Loggly](https://aisrewatchlist.vercel.app/observability/loggly) — Cloud-based log management and analytics platform for aggregating and searching logs from any source. [Website](https://www.loggly.com/)
+- [Nagios](https://aisrewatchlist.vercel.app/observability/nagios) — Classic open-source IT infrastructure monitoring with host, service, and network checks and alerting. [Website](https://www.nagios.org/) · [GitHub](https://github.com/NagiosEnterprises/nagioscore)
+- [Netdata](https://aisrewatchlist.vercel.app/observability/netdata) — Real-time performance monitoring agent with per-second metrics, ML anomaly detection, and zero-configuration dashboards. [Website](https://www.netdata.cloud/) · [GitHub](https://github.com/netdata/netdata)
+- [New Relic](https://aisrewatchlist.vercel.app/observability/new-relic) — Full-stack observability platform for application, infrastructure, logs, traces, browser, mobile, and AI/LLM monitoring. [Website](https://newrelic.com/)
+- 💚 [OpenSearch](https://aisrewatchlist.vercel.app/observability/opensearch) — Open-source search and analytics suite often used for log analytics and observability data exploration. [Website](https://opensearch.org/) · [GitHub](https://github.com/opensearch-project/OpenSearch)
+- 💚 [OpenTelemetry](https://aisrewatchlist.vercel.app/observability/opentelemetry) — Vendor-neutral standard and SDK ecosystem for collecting traces, metrics, logs, and other telemetry. [Website](https://opentelemetry.io/) · [GitHub](https://github.com/open-telemetry)
+- 💚 [OpenTelemetry Collector](https://aisrewatchlist.vercel.app/observability/opentelemetry-collector) — Collector for receiving, processing, and exporting telemetry across logs, metrics, and traces. [Website](https://opentelemetry.io/docs/collector/) · [GitHub](https://github.com/open-telemetry/opentelemetry-collector)
+- 💚 [Pixie](https://aisrewatchlist.vercel.app/observability/pixie) — eBPF-based Kubernetes observability platform for automatically collecting service, network, and application telemetry. [Website](https://px.dev/) · [GitHub](https://github.com/pixie-io/pixie)
+- 💚 [Prometheus](https://aisrewatchlist.vercel.app/observability/prometheus) — Cloud-native monitoring system and time-series database with a powerful query model and alerting ecosystem. [Website](https://prometheus.io/) · [GitHub](https://github.com/prometheus/prometheus)
+- [Sentry](https://aisrewatchlist.vercel.app/observability/sentry) — Application error tracking and performance monitoring platform for debugging issues across releases. [Website](https://sentry.io/) · [GitHub](https://github.com/getsentry/sentry)
+- [SigNoz](https://aisrewatchlist.vercel.app/observability/signoz) — OpenTelemetry-native observability platform for metrics, logs, traces, exceptions, dashboards, and alerts. [Website](https://signoz.io/) · [GitHub](https://github.com/SigNoz/signoz)
+- 💚 [Uptime Kuma](https://aisrewatchlist.vercel.app/observability/uptime-kuma) — Self-hosted uptime monitoring tool with status pages, multi-protocol checks, and notification integrations. [Website](https://uptime.kuma.pet/) · [GitHub](https://github.com/louislam/uptime-kuma)
+- 💚 [Vector](https://aisrewatchlist.vercel.app/observability/vector) — High-performance observability pipeline for collecting, transforming, and routing logs, metrics, and traces. [Website](https://vector.dev/) · [GitHub](https://github.com/vectordotdev/vector)
+- [VictoriaMetrics](https://aisrewatchlist.vercel.app/observability/victoriametrics) — High-performance time-series database and monitoring solution compatible with Prometheus-style workflows. [Website](https://victoriametrics.com/) · [GitHub](https://github.com/VictoriaMetrics/VictoriaMetrics)
+- 💚 [Zabbix](https://aisrewatchlist.vercel.app/observability/zabbix) — Enterprise-grade open-source monitoring platform for infrastructure, networks, applications, and cloud resources. [Website](https://www.zabbix.com/) · [GitHub](https://github.com/zabbix/zabbix)
+
+<a id="resources"></a>
 ## Resources
 
 Practical, evidence-led material for evaluating AI SRE products. **[Browse the full resource library](https://aisrewatchlist.vercel.app/resources)**.
