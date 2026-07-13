@@ -1,500 +1,118 @@
-Below is a self-contained implementation brief you can hand to another agent.
+# AI SRE Watchlist implementation status and task ledger
 
-**Implementation Brief**
-Build `The AI SRE Watchlist` into an elegant, functional AI SRE marketplace: a place for SREs, platform engineers, founders, and buyers to discover, compare, save, and evaluate AI SRE, observability, incident response, AIOps, OpenTelemetry, runbook, and reliability tooling.
+Updated: 2026-07-13
 
-The product should feel like **Toolfinder for AI SRE**, with the visual elegance of the first mockup and the functional depth of the second mockup.
+## Implemented
 
-Reference visuals:
-- Option 1 visual base: `docs/agent-context/marketplace-visual-base.png`
-- Option 2 functional depth: `docs/agent-context/profile-functional-reference.png`
+### Application foundation
 
-**Core Product Direction**
-This is not just an awesome-list. It should become a structured marketplace where:
-- Users discover the best tools/resources for a specific SRE problem.
-- Each company/tool gets a rich profile page.
-- Users can save tools and searches.
-- SEO pages capture growth queries like “Best PagerDuty Alternatives”, “Best incident response AI tools”, and “PagerDuty vs Rootly”.
-- Vendors can eventually claim profiles and add releases, case studies, integrations, screenshots, and blog updates.
+- Migrated the legacy Vite/JavaScript SPA to Next.js 16 App Router, React 19, and strict TypeScript.
+- Added official shadcn/ui Radix Nova components and restored the official neutral theme.
+- Removed the public sidebar and legacy UI primitives/CSS.
+- Added metadata, JSON-LD, sitemap, robots, RSS, error, loading, and not-found routes.
 
-Build in phases. Do not start with vendor dashboards.
+### Catalog and content
 
-**Recommended MVP**
-Implement these first:
+- Strict Zod loaders for 77 AI SRE products, 34 observability products, 18 curated companies, and an 18-product research cohort.
+- Six substantive published practitioner resources.
+- Draft comparison/blog/update documents remain unpublished until editorial review.
+- Catalog reference sync supports Drizzle `DATABASE_URL` mode and a linked Supabase CLI mode; absent refs are deactivated rather than deleted.
 
-1. Marketplace browse page
-2. Tool/company profile page
-3. Search and filters
-4. Save/bookmark tool interaction
-5. Basic compare shortlist or saved list
-6. SEO page templates for:
-   - `/best/[slug]`
-   - `/alternatives/[slug]`
-   - `/comparisons/[toolA]-vs-[toolB]`
-7. Data model that supports future vendor-owned profiles
+### Practitioner product
 
-**Primary Routes**
-Use this route structure:
+- Distinct Save product, Follow company, Evaluation candidate, and Company opt-in models.
+- Private one-note-per-product autosave.
+- Named evaluations with goal, requirements, risks, decision, and ordered candidates.
+- Real Bell delivery from reviewed updates; honest empty state and no fake unread count.
+- Split-screen Google/GitHub/magic-link sign-in and signed pending intents for Save/Follow.
+- Reviewed correction/update submissions with Zod, honeypot, throttling, and no direct publishing.
 
-```txt
-/
-  Marketplace homepage / browse surface
+### Persistence and privacy
 
-/tools
-  Full searchable directory
+- Supabase SSR session handling and user-owned RLS policies.
+- Drizzle schema for operator/aggregate access.
+- Public catalog stays file-backed; only workflow reference rows are synchronized to Postgres.
+- Private analytics accepts only allowlisted public events, including aggregate product-share actions, stores a daily HMAC pseudonym, exposes no analytics table to anon/auth, and suppresses company reports below 10 distinct daily actors. Share events contain only the product subject and never a destination, channel, message, URL, identity, note, or search value.
+- Production Supabase migrations and current catalog references were pushed on 2026-07-10.
 
-/tools/[slug]
-  Tool/company profile page
+### Quality system
 
-/categories/[slug]
-  Category landing page, e.g. /categories/incident-response-ai
+- Catalog validator, legacy YAML validator, asset audit, and shadcn/UI consistency scanner.
+- 54 Vitest tests at the time of this update.
+- 20 Playwright workflows across desktop Chromium and 390px WebKit.
+- CI jobs for quality/build, browser workflows, and clean Supabase migration replay/lint.
 
-/best/[slug]
-  SEO roundup page, e.g. /best/incident-response-ai-tools
+## Runtime architecture
 
-/alternatives/[slug]
-  SEO alternatives page, e.g. /alternatives/pagerduty
-
-/comparisons/[toolA]-vs-[toolB]
-  SEO comparison page, e.g. /comparisons/pagerduty-vs-rootly
-
-/stacks/[slug]
-  Curated stack page, e.g. /stacks/startup-sre-stack
-
-/resources
-  Guides, blogs, reports, learning resources
-
-/submit
-  Submit a tool/resource
-
-/account/saved
-  Saved tools/searches, later auth-gated
+```mermaid
+flowchart LR
+  Y[Reviewed YAML and MDX] --> N[Next.js public pages]
+  Y --> S[Catalog reference sync]
+  S --> P[(Supabase Postgres)]
+  A[Supabase Auth] --> R[Server actions and RLS client]
+  R --> P
+  N --> E[Allowlisted public events]
+  E --> H[Daily HMAC pseudonym]
+  H --> X[(private.analytics_events)]
+  X --> C[Thresholded company report]
 ```
 
-**Visual Direction**
-Use Option 1 as the base:
-- Clean white or very light neutral background.
-- Strong black/charcoal typography.
-- Marketplace-style cards with screenshot preview areas.
-- Horizontal category pills.
-- Polished header with global search.
-- Minimal shadows, subtle borders, 6-8px radius.
-- Avoid decorative gradients, purple-heavy SaaS styling, and oversized marketing hero sections.
+## External production release tasks
 
-Add Option 2’s functional details:
-- Left-side or collapsible filter panel on `/tools`.
-- Evidence badges.
-- Integration chips.
-- Pricing/deployment metadata.
-- Tool detail side panel or full profile page.
-- Risk/fit/evidence indicators only where meaningful.
+These are account configuration, not missing code. Complete them against the confirmed Vercel/Supabase projects only.
 
-Typography:
-- Use Inter or similar for UI.
-- Use a mono font only for metadata, version names, integrations, or technical labels.
-- Keep body text readable at 14-16px.
-- Use restrained font weights, not huge type everywhere.
+1. Link this checkout to the exact Vercel project and verify the dashboard target.
+2. Add Vercel production/preview/development variables:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+   - `DATABASE_URL` (server-only transaction pooler URL)
+   - `AUTH_INTENT_SECRET` (random, at least 32 characters)
+   - `ANALYTICS_HASH_SECRET` (different random secret, at least 32 characters)
+   - `NEXT_PUBLIC_SITE_URL=https://aisre.pavangudiwada.dev`
+   - optional `NEXT_PUBLIC_POSTHOG_KEY`/`NEXT_PUBLIC_POSTHOG_HOST`
+3. Add `aisre.pavangudiwada.dev` to the confirmed Vercel project, then create the exact DNS record Vercel supplies.
+4. In Supabase Auth URL configuration, set the production Site URL to the canonical domain and add exact `/auth/callback` and `/auth/confirm` redirect paths; retain intentional localhost/preview patterns.
+5. Confirm Google and GitHub provider credentials and rotate any credentials previously exposed during development.
+6. Configure custom SMTP before inviting users; Supabase's default email allowance is not a production delivery system.
+7. Enable leaked-password protection if password login is ever enabled. The current app is passwordless.
+8. Deploy a preview, run `npm run test:e2e` against it, then promote the same artifact to production.
 
-**Homepage Layout**
-The homepage should be a marketplace entry point, not a marketing landing page.
+## Content/product work after release
 
-Sections:
-1. Header
-   - Logo: `AI SRE Watchlist`
-   - Nav: Tools, Categories, Best Tools, Alternatives, Comparisons, Stacks, Resources, Submit
-   - Search
-   - GitHub link
-   - Optional account/save icon
+Marketing is intentionally ongoing rather than a one-time implementation batch.
 
-2. Hero
-   - H1: `Find the AI tools that improve reliability.`
-   - Subcopy: `A curated marketplace for AI SRE, observability, incident response, and reliability engineering resources.`
-   - Large search input: `Search tools, resources, vendors, OpenTelemetry...`
+### Research Wave 2
 
-3. Category pills
-   - All
-   - AI SRE
-   - Observability
-   - Incident AI
-   - AIOps
-   - OpenTelemetry
-   - Runbooks
-   - On-call
-   - OSS
-   - Learning
+- NeuBird: deepen evidence claims and deployment/security sources.
+- OpenObserve AI SRE: add a real product record before company mapping.
+- Datadog Bits AI SRE and Klaudia by Komodor: establish product-vs-platform scope precisely.
+- Ciroos: deepen evidence and screenshots.
 
-4. Featured / editor picks
-   - 4-8 high-quality cards
+Acceptance: each profile has official sources, checked dates, product scope, deployment boundaries, screenshot/logo, and no inferred pricing/outcomes.
 
-5. Main marketplace grid
-   - Cards with screenshot/logo, title, vendor/source, short description, category, pricing, evidence, integrations, saved button
+### Research Wave 3
 
-6. Growth/navigation blocks
-   - Best tools
-   - Alternatives
-   - Comparisons
-   - SRE stacks
-   - Latest releases/resources
+- Rootly AI SRE, PagerDuty SRE Agent, Causely, and DrDroid.
+- Same evidence acceptance criteria as Wave 2.
 
-**Tool Card Requirements**
-Each card should show enough to help users decide whether to open the profile.
+### Editorial activation
 
-Fields:
-```ts
-{
-  name: string
-  slug: string
-  logoUrl?: string
-  screenshotUrl?: string
-  shortDescription: string
-  vendorName?: string
-  categories: string[]
-  tags: string[]
-  pricingModel?: "Free" | "Open Source" | "Freemium" | "Paid" | "Enterprise"
-  deployment?: "Cloud" | "Self-hosted" | "Hybrid" | "Open source"
-  integrations?: string[]
-  evidenceBadges?: string[]
-  lastCheckedAt?: string
-  verified?: boolean
-  featured?: boolean
-}
-```
+- Interview at least one practitioner weekly for the first 90 days.
+- Publish only substantive comparisons/blogs/updates; never thin programmatic SEO pages.
+- Turn reviewed product changes into source-linked update documents, sync them, then notify followers.
+- Use the scorecard, incident workflow map, replay guide, and security checklist as founder-led distribution assets.
 
-Card UI:
-- Preview image at top.
-- Logo + name.
-- 1-2 line description.
-- Category chip.
-- Pricing/deployment chip.
-- Evidence badge, e.g. `Case study`, `Benchmark`, `SOC 2`, `OSS`, `Public roadmap`.
-- Save/bookmark button.
-- CTA: `View profile`.
+### Company monetization later
 
-Do not make “Compare” prominent unless the implementation supports meaningful comparison.
+- Start only after practitioner traffic and follows exist.
+- Permitted direction: clearly labeled sponsorship, richer reviewed showcase modules, aggregate thresholded interest reports, newsletter/content distribution.
+- Forbidden direction: selling practitioner identity, notes, saves, evaluation membership, or small-cohort behavior.
 
-**Tool Profile Page**
-This is the most important page. Think “LinkedIn/company profile for AI SRE vendors,” but without social posting.
+## Definition of done for any future change
 
-Profile layout:
-1. Header section
-   - Logo
-   - Tool/company name
-   - Verified/claimed badge if applicable
-   - Short positioning
-   - Primary CTA: `Visit website`
-   - Secondary: `Save`, `Compare`, `Submit correction`
-
-2. Key facts panel
-   - Category
-   - Deployment
-   - Pricing
-   - Open source status
-   - Founded
-   - Company size if known
-   - Last checked
-   - Website/GitHub/docs links
-
-3. Tabs
-   - Overview
-   - Integrations
-   - Evidence
-   - Case Studies
-   - Releases
-   - Blog/Updates
-   - Pricing
-   - Alternatives
-   - Similar Tools
-
-4. Overview
-   - What it does
-   - Best for
-   - Who uses it
-   - Core capabilities
-   - Screenshots
-
-5. Integrations
-   - Show integration logos/chips.
-   - Group by type: Observability, Incident Management, Cloud, Data, Communication, CI/CD.
-   - Examples: Slack, PagerDuty, Datadog, Grafana, Prometheus, OpenTelemetry, Kubernetes, AWS, GCP, Azure, Jira, ServiceNow.
-
-6. Evidence
-   - Case studies
-   - Benchmarks
-   - SOC 2 / security pages
-   - Public roadmap
-   - Docs links
-   - Customer stories
-   - Independent reviews
-   - Each claim should have source/date if possible.
-
-7. Releases / Blog
-   - Vendor can later submit RSS/blog/release feed.
-   - For MVP, manually store items.
-   - Show title, date, type, summary, link.
-
-8. Alternatives / Similar Tools
-   - Link to `/alternatives/[slug]`.
-   - Show 4-8 comparable tools.
-
-**Profile Data Model**
-Use a structured data source. Start with local JSON/TS/MDX if easiest; design it so it can later move to a database.
-
-```ts
-type ToolProfile = {
-  id: string
-  slug: string
-  name: string
-  vendorName?: string
-  logoUrl?: string
-  screenshotUrls: string[]
-  websiteUrl?: string
-  githubUrl?: string
-  docsUrl?: string
-  description: string
-  longDescription?: string
-  categories: string[]
-  tags: string[]
-  useCases: string[]
-  bestFor: string[]
-  pricingModel?: string
-  deployment?: string[]
-  openSource?: boolean
-  verified?: boolean
-  claimed?: boolean
-  lastCheckedAt?: string
-
-  integrations: {
-    name: string
-    category: string
-    url?: string
-    verified?: boolean
-  }[]
-
-  evidence: {
-    type: "case-study" | "benchmark" | "security" | "docs" | "roadmap" | "customer-story" | "report"
-    title: string
-    url: string
-    source?: string
-    date?: string
-    summary?: string
-  }[]
-
-  updates: {
-    type: "release" | "blog" | "news"
-    title: string
-    url: string
-    date: string
-    summary?: string
-  }[]
-
-  alternatives: string[]
-  similarTools: string[]
-}
-```
-
-**Search And Filters**
-Search should be global and visible. Filters should live on `/tools` and category pages, not clutter the header.
-
-Filters:
-- Surface/category: Incident AI, Observability, AIOps, Runbooks, OpenTelemetry
-- Deployment: Cloud, self-hosted, hybrid, OSS
-- Pricing: Free, OSS, freemium, paid, enterprise
-- Evidence: Case study, benchmark, SOC 2, public roadmap, docs
-- Integrations: Slack, PagerDuty, Datadog, Grafana, Prometheus, OpenTelemetry, Kubernetes
-- Updated: Last 30/90/180 days
-- Company profile: claimed, verified, unclaimed
-
-Search behavior:
-- Search name, description, tags, categories, integrations, evidence titles.
-- Empty state should suggest related categories.
-- Save search can be fake/local in MVP.
-
-**Saved Tools / Compare**
-MVP:
-- Bookmark/save button on cards and profile pages.
-- Store in local state/localStorage if auth is not ready.
-- Saved page lists saved tools.
-
-Compare should only be implemented if useful. Good comparison fields:
-- Category
-- Best for
-- Pricing
-- Deployment
-- Open source
-- Integrations
-- Evidence
-- Security/compliance
-- Docs/GitHub
-- Similar tools
-
-Avoid a floating “compare shortlist” if it does not lead to a real comparison page.
-
-**SEO Architecture**
-Use Toolfinder’s model but adapt to AI SRE.
-
-Page families:
-```txt
-/best/incident-response-ai-tools
-/best/observability-tools-for-startups
-/best/opentelemetry-tools
-/best/aiops-tools
-/best/on-call-management-tools
-/best/runbook-automation-tools
-
-/alternatives/pagerduty
-/alternatives/datadog
-/alternatives/grafana-cloud
-/alternatives/new-relic
-/alternatives/opsgenie
-/alternatives/rootly
-
-/comparisons/pagerduty-vs-rootly
-/comparisons/datadog-vs-grafana-cloud
-/comparisons/new-relic-vs-datadog
-/comparisons/signoz-vs-grafana
-/comparisons/opsgenie-vs-pagerduty
-
-/stacks/startup-sre-stack
-/stacks/open-source-observability-stack
-/stacks/kubernetes-observability-stack
-/stacks/incident-response-stack
-```
-
-SEO rules:
-- One search intent gets one canonical URL.
-- Do not create thin programmatic pages that only swap names.
-- Each SEO page must have a distinct answer and real content.
-- Add structured data where appropriate:
-  - `SoftwareApplication`
-  - `Product`
-  - `BreadcrumbList`
-  - `ItemList`
-  - `FAQPage` only if there are real FAQs
-- Every profile page needs unique title/meta description.
-- Every alternatives page should explain why someone is looking for alternatives, then list tools by fit.
-
-This follows the prior CandleKeep SEO guidance: “best”, “review”, and “vs” queries are distinct commercial-investigation intents (SEO for AI Agents, p. 3), and each intent should map to one URL (SEO for AI Agents, p. 24).
-
-**SEO Page Template: Alternatives**
-Example: `/alternatives/pagerduty`
-
-Sections:
-1. H1: `Best PagerDuty Alternatives for AI SRE and Incident Response`
-2. Short direct answer: who should consider alternatives and why.
-3. Quick comparison table.
-4. Best alternatives list.
-5. When to choose each alternative.
-6. Integration comparison.
-7. Pricing/deployment notes.
-8. Evidence/case study links.
-9. FAQ.
-10. Links to related comparisons.
-
-**SEO Page Template: Best**
-Example: `/best/incident-response-ai-tools`
-
-Sections:
-1. H1: `Best Incident Response AI Tools`
-2. Direct recommendation summary.
-3. Filters or “best for” categories.
-4. Ranked/listed tool cards.
-5. Methodology.
-6. Comparison table.
-7. Related categories.
-8. FAQ.
-
-**SEO Page Template: Comparison**
-Example: `/comparisons/pagerduty-vs-rootly`
-
-Sections:
-1. H1: `PagerDuty vs Rootly`
-2. Direct differentiator in the first paragraph.
-3. Summary table.
-4. Best for PagerDuty.
-5. Best for Rootly.
-6. Feature comparison.
-7. Integrations.
-8. Pricing/deployment.
-9. Evidence/security.
-10. Alternatives to both.
-
-For X-vs-Y pages, start with the actual comparison, not generic background (SEO for AI Agents, p. 19).
-
-**Vendor Account Future**
-Do not build this first, but keep the data model ready.
-
-Future vendor features:
-- Claim profile.
-- Edit company overview.
-- Add screenshots.
-- Add integrations.
-- Add case studies.
-- Add releases/blog posts.
-- Add security/compliance links.
-- Submit corrections.
-- “Verified by AI SRE Watchlist” status after review.
-
-Important: vendor profile updates should be moderated. Do not let claimed profiles become unchecked marketing pages.
-
-**Monetization Paths**
-Potential future revenue:
-- Sponsored placement, clearly labeled.
-- Vendor profile claim/Pro profile.
-- Deal/referral/affiliate links.
-- Lead-gen forms.
-- Premium research reports.
-- Buyer shortlists.
-- API/data access.
-- Newsletter sponsorships.
-
-But the first goal is user value. Companies will only care after the marketplace has traffic and credibility.
-
-**Implementation Phases**
-Phase 1: Visual marketplace redesign
-- Implement homepage and `/tools`.
-- Add cards, filters, search, category pills.
-- Use local data.
-- Add save/bookmark locally.
-- Make it look polished.
-
-Phase 2: Tool profiles
-- Implement `/tools/[slug]`.
-- Add profile tabs.
-- Add integrations/evidence/releases sections.
-- Add related tools.
-
-Phase 3: SEO templates
-- Add `/best/[slug]`, `/alternatives/[slug]`, `/comparisons/[slug]`.
-- Generate pages from curated content, not empty templates.
-- Add metadata and structured data.
-
-Phase 4: Accounts
-- Add user auth.
-- Saved tools/searches.
-- Compare pages.
-
-Phase 5: Vendor workflows
-- Vendor claim.
-- Profile editing.
-- Submission moderation.
-
-**Acceptance Criteria**
-The implementation is successful when:
-- Homepage feels like an elegant marketplace, not a generic awesome-list.
-- Search is visible and useful.
-- Cards show enough metadata to decide whether to click.
-- Tool profile pages feel rich and credible.
-- Integrations and evidence are first-class.
-- SEO pages are real content pages, not thin auto-generated shells.
-- Mobile layout works: filters collapse, cards remain readable, touch targets are 44px+.
-- Accessibility basics are covered: semantic nav, visible focus states, keyboard-operable buttons, color not used alone for status.
-- No decorative gradient blobs or generic SaaS hero excess.
-- The first build is achievable without implementing full vendor accounts.
-
-**Design Decision**
-Use **Option 1 as the visual foundation** and **Option 2 as the information architecture foundation**.
-
-That means:
-- Option 1’s clean marketplace grid, white space, and card polish.
-- Option 2’s filters, evidence, integrations, profile tabs, and decision-support metadata.
-both Open 1 and Option 2 are images present in the folder
+1. Domain boundary and public/private classification are explicit.
+2. Inputs have Zod validation; data access respects RLS or server-only Drizzle boundaries.
+3. UI uses official installed shadcn composition and semantic tokens.
+4. Unit/integration tests cover behavior; browser QA covers the full user outcome.
+5. `npm run check:release` passes.
+6. Relevant source/asset/editorial metadata is updated.
