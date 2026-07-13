@@ -1,0 +1,10 @@
+revoke all on table public.practitioner_profiles from anon;
+revoke all on table public.catalog_company_refs from anon;
+revoke all on table public.catalog_product_refs from anon;
+revoke all on table public.evaluation_shortlists from anon;
+revoke all on table public.evaluation_shortlist_items from anon;
+revoke all on table public.product_follows from anon;
+revoke all on table public.company_opt_ins from anon;
+revoke all on table public.source_links from anon;
+revoke all on table public.evidence_candidates from anon;
+revoke all on table public.practitioner_notes from anon;
