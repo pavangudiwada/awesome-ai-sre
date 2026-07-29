@@ -137,6 +137,7 @@ Jump to: [Incident Response](#incident-response) | [Observability](#observabilit
 | Name | Summary | Deployment | Links |
 | --- | --- | --- | --- |
 | [Cloudgeni](https://cloudgeni.ai) | AI-powered cloud infrastructure platform that detects misconfigurations, remediates security and compliance issues, and generates reviewable infrastructure changes through deterministic workflows. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://cloudgeni.ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/cloudgeni-ai/) |
+| [Darkmoon](https://github.com/ASCIT31/Dark-Moon) | Autonomous AI penetration testing platform covering web, API, Active Directory and Kubernetes, run fully self hosted. | Self-Hosted | [GitHub](https://github.com/ASCIT31/Dark-Moon) |
 | [Infrabase](https://infrabase.co) | Infrabase scans code and organizational context to surface security gaps, cost spikes, and policy breaks before they ever hit your cloud. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://infrabase.co) |
 
 <p align="left"><a href="#tools">Back to top ↑</a></p>
