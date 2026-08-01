@@ -14,7 +14,7 @@ tags:
 dateAdded: '2026-05-22'
 claimed: false
 screenshot: /screenshots/kubestellar-console.png
-screenshot_last_fetched: '2026-05-29'
+screenshot_last_fetched: '2026-08-01'
 features:
   - Bridges kubeconfig contexts to LLM agents through the kc-agent MCP server
   - Supports natural-language cluster operations such as pod management, logs, and deployments

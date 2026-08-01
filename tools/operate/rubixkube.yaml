@@ -1,7 +1,10 @@
 name: RubixKube
 slug: rubixkube
 url: https://rubixkube.ai
-summary: AI-native Site Reliability Intelligence platform that helps engineering teams protect revenue, customer trust, and engineering focus by detecting infrastructure failures, risky deployments, and slowdowns before they become customer-impacting incidents.
+summary: >-
+  AI-native Site Reliability Intelligence platform that helps engineering teams protect revenue, customer trust, and
+  engineering focus by detecting infrastructure failures, risky deployments, and slowdowns before they become
+  customer-impacting incidents.
 deployment:
   - hybrid
   - saas
@@ -11,8 +14,16 @@ tags:
   - AIOps
 dateAdded: '2026-06-29'
 claimed: false
+screenshot: /screenshots/rubixkube.png
+screenshot_last_fetched: '2026-08-01'
 features:
-  - Detects infrastructure failures, slowdowns, and risky deployments early, before they become customer-impacting incidents
-  - Performs evidence-based root cause analysis across logs, metrics, events, deployments, and configuration changes, and maps failures to business impact such as revenue risk and service degradation
-  - Recommends and executes safe remediations with guardrails, RBAC, audit logs, and human-in-the-loop controls, building incident memory over time so teams do not start from zero on recurring issues
+  - >-
+    Detects infrastructure failures, slowdowns, and risky deployments early, before they become customer-impacting
+    incidents
+  - >-
+    Performs evidence-based root cause analysis across logs, metrics, events, deployments, and configuration changes,
+    and maps failures to business impact such as revenue risk and service degradation
+  - >-
+    Recommends and executes safe remediations with guardrails, RBAC, audit logs, and human-in-the-loop controls,
+    building incident memory over time so teams do not start from zero on recurring issues
 linkedin: https://www.linkedin.com/company/rubixkube

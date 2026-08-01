@@ -15,7 +15,7 @@ dateAdded: '2026-03-24'
 claimed: false
 screenshot: /screenshots/tracer-cloud.png
 logo: /logos/tracer-cloud.png
-screenshot_last_fetched: '2026-03-28'
+screenshot_last_fetched: '2026-08-01'
 features:
   - Monitors real system behavior at the OS level for pipeline and infrastructure visibility
   - Uses AI to investigate alerts, surface likely root causes, and generate incident reports

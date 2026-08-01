@@ -2,8 +2,8 @@ name: Harness AI-SRE
 slug: harness-ai-sre
 url: https://www.harness.io/products/ai-sre
 summary: >-
-  Most incidents start with change—so why manage them in isolation? Learn how Harness AI-SRE connects the
-  dots between alerts, changes, and workflows, powered.
+  Most incidents start with change—so why manage them in isolation? Learn how Harness AI-SRE connects the dots between
+  alerts, changes, and workflows, powered.
 deployment:
   - saas
 opensource: false
@@ -15,7 +15,7 @@ dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/harness-ai-sre.png
 logo: /logos/harness-ai-sre.svg
-screenshot_last_fetched: '2026-03-16'
+screenshot_last_fetched: '2026-08-01'
 features:
   - Detects and manages incidents across services using integrated telemetry
   - Automates runbooks and response workflows to shorten resolution time

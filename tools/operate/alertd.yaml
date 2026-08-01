@@ -14,7 +14,7 @@ dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/alertd.png
 logo: /logos/alertd.svg
-screenshot_last_fetched: '2026-03-16'
+screenshot_last_fetched: '2026-08-01'
 features:
   - Aggregates and prioritizes alerts to reduce noise
   - Highlights likely root causes from operational context

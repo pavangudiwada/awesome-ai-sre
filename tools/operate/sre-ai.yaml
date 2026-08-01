@@ -15,7 +15,7 @@ dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/sre-ai.png
 logo: /logos/sre-ai.svg
-screenshot_last_fetched: '2026-03-16'
+screenshot_last_fetched: '2026-08-01'
 features:
   - Automates parts of incident investigation and triage
   - Provides reliability insights across system telemetry
