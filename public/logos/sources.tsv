@@ -2,6 +2,7 @@ name	slug	format	source
 Agent SRE	agent-sre	svg	(existing)
 Agent0 by Dash0	agent0-by-dash0	svg	(existing)
 AlertD	alertd	png	(existing)
+Anyshift	anyshift	svg	https://anyshift.io/images/anyshift-logo.svg
 AutonomOps AI	autonomops-ai	png	(existing)
 Azure SRE Agent	azure-sre-agent	png	(existing)
 Bacca.ai	bacca-ai	svg	(existing)

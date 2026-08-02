@@ -1,0 +1,26 @@
+name: Anyshift
+slug: anyshift
+url: https://anyshift.io
+summary: >-
+  Anyshift is the engineering brain of your company: a versioned knowledge graph of infrastructure, applications, and
+  ops tools that helps engineers and AI agents investigate incidents, understand what changed, and catch risks before
+  they become outages.
+deployment:
+  - saas
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+  - Observability
+dateAdded: '2026-07-21'
+claimed: false
+screenshot: /screenshots/anyshift.png
+logo: /logos/anyshift.svg
+screenshot_last_fetched: '2026-07-21'
+features:
+  - Maps cloud, Kubernetes, IaC, monitoring, tickets, and docs into one queryable knowledge graph
+  - Traces cascading failures to the deploy, commit, and service that caused an incident
+  - Surfaces drift, misconfigurations, and risks before they trigger outages
+linkedin: https://www.linkedin.com/company/anyshift-io/
+github: https://github.com/anyshift-io
+x: https://x.com/anyshiftio

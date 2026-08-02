@@ -11,19 +11,19 @@ Items with :green_heart: indicate open source projects.
 
 ### Recent Additions (Last 14 Days)
 
+- 2026-07-21 - [Anyshift](https://anyshift.io) (Incident Response)
 - 2026-07-07 - [Metoro](https://metoro.io) (Observability)
-- 2026-07-02 - :green_heart:[Aurora](https://www.aurorasre.ai) (Incident Response)
-- 2026-06-29 - [RubixKube](https://rubixkube.ai) (Incident Response)
 
 Jump to: [Incident Response](#incident-response) | [Observability](#observability) | [AIOps](#aiops) | [IDP](#idp) | [IaC](#iac) | [Security](#security) | [Deployment](#deployment)
 
 <a id="incident-response"></a>
-### Incident Response (33)
+### Incident Response (34)
 
 | Name | Summary | Deployment | Links |
 | --- | --- | --- | --- |
 | [Agent SRE](https://agentsre.ai) | AgentSRE is built for enterprises that can't afford downtime. A fleet of AI agents automates detection, root cause analysis, and remediation - delivering faster recovery, lower cloud costs, and resilient operations. | Hybrid | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://agentsre.ai) |
 | [AlertD](https://alertd.ai) | AlertD is an agentic AI teammate for SRE and DevOps on AWS, cutting alert noise and dashboard fatigue while delivering contextual answers and automated actions. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://alertd.ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/alertd) |
+| [Anyshift](https://anyshift.io) | Anyshift is the engineering brain of your company: a versioned knowledge graph of infrastructure, applications, and ops tools that helps engineers and AI agents investigate incidents, understand what changed, and catch risks before they become outages. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://anyshift.io) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/anyshift-io) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/anyshift-io/) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://x.com/anyshiftio) |
 | :green_heart:[Aurora](https://www.aurorasre.ai) | Open source AI SRE agent that autonomously investigates incidents and delivers root cause analysis across AWS, Azure, GCP, and Kubernetes. | On-Prem | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://www.aurorasre.ai) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/Arvo-AI/aurora) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/arvokas/) |
 | [AutonomOps AI](https://autonomops.ai) | Autonomous operations platform that applies AI to improve SRE and incident management workflows. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://autonomops.ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/autonomops-ai/) |
 | [Azure SRE Agent](https://azure.microsoft.com/products/sre-agent) | AI-powered reliability assistant for Azure that automates incident response, root-cause analysis, and mitigation workflows. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://azure.microsoft.com/products/sre-agent) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/microsoft/sre-agent) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/microsoft) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://x.com/azure) |
