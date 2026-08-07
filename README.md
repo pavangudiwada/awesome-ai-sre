@@ -11,9 +11,7 @@ Items with :green_heart: indicate open source projects.
 
 ### Recent Additions (Last 14 Days)
 
-- 2026-07-07 - [Metoro](https://metoro.io) (Observability)
-- 2026-07-02 - :green_heart:[Aurora](https://www.aurorasre.ai) (Incident Response)
-- 2026-06-29 - [RubixKube](https://rubixkube.ai) (Incident Response)
+- 2026-07-21 - [emisar](https://emisar.dev) (Security)
 
 Jump to: [Incident Response](#incident-response) | [Observability](#observability) | [AIOps](#aiops) | [IDP](#idp) | [IaC](#iac) | [Security](#security) | [Deployment](#deployment)
 
@@ -132,11 +130,12 @@ Jump to: [Incident Response](#incident-response) | [Observability](#observabilit
 <p align="left"><a href="#tools">Back to top ↑</a></p>
 
 <a id="security"></a>
-### Security (2)
+### Security (3)
 
 | Name | Summary | Deployment | Links |
 | --- | --- | --- | --- |
 | [Cloudgeni](https://cloudgeni.ai) | AI-powered cloud infrastructure platform that detects misconfigurations, remediates security and compliance issues, and generates reviewable infrastructure changes through deterministic workflows. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://cloudgeni.ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/cloudgeni-ai/) |
+| [emisar](https://emisar.dev) | Gives AI agents a controlled way to run defined infrastructure actions, with policy checks, optional approvals, host-side validation, and audit records. | Hybrid | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://emisar.dev) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/AndrewDryga/emisar) |
 | [Infrabase](https://infrabase.co) | Infrabase scans code and organizational context to surface security gaps, cost spikes, and policy breaks before they ever hit your cloud. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://infrabase.co) |
 
 <p align="left"><a href="#tools">Back to top ↑</a></p>

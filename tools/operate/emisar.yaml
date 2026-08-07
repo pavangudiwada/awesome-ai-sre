@@ -1,0 +1,22 @@
+name: emisar
+slug: emisar
+url: https://emisar.dev
+summary: >-
+  Gives AI agents a controlled way to run defined infrastructure actions, with policy checks, optional approvals,
+  host-side validation, and audit records.
+deployment:
+  - hybrid
+opensource: false
+tags:
+  - Security
+  - Deployment
+dateAdded: '2026-07-21'
+claimed: false
+screenshot: /screenshots/emisar.png
+logo: /logos/emisar.svg
+screenshot_last_fetched: '2026-07-22'
+features:
+  - Limits agents to infrastructure actions declared by the operator
+  - Checks access and policy before dispatching work, with approval gates when required
+  - Revalidates actions on the host and records allowed, denied, and pending requests
+github: https://github.com/AndrewDryga/emisar
