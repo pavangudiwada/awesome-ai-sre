@@ -14,7 +14,7 @@ dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/mezmo.png
 logo: /logos/mezmo.svg
-screenshot_last_fetched: '2026-08-01'
+screenshot_last_fetched: '2026-09-01'
 features:
   - Centralizes logs and observability data pipelines
   - Improves signal quality for incident investigations

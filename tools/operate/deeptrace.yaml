@@ -12,7 +12,7 @@ dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/deeptrace.png
 logo: /logos/deeptrace.svg
-screenshot_last_fetched: '2026-08-01'
+screenshot_last_fetched: '2026-09-01'
 features:
   - Helps analyze telemetry during production incidents
   - Surfaces insights to accelerate root cause identification

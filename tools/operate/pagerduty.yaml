@@ -14,7 +14,7 @@ dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/pagerduty.png
 logo: /logos/pagerduty.svg
-screenshot_last_fetched: '2026-08-01'
+screenshot_last_fetched: '2026-09-01'
 features:
   - Manages alerting, escalation, and on-call schedules
   - Orchestrates incident response workflows

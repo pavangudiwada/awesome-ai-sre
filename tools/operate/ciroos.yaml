@@ -15,7 +15,7 @@ dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/ciroos.png
 logo: /logos/ciroos.svg
-screenshot_last_fetched: '2026-08-01'
+screenshot_last_fetched: '2026-09-01'
 features:
   - Monitors operational health signals and alerts
   - Assists with diagnosis and remediation steps

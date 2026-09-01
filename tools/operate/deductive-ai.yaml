@@ -15,7 +15,7 @@ dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/deductive-ai.png
 logo: /logos/deductive-ai.svg
-screenshot_last_fetched: '2026-08-01'
+screenshot_last_fetched: '2026-09-01'
 features:
   - Correlates telemetry to identify probable incident causes
   - Helps reduce investigation time during outages

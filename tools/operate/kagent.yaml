@@ -15,7 +15,7 @@ dateAdded: '2026-03-08'
 claimed: false
 screenshot: /screenshots/kagent.png
 logo: /logos/kagent.svg
-screenshot_last_fetched: '2026-08-01'
+screenshot_last_fetched: '2026-09-01'
 features:
   - Runs AI agents, tools, and models as Kubernetes-native resources
   - Ships MCP tooling for Kubernetes, Istio, Helm, Argo, Prometheus, Grafana, and more

@@ -15,7 +15,7 @@ dateAdded: '2026-03-22'
 claimed: false
 screenshot: /screenshots/cloudgeni.png
 logo: /logos/cloudgeni.svg
-screenshot_last_fetched: '2026-08-01'
+screenshot_last_fetched: '2026-09-01'
 features:
   - Detects cloud security, compliance, and configuration issues automatically
   - Generates reviewable remediation changes for infrastructure workflows

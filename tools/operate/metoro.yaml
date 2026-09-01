@@ -18,7 +18,7 @@ dateAdded: '2026-07-07'
 claimed: false
 screenshot: /screenshots/metoro.png
 logo: /logos/metoro.png
-screenshot_last_fetched: '2026-07-07'
+screenshot_last_fetched: '2026-09-01'
 features:
   - Collects logs, metrics, traces, profiles, events, and Kubernetes context with eBPF
   - Investigates alerts and surfaces likely root causes

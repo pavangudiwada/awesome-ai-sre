@@ -15,7 +15,7 @@ dateAdded: '2026-03-22'
 claimed: false
 screenshot: /screenshots/agent0-by-dash0.png
 logo: /logos/agent0-by-dash0.svg
-screenshot_last_fetched: '2026-08-01'
+screenshot_last_fetched: '2026-09-01'
 features:
   - Assists with incident triage across logs, metrics, and traces
   - Generates and explains PromQL queries from natural language

@@ -15,7 +15,7 @@ dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/datadog-bits-ai.png
 logo: /logos/datadog-bits-ai.png
-screenshot_last_fetched: '2026-08-01'
+screenshot_last_fetched: '2026-09-01'
 features:
   - Assists with analysis across logs, traces, and metrics
   - Speeds up incident investigation with natural language interactions

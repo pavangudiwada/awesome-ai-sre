@@ -15,7 +15,7 @@ dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/ops0.png
 logo: /logos/ops0.svg
-screenshot_last_fetched: '2026-08-01'
+screenshot_last_fetched: '2026-09-01'
 features:
   - Generates and manages CI/CD pipelines from natural language descriptions
   - Analyzes logs, events, and metrics to find root causes and propose fixes
