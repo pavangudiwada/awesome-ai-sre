@@ -1,0 +1,19 @@
+name: kprompt
+slug: kprompt
+url: https://kprompt.ai
+summary: >-
+  Open-source AI Kubernetes CLI that turns natural language into a reviewable plan,
+  then requires approve before apply, with BYOK and CI-stable PlanResult JSON.
+deployment:
+  - on-prem
+opensource: true
+tags:
+  - AIOps
+  - Deployment
+dateAdded: '2026-07-26'
+claimed: false
+features:
+  - Compiles natural-language intent into a typed PlanResult before mutate
+  - Requires human approve before apply, with hard denies and CI JSON gates
+  - Local kubeconfig and bring-your-own-key LLM providers
+github: https://github.com/kprompt/kprompt

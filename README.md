@@ -11,9 +11,7 @@ Items with :green_heart: indicate open source projects.
 
 ### Recent Additions (Last 14 Days)
 
-- 2026-07-07 - [Metoro](https://metoro.io) (Observability)
-- 2026-07-02 - :green_heart:[Aurora](https://www.aurorasre.ai) (Incident Response)
-- 2026-06-29 - [RubixKube](https://rubixkube.ai) (Incident Response)
+- 2026-07-26 - :green_heart:[kprompt](https://kprompt.ai) (AIOps)
 
 Jump to: [Incident Response](#incident-response) | [Observability](#observability) | [AIOps](#aiops) | [IDP](#idp) | [IaC](#iac) | [Security](#security) | [Deployment](#deployment)
 
@@ -83,7 +81,7 @@ Jump to: [Incident Response](#incident-response) | [Observability](#observabilit
 <p align="left"><a href="#tools">Back to top ↑</a></p>
 
 <a id="aiops"></a>
-### AIOps (22)
+### AIOps (23)
 
 | Name | Summary | Deployment | Links |
 | --- | --- | --- | --- |
@@ -98,6 +96,7 @@ Jump to: [Incident Response](#incident-response) | [Observability](#observabilit
 | :green_heart:[Kagent](https://kagent.dev) | Open-source Kubernetes-native framework for building and running AI agents that automate DevOps operations and troubleshooting tasks. | Hybrid | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://kagent.dev) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/kagent-dev/kagent) |
 | [KnoxOps](https://knoxops.app/) | AI-native ops agent for SREs — gives agents production execution power with safety guardrails, human-in-the-loop review, and a built-in knowledge graph of your infrastructure. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://knoxops.app/) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://x.com/KnoxOpsHQ) |
 | [Komodor](https://komodor.com) | Komodor automatically detects, investigates and remediates complex issues to proactively reduce cloud costs, slash MTTR and vanquish TicketOps. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://komodor.com) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/komodor) |
+| :green_heart:[kprompt](https://kprompt.ai) | Open-source AI Kubernetes CLI that turns natural language into a reviewable plan, then requires approve before apply, with BYOK and CI-stable PlanResult JSON. | On-Prem | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://kprompt.ai) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/kprompt/kprompt) |
 | :green_heart:[KubeStellar Console](https://console.kubestellar.io) | Open-source multi-cluster Kubernetes dashboard with AI-powered operations via an MCP server that bridges kubeconfig contexts to LLM agents. | Hybrid | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://console.kubestellar.io) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/kubestellar/console) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://x.com/kuaborcloud) |
 | [Kura](https://www.usekura.com/) | AI platform for engineering operations and incident response automation in modern infrastructure environments. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://www.usekura.com/) |
 | [NudgeBee](https://www.nudgebee.com) | Agentic AI platform for SRE & CloudOps, troubleshooting, cost optimization, and no-code workflow automation. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://www.nudgebee.com) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/nudgebee) |
