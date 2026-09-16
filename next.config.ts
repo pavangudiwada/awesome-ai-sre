@@ -10,6 +10,18 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.aisrewatchlist.com" }],
+        destination: "https://aisrewatchlist.com/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "aisre.pavangudiwada.dev" }],
+        destination: "https://aisrewatchlist.com/:path*",
+        permanent: true,
+      },
+      {
         source: "/account/saved",
         destination: "/workspace/saved",
         permanent: true,

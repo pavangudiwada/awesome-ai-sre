@@ -74,17 +74,32 @@ docker exec "$container" createdb -U ai_sre "$r2_restore_db"
 docker exec -i "$container" pg_restore -U ai_sre -d "$r2_restore_db" <"$recovered_backup"
 docker exec "$container" psql -U ai_sre -d "$r2_restore_db" -Atc \
   "select current_database() || ':' || current_user"
+docker exec "$container" psql -U ai_sre -d "$r2_restore_db" -Atc \
+  "select format('r2_recovery_counts=public_tables:%s users:%s companies:%s products:%s',
+    (select count(*) from information_schema.tables where table_schema = 'public' and table_type = 'BASE TABLE'),
+    (select count(*) from auth.\"user\"),
+    (select count(*) from public.catalog_company_refs),
+    (select count(*) from public.catalog_product_refs))"
 
 # Bound the encrypted off-host history only after a retrieval-and-restore
 # proof. This keeps seven daily and four weekly recovery points.
 restic -o s3.region=auto forget --tag ai-sre-db --group-by '' --keep-daily 7 --keep-weekly 4 --prune
 
+shopt -s nullglob
+canonical_backups=()
+for candidate in "$backup_dir"/db-*.dump; do
+  base=${candidate##*/}
+  [[ "$base" =~ ^db-[0-9]{8}T[0-9]{6}Z\.dump$ ]] || continue
+  [[ -f "$candidate" && ! -L "$candidate" ]] || continue
+  canonical_backups+=("$candidate")
+done
 mapfile -t backups < <(
-  find "$backup_dir" -maxdepth 1 -type f -name 'db-*.dump' -printf '%T@ %p\n' |
-    sort -rn | cut -d' ' -f2-
+  for candidate in "${canonical_backups[@]}"; do
+    printf '%s %s\n' "$(stat -c '%Y' "$candidate")" "$candidate"
+  done | sort -rn | cut -d' ' -f2-
 )
 for stale in "${backups[@]:7}"; do
-  case "$stale" in "$backup_dir"/db-*.dump) rm -f -- "$stale" ;; esac
+  rm -f -- "$stale"
 done
 
 printf 'backup=%s local_restore_verified=%s r2_restore_verified=%s\n' \

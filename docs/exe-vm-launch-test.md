@@ -51,7 +51,11 @@ sudoedit /srv/awesome-ai-sre/shared/env/backup.env
 Populate `backup.env` from `ops/exe/backup.env.example`, substituting the
 dedicated bucket endpoint and token credentials. Set a new random
 `RESTIC_PASSWORD` with `openssl rand -base64 32`; store that password in the
-team's password manager separately from the R2 token. Initialize the empty
+team's password manager separately from the R2 token. For this launch, the
+escrow copy is in the launch operator's macOS login Keychain under service
+`ai-sre-watchlist-restic-r2-password` and account
+`ai-sre-watchlist-backup`; it must remain available independently of the VM.
+Initialize the empty
 encrypted repository exactly once, after verifying the environment file:
 
 ```bash
@@ -67,8 +71,12 @@ sudo /usr/local/sbin/ai-sre-db-backup-restore
 
 Successful output includes `r2_restore_verified=...`; this is the recovery
 proof and must be recorded with the snapshot date before launch. The helper
-retains seven local dumps after success and keeps seven daily plus four weekly
-encrypted R2 snapshots. It shares `database-operations.lock` with deployment.
+also reports the restored public-table, user, company-reference, and
+product-reference counts. It retains seven local dumps after success, but only
+for regular canonical `db-YYYYMMDDTHHMMSSZ.dump` files; unfamiliar, manual,
+malformed, unpaired, and symlinked files are preserved. R2 retains seven daily
+plus four weekly encrypted snapshots. It shares `database-operations.lock`
+with deployment.
 
 Install `ops/exe/ai-sre-db-backup.service` and
 `ops/exe/ai-sre-db-backup.timer` under `/etc/systemd/system`, then enable the
