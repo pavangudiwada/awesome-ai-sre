@@ -71,6 +71,7 @@
     "product_company_unmapped|tools/operate/wild-moose.yaml|wild-moose"
   ],
   "assets": [
+    "logo_raster_too_small|ai-sre|datadog-bits-ai|logo|/logos/datadog-bits-ai.png",
     "missing_logo_reference|ai-sre|phoebe|logo|none",
     "missing_screenshot_reference|ai-sre|hyground|screenshot|none",
     "missing_screenshot_reference|ai-sre|knoxops|screenshot|none",
