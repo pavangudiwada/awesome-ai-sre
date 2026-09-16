@@ -35,6 +35,5 @@ Every non-honeypot signup attempt consumes a privacy-preserving, HMAC-hashed
 network budget in a fixed UTC hour; raw network addresses are never stored.
 Repeated active signup at the same cadence is also a database-locked no-op: it does
 not change consent or send another welcome email. New, reactivated, and changed
-cadence subscriptions may receive one. Before public launch, add an independent
-The newsletter limiter is deliberately separate from editorial submissions and
+cadence subscriptions may receive one. The newsletter limiter is deliberately separate from editorial submissions and
 magic-link authentication because their limits and consent semantics differ.

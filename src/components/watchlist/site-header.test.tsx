@@ -11,7 +11,7 @@ function renderHeader(
 ) {
   return render(
     <TooltipProvider>
-      <SiteHeader {...props} />
+      <SiteHeader privateWorkflowsAvailable {...props} />
     </TooltipProvider>
   )
 }
@@ -37,6 +37,30 @@ describe("SiteHeader", () => {
     renderHeader({ onSearchOpen })
 
     fireEvent.keyDown(window, { key: "k", metaKey: true })
+    expect(onSearchOpen).toHaveBeenCalledTimes(1)
+  })
+
+  it("shows the complete Command K shortcut", () => {
+    renderHeader({ onSearchOpen: vi.fn() })
+
+    expect(screen.getByText("K")).toBeInTheDocument()
+  })
+
+  it("keeps private launch features visible but disabled", () => {
+    renderHeader({ privateWorkflowsAvailable: false })
+
+    expect(screen.getByRole("status")).toHaveTextContent("More features are coming soon")
+    expect(screen.getByRole("button", { name: "Updates coming soon" })).toBeDisabled()
+    expect(screen.getByRole("button", { name: "Sign in coming soon" })).toBeDisabled()
+    expect(screen.getByText("Sign in soon")).toBeInTheDocument()
+    expect(screen.queryByRole("link", { name: "Sign in" })).not.toBeInTheDocument()
+  })
+
+  it("opens command search when the header search button is clicked", () => {
+    const onSearchOpen = vi.fn()
+    renderHeader({ onSearchOpen })
+
+    fireEvent.click(screen.getByRole("button", { name: "Search tools and resources" }))
     expect(onSearchOpen).toHaveBeenCalledTimes(1)
   })
 

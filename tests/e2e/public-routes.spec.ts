@@ -1,7 +1,6 @@
 import { expect, test } from "@playwright/test";
 
 import {
-  expectBellWithoutFakeUnread,
   expectImageHasNaturalSize,
   expectMinimumTouchTarget,
   expectPublicPageGuardrails,
@@ -46,9 +45,9 @@ test.describe("public Watchlist routes", () => {
         name: "Evaluate AI incident-response tools with a repeatable process",
       }),
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: "Sign in", exact: true })).toBeVisible();
-    await page.getByRole("button", { name: "Open updates", exact: true }).click();
-    await expect(page.getByText("Updates unavailable", { exact: true })).toBeVisible();
+    await expect(page.getByText(/More features are coming soon: accounts, saves, follows/)).toBeVisible();
+    await expect(page.getByRole("button", { name: "Sign in coming soon" })).toBeDisabled();
+    await expect(page.getByRole("button", { name: "Updates coming soon" })).toBeDisabled();
     await expectPublicPageGuardrails(page, testInfo);
   });
 
@@ -61,18 +60,48 @@ test.describe("public Watchlist routes", () => {
         name: "Find the right tools for reliable systems.",
       }),
     ).toBeVisible();
-    await expect(page.getByText("No account needed to browse.")).toBeVisible();
+    await expect(page.getByText("The most useful AI SRE product updates, delivered to your inbox.")).toBeVisible();
+    await expect(page.getByRole("textbox", { name: "Email" })).toBeVisible();
+    await expect(page.getByRole("combobox", { name: "Frequency" })).toHaveCount(0);
+    await expect(page.getByRole("checkbox", { name: /newsletter/i })).toHaveCount(0);
+    await expect(page.getByRole("link", { name: `View all 80 tools` })).toBeVisible();
+    await expect(page.getByText("A rotating selection from the directory, refreshed every day.")).toBeVisible();
     await expect(page.getByText("Useful information, without the vendor pitch.")).toBeVisible();
 
-    const bell = await expectBellWithoutFakeUnread(page);
-    await bell.click();
-    await expect(page.getByText("No updates yet", { exact: true })).toBeVisible();
-    await page.keyboard.press("Escape");
+    await page.getByRole("button", { name: "Search tools and resources" }).click();
+    const commandSearch = page.getByPlaceholder("Search tools, companies, or guides…");
+    await commandSearch.fill("RunWhen");
+    const toolResult = page
+      .getByLabel("Tools", { exact: true })
+      .getByText("RunWhen", { exact: true });
+    await Promise.all([
+      page.waitForURL(/\/tools\/runwhen$/),
+      toolResult.click(),
+    ]);
+    await page.goBack({ waitUntil: "load" });
+
+    await expect(
+      page.getByRole("link", { name: "Pavan Gudiwada" }),
+    ).toHaveAttribute("href", "https://www.linkedin.com/in/pavangudiwada");
+    await expect(
+      page.getByRole("link", { name: "Follow us on LinkedIn" }),
+    ).toHaveAttribute("href", "https://www.linkedin.com/company/112729107/");
+
+    const headerSearch = page.getByRole("button", { name: "Search tools and resources" });
+    await expect(headerSearch).toContainText("K");
+
+    const updates = page.getByRole("button", { name: "Updates coming soon" });
+    await expectMinimumTouchTarget(updates, "Disabled updates action");
+    await expect(updates).toBeDisabled();
 
     await expectMinimumTouchTarget(
-      page.getByRole("link", { name: "Sign in", exact: true }),
-      "Header Sign in action",
+      page.getByRole("button", { name: "Sign in coming soon" }),
+      "Disabled sign-in action",
     );
+    await page.locator('[data-slot="tooltip-trigger"]').hover();
+    await expect(
+      page.getByRole("tooltip").getByText(/Sign-in, saves, follows, and private workspaces/),
+    ).toBeVisible();
     await expectPublicPageGuardrails(page, testInfo);
 
     await page.getByRole("textbox", { name: "Search the AI SRE Watchlist" }).fill("RunWhen");
@@ -89,7 +118,7 @@ test.describe("public Watchlist routes", () => {
   test("company discovery is available from the public navigation and has source-backed profiles", async ({ page }, testInfo) => {
     await openRoute(page, "/");
 
-    await page.getByRole("link", { name: /company profiles/i }).click();
+    await page.getByRole("link", { name: "Browse all companies" }).click();
     await expect(page).toHaveURL(/\/companies$/);
     await expect(
       page.getByRole("heading", { level: 1, name: "Explore the teams behind the products" }),
@@ -199,7 +228,7 @@ test.describe("public Watchlist routes", () => {
     await expect(page.getByRole("link", { name: "Official AI SRE documentation" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Official security and deployment page" })).toBeVisible();
     await expect(page.getByText("Private evaluation workspace", { exact: true })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Sign in to use the workspace" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Workspace coming soon" })).toBeDisabled();
 
     const shareHeading = page.getByRole("heading", { level: 2, name: "Share RunWhen" });
     await expect(shareHeading).toBeVisible();
@@ -241,17 +270,37 @@ test.describe("public Watchlist routes", () => {
     }
 
     await expectMinimumTouchTarget(
-      page.getByRole("button", { name: "Save RunWhen", exact: true }),
+      page.getByRole("button", { name: "Save RunWhen — coming soon", exact: true }).first(),
       "Save RunWhen action",
     );
+    await expect(
+      page.getByRole("button", { name: "Save RunWhen — coming soon", exact: true }),
+    ).toHaveCount(1);
+    await expect(
+      page.getByRole("button", { name: "Save RunWhen — coming soon", exact: true }).first(),
+    ).toBeDisabled();
     await expectMinimumTouchTarget(
-      page.getByRole("link", { name: "Add to evaluation", exact: true }),
+      page.getByRole("button", { name: "Add RunWhen to evaluation — coming soon", exact: true }).first(),
       "Add RunWhen to evaluation action",
     );
+    await expect(
+      page.getByRole("button", { name: "Add RunWhen to evaluation — coming soon", exact: true }),
+    ).toHaveCount(1);
     await expectImageHasNaturalSize(
       page.getByRole("img", { name: "RunWhen logo" }),
       "RunWhen profile logo",
     );
+
+    const sectionNav = page.getByRole("navigation", { name: "Product sections" });
+    await sectionNav.getByRole("link", { name: "Evidence 3" }).click();
+    await expect(page.getByRole("heading", { level: 2, name: "Evidence" })).toBeInViewport();
+    const [headerBox, sectionNavBox] = await Promise.all([
+      page.getByRole("banner").boundingBox(),
+      sectionNav.boundingBox(),
+    ]);
+    expect(headerBox).not.toBeNull();
+    expect(sectionNavBox).not.toBeNull();
+    expect(sectionNavBox!.y).toBeGreaterThanOrEqual(headerBox!.y + headerBox!.height - 2);
     await expectPublicPageGuardrails(page, testInfo);
   });
 
@@ -328,7 +377,7 @@ test.describe("public Watchlist routes", () => {
       expect(shareBox!.y).toBeLessThan(factsBox!.y);
     }
     await expectMinimumTouchTarget(
-      page.getByRole("button", { name: "Save Grafana" }),
+      page.getByRole("button", { name: "Save Grafana — coming soon" }).first(),
       "Save Grafana action",
     );
     await expectImageHasNaturalSize(

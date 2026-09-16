@@ -1,12 +1,19 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  newsletterSignupSchema,
   newsletterSubscriptionSchema,
   newsletterUnsubscribeTokenSchema,
 } from "./validation";
 import { createUnsubscribeToken, verifyUnsubscribeToken } from "./tokens";
 
 describe("newsletter validation", () => {
+  it("accepts a public email signup without account or cadence fields", () => {
+    expect(
+      newsletterSignupSchema.parse({ email: "  SRE@Example.com " }),
+    ).toEqual({ email: "sre@example.com" });
+  });
+
   it("normalizes a consented subscriber without involving authentication", () => {
     expect(
       newsletterSubscriptionSchema.parse({

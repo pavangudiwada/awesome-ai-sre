@@ -58,6 +58,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features"
 import {
   Tooltip,
   TooltipContent,
@@ -93,6 +94,7 @@ interface SiteHeaderProps {
   markNotificationReadAction?: ServerFormAction
   accountPending?: boolean
   notificationsStatus?: "loading" | "ready" | "unavailable"
+  privateWorkflowsAvailable?: boolean
 }
 
 export function SiteHeader({
@@ -107,6 +109,7 @@ export function SiteHeader({
   markNotificationReadAction,
   accountPending = false,
   notificationsStatus = "ready",
+  privateWorkflowsAvailable = PRIVATE_WORKFLOWS_AVAILABLE,
 }: SiteHeaderProps) {
   const pathname = usePathname() ?? "/"
   const resolvedNavItems = navItems.map((item) => ({
@@ -133,6 +136,14 @@ export function SiteHeader({
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur">
+      {!privateWorkflowsAvailable ? (
+        <div
+          className="border-b bg-muted/70 px-4 py-2 text-center text-xs font-medium text-muted-foreground sm:text-sm"
+          role="status"
+        >
+          More features are coming soon: accounts, saves, follows, personalized updates, and private workspaces.
+        </div>
+      ) : null}
       <div className="mx-auto flex h-16 max-w-screen-2xl items-center gap-3 px-4 sm:px-6 lg:px-8">
         <MobileNavigation navItems={resolvedNavItems} />
 
@@ -174,7 +185,7 @@ export function SiteHeader({
         <div className="ml-auto flex items-center gap-1 sm:gap-2">
           <HeaderSearch searchHref={searchHref} onSearchOpen={onSearchOpen} />
 
-          {viewer ? (
+          {privateWorkflowsAvailable && viewer ? (
             <Button asChild variant="ghost" className="hidden h-11 md:inline-flex">
               <Link href={viewer.workspaceHref ?? "/workspace/saved"}>
                 Workspace
@@ -182,14 +193,44 @@ export function SiteHeader({
             </Button>
           ) : null}
 
-          <NotificationsMenu
-            notifications={notifications}
-            status={notificationsStatus}
-            onNotificationSelect={onNotificationSelect}
-            markNotificationReadAction={markNotificationReadAction}
-          />
+          {privateWorkflowsAvailable ? (
+            <NotificationsMenu
+              notifications={notifications}
+              status={notificationsStatus}
+              onNotificationSelect={onNotificationSelect}
+              markNotificationReadAction={markNotificationReadAction}
+            />
+          ) : (
+            <NotificationTrigger
+              unreadCount={0}
+              disabled
+              aria-label="Updates coming soon"
+              title="Personalized updates are coming soon"
+            />
+          )}
 
-          {accountPending ? (
+          {!privateWorkflowsAvailable ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span
+                  className="inline-flex rounded-lg focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                  tabIndex={0}
+                >
+                  <Button
+                    type="button"
+                    className="h-11"
+                    disabled
+                    aria-label="Sign in coming soon"
+                  >
+                    Sign in soon
+                  </Button>
+                </span>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                Sign-in, saves, follows, and private workspaces are coming soon.
+              </TooltipContent>
+            </Tooltip>
+          ) : accountPending ? (
             <Button
               type="button"
               variant="ghost"
@@ -235,37 +276,42 @@ function HeaderSearch({
     <>
       <SearchIcon data-icon="inline-start" />
       <span className="hidden sm:inline">Search Watchlist</span>
-      <CommandIcon data-icon="inline-end" className="ml-auto hidden sm:block" />
+      <Badge
+        variant="secondary"
+        className="ml-auto hidden gap-1 rounded-md px-1.5 font-normal sm:inline-flex"
+        aria-hidden="true"
+      >
+        <CommandIcon />
+        K
+      </Badge>
     </>
   )
 
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        {onSearchOpen ? (
-          <Button
-            type="button"
-            variant="outline"
-            className="size-11 justify-center sm:h-11 sm:w-52 sm:justify-start"
-            onClick={onSearchOpen}
-            aria-label="Search tools and resources"
-          >
-            {content}
-          </Button>
-        ) : (
-          <Button
-            asChild
-            variant="outline"
-            className="size-11 justify-center sm:h-11 sm:w-52 sm:justify-start"
-          >
-            <Link href={searchHref} aria-label="Search tools and resources">
-              {content}
-            </Link>
-          </Button>
-        )}
-      </TooltipTrigger>
-      <TooltipContent side="bottom">Search tools and resources</TooltipContent>
-    </Tooltip>
+  return onSearchOpen ? (
+    <Button
+      type="button"
+      variant="outline"
+      className="size-11 justify-center sm:h-11 sm:w-56 sm:justify-start"
+      onClick={onSearchOpen}
+      aria-label="Search tools and resources"
+      title="Search tools and resources"
+    >
+      {content}
+    </Button>
+  ) : (
+    <Button
+      asChild
+      variant="outline"
+      className="size-11 justify-center sm:h-11 sm:w-56 sm:justify-start"
+    >
+      <Link
+        href={searchHref}
+        aria-label="Search tools and resources"
+        title="Search tools and resources"
+      >
+        {content}
+      </Link>
+    </Button>
   )
 }
 
@@ -392,9 +438,11 @@ function NotificationTrigger({
   ...props
 }: NotificationTriggerProps) {
   const label =
-    unreadCount > 0
+    props["aria-label"] ??
+    (unreadCount > 0
       ? `Open updates, ${unreadCount} unread`
-      : "Open updates"
+      : "Open updates")
+  const title = props.title ?? label
 
   return (
     <Button
@@ -404,7 +452,7 @@ function NotificationTrigger({
       size="icon"
       className={cn("relative size-11", className)}
       aria-label={label}
-      title={label}
+      title={title}
     >
       <BellIcon />
       {unreadCount > 0 ? (

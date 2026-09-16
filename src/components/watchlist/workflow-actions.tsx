@@ -2,6 +2,7 @@ import Link from "next/link"
 import { BookmarkIcon, FolderPlusIcon, RssIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features"
 import { cn } from "@/lib/utils"
 
 import type { ServerFormAction } from "./types"
@@ -18,6 +19,7 @@ interface ProfileProductActionsProps {
   evaluationVariant?: "default" | "outline"
   evaluationAriaLabel?: string
   saveAriaLabel?: string
+  privateWorkflowsAvailable?: boolean
 }
 
 export function ProfileProductActions({
@@ -32,7 +34,11 @@ export function ProfileProductActions({
   evaluationVariant = "outline",
   evaluationAriaLabel,
   saveAriaLabel,
+  privateWorkflowsAvailable = PRIVATE_WORKFLOWS_AVAILABLE,
 }: ProfileProductActionsProps) {
+  const baseSaveLabel =
+    saveAriaLabel ??
+    (saved ? `Remove ${productName} from saved` : `Save ${productName}`)
   const saveControl = (
     <form action={saveAction} className={cn(orientation === "vertical" && "w-full")}>
       <input type="hidden" name="productSlug" value={productSlug} />
@@ -43,17 +49,18 @@ export function ProfileProductActions({
         variant={saved ? "secondary" : "outline"}
         className={cn("h-11", orientation === "vertical" && "w-full")}
         aria-pressed={saved}
-        aria-label={
-          saveAriaLabel ??
-          (saved ? `Remove ${productName} from saved` : `Save ${productName}`)
-        }
+        aria-label={privateWorkflowsAvailable ? baseSaveLabel : `${baseSaveLabel} — coming soon`}
+        title={privateWorkflowsAvailable ? baseSaveLabel : "Saving products is coming soon"}
+        disabled={!privateWorkflowsAvailable}
       >
         <BookmarkIcon data-icon="inline-start" fill={saved ? "currentColor" : "none"} />
-        {saved ? "Saved" : "Save product"}
+        {privateWorkflowsAvailable
+          ? saved ? "Saved" : "Save product"
+          : "Save product — coming soon"}
       </Button>
     </form>
   )
-  const evaluationControl = (
+  const evaluationControl = privateWorkflowsAvailable ? (
     <Button
       asChild
       variant={evaluationVariant}
@@ -63,6 +70,18 @@ export function ProfileProductActions({
         <FolderPlusIcon data-icon="inline-start" />
         Add to evaluation
       </Link>
+    </Button>
+  ) : (
+    <Button
+      type="button"
+      variant={evaluationVariant}
+      className={cn("h-11", orientation === "vertical" && "w-full")}
+      aria-label={`${evaluationAriaLabel ?? `Add ${productName} to evaluation`} — coming soon`}
+      title="Private evaluations are coming soon"
+      disabled
+    >
+      <FolderPlusIcon data-icon="inline-start" />
+      Add to evaluation — coming soon
     </Button>
   )
 
@@ -84,6 +103,7 @@ interface CompanyFollowActionProps {
   companyName: string
   following: boolean
   action: ServerFormAction
+  privateWorkflowsAvailable?: boolean
 }
 
 export function CompanyFollowAction({
@@ -91,7 +111,10 @@ export function CompanyFollowAction({
   companyName,
   following,
   action,
+  privateWorkflowsAvailable = PRIVATE_WORKFLOWS_AVAILABLE,
 }: CompanyFollowActionProps) {
+  const label = following ? `Unfollow ${companyName}` : `Follow ${companyName}`
+
   return (
     <form action={action}>
       <input type="hidden" name="companySlug" value={companySlug} />
@@ -101,10 +124,14 @@ export function CompanyFollowAction({
         variant={following ? "secondary" : "outline"}
         className="h-11"
         aria-pressed={following}
-        aria-label={following ? `Unfollow ${companyName}` : `Follow ${companyName}`}
+        aria-label={privateWorkflowsAvailable ? label : `${label} — coming soon`}
+        title={privateWorkflowsAvailable ? label : "Following companies is coming soon"}
+        disabled={!privateWorkflowsAvailable}
       >
         <RssIcon data-icon="inline-start" />
-        {following ? "Following company" : "Follow company"}
+        {privateWorkflowsAvailable
+          ? following ? "Following company" : "Follow company"
+          : "Follow company — coming soon"}
       </Button>
     </form>
   )

@@ -4,12 +4,10 @@ import { notFound } from "next/navigation";
 import {
   ArrowUpRightIcon,
   BadgeDollarSignIcon,
-  CalendarDaysIcon,
   CheckSquare2Icon,
   CloudIcon,
   Code2Icon,
   ExternalLinkIcon,
-  FileCheck2Icon,
   FileQuestionIcon,
   FileTextIcon,
   LibraryIcon,
@@ -47,7 +45,6 @@ import {
 } from "@/components/ui/card";
 import {
   Item,
-  ItemActions,
   ItemContent,
   ItemDescription,
   ItemGroup,
@@ -59,9 +56,9 @@ import {
   getProductBySlug,
   getProducts,
 } from "@/lib/catalog";
+import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features";
 import {
   companySources,
-  evidenceReviewLabel,
   productBadges,
   productEvidenceClaims,
   productResourceLinks,
@@ -71,13 +68,6 @@ import { getProductWorkflowState } from "@/lib/workflows/queries";
 
 // The profile includes the signed-in visitor's saved products and private note.
 export const dynamic = "force-dynamic";
-
-const catalogDateFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-  timeZone: "UTC",
-});
 
 const capabilityIcons = [
   ScanSearchIcon,
@@ -145,11 +135,6 @@ export default async function ProductPage({
     .filter((badge) => badge.label !== "Open source")
     .map((badge) => badge.label)
     .join(" / ") || "Unknown";
-  const lastChecked = [...claims]
-    .map((claim) => claim.lastCheckedLabel)
-    .filter((value): value is string => Boolean(value))
-    .sort()
-    .at(-1);
   const summaryFacts = [
     { label: "Category", value: categoryLabel, icon: TagsIcon },
     {
@@ -360,7 +345,7 @@ export default async function ProductPage({
             )}
           </section>
 
-          {workflow.signedIn ? (
+          {PRIVATE_WORKFLOWS_AVAILABLE && workflow.signedIn ? (
             <ConnectedProductNoteEditor
               productSlug={product.slug}
               productName={product.name}
@@ -371,59 +356,7 @@ export default async function ProductPage({
           )}
         </article>
 
-        <aside className="flex flex-col gap-4 xl:sticky xl:top-24 xl:max-h-[calc(100vh-8rem)] xl:overflow-y-auto xl:pr-1 xl:[&>[data-slot=card]]:shrink-0">
-          <Card size="sm">
-            <CardHeader>
-              <CardTitle>Evaluation actions</CardTitle>
-              <CardDescription>
-                Add this product to a private evaluation or save it for later.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ProfileProductActions
-                productSlug={product.slug}
-                productName={product.name}
-                saved={workflow.saved}
-                saveAction={saveProductAction}
-                evaluationHref={`/workspace/evaluations/new?product=${product.slug}`}
-                orientation="vertical"
-                evaluationFirst
-                evaluationVariant="default"
-                evaluationAriaLabel={`Add ${product.name} to evaluation from the profile sidebar`}
-                saveAriaLabel={`Save ${product.name} from the profile sidebar`}
-              />
-              <p className="mt-3 text-xs text-muted-foreground">
-                Your notes and evaluations stay private.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card size="sm">
-            <CardHeader>
-              <CardTitle>Quick facts</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ItemGroup className="gap-2">
-                <QuickFact icon={TagsIcon} label="Category" value={categoryLabel} />
-                <QuickFact
-                  icon={FileCheck2Icon}
-                  label="Evidence review"
-                  value={evidenceReviewLabel(claims)}
-                />
-                <QuickFact
-                  icon={CalendarDaysIcon}
-                  label="Added"
-                  value={formatCatalogDate(product.dateAdded)}
-                />
-                <QuickFact
-                  icon={FileTextIcon}
-                  label="Last checked"
-                  value={lastChecked ? formatCatalogDate(lastChecked) : "Not reviewed"}
-                />
-              </ItemGroup>
-            </CardContent>
-          </Card>
-
+        <aside className="flex flex-col gap-4">
           <OfficialResourcesCard
             productName={product.name}
             productSlug={product.slug}
@@ -442,35 +375,6 @@ export default async function ProductPage({
       </div>
     </main>
   );
-}
-
-function QuickFact({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: typeof TagsIcon;
-  label: string;
-  value: string;
-}) {
-  return (
-    <Item size="xs">
-      <ItemMedia variant="icon">
-        <Icon aria-hidden="true" />
-      </ItemMedia>
-      <ItemContent>
-        <ItemDescription>{label}</ItemDescription>
-      </ItemContent>
-      <ItemActions>
-        <span className="max-w-36 text-right text-sm font-medium">{value}</span>
-      </ItemActions>
-    </Item>
-  );
-}
-
-function formatCatalogDate(value: string) {
-  const date = new Date(`${value}T00:00:00Z`);
-  return Number.isNaN(date.valueOf()) ? value : catalogDateFormatter.format(date);
 }
 
 function ProductResearchActions({

@@ -2,7 +2,6 @@ import Link from "next/link";
 import {
   ArrowRightIcon,
   BookmarkIcon,
-  Building2Icon,
   SearchCheckIcon,
   SquareLibraryIcon,
 } from "lucide-react";
@@ -14,31 +13,21 @@ import { Button } from "@/components/ui/button";
 import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from "@/components/ui/item";
 import {
   getCompanies,
-  getEarlyCohort,
   getProducts,
   getResources,
+  getRotatingFeaturedEntries,
 } from "@/lib/catalog";
+import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features";
 import { companyMap, toProductSummary } from "@/lib/presentation/catalog";
 import { getSavedProductSlugs } from "@/lib/workflows/queries";
 import type { CatalogProduct } from "@/types/catalog";
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const products = getProducts();
   const companies = getCompanies();
   const companiesBySlug = companyMap(companies);
-  const productsBySlug = new Map(products.map((product) => [product.slug, product]));
-  const cohort = getEarlyCohort();
-  const cohortProducts = cohort.entries
-    .map((entry) => productsBySlug.get(entry.productSlug))
-    .filter(
-      (product): product is CatalogProduct =>
-        product !== undefined,
-    );
-  const featured = [...cohortProducts, ...products]
-    .filter((product, index, collection) =>
-      collection.findIndex((candidate) => candidate.slug === product.slug) === index,
-    )
-    .slice(0, 12);
+  const featured = getRotatingFeaturedEntries(products);
   const productsByCompany = new Map<string, CatalogProduct[]>();
   for (const product of products) {
     if (!product.companySlug) continue;
@@ -49,61 +38,30 @@ export default async function HomePage() {
   const featuredCompanies = [...companies]
     .sort((left, right) => left.name.localeCompare(right.name))
     .slice(0, 8);
-  const allResources = getResources();
-  const resources = allResources.slice(0, 3);
+  const resources = getResources().slice(0, 3);
   const savedSlugs = new Set(await getSavedProductSlugs());
 
   return (
     <main>
       <MarketplaceHero />
 
-      <section className="border-b" aria-label="Start exploring the Watchlist">
-        <div className="mx-auto grid max-w-screen-2xl gap-3 px-4 py-4 sm:grid-cols-3 sm:px-6 lg:px-8">
-          <Button asChild variant="ghost" className="h-auto min-h-11 justify-start px-3 py-2">
-            <Link href="/tools">
-              <SquareLibraryIcon data-icon="inline-start" />
-              <span className="text-left">
-                <span className="block font-medium">{products.length} product profiles</span>
-                <span className="block text-xs text-muted-foreground">Compare capabilities and sources</span>
-              </span>
-            </Link>
-          </Button>
-          <Button asChild variant="ghost" className="h-auto min-h-11 justify-start px-3 py-2">
-            <Link href="/companies">
-              <Building2Icon data-icon="inline-start" />
-              <span className="text-left">
-                <span className="block font-medium">{companies.length} company profiles</span>
-                <span className="block text-xs text-muted-foreground">See products and official references</span>
-              </span>
-            </Link>
-          </Button>
-          <Button asChild variant="ghost" className="h-auto min-h-11 justify-start px-3 py-2">
-            <Link href="/resources">
-              <SearchCheckIcon data-icon="inline-start" />
-              <span className="text-left">
-                <span className="block font-medium">{allResources.length} research guides</span>
-                <span className="block text-xs text-muted-foreground">Use a repeatable evaluation process</span>
-              </span>
-            </Link>
-          </Button>
+      <section id="newsletter" className="border-b" aria-label="Watchlist newsletter">
+        <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+          <NewsletterSignup
+            compact
+            title="Get the AI SRE Watchlist in your inbox"
+            description="The most useful AI SRE product updates, delivered to your inbox."
+          />
         </div>
       </section>
 
       <section className="mx-auto flex max-w-screen-2xl flex-col gap-6 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div className="flex max-w-3xl flex-col gap-2">
-            <p className="text-sm font-medium text-primary">Product directory</p>
-            <h2 className="text-3xl font-semibold tracking-tight">Start with a useful cross-section of the catalog</h2>
-            <p className="text-muted-foreground">
-              Read the overview, check deployment details, and inspect the sources that matter to your evaluation.
-            </p>
-          </div>
-          <Button asChild variant="outline">
-            <Link href="/tools">
-              Browse all products
-              <ArrowRightIcon data-icon="inline-end" />
-            </Link>
-          </Button>
+        <div className="flex max-w-3xl flex-col gap-2">
+          <p className="text-sm font-medium text-primary">Product directory</p>
+          <h2 className="text-3xl font-semibold tracking-tight">Featured AI SRE tools</h2>
+          <p className="text-muted-foreground">
+            A rotating selection from the directory, refreshed every day.
+          </p>
         </div>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,18rem),1fr))] gap-5">
           {featured.map((product, index) => {
@@ -119,23 +77,13 @@ export default async function HomePage() {
             );
           })}
         </div>
-      </section>
-
-      <section id="newsletter" className="border-y bg-muted/30" aria-labelledby="newsletter-heading">
-        <div className="mx-auto grid max-w-screen-2xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,0.8fr)_minmax(22rem,0.6fr)] lg:px-8">
-          <div className="flex max-w-xl flex-col gap-3 self-center">
-            <p className="text-sm font-medium text-primary">Watchlist newsletter</p>
-            <h2 id="newsletter-heading" className="text-3xl font-semibold tracking-tight">
-              Keep up with material AI SRE changes
-            </h2>
-            <p className="leading-relaxed text-muted-foreground">
-              Choose a weekly digest or monthly roundup of source-linked changes worth a reliability team&apos;s attention. This subscription is separate from your account and company follows.
-            </p>
-          </div>
-          <NewsletterSignup
-            title="A calmer way to follow the space"
-            description="Select the cadence that works for you. You can unsubscribe at any time."
-          />
+        <div className="flex justify-center pt-2">
+          <Button asChild size="lg" variant="outline" className="h-11">
+            <Link href="/tools">
+              View all {products.length} tools
+              <ArrowRightIcon data-icon="inline-end" />
+            </Link>
+          </Button>
         </div>
       </section>
 
@@ -231,8 +179,16 @@ export default async function HomePage() {
             <Item variant="outline" className="items-start bg-background">
               <ItemMedia variant="icon"><BookmarkIcon aria-hidden="true" /></ItemMedia>
               <ItemContent>
-                <ItemTitle>Keep track when ready</ItemTitle>
-                <ItemDescription>Browse freely, then sign in only if you want to save products or add private notes.</ItemDescription>
+                <ItemTitle>
+                  {PRIVATE_WORKFLOWS_AVAILABLE
+                    ? "Keep track when ready"
+                    : "Private workspace coming soon"}
+                </ItemTitle>
+                <ItemDescription>
+                  {PRIVATE_WORKFLOWS_AVAILABLE
+                    ? "Browse freely, then sign in only if you want to save products or add private notes."
+                    : "Browse every public profile and source now. Saves, follows, and private notes will open later."}
+                </ItemDescription>
               </ItemContent>
             </Item>
           </ItemGroup>

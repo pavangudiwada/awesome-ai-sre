@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils"
 interface ProductMediaProps {
   name: string
   src?: string | null
+  logoSrc?: string | null
   alt?: string
   preload?: boolean
   className?: string
@@ -18,6 +19,7 @@ interface ProductMediaProps {
 export function ProductMedia({
   name,
   src,
+  logoSrc,
   alt,
   preload = false,
   className,
@@ -42,6 +44,21 @@ export function ProductMedia({
           onError={() => setFailed(true)}
           className="size-full object-cover"
         />
+      ) : logoSrc ? (
+        <div
+          className="flex size-full items-center justify-center bg-card p-10"
+          role="img"
+          aria-label={`${name} logo`}
+        >
+          <Image
+            src={logoSrc}
+            alt=""
+            width={240}
+            height={120}
+            unoptimized
+            className="max-h-24 w-auto max-w-[70%] object-contain"
+          />
+        </div>
       ) : (
         <div
           className="flex size-full flex-col items-center justify-center gap-2 text-muted-foreground"

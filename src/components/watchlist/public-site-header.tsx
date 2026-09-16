@@ -5,9 +5,14 @@ import { z } from "zod";
 
 import { signOut } from "@/actions/auth";
 import { markUpdateReadAction } from "@/actions/workflows";
+import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features";
 
 import { SiteHeader } from "./site-header";
 import type { WatchlistNotification, WatchlistViewer } from "./types";
+import {
+  WatchlistSearch,
+  type WatchlistSearchItem,
+} from "./watchlist-search";
 
 const viewerSchema = z.object({
   displayName: z.string().min(1).max(200),
@@ -36,11 +41,24 @@ const headerStateSchema = z.object({
 type HeaderPayload = z.infer<typeof headerStateSchema>;
 type HydrationStatus = "loading" | "ready" | "unavailable";
 
-export function PublicSiteHeader() {
+export function PublicSiteHeader({
+  searchItems = [],
+  privateWorkflowsAvailable = PRIVATE_WORKFLOWS_AVAILABLE,
+}: {
+  searchItems?: readonly WatchlistSearchItem[];
+  privateWorkflowsAvailable?: boolean;
+}) {
   const [state, setState] = useState<HeaderPayload | null>(null);
-  const [status, setStatus] = useState<HydrationStatus>("loading");
+  const [status, setStatus] = useState<HydrationStatus>(
+    privateWorkflowsAvailable ? "loading" : "ready",
+  );
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
+    if (!privateWorkflowsAvailable) {
+      return;
+    }
+
     const controller = new AbortController();
 
     async function hydrateHeader() {
@@ -63,7 +81,7 @@ export function PublicSiteHeader() {
 
     void hydrateHeader();
     return () => controller.abort();
-  }, []);
+  }, [privateWorkflowsAvailable]);
 
   const viewer: WatchlistViewer | null = state?.viewer
     ? { ...state.viewer, signOutAction: signOut }
@@ -71,26 +89,35 @@ export function PublicSiteHeader() {
   const notifications = (state?.notifications ?? []) as WatchlistNotification[];
 
   return (
-    <SiteHeader
-      viewer={viewer}
-      notifications={notifications}
-      accountPending={status === "loading"}
-      notificationsStatus={status}
-      markNotificationReadAction={markUpdateReadAction}
-      onNotificationSelect={(selected) => {
-        if (!selected.unread) return;
-        setState((current) => {
-          if (!current) return current;
-          return {
-            ...current,
-            notifications: current.notifications.map((notification) =>
-              notification.id === selected.id
-                ? { ...notification, unread: false }
-                : notification,
-            ),
-          };
-        });
-      }}
-    />
+    <>
+      <SiteHeader
+        viewer={viewer}
+        notifications={notifications}
+        accountPending={status === "loading"}
+        notificationsStatus={status}
+        privateWorkflowsAvailable={privateWorkflowsAvailable}
+        markNotificationReadAction={markUpdateReadAction}
+        onSearchOpen={() => setSearchOpen(true)}
+        onNotificationSelect={(selected) => {
+          if (!selected.unread) return;
+          setState((current) => {
+            if (!current) return current;
+            return {
+              ...current,
+              notifications: current.notifications.map((notification) =>
+                notification.id === selected.id
+                  ? { ...notification, unread: false }
+                  : notification,
+              ),
+            };
+          });
+        }}
+      />
+      <WatchlistSearch
+        items={searchItems}
+        open={searchOpen}
+        onOpenChange={setSearchOpen}
+      />
+    </>
   );
 }

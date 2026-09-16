@@ -5,7 +5,13 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 
 const mocks = vi.hoisted(() => ({
   markUpdateReadAction: vi.fn(),
+  push: vi.fn(),
   signOut: vi.fn(),
+}));
+
+vi.mock("next/navigation", () => ({
+  usePathname: () => "/",
+  useRouter: () => ({ push: mocks.push }),
 }));
 
 vi.mock("@/actions/auth", () => ({ signOut: mocks.signOut }));
@@ -15,10 +21,18 @@ vi.mock("@/actions/workflows", () => ({
 
 import { PublicSiteHeader } from "./public-site-header";
 
-function renderHeader() {
+function renderHeader(privateWorkflowsAvailable = true) {
   return render(
     <TooltipProvider>
-      <PublicSiteHeader />
+      <PublicSiteHeader
+        privateWorkflowsAvailable={privateWorkflowsAvailable}
+        searchItems={[{
+          type: "tool",
+          label: "RunWhen",
+          description: "AI-powered incident investigation",
+          href: "/tools/runwhen",
+        }]}
+      />
     </TooltipProvider>,
   );
 }
@@ -45,6 +59,17 @@ describe("PublicSiteHeader", () => {
     expect(screen.queryByRole("link", { name: "Sign in" })).not.toBeInTheDocument();
     expect(screen.getAllByLabelText("Open updates")).toHaveLength(2);
     expect(screen.queryByText("New")).not.toBeInTheDocument();
+  });
+
+  it("does not request private header state while launch workflows are disabled", () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+
+    renderHeader(false);
+
+    expect(screen.getByRole("button", { name: "Updates coming soon" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Sign in coming soon" })).toBeDisabled();
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it("hydrates a verified viewer and unread updates from the private endpoint", async () => {
@@ -89,5 +114,18 @@ describe("PublicSiteHeader", () => {
     });
     fireEvent.click(screen.getAllByLabelText("Open updates")[0]);
     expect(screen.getByText("Updates unavailable")).toBeInTheDocument();
+  });
+
+  it("searches the public directory and opens a selected result", () => {
+    vi.stubGlobal("fetch", vi.fn(() => new Promise(() => undefined)));
+
+    renderHeader();
+    fireEvent.click(screen.getByRole("button", { name: "Search tools and resources" }));
+    fireEvent.change(screen.getByPlaceholderText("Search tools, companies, or guides…"), {
+      target: { value: "RunWhen" },
+    });
+    fireEvent.click(screen.getByText("RunWhen"));
+
+    expect(mocks.push).toHaveBeenCalledWith("/tools/runwhen");
   });
 });

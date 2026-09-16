@@ -30,6 +30,7 @@ import {
   getObservabilityProductBySlug,
   getObservabilityProducts,
 } from "@/lib/catalog";
+import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features";
 import {
   observabilityEvidenceClaims,
   observabilityFacts,
@@ -163,7 +164,7 @@ export default async function ObservabilityProductPage({
             sources={sources}
             analyticsSubject={{ kind: "product", slug: workflowSlug }}
           />
-          {workflow.signedIn ? (
+          {PRIVATE_WORKFLOWS_AVAILABLE && workflow.signedIn ? (
             <ConnectedProductNoteEditor
               productSlug={workflowSlug}
               productName={product.name}

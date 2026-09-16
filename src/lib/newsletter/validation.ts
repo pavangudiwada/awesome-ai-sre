@@ -2,11 +2,14 @@ import { z } from "zod";
 
 export const newsletterFrequencySchema = z.enum(["weekly", "monthly"]);
 
-export const newsletterSubscriptionSchema = z.object({
+export const newsletterSignupSchema = z.object({
   email: z.string().trim().toLowerCase().email().max(320),
+  website: z.string().max(200).optional(),
+});
+
+export const newsletterSubscriptionSchema = newsletterSignupSchema.extend({
   frequency: newsletterFrequencySchema,
   consent: z.literal("on"),
-  website: z.string().max(200).optional(),
 });
 
 export const newsletterUnsubscribeTokenSchema = z.string().max(200);

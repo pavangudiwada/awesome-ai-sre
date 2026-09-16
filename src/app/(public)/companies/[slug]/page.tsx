@@ -31,6 +31,7 @@ import {
   getCompanyBySlug,
   getProductsByCompanySlug,
 } from "@/lib/catalog";
+import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features";
 import {
   companyMap,
   companySources,
@@ -124,12 +125,13 @@ export default async function CompanyPage({
             description="Saving a product does not follow this company. These are intentionally separate actions."
           >
             <ProductGrid>
-              {products.map((product) => (
+              {products.map((product, index) => (
                 <ProductCard
                   key={product.slug}
                   product={toProductSummary(product, companies)}
                   saved={saved.has(product.slug)}
                   saveAction={saveProductAction}
+                  mediaPriority={index === 0}
                 />
               ))}
             </ProductGrid>
@@ -176,7 +178,9 @@ export default async function CompanyPage({
                 <RssIcon />
                 <AlertTitle>No reviewed updates published yet</AlertTitle>
                 <AlertDescription>
-                  Following this company will notify you after the Watchlist publishes a reviewed update. It does not expose your saves or evaluations.
+                  {PRIVATE_WORKFLOWS_AVAILABLE
+                    ? "Following this company will notify you after the Watchlist publishes a reviewed update. It does not expose your saves or evaluations."
+                    : "Company follows and personalized update notifications are coming soon. Public reviewed updates stay available here."}
                 </AlertDescription>
               </Alert>
             )}

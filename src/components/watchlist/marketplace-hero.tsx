@@ -15,7 +15,6 @@ import type { ServerFormAction } from "./types"
 interface MarketplaceHeroProps {
   title?: string
   description?: string
-  eyebrow?: string
   searchPlaceholder?: string
   searchHref?: string
   searchAction?: ServerFormAction
@@ -24,8 +23,7 @@ interface MarketplaceHeroProps {
 
 export function MarketplaceHero({
   title = "Find the right tools for reliable systems.",
-  description = "Browse clear, source-linked profiles of AI SRE, observability, and incident-response products. See what each tool does and where it may fit.",
-  eyebrow = "An independent guide for reliability teams",
+  description = "Explore source-linked AI SRE, observability, and incident-response tools.",
   searchPlaceholder = "Search by tool, company, or problem…",
   searchHref = "/tools",
   searchAction,
@@ -36,7 +34,6 @@ export function MarketplaceHero({
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
           <div className="flex flex-col items-center gap-3">
-            <p className="text-sm font-medium text-primary">{eyebrow}</p>
             <h1
               id="marketplace-heading"
               className="max-w-2xl text-3xl font-semibold tracking-tight text-balance sm:text-4xl"
@@ -79,14 +76,13 @@ export function MarketplaceHero({
             </FieldGroup>
           </form>
 
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm">
+          <div className="flex items-center justify-center text-sm">
             <Button asChild variant="link" className="h-11 px-0">
               <Link href="/tools">
                 Browse all products
                 <ArrowRightIcon data-icon="inline-end" />
               </Link>
             </Button>
-            <span className="text-muted-foreground">No account needed to browse.</span>
           </div>
         </div>
       </div>

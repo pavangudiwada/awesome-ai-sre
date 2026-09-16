@@ -15,29 +15,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Field,
-  FieldContent,
-  FieldDescription,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 export type NewsletterSignupProps = {
   className?: string;
   title?: string;
   description?: string;
+  compact?: boolean;
 };
 
 const newsletterInitialActionState: NewsletterActionState = {
@@ -49,6 +39,7 @@ export function NewsletterSignup({
   className,
   title = "AI SRE updates, without the noise",
   description = "A concise, editorially reviewed digest of releases and changes that matter to reliability teams.",
+  compact = false,
 }: NewsletterSignupProps) {
   const [state, formAction, pending] = useActionState(
     subscribeNewsletterAction,
@@ -56,63 +47,50 @@ export function NewsletterSignup({
   );
 
   return (
-    <Card className={cn("w-full", className)}>
-      <CardHeader>
+    <Card className={cn("w-full", compact && "shadow-none", className)}>
+      <CardHeader className={cn(compact && "gap-1 pb-4 text-center")}>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
         <form action={formAction}>
-          <FieldGroup>
+          <FieldGroup className={cn(compact && "gap-4")}>
             <Field className="sr-only !size-px" aria-hidden="true">
               <FieldLabel htmlFor="newsletter-website">Website</FieldLabel>
               <Input id="newsletter-website" name="website" tabIndex={-1} autoComplete="off" />
             </Field>
-            <Field>
-              <FieldLabel htmlFor="newsletter-email">Work email</FieldLabel>
-              <Input
-                id="newsletter-email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                inputMode="email"
-                placeholder="you@company.com"
-                required
-              />
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="newsletter-frequency">Send me updates</FieldLabel>
-              <Select name="frequency" defaultValue="weekly" required>
-                <SelectTrigger id="newsletter-frequency" className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="weekly">Weekly digest</SelectItem>
-                    <SelectItem value="monthly">Monthly roundup</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </Field>
-            <Field orientation="horizontal">
-              <Checkbox id="newsletter-consent" name="consent" required />
-              <FieldContent>
-                <FieldLabel htmlFor="newsletter-consent">
-                  I agree to receive this newsletter and can unsubscribe at any time.
+            <div className={cn("grid gap-3", compact && "sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end")}>
+              <Field>
+                <FieldLabel htmlFor="newsletter-email" className={cn(compact && "sr-only")}>
+                  Email
                 </FieldLabel>
-                <FieldDescription>
-                  This is separate from any account, saved products, or company follows.
-                </FieldDescription>
-              </FieldContent>
-            </Field>
+                <Input
+                  id="newsletter-email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  inputMode="email"
+                  placeholder="Email address"
+                  required
+                  className="h-11"
+                />
+              </Field>
+              {compact ? (
+                <Button type="submit" size="lg" className="h-11" disabled={pending}>
+                  {pending ? "Subscribing…" : "Subscribe"}
+                </Button>
+              ) : null}
+            </div>
             {state.status !== "idle" ? (
               <Alert variant={state.status === "error" ? "destructive" : "default"}>
                 <AlertDescription aria-live="polite">{state.message}</AlertDescription>
               </Alert>
             ) : null}
-            <Button type="submit" size="lg" className="h-11 w-full" disabled={pending}>
-              {pending ? "Saving preference…" : "Subscribe to the newsletter"}
-            </Button>
+            {!compact ? (
+              <Button type="submit" size="lg" className="h-11 w-full" disabled={pending}>
+                {pending ? "Saving preference…" : "Subscribe to the newsletter"}
+              </Button>
+            ) : null}
           </FieldGroup>
         </form>
       </CardContent>

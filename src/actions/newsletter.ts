@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { consumeNewsletterSignupBudget } from "@/lib/newsletter/rate-limit";
 import { newsletterStore } from "@/lib/newsletter/service";
 import {
-  newsletterSubscriptionSchema,
+  newsletterSignupSchema,
   newsletterUnsubscribeTokenSchema,
 } from "@/lib/newsletter/validation";
 import { verifyUnsubscribeToken } from "@/lib/newsletter/tokens";
@@ -20,16 +20,14 @@ export async function subscribeNewsletterAction(
   _previousState: NewsletterActionState,
   formData: FormData,
 ): Promise<NewsletterActionState> {
-  const parsed = newsletterSubscriptionSchema.safeParse({
+  const parsed = newsletterSignupSchema.safeParse({
     email: formData.get("email"),
-    frequency: formData.get("frequency"),
-    consent: formData.get("consent"),
     website: formData.get("website") || undefined,
   });
   if (!parsed.success) {
     return {
       status: "error",
-      message: "Enter a valid email, choose a frequency, and confirm consent.",
+      message: "Enter a valid email address.",
     };
   }
 
@@ -37,7 +35,7 @@ export async function subscribeNewsletterAction(
   if (parsed.data.website) {
     return {
       status: "success",
-      message: "Thanks — your newsletter preference has been saved.",
+      message: "Thanks — you’re on the list.",
     };
   }
 
@@ -49,17 +47,23 @@ export async function subscribeNewsletterAction(
         message: "Too many signup attempts from this network. Please try again later.",
       };
     }
-    await newsletterStore().subscribe(parsed.data);
+    await newsletterStore().subscribe({
+      ...parsed.data,
+      frequency: "weekly",
+      consent: "on",
+    });
   } catch (error) {
-    console.error("Newsletter subscription could not be saved", error);
+    console.error("Newsletter subscription could not be saved", {
+      errorType: error instanceof Error ? error.name : "UnknownError",
+    });
     return {
       status: "error",
-      message: "We could not save that preference right now. Please try again.",
+      message: "We could not subscribe you right now. Please try again.",
     };
   }
   return {
     status: "success",
-    message: "Thanks — your newsletter preference has been saved.",
+    message: "Thanks — you’re on the list.",
   };
 }
 

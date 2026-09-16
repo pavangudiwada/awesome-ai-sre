@@ -25,6 +25,8 @@ import {
   ItemTitle,
 } from "@/components/ui/item"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features"
+import { cn } from "@/lib/utils"
 
 import type { EvidenceClaim, EvidenceStatus } from "./types"
 import { evidenceStatusLabel, evidenceStatusTone } from "./utils"
@@ -76,9 +78,14 @@ export function ProductSectionNav({
   return (
     <nav
       aria-label="Product sections"
-      className="sticky top-16 z-30 -mx-1 overflow-x-auto border-b bg-background/95 px-1 py-2 backdrop-blur"
+      className={cn(
+        "sticky z-30 -mx-1 border-b bg-background/95 px-1 py-2 backdrop-blur",
+        PRIVATE_WORKFLOWS_AVAILABLE
+          ? "top-16"
+          : "top-[7.125rem] sm:top-[6.375rem]",
+      )}
     >
-      <div className="flex w-max items-center gap-1">
+      <div className="grid grid-cols-2 items-center gap-1 sm:flex sm:w-max">
         {PROFILE_SECTIONS.map(({ id, label }) => {
           const count = id === "evidence" ? evidenceCount : id === "sources" ? sourceCount : null
           const active = activeSection === id
@@ -87,7 +94,7 @@ export function ProductSectionNav({
               key={id}
               asChild
               variant={active ? "secondary" : "ghost"}
-              className="h-11"
+              className="h-11 justify-center"
             >
               <a
                 href={`#${id}`}

@@ -8,6 +8,7 @@ const valid = {
   AUTH_INTENT_SECRET: "b".repeat(32),
   ANALYTICS_HASH_SECRET: "c".repeat(32),
   SUBMISSION_HASH_SECRET: "d".repeat(32),
+  NEWSLETTER_RATE_LIMIT_SECRET: "e".repeat(32),
   BETTER_AUTH_URL: "https://aisrewatchlist.com",
   NEXT_PUBLIC_SITE_URL: "https://aisrewatchlist.com",
   TRUST_PROXY: "exe",
@@ -26,13 +27,13 @@ describe("release environment", () => {
       }).join("\n"),
     ).toMatch(/TRUST_PROXY|BETTER_AUTH_URL|BETTER_AUTH_SECRET|RESEND/);
   });
-  it("requires newsletter secrets when Resend is enabled", () => {
+  it("requires the unsubscribe secret when Resend is enabled", () => {
     expect(
       releaseEnvironmentIssues({
         ...valid,
         RESEND_API_KEY: "key",
         RESEND_SENDER_EMAIL: "newsletter@example.com",
       }).join("\n"),
-    ).toMatch(/NEWSLETTER_UNSUBSCRIBE_SECRET|NEWSLETTER_RATE_LIMIT_SECRET/);
+    ).toMatch(/NEWSLETTER_UNSUBSCRIBE_SECRET/);
   });
 });

@@ -55,6 +55,7 @@ interface AuthPanelProps {
   githubIcon?: ReactNode
   termsHref?: string
   privacyHref?: string
+  disabled?: boolean
 }
 
 export function AuthPanel({
@@ -72,6 +73,7 @@ export function AuthPanel({
   githubIcon,
   termsHref = "/terms",
   privacyHref = "/privacy",
+  disabled = false,
 }: AuthPanelProps) {
   const hasOAuth = Boolean(googleAction || githubAction)
 
@@ -121,14 +123,27 @@ export function AuthPanel({
       <section className="order-1 flex items-center px-4 py-10 sm:px-8 lg:order-2 lg:px-12" aria-label="Sign in">
         <Card className="mx-auto w-full max-w-md">
           <CardHeader>
-            <CardTitle>Sign in or create your workspace</CardTitle>
+            <CardTitle>
+              {disabled ? "Private workspace coming soon" : "Sign in or create your workspace"}
+            </CardTitle>
             <CardDescription>
-              Use a provider or a secure email link. No password required.
+              {disabled
+                ? "We’re finishing the private workspace before opening accounts."
+                : "Use a provider or a secure email link. No password required."}
             </CardDescription>
           </CardHeader>
 
           <CardContent>
             <FieldGroup>
+              {disabled ? (
+                <Alert>
+                  <ShieldCheckIcon />
+                  <AlertTitle>Sign-in is coming soon</AlertTitle>
+                  <AlertDescription>
+                    The public directory, profiles, sources, and newsletter remain available without an account.
+                  </AlertDescription>
+                </Alert>
+              ) : null}
               {errorMessage ? (
                 <Alert variant="destructive">
                   <AlertTitle>Sign-in failed</AlertTitle>
@@ -159,6 +174,7 @@ export function AuthPanel({
                               variant="outline"
                               size="lg"
                               className="h-11 w-full"
+                              disabled={disabled}
                             >
                               {googleIcon}
                               Continue with Google
@@ -179,6 +195,7 @@ export function AuthPanel({
                               variant="outline"
                               size="lg"
                               className="h-11 w-full"
+                              disabled={disabled}
                             >
                               {githubIcon}
                               Continue with GitHub
@@ -207,13 +224,14 @@ export function AuthPanel({
                       placeholder="you@example.com"
                       defaultValue={emailDefaultValue}
                       required
+                      disabled={disabled}
                     />
                     <FieldDescription>
                       We will send a one-time sign-in link to this address.
                     </FieldDescription>
                   </Field>
                   <Field>
-                    <Button type="submit" size="lg" className="h-11 w-full">
+                    <Button type="submit" size="lg" className="h-11 w-full" disabled={disabled}>
                       <MailIcon data-icon="inline-start" />
                       Email me a sign-in link
                     </Button>
@@ -229,7 +247,7 @@ export function AuthPanel({
             </FieldGroup>
           </CardContent>
 
-          <CardFooter>
+          <CardFooter className={disabled ? "hidden" : undefined}>
             <p className="text-xs leading-relaxed text-muted-foreground">
               By continuing, you agree to the{" "}
               <Link href={termsHref} className="underline underline-offset-4 hover:text-foreground">

@@ -3,6 +3,7 @@ import { FileTextIcon, FolderSearch2Icon, LockKeyholeIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features";
 import {
   Card,
   CardContent,
@@ -23,9 +24,11 @@ import {
 export function LockedWorkflowPreview({
   returnTo,
   compact = false,
+  privateWorkflowsAvailable = PRIVATE_WORKFLOWS_AVAILABLE,
 }: {
   returnTo: string;
   compact?: boolean;
+  privateWorkflowsAvailable?: boolean;
 }) {
   if (compact) {
     return (
@@ -37,16 +40,24 @@ export function LockedWorkflowPreview({
               Private evaluation workspace
             </CardTitle>
             <CardDescription>
-              Your notes, evaluations, and research stay private.
+              {privateWorkflowsAvailable
+                ? "Your notes, evaluations, and research stay private."
+                : "Private notes and evaluations are coming soon."}
             </CardDescription>
           </div>
         </CardHeader>
         <CardFooter className="justify-end">
-          <Button asChild className="h-11">
-            <Link href={`/sign-in?next=${encodeURIComponent(returnTo)}`}>
-              Sign in to use the workspace
-            </Link>
-          </Button>
+          {privateWorkflowsAvailable ? (
+            <Button asChild className="h-11">
+              <Link href={`/sign-in?next=${encodeURIComponent(returnTo)}`}>
+                Sign in to use the workspace
+              </Link>
+            </Button>
+          ) : (
+            <Button type="button" className="h-11" disabled>
+              Workspace coming soon
+            </Button>
+          )}
         </CardFooter>
       </Card>
     );
@@ -59,12 +70,14 @@ export function LockedWorkflowPreview({
           <div className="flex flex-col gap-1">
             <CardTitle>Private evaluation workspace</CardTitle>
             <CardDescription>
-              Public evidence stays visible. Sign in only when you want personal workflow.
+              {privateWorkflowsAvailable
+                ? "Public evidence stays visible. Sign in only when you want personal workflow."
+                : "Public evidence stays visible while we finish the private workspace."}
             </CardDescription>
           </div>
           <Badge variant="outline">
             <LockKeyholeIcon />
-            Private
+            {privateWorkflowsAvailable ? "Private" : "Coming soon"}
           </Badge>
         </div>
       </CardHeader>
@@ -95,11 +108,17 @@ export function LockedWorkflowPreview({
         </ItemGroup>
       </CardContent>
       <CardFooter>
-        <Button asChild>
-          <Link href={`/sign-in?next=${encodeURIComponent(returnTo)}`}>
-            Sign in to use the workspace
-          </Link>
-        </Button>
+        {privateWorkflowsAvailable ? (
+          <Button asChild>
+            <Link href={`/sign-in?next=${encodeURIComponent(returnTo)}`}>
+              Sign in to use the workspace
+            </Link>
+          </Button>
+        ) : (
+          <Button type="button" disabled>
+            Workspace coming soon
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

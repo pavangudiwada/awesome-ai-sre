@@ -16,7 +16,7 @@ const newsletterEnvironmentSchema = z.object({
 });
 
 const CONSENT_TEXT =
-  "I agree to receive the selected AI SRE Watchlist newsletter frequency. I can unsubscribe at any time.";
+  "Requested an AI SRE Watchlist email subscription through the public signup form.";
 
 function getNewsletterEnvironment() {
   return newsletterEnvironmentSchema.parse({
@@ -39,7 +39,6 @@ function unsubscribeUrl(token: string, siteUrl: string) {
  */
 async function sendWelcomeEmail(options: {
   email: string;
-  frequency: "weekly" | "monthly";
   subscriptionId: string;
 }) {
   const environment = getNewsletterEnvironment();
@@ -55,7 +54,7 @@ async function sendWelcomeEmail(options: {
     from: environment.RESEND_SENDER_EMAIL,
     to: options.email,
     subject: "You’re subscribed to AI SRE Watchlist",
-    text: `You’ll receive ${options.frequency} AI SRE updates. Unsubscribe at any time: ${unsubscribeUrl(createUnsubscribeToken(options.subscriptionId, environment.NEWSLETTER_UNSUBSCRIBE_SECRET), environment.NEXT_PUBLIC_SITE_URL)}`,
+    text: `You’re subscribed to AI SRE Watchlist updates. Unsubscribe at any time: ${unsubscribeUrl(createUnsubscribeToken(options.subscriptionId, environment.NEWSLETTER_UNSUBSCRIBE_SECRET), environment.NEXT_PUBLIC_SITE_URL)}`,
   });
   if (result.error) throw new Error("Newsletter email delivery failed");
 }
@@ -107,12 +106,13 @@ export function newsletterStore() {
       try {
         await sendWelcomeEmail({
           email: input.email,
-          frequency: input.frequency,
           subscriptionId: subscription.id,
         });
       } catch (error) {
         // Do not expose provider details or addresses to the public form.
-        console.error("Newsletter welcome email could not be sent", error);
+        console.error("Newsletter welcome email could not be sent", {
+          errorType: error instanceof Error ? error.name : "UnknownError",
+        });
       }
     },
 

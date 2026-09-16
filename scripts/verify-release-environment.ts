@@ -7,6 +7,7 @@ const secretNames = [
   "AUTH_INTENT_SECRET",
   "ANALYTICS_HASH_SECRET",
   "SUBMISSION_HASH_SECRET",
+  "NEWSLETTER_RATE_LIMIT_SECRET",
 ] as const;
 
 export function releaseEnvironmentIssues(
@@ -50,7 +51,6 @@ export function releaseEnvironmentIssues(
   if (resendKey && resendSender) {
     for (const name of [
       "NEWSLETTER_UNSUBSCRIBE_SECRET",
-      "NEWSLETTER_RATE_LIMIT_SECRET",
     ] as const) {
       const value = env[name]?.trim();
       if (!value || value.length < 32)

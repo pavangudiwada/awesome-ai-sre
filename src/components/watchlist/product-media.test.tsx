@@ -39,4 +39,10 @@ describe("ProductMedia", () => {
     expect(image).toHaveAttribute("data-preload", "false");
     expect(image).toHaveAttribute("data-loading", "lazy");
   });
+
+  it("uses the product mark when a screenshot is unavailable", () => {
+    render(<ProductMedia name="Oodle" logoSrc="/logos/oodle.png" />);
+
+    expect(screen.getByRole("img", { name: "Oodle logo" })).toBeInTheDocument();
+  });
 });

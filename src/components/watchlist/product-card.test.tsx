@@ -23,7 +23,13 @@ const product: ProductSummary = {
 
 describe("ProductCard", () => {
   it("caps badges and exposes one explicit save action", () => {
-    render(<ProductCard product={product} onSaveChange={() => undefined} />)
+    render(
+      <ProductCard
+        product={product}
+        onSaveChange={() => undefined}
+        privateWorkflowsAvailable
+      />,
+    )
 
     expect(screen.getByText("Incident AI")).toBeInTheDocument()
     expect(screen.getByText("Open source")).toBeInTheDocument()
@@ -36,10 +42,24 @@ describe("ProductCard", () => {
     const user = userEvent.setup()
     const onSaveChange = vi.fn()
 
-    render(<ProductCard product={product} onSaveChange={onSaveChange} />)
+    render(
+      <ProductCard
+        product={product}
+        onSaveChange={onSaveChange}
+        privateWorkflowsAvailable
+      />,
+    )
     await user.click(screen.getByRole("button", { name: "Save HolmesGPT" }))
 
     expect(onSaveChange).toHaveBeenCalledWith(product, true)
     expect(screen.queryByText(/follow/i)).not.toBeInTheDocument()
+  })
+
+  it("keeps the save control in place but disables it for launch", () => {
+    render(<ProductCard product={product} onSaveChange={() => undefined} />)
+
+    expect(
+      screen.getByRole("button", { name: "Save HolmesGPT — coming soon" }),
+    ).toBeDisabled()
   })
 })
