@@ -7,6 +7,7 @@ vi.mock("server-only", () => ({}));
 vi.mock("@/actions/auth", () => ({ signOut: mocks.signOut }));
 vi.mock("@/db", () => ({ getPostgresClient: () => mocks.sql }));
 vi.mock("@/lib/auth/actions", () => ({ getAuthenticatedPractitionerId: mocks.practitioner }));
+vi.mock("@/lib/auth/server", () => ({ isAuthConfigured: () => true }));
 vi.mock("@/lib/catalog", () => ({ getCompanies: mocks.companies }));
 vi.mock("./public-updates", () => ({ getPublicHeaderUpdates: mocks.updates }));
 

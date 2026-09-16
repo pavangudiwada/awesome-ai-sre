@@ -7,6 +7,7 @@ import type {
 import { signOut } from "@/actions/auth";
 import { getPostgresClient } from "@/db";
 import { getAuthenticatedPractitionerId } from "@/lib/auth/actions";
+import { isAuthConfigured } from "@/lib/auth/server";
 import { getCompanies } from "@/lib/catalog";
 
 import {
@@ -51,6 +52,7 @@ function presentNotifications(
 }
 
 async function getAvailablePublicUpdates(): Promise<PublicHeaderUpdate[]> {
+  if (!isAuthConfigured()) return [];
   try {
     return await getPublicHeaderUpdates();
   } catch {
