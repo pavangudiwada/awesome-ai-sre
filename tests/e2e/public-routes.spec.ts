@@ -86,6 +86,19 @@ test.describe("public Watchlist routes", () => {
     await expectPublicPageGuardrails(page, testInfo);
   });
 
+  test("company discovery is available from the public navigation and has source-backed profiles", async ({ page }, testInfo) => {
+    await openRoute(page, "/");
+
+    await page.getByRole("link", { name: /company profiles/i }).click();
+    await expect(page).toHaveURL(/\/companies$/);
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Explore the teams behind the products" }),
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "RunWhen", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "View company", exact: true }).first()).toBeVisible();
+    await expectPublicPageGuardrails(page, testInfo);
+  });
+
   test("tools search, category toggles, and deployment filters work without a sidebar", async ({ page }, testInfo) => {
     await openRoute(page, "/tools");
 

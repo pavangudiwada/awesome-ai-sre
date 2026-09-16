@@ -26,4 +26,13 @@ describe("release environment", () => {
       }).join("\n"),
     ).toMatch(/TRUST_PROXY|BETTER_AUTH_URL|BETTER_AUTH_SECRET|RESEND/);
   });
+  it("requires newsletter secrets when Resend is enabled", () => {
+    expect(
+      releaseEnvironmentIssues({
+        ...valid,
+        RESEND_API_KEY: "key",
+        RESEND_SENDER_EMAIL: "newsletter@example.com",
+      }).join("\n"),
+    ).toMatch(/NEWSLETTER_UNSUBSCRIBE_SECRET|NEWSLETTER_RATE_LIMIT_SECRET/);
+  });
 });

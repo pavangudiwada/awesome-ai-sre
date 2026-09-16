@@ -1,5 +1,6 @@
 export * from "./auth-panel"
 export * from "./brand-mark"
+export * from "./company-card"
 export * from "./filter-bar"
 export * from "./marketplace-hero"
 export * from "./product-card"

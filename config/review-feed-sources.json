@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "productSlug": "holmesgpt",
+      "feedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom"
+    },
+    {
+      "productSlug": "k8sgpt",
+      "feedUrl": "https://github.com/k8sgpt-ai/k8sgpt/releases.atom"
+    },
+    {
+      "productSlug": "kagent",
+      "feedUrl": "https://github.com/kagent-dev/kagent/releases.atom"
+    }
+  ]
+}

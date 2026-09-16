@@ -1,0 +1,11 @@
+[Unit]
+Description=Send the monthly AI SRE Watchlist newsletter digest
+
+[Timer]
+OnCalendar=*-*-01 07:20:00 UTC
+Persistent=true
+RandomizedDelaySec=10m
+Unit=ai-sre-newsletter@monthly.service
+
+[Install]
+WantedBy=timers.target

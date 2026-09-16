@@ -75,6 +75,7 @@ import { getInitials } from "./utils"
 
 const DEFAULT_NAV_ITEMS: WatchlistNavItem[] = [
   { label: "Tools", href: "/tools" },
+  { label: "Companies", href: "/companies" },
   { label: "Observability", href: "/observability" },
   { label: "Resources", href: "/resources" },
   { label: "Updates", href: "/updates" },
@@ -113,8 +114,7 @@ export function SiteHeader({
     active:
       item.active ??
       (pathname === item.href ||
-        pathname.startsWith(`${item.href}/`) ||
-        (item.href === "/tools" && pathname.startsWith("/companies/"))),
+        pathname.startsWith(`${item.href}/`)),
   }))
 
   useEffect(() => {

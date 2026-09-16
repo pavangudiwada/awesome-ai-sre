@@ -47,6 +47,16 @@ export function releaseEnvironmentIssues(
     issues.push(
       "RESEND_API_KEY and RESEND_SENDER_EMAIL must be configured together or both omitted",
     );
+  if (resendKey && resendSender) {
+    for (const name of [
+      "NEWSLETTER_UNSUBSCRIBE_SECRET",
+      "NEWSLETTER_RATE_LIMIT_SECRET",
+    ] as const) {
+      const value = env[name]?.trim();
+      if (!value || value.length < 32)
+        issues.push(`${name} must be at least 32 characters when Resend is enabled`);
+    }
+  }
   return issues;
 }
 
@@ -55,7 +65,7 @@ function main() {
   if (issues.length)
     throw new Error(`Unsafe production environment:\n- ${issues.join("\n- ")}`);
   process.stdout.write(
-    "Verified plain PostgreSQL, Better Auth, canonical host, trusted proxy, and optional Resend configuration without printing values.\n",
+    "Verified plain PostgreSQL, Better Auth, canonical host, trusted proxy, and optional Resend/newsletter configuration without printing values.\n",
   );
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href)

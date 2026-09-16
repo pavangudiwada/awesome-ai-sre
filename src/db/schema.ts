@@ -27,6 +27,12 @@ export type EvaluationDecision = "undecided" | "advance" | "hold" | "reject";
 export type AnalyticsEventType =
   "profile_view" | "outbound_click" | "update_view" | "share";
 export type AnalyticsSubjectKind = "product" | "company" | "update";
+export type NewsletterFrequency = "weekly" | "monthly";
+export type NewsletterSubscriptionStatus = "active" | "unsubscribed";
+export type NewsletterDigestDeliveryStatus =
+  | "pending"
+  | "delivered"
+  | "failed";
 
 const timestamps = () => ({
   createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
@@ -687,6 +693,127 @@ export const analyticsIngestionLimits = privateSchema.table(
     ),
     check(
       "analytics_ingestion_limits_request_count_positive",
+      sql`${table.requestCount} > 0`,
+    ),
+  ],
+);
+
+// Newsletter consent is deliberately separate from authentication, saved
+// products, and company follows. Email addresses stay in the private schema.
+export const newsletterSubscriptions = privateSchema.table(
+  "newsletter_subscriptions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    email: text("email").notNull(),
+    frequency: text("frequency").$type<NewsletterFrequency>().notNull(),
+    status: text("status")
+      .$type<NewsletterSubscriptionStatus>()
+      .default("active")
+      .notNull(),
+    consentText: text("consent_text").notNull(),
+    consentedAt: timestamp("consented_at", {
+      withTimezone: true,
+      mode: "date",
+    })
+      .defaultNow()
+      .notNull(),
+    unsubscribedAt: timestamp("unsubscribed_at", {
+      withTimezone: true,
+      mode: "date",
+    }),
+    ...timestamps(),
+  },
+  (table) => [
+    uniqueIndex("newsletter_subscriptions_email_unique_idx").on(table.email),
+    index("newsletter_subscriptions_status_frequency_idx").on(
+      table.status,
+      table.frequency,
+    ),
+    check(
+      "newsletter_subscriptions_frequency",
+      sql`${table.frequency} in ('weekly', 'monthly')`,
+    ),
+    check(
+      "newsletter_subscriptions_status",
+      sql`${table.status} in ('active', 'unsubscribed')`,
+    ),
+    check(
+      "newsletter_subscriptions_email_bounds",
+      sql`length(${table.email}) between 3 and 320`,
+    ),
+  ],
+);
+
+export const newsletterDigestDeliveries = privateSchema.table(
+  "newsletter_digest_deliveries",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    subscriptionId: uuid("subscription_id")
+      .notNull()
+      .references(() => newsletterSubscriptions.id, { onDelete: "cascade" }),
+    frequency: text("frequency").$type<NewsletterFrequency>().notNull(),
+    periodStart: date("period_start", { mode: "string" }).notNull(),
+    periodEnd: date("period_end", { mode: "string" }).notNull(),
+    updateIds: jsonb("update_ids").$type<string[]>().notNull(),
+    status: text("status")
+      .$type<NewsletterDigestDeliveryStatus>()
+      .default("pending")
+      .notNull(),
+    attemptCount: integer("attempt_count").default(1).notNull(),
+    providerMessageId: text("provider_message_id"),
+    lastError: text("last_error"),
+    ...timestamps(),
+  },
+  (table) => [
+    uniqueIndex("newsletter_digest_deliveries_period_unique_idx").on(
+      table.subscriptionId,
+      table.frequency,
+      table.periodStart,
+    ),
+    index("newsletter_digest_deliveries_status_idx").on(
+      table.status,
+      table.updatedAt,
+    ),
+    check(
+      "newsletter_digest_deliveries_frequency",
+      sql`${table.frequency} in ('weekly', 'monthly')`,
+    ),
+    check(
+      "newsletter_digest_deliveries_status",
+      sql`${table.status} in ('pending', 'delivered', 'failed')`,
+    ),
+    check(
+      "newsletter_digest_deliveries_period_order",
+      sql`${table.periodStart} < ${table.periodEnd}`,
+    ),
+    check(
+      "newsletter_digest_deliveries_attempt_count",
+      sql`${table.attemptCount} between 1 and 20`,
+    ),
+  ],
+);
+
+export const newsletterSignupRateLimits = privateSchema.table(
+  "newsletter_signup_rate_limits",
+  {
+    windowStartedAt: timestamp("window_started_at", {
+      withTimezone: true,
+      mode: "date",
+    }).notNull(),
+    sourceHash: text("source_hash").notNull(),
+    requestCount: integer("request_count").notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.windowStartedAt, table.sourceHash] }),
+    index("newsletter_signup_rate_limits_expiry_idx").on(
+      table.windowStartedAt,
+    ),
+    check(
+      "newsletter_signup_rate_limits_source_hash_length",
+      sql`length(${table.sourceHash}) = 64`,
+    ),
+    check(
+      "newsletter_signup_rate_limits_request_count_positive",
       sql`${table.requestCount} > 0`,
     ),
   ],

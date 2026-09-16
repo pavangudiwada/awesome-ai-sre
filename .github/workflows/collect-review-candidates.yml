@@ -1,0 +1,53 @@
+name: Collect review candidates
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: collect-review-candidates-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run collect:review-candidates
+      - uses: actions/upload-artifact@v4
+        with:
+          name: review-release-candidates
+          path: data/review-queue/release-candidates.json
+          if-no-files-found: error
+
+      - name: Commit only deterministic review queue changes
+        run: |
+          git diff --check
+          changed="$(git diff --name-only)"
+          if [ -z "$changed" ]; then
+            echo "No candidate changes."
+            exit 0
+          fi
+          if [ "$changed" != "data/review-queue/release-candidates.json" ]; then
+            echo "Refusing to commit files outside the review queue: $changed" >&2
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/review-queue/release-candidates.json
+          git commit -m "chore: collect review candidates [skip ci]"
+          git push origin HEAD:${GITHUB_REF_NAME}

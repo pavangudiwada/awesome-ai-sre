@@ -54,6 +54,16 @@ describe("SiteHeader", () => {
     }
   })
 
+  it("includes the public company directory in navigation", () => {
+    renderHeader()
+
+    const companyLinks = screen.getAllByRole("link", { name: "Companies" })
+    expect(companyLinks).toHaveLength(1)
+    for (const link of companyLinks) {
+      expect(link).toHaveAttribute("href", "/companies")
+    }
+  })
+
   it.each([
     ["desktop popover", 0],
     ["mobile sheet", 1],

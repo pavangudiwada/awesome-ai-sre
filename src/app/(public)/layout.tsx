@@ -17,6 +17,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
             </p>
           </div>
           <nav className="flex flex-wrap gap-x-5 gap-y-3" aria-label="Footer">
+            <Link href="/#newsletter" className="hover:underline">Newsletter</Link>
             <Link href="/methodology" className="hover:underline">Methodology</Link>
             <Link href="/editorial-policy" className="hover:underline">Editorial policy</Link>
             <Link href="/submit/correction" className="hover:underline">Submit a correction</Link>

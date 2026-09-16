@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     "",
     "/tools",
+    "/companies",
     "/observability",
     "/resources",
     "/updates",
