@@ -1,8 +1,23 @@
-# exe.dev launch-test runtime
+# exe.dev launch runtime
 
-This is the isolated runtime for AI SRE Watchlist launch validation. It does
-not connect to the disconnected hosted Supabase project or use credentials from
-local `.env*` files.
+## Current launch state
+
+**Verified 2026-09-16.** The public canonical domain is
+`https://aisrewatchlist.com` on the existing exe VM. The root and readiness
+endpoint return HTTPS `200`; `www.aisrewatchlist.com` and the former hostname
+redirect to the canonical host while preserving paths and queries. Releases are
+immutable Git `main` SHAs, not transferred dirty snapshots.
+
+Resend is configured with a verified sender and the application now exposes
+the email sign-in form. No real magic-link email has been sent; send one only
+with the user's explicit permission.
+
+The encrypted R2 recovery proof completed for snapshot `8040480d`, restoring
+the retrieved PostgreSQL dump and verifying 2 users, 18 company references,
+and 114 product references. The scheduled job runs daily at 03:30 UTC and
+retains seven daily plus four weekly R2 snapshots.
+
+The sections below retain the launch-test setup and operating procedure.
 
 ## Installed VM boundary
 
@@ -15,11 +30,10 @@ local `.env*` files.
 - Release root: `/srv/awesome-ai-sre`, with `releases/`, `current`, and
   server-only files below `shared/`
 
-`ops/exe/ai-sre.service` deliberately keeps the app on loopback. External
-preview access requires an explicitly configured trusted reverse proxy that
-sets the application origin and strips client-supplied forwarding headers.
-Until then, screenshots and authenticated browser checks run on the VM through
-loopback or an SSH tunnel. Do not call the loopback deployment a public preview.
+`ops/exe/ai-sre.service` keeps the app on loopback behind the configured trusted
+reverse proxy, which sets the canonical application origin and strips
+client-supplied forwarding headers. Public access is served at the canonical
+domain above; VM loopback remains useful for maintenance checks.
 
 ## Encrypted off-host database recovery
 
@@ -96,12 +110,11 @@ Use `ops/exe/deploy-release.sh` for the symlink-and-restart step. It only
 accepts a directory below `releases/`, takes the same operations lock as the
 backup service, and requires a loopback homepage health response after restart.
 
-The required app environment will include the loopback `DATABASE_URL`,
-`BETTER_AUTH_SECRET`, and the canonical `BETTER_AUTH_URL`. Email and OAuth are
-external integration gates: keep Resend credentials and OAuth client secrets
-out of the repository, and do not send real magic links from this launch-test
-runtime.
+The required app environment includes the loopback `DATABASE_URL`,
+`BETTER_AUTH_SECRET`, canonical `BETTER_AUTH_URL`, and protected Resend
+credentials. Keep all credentials out of the repository. Real magic-link
+delivery remains a user-authorized production check.
 
-For the present dirty working tree, record both the base Git SHA and a
-content digest for the transferred snapshot. A release becomes immutable only
-when its source is tied to a reviewed full Git SHA.
+Historical launch-test snapshots used a dirty working tree plus a content
+digest. Current releases must use the reviewed immutable full SHA from
+`origin/main` through `ops/exe/deploy-main.sh`.
