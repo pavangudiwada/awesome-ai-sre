@@ -5,7 +5,8 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { internalReturnPathSchema } from "@/lib/auth/schemas";
-import { createClient } from "@/lib/supabase/server";
+import { consumeMagicLinkBudget } from "@/lib/auth/rate-limit";
+import { getAuth, isAuthConfigured, isMagicLinkConfigured } from "@/lib/auth/server";
 
 const emailSchema = z.string().trim().toLowerCase().email().max(320);
 const providerSchema = z.enum(["google", "github"]);
@@ -15,16 +16,13 @@ function signInErrorUrl(message: string, next: string) {
   return `/sign-in?${query.toString()}`;
 }
 
-async function requestOrigin() {
-  const configured = process.env.NEXT_PUBLIC_SITE_URL;
-  if (configured) return new URL(configured).origin;
-  const requestHeaders = await headers();
-  return requestHeaders.get("origin") ?? "http://localhost:3000";
-}
-
 function parseReturnTo(formData: FormData) {
   const result = internalReturnPathSchema.safeParse(formData.get("next"));
   return result.success ? result.data : "/workspace/saved";
+}
+
+function completionUrl(returnTo: string) {
+  return `/auth/complete?next=${encodeURIComponent(returnTo)}`;
 }
 
 export async function signInWithOAuth(
@@ -33,21 +31,18 @@ export async function signInWithOAuth(
 ) {
   const provider = providerSchema.parse(providerInput);
   const returnTo = parseReturnTo(formData);
-  const origin = await requestOrigin();
-  const callbackUrl = new URL("/auth/callback", origin);
-  callbackUrl.searchParams.set("next", returnTo);
+  if (!isAuthConfigured()) redirect(signInErrorUrl("Sign-in is not configured in this environment.", returnTo));
 
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider,
-    options: { redirectTo: callbackUrl.toString() },
+  const result = await getAuth().api.signInSocial({
+    body: { provider, callbackURL: completionUrl(returnTo), errorCallbackURL: "/sign-in" },
+    headers: await headers(),
   });
 
-  if (error || !data.url) {
+  if (!result.url) {
     redirect(signInErrorUrl("Unable to start provider sign-in.", returnTo));
   }
 
-  redirect(data.url);
+  redirect(result.url);
 }
 
 export async function sendMagicLink(formData: FormData) {
@@ -57,21 +52,18 @@ export async function sendMagicLink(formData: FormData) {
   if (!emailResult.success) {
     redirect(signInErrorUrl("Enter a valid email address.", returnTo));
   }
-
-  const origin = await requestOrigin();
-  const confirmUrl = new URL("/auth/confirm", origin);
-  confirmUrl.searchParams.set("next", returnTo);
-
-  const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithOtp({
-    email: emailResult.data,
-    options: {
-      emailRedirectTo: confirmUrl.toString(),
-      shouldCreateUser: true,
-    },
-  });
-
-  if (error) {
+  if (!isAuthConfigured() || !isMagicLinkConfigured()) redirect(signInErrorUrl("Email sign-in is not configured in this environment.", returnTo));
+  try {
+    const requestHeaders = await headers();
+    const budget = await consumeMagicLinkBudget(emailResult.data, requestHeaders);
+    if (!budget.allowed) {
+      redirect(signInErrorUrl("Too many sign-in links requested. Please try again later.", returnTo));
+    }
+    await getAuth().api.signInMagicLink({
+      body: { email: emailResult.data, callbackURL: completionUrl(returnTo), errorCallbackURL: "/sign-in" },
+      headers: requestHeaders,
+    });
+  } catch {
     redirect(signInErrorUrl("Unable to send a sign-in link right now.", returnTo));
   }
 
@@ -84,7 +76,8 @@ export async function sendMagicLink(formData: FormData) {
 }
 
 export async function signOut() {
-  const supabase = await createClient();
-  await supabase.auth.signOut();
+  if (isAuthConfigured()) {
+    await getAuth().api.signOut({ headers: await headers() });
+  }
   redirect("/");
 }

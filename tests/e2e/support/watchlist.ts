@@ -23,7 +23,9 @@ export async function expectPublicPageGuardrails(
 
   // The retired directory rail rendered Category as a heading inside an aside.
   // Profile research asides remain valid, so the assertion is intentionally narrow.
-  await expect(page.locator("aside").getByText(/^Category$/i)).toHaveCount(0);
+  await expect(
+    page.locator("aside").getByRole("heading", { name: "Category", exact: true }),
+  ).toHaveCount(0);
 }
 
 export async function expectNoHorizontalOverflow(

@@ -2,6 +2,7 @@ import Link from "next/link"
 import { BookmarkIcon, FolderPlusIcon, RssIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 import type { ServerFormAction } from "./types"
 
@@ -12,6 +13,11 @@ interface ProfileProductActionsProps {
   saveAction: ServerFormAction
   evaluationHref: string
   returnTo?: string
+  orientation?: "horizontal" | "vertical"
+  evaluationFirst?: boolean
+  evaluationVariant?: "default" | "outline"
+  evaluationAriaLabel?: string
+  saveAriaLabel?: string
 }
 
 export function ProfileProductActions({
@@ -21,30 +27,54 @@ export function ProfileProductActions({
   saveAction,
   evaluationHref,
   returnTo,
+  orientation = "horizontal",
+  evaluationFirst = false,
+  evaluationVariant = "outline",
+  evaluationAriaLabel,
+  saveAriaLabel,
 }: ProfileProductActionsProps) {
-  return (
-    <div className="flex flex-wrap gap-2">
-      <form action={saveAction}>
-        <input type="hidden" name="productSlug" value={productSlug} />
-        <input type="hidden" name="saved" value={saved ? "false" : "true"} />
-        {returnTo ? <input type="hidden" name="returnTo" value={returnTo} /> : null}
-        <Button
-          type="submit"
-          variant={saved ? "secondary" : "outline"}
-          className="h-11"
-          aria-pressed={saved}
-          aria-label={saved ? `Remove ${productName} from saved` : `Save ${productName}`}
-        >
-          <BookmarkIcon data-icon="inline-start" fill={saved ? "currentColor" : "none"} />
-          {saved ? "Saved" : "Save"}
-        </Button>
-      </form>
-      <Button asChild variant="outline" className="h-11">
-        <Link href={evaluationHref}>
-          <FolderPlusIcon data-icon="inline-start" />
-          Add to evaluation
-        </Link>
+  const saveControl = (
+    <form action={saveAction} className={cn(orientation === "vertical" && "w-full")}>
+      <input type="hidden" name="productSlug" value={productSlug} />
+      <input type="hidden" name="saved" value={saved ? "false" : "true"} />
+      {returnTo ? <input type="hidden" name="returnTo" value={returnTo} /> : null}
+      <Button
+        type="submit"
+        variant={saved ? "secondary" : "outline"}
+        className={cn("h-11", orientation === "vertical" && "w-full")}
+        aria-pressed={saved}
+        aria-label={
+          saveAriaLabel ??
+          (saved ? `Remove ${productName} from saved` : `Save ${productName}`)
+        }
+      >
+        <BookmarkIcon data-icon="inline-start" fill={saved ? "currentColor" : "none"} />
+        {saved ? "Saved" : "Save product"}
       </Button>
+    </form>
+  )
+  const evaluationControl = (
+    <Button
+      asChild
+      variant={evaluationVariant}
+      className={cn("h-11", orientation === "vertical" && "w-full")}
+    >
+      <Link href={evaluationHref} aria-label={evaluationAriaLabel}>
+        <FolderPlusIcon data-icon="inline-start" />
+        Add to evaluation
+      </Link>
+    </Button>
+  )
+
+  return (
+    <div
+      className={cn(
+        "flex gap-2",
+        orientation === "vertical" ? "w-full flex-col" : "flex-wrap",
+      )}
+    >
+      {evaluationFirst ? evaluationControl : saveControl}
+      {evaluationFirst ? saveControl : evaluationControl}
     </div>
   )
 }
@@ -65,7 +95,7 @@ export function CompanyFollowAction({
   return (
     <form action={action}>
       <input type="hidden" name="companySlug" value={companySlug} />
-      <input type="hidden" name="following" value={following ? "false" : "true"} />
+      <input type="hidden" name="followed" value={following ? "false" : "true"} />
       <Button
         type="submit"
         variant={following ? "secondary" : "outline"}

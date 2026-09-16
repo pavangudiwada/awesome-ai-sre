@@ -194,6 +194,8 @@ export interface CatalogValidationIssue {
   readonly severity: ValidationSeverity;
   readonly code: string;
   readonly sourceFile: string;
+  /** Stable catalog record identity used by the warning regression baseline. */
+  readonly recordId?: string;
   readonly message: string;
 }
 

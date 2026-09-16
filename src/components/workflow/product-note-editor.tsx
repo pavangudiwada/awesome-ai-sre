@@ -1,10 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, useTransition } from "react";
 import { toast } from "sonner";
 
 import { ProductNoteEditor } from "@/components/watchlist";
 import { upsertProductNoteAction } from "@/actions/workflows";
+
+const subscribeToHydration = () => () => undefined;
+const getHydratedSnapshot = () => true;
+const getServerHydratedSnapshot = () => false;
 
 export function ConnectedProductNoteEditor({
   productSlug,
@@ -19,6 +23,11 @@ export function ConnectedProductNoteEditor({
   const [isPending, startTransition] = useTransition();
   const [lastSavedValue, setLastSavedValue] = useState(initialValue);
   const firstRender = useRef(true);
+  const isHydrated = useSyncExternalStore(
+    subscribeToHydration,
+    getHydratedSnapshot,
+    getServerHydratedSnapshot,
+  );
 
   function save() {
     if (value === lastSavedValue) return;
@@ -59,7 +68,7 @@ export function ConnectedProductNoteEditor({
             ? "Saved privately"
             : "Unsaved changes"
       }
-      disabled={isPending}
+      disabled={!isHydrated || isPending}
     />
   );
 }

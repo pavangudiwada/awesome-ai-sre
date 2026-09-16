@@ -3,6 +3,10 @@ import type { Metadata } from "next";
 import { saveProductAction } from "@/actions/workflows";
 import { CatalogDirectory, type DirectoryProduct } from "@/components/catalog/catalog-directory";
 import { getCompanies, getProducts } from "@/lib/catalog";
+import {
+  parseDirectoryQuery,
+  type DirectorySearchParams,
+} from "@/lib/catalog/directory-query";
 import { companyMap, toProductSummary } from "@/lib/presentation/catalog";
 import { getSavedProductSlugs } from "@/lib/workflows/queries";
 
@@ -24,12 +28,26 @@ const TAG_CATEGORIES: Record<string, string> = {
   Deployment: "runbooks",
 };
 
+const TOOL_DIRECTORY_CATEGORIES = [
+  "all",
+  "ai-sre",
+  "incident-ai",
+  "observability",
+  "aiops",
+  "runbooks",
+  "learning",
+  "oss",
+] as const;
+
 export default async function ToolsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<DirectorySearchParams>;
 }) {
-  const { q = "" } = await searchParams;
+  const initialState = parseDirectoryQuery(
+    await searchParams,
+    TOOL_DIRECTORY_CATEGORIES,
+  );
   const products = getProducts();
   const companies = companyMap(getCompanies());
   const directoryProducts: DirectoryProduct[] = products.map((product) => ({
@@ -57,7 +75,7 @@ export default async function ToolsPage({
       <CatalogDirectory
         products={directoryProducts}
         savedSlugs={savedSlugs}
-        initialQuery={q}
+        initialState={initialState}
         saveAction={saveProductAction}
       />
     </main>

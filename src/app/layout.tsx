@@ -20,7 +20,8 @@ const geistMono = Geist_Mono({
 });
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://aisre.pavangudiwada.dev";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://aisrewatchlist.com";
+const isVercelDeployment = process.env.VERCEL === "1";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -73,7 +74,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         <AppProviders>{children}</AppProviders>
-        <Analytics />
+        {isVercelDeployment ? <Analytics /> : null}
       </body>
     </html>
   );

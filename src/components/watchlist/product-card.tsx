@@ -47,7 +47,7 @@ export function ProductCard({
             name={product.name}
             src={product.screenshotSrc}
             alt={product.screenshotAlt}
-            priority={mediaPriority}
+            preload={mediaPriority}
             className="transition-transform duration-200 group-hover:scale-[1.01] motion-reduce:transform-none motion-reduce:transition-none"
           />
         </Link>

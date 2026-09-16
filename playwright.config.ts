@@ -3,6 +3,10 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "./tests/e2e",
   fullyParallel: true,
+  // Next development compilation can leave concurrent first requests on the
+  // loading shell. Run browser journeys serially so this release gate measures
+  // the application instead of Turbopack warm-up contention.
+  workers: 1,
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? "github" : "html",
   use: {

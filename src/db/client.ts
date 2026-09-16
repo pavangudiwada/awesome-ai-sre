@@ -30,10 +30,11 @@ function createDatabaseSingleton(): DatabaseSingleton {
     DATABASE_URL: process.env.DATABASE_URL,
   });
 
-  // Supabase's transaction pooler does not support prepared statements.
+  // The application uses one server-only PostgreSQL connection per process.
   const client = postgres(environment.DATABASE_URL, {
     max: 1,
     prepare: false,
+    connect_timeout: 5,
   });
   const db = drizzle(client, { schema });
 

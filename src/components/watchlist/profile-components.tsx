@@ -147,7 +147,7 @@ export function ProductProfileHeader({
             name={name}
             src={screenshotSrc}
             alt={screenshotAlt}
-            priority
+            preload
           />
         </div>
       </div>

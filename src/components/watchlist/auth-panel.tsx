@@ -41,7 +41,7 @@ const DEFAULT_BENEFITS: AuthBenefit[] = [
 ]
 
 interface AuthPanelProps {
-  magicLinkAction: ServerFormAction
+  magicLinkAction?: ServerFormAction
   googleAction?: ServerFormAction
   githubAction?: ServerFormAction
   benefits?: AuthBenefit[]
@@ -193,7 +193,7 @@ export function AuthPanel({
 
               {hasOAuth ? <FieldSeparator>or use email</FieldSeparator> : null}
 
-              <form action={magicLinkAction}>
+              {magicLinkAction ? <form action={magicLinkAction}>
                 {nextPath ? <input type="hidden" name="next" value={nextPath} /> : null}
                 <FieldGroup>
                   <Field>
@@ -219,7 +219,13 @@ export function AuthPanel({
                     </Button>
                   </Field>
                 </FieldGroup>
-              </form>
+              </form> : (
+                <Alert>
+                  <MailIcon />
+                  <AlertTitle>Email sign-in is not available yet</AlertTitle>
+                  <AlertDescription>Use a configured provider, or check back after email delivery is enabled.</AlertDescription>
+                </Alert>
+              )}
             </FieldGroup>
           </CardContent>
 

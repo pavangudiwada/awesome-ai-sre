@@ -59,7 +59,7 @@ type EvaluationRow = {
   goal: string | null;
   requirements: string | null;
   risks: string | null;
-  decision: string | null;
+  decision: "undecided" | "advance" | "hold" | "reject";
   created_at: string;
   updated_at: string;
 };
@@ -362,7 +362,19 @@ export type Database = {
       >;
     };
     Views: { [_ in never]: never };
-    Functions: { [_ in never]: never };
+    Functions: {
+      create_evaluation_with_product: {
+        Args: {
+          evaluation_name: string;
+          evaluation_goal?: string;
+          evaluation_requirements?: string;
+          evaluation_risks?: string;
+          evaluation_decision?: EvaluationRow["decision"];
+          initial_product_slug?: string | null;
+        };
+        Returns: string;
+      };
+    };
     Enums: { [_ in never]: never };
     CompositeTypes: { [_ in never]: never };
   };

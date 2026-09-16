@@ -1,20 +1,12 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 
-import { markUpdateReadAction } from "@/actions/workflows";
-import { SiteHeader } from "@/components/watchlist";
-import { getHeaderState } from "@/lib/presentation/header";
+import { PublicSiteHeader } from "@/components/watchlist/public-site-header";
 
-export default async function PublicLayout({ children }: { children: ReactNode }) {
-  const { viewer, notifications } = await getHeaderState();
-
+export default function PublicLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <SiteHeader
-        viewer={viewer}
-        notifications={notifications}
-        markNotificationReadAction={markUpdateReadAction}
-      />
+      <PublicSiteHeader />
       {children}
       <footer className="border-t bg-card">
         <div className="mx-auto grid max-w-screen-2xl gap-8 px-4 py-10 text-sm sm:px-6 md:grid-cols-[1fr_auto] lg:px-8">

@@ -205,6 +205,18 @@ export function getUpdates(): readonly ContentDocument<UpdateMetadata>[] {
   return getPublishedContentDocuments("update") as readonly ContentDocument<UpdateMetadata>[];
 }
 
+export function contentPublicPath(metadata: ContentMetadata): string | undefined {
+  switch (metadata.kind) {
+    case "resource":
+      return `/resources/${metadata.slug}`;
+    case "update":
+      return `/updates/${metadata.slug}`;
+    case "comparison":
+    case "blog":
+      return undefined;
+  }
+}
+
 export function isPublishedContent(metadata: ContentMetadata): boolean {
   return metadata.status === "published";
 }

@@ -42,6 +42,9 @@ import {
   getSavedProductSlugs,
 } from "@/lib/workflows/queries";
 
+// Save/follow state and reviewed updates are request-specific PostgreSQL data.
+export const dynamic = "force-dynamic";
+
 export function generateStaticParams() {
   return getCompanies().map((company) => ({ slug: company.slug }));
 }

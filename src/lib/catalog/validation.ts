@@ -44,6 +44,7 @@ function validateAsset(
       severity: "warning",
       code: "missing_asset_reference",
       sourceFile,
+      recordId: ownerSlug,
       message: `"${ownerSlug}" has no asset path`,
     });
     return;
@@ -54,6 +55,7 @@ function validateAsset(
       severity: "warning",
       code: "missing_asset_file",
       sourceFile,
+      recordId: ownerSlug,
       message: `"${ownerSlug}" references missing public asset ${assetPath}`,
     });
   }
@@ -74,11 +76,12 @@ function validateContentReferences(
 
     for (const productSlug of referencedProductSlugs) {
       if (!productSlugs.has(productSlug)) {
-        issues.push({
-          severity,
-          code: "content_product_missing",
-          sourceFile: document.sourceFile,
-          message: `references product "${productSlug}", which is not in tools/operate`,
+          issues.push({
+            severity,
+            code: "content_product_missing",
+            sourceFile: document.sourceFile,
+            recordId: `${document.metadata.kind}:${document.metadata.slug}:${productSlug}`,
+            message: `references product "${productSlug}", which is not in tools/operate`,
         });
       }
     }
@@ -90,6 +93,7 @@ function validateContentReferences(
             severity,
             code: "content_company_missing",
             sourceFile: document.sourceFile,
+            recordId: `${document.metadata.kind}:${document.metadata.slug}:${companySlug}`,
             message: `references company "${companySlug}", which is not in tools/companies`,
           });
         }
@@ -158,6 +162,7 @@ export function validateCatalog(): CatalogValidationReport {
           severity: "warning",
           code: "company_product_missing",
           sourceFile: company.sourceFile,
+          recordId: productSlug,
           message: `maps product "${productSlug}", which is not yet in tools/operate`,
         });
       }
@@ -170,6 +175,7 @@ export function validateCatalog(): CatalogValidationReport {
         severity: "warning",
         code: "product_company_unmapped",
         sourceFile: product.sourceFile,
+        recordId: product.slug,
         message: `product "${product.slug}" has no explicit company mapping`,
       });
     }
@@ -207,6 +213,7 @@ export function validateCatalog(): CatalogValidationReport {
           severity: "warning",
           code: "cohort_product_missing",
           sourceFile: cohortResult.cohort.sourceFile,
+          recordId: entry.productSlug,
           message: `priority ${entry.priority} requires a product record for "${entry.productSlug}"`,
         });
       }

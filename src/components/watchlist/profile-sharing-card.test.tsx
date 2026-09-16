@@ -15,7 +15,7 @@ const toastMocks = vi.hoisted(() => ({
 
 vi.mock("sonner", () => ({ toast: toastMocks }))
 
-const canonicalUrl = "https://aisre.pavangudiwada.dev/tools/holmesgpt"
+const canonicalUrl = "https://aisrewatchlist.com/tools/holmesgpt"
 
 function setClipboard(writeText: (value: string) => Promise<void>) {
   Object.defineProperty(navigator, "clipboard", {

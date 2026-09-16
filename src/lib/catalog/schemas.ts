@@ -148,6 +148,19 @@ function requirePublishedDate(
   }
 }
 
+function rejectPublicationWithoutPublicRoute(
+  value: { readonly kind: "comparison" | "blog"; readonly status: string },
+  context: z.RefinementCtx,
+): void {
+  if (value.status === "published") {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["status"],
+      message: `${value.kind} content cannot be published until its substantive public route exists`,
+    });
+  }
+}
+
 export const comparisonMetadataSchema = z
   .object({
     ...baseContentShape,
@@ -158,7 +171,10 @@ export const comparisonMetadataSchema = z
     methodologyVersion: z.string().trim().min(1),
   })
   .strict()
-  .superRefine(requirePublishedDate);
+  .superRefine((value, context) => {
+    requirePublishedDate(value, context);
+    rejectPublicationWithoutPublicRoute(value, context);
+  });
 
 export const resourceMetadataSchema = z
   .object({
@@ -176,7 +192,10 @@ export const blogMetadataSchema = z
     excerpt: z.string().trim().min(1),
   })
   .strict()
-  .superRefine(requirePublishedDate);
+  .superRefine((value, context) => {
+    requirePublishedDate(value, context);
+    rejectPublicationWithoutPublicRoute(value, context);
+  });
 
 export const updateMetadataSchema = z
   .object({

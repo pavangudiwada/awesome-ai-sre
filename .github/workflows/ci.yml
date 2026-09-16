@@ -19,11 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
-      NEXT_PUBLIC_SITE_URL: https://aisre.pavangudiwada.dev
-      NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
-      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ci-public-placeholder
+      NEXT_PUBLIC_SITE_URL: https://aisrewatchlist.com
       AUTH_INTENT_SECRET: ci-auth-intent-secret-at-least-32-characters
       ANALYTICS_HASH_SECRET: ci-analytics-hash-secret-at-least-32-characters
+      BETTER_AUTH_URL: http://localhost:3000
+      BETTER_AUTH_SECRET: ci-better-auth-secret-at-least-32-characters
 
     steps:
       - name: Check out repository
@@ -68,9 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      NEXT_PUBLIC_SITE_URL: https://aisre.pavangudiwada.dev
-      NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
-      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ci-public-placeholder
+      NEXT_PUBLIC_SITE_URL: https://aisrewatchlist.com
       AUTH_INTENT_SECRET: ci-auth-intent-secret-at-least-32-characters
       ANALYTICS_HASH_SECRET: ci-analytics-hash-secret-at-least-32-characters
 
@@ -93,10 +91,31 @@ jobs:
       - name: Run public workflow tests
         run: npm run test:e2e
 
-  database:
-    name: Replay and lint Supabase migrations
+  authenticated-browser:
+    name: Authenticated local release workflows
+    needs: quality
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    env:
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      AUTH_INTENT_SECRET: ci-auth-intent-secret-at-least-32-characters
+      ANALYTICS_HASH_SECRET: ci-analytics-hash-secret-at-least-32-characters
+      BETTER_AUTH_URL: http://localhost:3000
+      BETTER_AUTH_SECRET: ci-better-auth-secret-at-least-32-characters
+      DATABASE_URL: postgresql://ai_sre:ci-local-only-password@127.0.0.1:5432/ai_sre_test
+      AUTH_E2E_CAPTURE_PATH: /tmp/ai-sre-auth-e2e-capture.json
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: ai_sre
+          POSTGRES_PASSWORD: ci-local-only-password
+          POSTGRES_DB: ai_sre_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ai_sre -d ai_sre_test"
+          --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
       - name: Check out repository
@@ -111,15 +130,55 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Start local Supabase services
-        run: npx supabase start -x studio,imgproxy,inbucket,edge-runtime,analytics,vector
+      - name: Bootstrap disposable PostgreSQL
+        run: npx tsx scripts/migrate-database.ts
 
-      - name: Replay migrations from a clean database
-        run: npx supabase db reset --local --no-seed
+      - name: Verify server ownership and quota boundaries
+        env:
+          TEST_DATABASE_URL: postgresql://ai_sre:ci-local-only-password@127.0.0.1:5432/ai_sre_test
+          PGPASSWORD: ci-local-only-password
+        run: npm run test:db
 
-      - name: Lint private database schema
-        run: npx supabase db lint --local --schema private --level error --fail-on error
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
 
-      - name: Stop local Supabase services
-        if: always()
-        run: npx supabase stop --no-backup
+      - name: Run authenticated workflow tests
+        run: RUN_AUTHENTICATED_E2E=1 npm run test:e2e:authenticated
+
+  database:
+    name: Bootstrap PostgreSQL schema
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      DATABASE_URL: postgresql://ai_sre:ci-local-only-password@127.0.0.1:5432/ai_sre
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: ai_sre
+          POSTGRES_PASSWORD: ci-local-only-password
+          POSTGRES_DB: ai_sre
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ai_sre -d ai_sre"
+          --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Bootstrap direct PostgreSQL schema
+        run: npx tsx scripts/migrate-database.ts
+
+      - name: Verify migration ledger is idempotent
+        run: npx tsx scripts/migrate-database.ts

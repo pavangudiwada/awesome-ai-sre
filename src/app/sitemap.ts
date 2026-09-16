@@ -1,13 +1,14 @@
 import type { MetadataRoute } from "next";
 
 import {
+  contentPublicPath,
   getCompanies,
   getObservabilityProducts,
   getProducts,
   getPublishedContentDocuments,
 } from "@/lib/catalog";
 
-const origin = process.env.NEXT_PUBLIC_SITE_URL ?? "https://aisre.pavangudiwada.dev";
+const origin = process.env.NEXT_PUBLIC_SITE_URL ?? "https://aisrewatchlist.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
@@ -37,16 +38,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${origin}/companies/${company.slug}`,
       changeFrequency: "weekly" as const,
     })),
-    ...getPublishedContentDocuments().map((document) => ({
-      url: `${origin}/${
-        document.metadata.kind === "resource"
-          ? "resources"
-          : document.metadata.kind === "comparison"
-            ? "comparisons"
-            : document.metadata.kind
-      }/${document.metadata.slug}`,
-      lastModified: document.metadata.updatedAt ?? document.metadata.publishedAt,
-      changeFrequency: "monthly" as const,
-    })),
+    ...getPublishedContentDocuments().flatMap((document) => {
+      const publicPath = contentPublicPath(document.metadata);
+      return publicPath
+        ? [{
+            url: `${origin}${publicPath}`,
+            lastModified: document.metadata.updatedAt ?? document.metadata.publishedAt,
+            changeFrequency: "monthly" as const,
+          }]
+        : [];
+    }),
   ];
 }

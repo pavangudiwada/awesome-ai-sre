@@ -2,7 +2,9 @@ import "server-only";
 
 import { z } from "zod";
 
-import { createClient } from "@/lib/supabase/server";
+import { workflowStore } from "@/lib/workflows/store";
+import { getAuth, isAuthConfigured } from "./server";
+import { headers } from "next/headers";
 
 import {
   type PendingAuthIntentPayload,
@@ -27,11 +29,9 @@ export class InvalidPendingAuthIntentError extends Error {
 }
 
 export async function getAuthenticatedPractitionerId(): Promise<string | null> {
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.getClaims();
-  if (error) return null;
-
-  const parsedId = practitionerIdSchema.safeParse(data?.claims.sub);
+  if (!isAuthConfigured()) return null;
+  const session = await getAuth().api.getSession({ headers: await headers() });
+  const parsedId = practitionerIdSchema.safeParse(session?.user.id);
   return parsedId.success ? parsedId.data : null;
 }
 
@@ -59,32 +59,8 @@ export async function completePendingAuthIntent(
   if (!intent) throw new InvalidPendingAuthIntentError();
 
   const practitionerId = await requireAuthenticatedPractitionerId();
-  const supabase = await createClient();
-
-  const result =
-    intent.action === "save"
-      ? await supabase.from("saved_products").upsert(
-          {
-            practitioner_id: practitionerId,
-            product_slug: intent.slug,
-          },
-          {
-            ignoreDuplicates: true,
-            onConflict: "practitioner_id,product_slug",
-          },
-        )
-      : await supabase.from("company_follows").upsert(
-          {
-            company_slug: intent.slug,
-            practitioner_id: practitionerId,
-          },
-          {
-            ignoreDuplicates: true,
-            onConflict: "practitioner_id,company_slug",
-          },
-        );
-
-  if (result.error) throw result.error;
+  if (intent.action === "save") await workflowStore().saveProduct(practitionerId, intent.slug, true);
+  else await workflowStore().followCompany(practitionerId, intent.slug, true);
 
   return {
     action: intent.action,

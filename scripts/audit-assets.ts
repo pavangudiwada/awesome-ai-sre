@@ -14,6 +14,11 @@ import { imageSize } from "image-size";
 import yaml from "js-yaml";
 
 import { OBSERVABILITY_TOOLS } from "../src/data/observability.js";
+import {
+  assetWarningIdentity,
+  findNewWarningIdentities,
+  loadValidationWarningBaseline,
+} from "./lib/validation-warning-baseline";
 
 type AssetKind = "logo" | "screenshot";
 type CatalogFamily = "ai-sre" | "observability";
@@ -608,6 +613,12 @@ function main(): void {
   );
   const errors = issues.filter((issue) => issue.severity === "error");
   const warnings = issues.filter((issue) => issue.severity === "warning");
+  const warningBaseline = loadValidationWarningBaseline(ROOT);
+  const warningIdentities = warnings.map(assetWarningIdentity);
+  const newWarningIdentities = findNewWarningIdentities(
+    warningIdentities,
+    warningBaseline.assets,
+  );
   const rasterAssets = audit.assets.filter((asset) => asset.format !== "svg");
   const screenshotRasters = rasterAssets.filter((asset) => asset.kind === "screenshot");
   const expectedAspectScreenshots = screenshotRasters.filter(
@@ -617,7 +628,7 @@ function main(): void {
         SCREENSHOT_ASPECT_TOLERANCE,
   );
   const report = {
-    valid: errors.length === 0,
+    valid: errors.length === 0 && newWarningIdentities.length === 0,
     counts: {
       operateRecords: operate.records.length,
       observabilityRecords: observability.records.length,
@@ -631,6 +642,11 @@ function main(): void {
     },
     issues,
     assets: audit.assets,
+    warningBaseline: {
+      accepted: warningBaseline.assets.length,
+      current: warningIdentities.length,
+      new: newWarningIdentities,
+    },
   };
 
   if (process.argv.includes("--json")) {
@@ -681,8 +697,14 @@ function main(): void {
       `Asset warning budget exceeded: ${warnings.length} > ${warningBudget}.\n`,
     );
   }
+  if (newWarningIdentities.length > 0) {
+    process.stderr.write(
+      `New asset warning identities:\n${newWarningIdentities.map((identity) => `- ${identity}`).join("\n")}\n`,
+    );
+  }
   if (
     errors.length > 0 ||
+    newWarningIdentities.length > 0 ||
     (failOnWarnings && warnings.length > 0) ||
     exceededWarningBudget
   ) {

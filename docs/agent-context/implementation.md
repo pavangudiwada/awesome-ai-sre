@@ -1,6 +1,6 @@
 # AI SRE Watchlist implementation status and task ledger
 
-Updated: 2026-07-13
+Updated: 2026-09-16
 
 ## Implemented
 
@@ -13,10 +13,13 @@ Updated: 2026-07-13
 
 ### Catalog and content
 
-- Strict Zod loaders for 77 AI SRE products, 34 observability products, 18 curated companies, and an 18-product research cohort.
+- Strict Zod loaders for 80 AI SRE products, 34 observability products, and
+  18 curated companies. Accepted catalog/asset warnings are identity-gated in
+  `config/validation-warning-baseline.json`, rather than permitted by a mutable
+  numeric budget.
 - Six substantive published practitioner resources.
 - Draft comparison/blog/update documents remain unpublished until editorial review.
-- Catalog reference sync supports Drizzle `DATABASE_URL` mode and a linked Supabase CLI mode; absent refs are deactivated rather than deleted.
+- Catalog reference sync is non-mutating by default. Explicit apply mode deactivates absent refs, upserts current refs, and verifies active company/product slug and product-source-hash parity inside the same transaction.
 
 ### Practitioner product
 
@@ -29,18 +32,19 @@ Updated: 2026-07-13
 
 ### Persistence and privacy
 
-- Supabase SSR session handling and user-owned RLS policies.
+- Better Auth session handling and server-owned PostgreSQL authorization.
 - Drizzle schema for operator/aggregate access.
 - Public catalog stays file-backed; only workflow reference rows are synchronized to Postgres.
 - Private analytics accepts only allowlisted public events, including aggregate product-share actions, stores a daily HMAC pseudonym, exposes no analytics table to anon/auth, and suppresses company reports below 10 distinct daily actors. Share events contain only the product subject and never a destination, channel, message, URL, identity, note, or search value.
-- Production Supabase migrations and current catalog references were pushed on 2026-07-10.
+- Historical Supabase migration notes describe an earlier implementation. The
+  active runtime uses ordered plain-Postgres migrations under `database/migrations`.
 
 ### Quality system
 
 - Catalog validator, legacy YAML validator, asset audit, and shadcn/UI consistency scanner.
 - 54 Vitest tests at the time of this update.
 - 20 Playwright workflows across desktop Chromium and 390px WebKit.
-- CI jobs for quality/build, browser workflows, and clean Supabase migration replay/lint.
+- CI jobs for quality/build, browser workflows, and a clean PostgreSQL bootstrap.
 
 ## Runtime architecture
 
@@ -48,8 +52,8 @@ Updated: 2026-07-13
 flowchart LR
   Y[Reviewed YAML and MDX] --> N[Next.js public pages]
   Y --> S[Catalog reference sync]
-  S --> P[(Supabase Postgres)]
-  A[Supabase Auth] --> R[Server actions and RLS client]
+  S --> P[(PostgreSQL)]
+  A[Better Auth] --> R[Server actions and ownership-scoped queries]
   R --> P
   N --> E[Allowlisted public events]
   E --> H[Daily HMAC pseudonym]
@@ -59,23 +63,38 @@ flowchart LR
 
 ## External production release tasks
 
-These are account configuration, not missing code. Complete them against the confirmed Vercel/Supabase projects only.
+These are deployment configuration, not missing code. Complete them against the
+confirmed exe VM and canonical hostname only.
 
-1. Link this checkout to the exact Vercel project and verify the dashboard target.
-2. Add Vercel production/preview/development variables:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
-   - `DATABASE_URL` (server-only transaction pooler URL)
+The `authenticated-browser` CI job is the release gate for private workflows. It
+starts a loopback PostgreSQL 16 service, applies `database/migrations/`, and
+uses Better Auth’s VM-only test harness. Browser code receives only the
+one-time test sign-in URL, never database credentials.
+
+1. Configure the exact exe VM and verify the deployed SHA target.
+2. Add VM-only environment variables:
+   - `DATABASE_URL` (server-only loopback PostgreSQL URL)
+   - `TRUST_PROXY=exe` only behind the exe reverse proxy. Without it, analytics
+     and editorial rate limiting use a shared fail-closed network bucket.
    - `AUTH_INTENT_SECRET` (random, at least 32 characters)
    - `ANALYTICS_HASH_SECRET` (different random secret, at least 32 characters)
-   - `NEXT_PUBLIC_SITE_URL=https://aisre.pavangudiwada.dev`
+   - `NEXT_PUBLIC_TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY`
+   - `SUBMISSION_HASH_SECRET` (another random secret, at least 32 characters)
+   - `NEXT_PUBLIC_SITE_URL=https://aisrewatchlist.com`
    - optional `NEXT_PUBLIC_POSTHOG_KEY`/`NEXT_PUBLIC_POSTHOG_HOST`
-3. Add `aisre.pavangudiwada.dev` to the confirmed Vercel project, then create the exact DNS record Vercel supplies.
-4. In Supabase Auth URL configuration, set the production Site URL to the canonical domain and add exact `/auth/callback` and `/auth/confirm` redirect paths; retain intentional localhost/preview patterns.
+3. Point `aisrewatchlist.com` to the confirmed exe VM and verify HTTPS.
+4. In Better Auth provider configuration, set the production Site URL and exact callback paths; retain intentional localhost patterns.
 5. Confirm Google and GitHub provider credentials and rotate any credentials previously exposed during development.
-6. Configure custom SMTP before inviting users; Supabase's default email allowance is not a production delivery system.
+6. Configure the production SMTP provider before inviting users.
 7. Enable leaked-password protection if password login is ever enabled. The current app is passwordless.
-8. Deploy a preview, run `npm run test:e2e` against it, then promote the same artifact to production.
+8. Configure the GitHub `production` environment with approval protection and VM deploy credentials only.
+9. Ensure the VM has the native PostgreSQL `psql` client, apply the migration
+   runner to a disposable database, verify backup/restore, then run the
+   immutable-SHA VM deployer.
+
+Ordinary pull-request CI never connects to or mutates the VM database. The VM
+deployer applies reviewed ordered migrations after backup verification and
+before atomic traffic cutover.
 
 ## Content/product work after release
 
@@ -111,7 +130,8 @@ Acceptance: each profile has official sources, checked dates, product scope, dep
 ## Definition of done for any future change
 
 1. Domain boundary and public/private classification are explicit.
-2. Inputs have Zod validation; data access respects RLS or server-only Drizzle boundaries.
+2. Inputs have Zod validation; data access is ownership-scoped in server-only
+   PostgreSQL queries.
 3. UI uses official installed shadcn composition and semantic tokens.
 4. Unit/integration tests cover behavior; browser QA covers the full user outcome.
 5. `npm run check:release` passes.

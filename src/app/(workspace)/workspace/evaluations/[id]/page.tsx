@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeftIcon, PlusIcon, Trash2Icon } from "lucide-react";
+import { ArrowLeftIcon, PlusIcon } from "lucide-react";
 
 import {
   addEvaluationProductAction,
@@ -35,6 +35,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { EvaluationDeleteDialog } from "@/components/workflow/evaluation-delete-dialog";
 import { getAllProductSummaryMap } from "@/lib/presentation/catalog";
 import { getWorkspaceEvaluation } from "@/lib/workflows/queries";
 
@@ -247,13 +248,11 @@ export default async function EvaluationPage({ params }: { params: Promise<{ id:
               <CardDescription>This removes the brief and candidate set. Saved products and notes are not deleted.</CardDescription>
             </CardHeader>
             <CardFooter>
-              <form action={deleteEvaluationAction} className="w-full">
-                <input type="hidden" name="evaluationId" value={evaluation.id} />
-                <Button type="submit" variant="destructive" className="h-11 w-full">
-                  <Trash2Icon data-icon="inline-start" />
-                  Delete evaluation
-                </Button>
-              </form>
+              <EvaluationDeleteDialog
+                evaluationId={evaluation.id}
+                evaluationName={evaluation.name}
+                deleteAction={deleteEvaluationAction}
+              />
             </CardFooter>
           </Card>
         </aside>

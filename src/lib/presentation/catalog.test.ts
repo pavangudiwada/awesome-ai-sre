@@ -9,8 +9,10 @@ import {
 import {
   observabilityEvidenceClaims,
   observabilityResourceLinks,
+  evidenceReviewLabel,
   productEvidenceClaims,
   productResourceLinks,
+  sourceLinkedCapabilityClaim,
 } from "./catalog"
 
 describe("evidence presentation", () => {
@@ -34,6 +36,41 @@ describe("evidence presentation", () => {
 
     expect(product).toBeDefined()
     expect(productEvidenceClaims(product!)).toEqual([])
+  })
+
+  it("links a capability badge only to its own source-backed claim", () => {
+    const claims = [
+      {
+        id: "claim-1",
+        claim: "Investigates incidents",
+        status: "documented" as const,
+        sourceCount: 1,
+        sourceHref: "https://example.com/docs",
+      },
+      {
+        id: "claim-2",
+        claim: "Suggests remediation",
+        status: "documented" as const,
+        sourceCount: 0,
+      },
+    ]
+
+    expect(sourceLinkedCapabilityClaim("Investigates incidents", claims)).toBe(claims[0])
+    expect(sourceLinkedCapabilityClaim("Suggests remediation", claims)).toBeUndefined()
+    expect(sourceLinkedCapabilityClaim("Coordinates responders", claims)).toBeUndefined()
+  })
+
+  it("derives the profile evidence summary from the rendered claims", () => {
+    expect(evidenceReviewLabel([])).toBe("Pending")
+    expect(evidenceReviewLabel([{ id: "1", claim: "A", status: "documented" }])).toBe(
+      "Documented",
+    )
+    expect(
+      evidenceReviewLabel([
+        { id: "1", claim: "A", status: "documented" },
+        { id: "2", claim: "B", status: "vendor-claimed" },
+      ]),
+    ).toBe("Mixed evidence")
   })
 
   it("labels observability use cases as vendor claims", () => {

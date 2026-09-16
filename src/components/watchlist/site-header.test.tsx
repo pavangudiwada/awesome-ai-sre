@@ -24,6 +24,14 @@ describe("SiteHeader", () => {
     expect(screen.queryByText("New")).not.toBeInTheDocument()
   })
 
+  it("uses neutral accessible states while public personalization hydrates", () => {
+    renderHeader({ accountPending: true, notificationsStatus: "loading" })
+
+    expect(screen.getByLabelText("Loading account")).toBeDisabled()
+    fireEvent.click(screen.getAllByLabelText("Open updates")[0])
+    expect(screen.getByRole("status")).toHaveTextContent("Loading updates")
+  })
+
   it("opens command search from the keyboard when a handler is available", () => {
     const onSearchOpen = vi.fn()
     renderHeader({ onSearchOpen })

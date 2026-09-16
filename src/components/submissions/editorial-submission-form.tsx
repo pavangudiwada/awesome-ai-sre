@@ -1,4 +1,5 @@
 import { ShieldCheckIcon } from "lucide-react";
+import Script from "next/script";
 
 import { submitEditorialAction } from "@/actions/workflows";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -48,8 +49,15 @@ export function EditorialSubmissionForm({
   defaultProduct,
 }: EditorialSubmissionFormProps) {
   const isUpdate = type === "company_update";
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   return (
     <Card>
+      {turnstileSiteKey ? (
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+          strategy="afterInteractive"
+        />
+      ) : null}
       <CardHeader>
         <CardTitle>{isUpdate ? "Submit a company update" : "Submit a correction"}</CardTitle>
         <CardDescription>
@@ -181,10 +189,30 @@ export function EditorialSubmissionForm({
                 state automatically.
               </AlertDescription>
             </Alert>
+            {turnstileSiteKey ? (
+              <div
+                className="cf-turnstile"
+                data-sitekey={turnstileSiteKey}
+                data-action="editorial_submission"
+                data-refresh-expired="auto"
+              />
+            ) : (
+              <Alert variant="destructive">
+                <AlertTitle>Submissions are temporarily unavailable</AlertTitle>
+                <AlertDescription>
+                  Anti-bot verification has not been configured for this environment.
+                </AlertDescription>
+              </Alert>
+            )}
           </FieldGroup>
         </CardContent>
         <CardFooter className="justify-end">
-          <Button type="submit" size="lg" className="h-11">
+          <Button
+            type="submit"
+            size="lg"
+            className="h-11"
+            disabled={!turnstileSiteKey}
+          >
             Send for review
           </Button>
         </CardFooter>

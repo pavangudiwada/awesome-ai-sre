@@ -11,7 +11,7 @@ interface ProductMediaProps {
   name: string
   src?: string | null
   alt?: string
-  priority?: boolean
+  preload?: boolean
   className?: string
 }
 
@@ -19,7 +19,7 @@ export function ProductMedia({
   name,
   src,
   alt,
-  priority = false,
+  preload = false,
   className,
 }: ProductMediaProps) {
   const [failed, setFailed] = useState(false)
@@ -36,7 +36,8 @@ export function ProductMedia({
           alt={alt ?? `${name} product preview`}
           fill
           sizes="(min-width: 1536px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          loading={priority ? "eager" : "lazy"}
+          preload={preload}
+          loading={preload ? "eager" : "lazy"}
           unoptimized
           onError={() => setFailed(true)}
           className="size-full object-cover"

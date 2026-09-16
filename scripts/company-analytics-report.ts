@@ -21,7 +21,7 @@ const rawRowSchema = z.object({
   outboundClicks: z.coerce.number().int().nonnegative(),
   updateViews: z.coerce.number().int().nonnegative(),
   shares: z.coerce.number().int().nonnegative(),
-  uniqueDailyHashActors: z.coerce.number().int().nonnegative(),
+  maximumUniqueDailyActors: z.coerce.number().int().nonnegative(),
   followerCount: z.coerce.number().int().nonnegative().nullable(),
 });
 
@@ -32,8 +32,22 @@ export function suppressUnsafeRows(rows: unknown[]): CompanyAnalyticsRow[] {
     .map((row) => rawRowSchema.parse(row))
     .filter(
       (row) =>
-        row.uniqueDailyHashActors >= MINIMUM_UNIQUE_DAILY_HASH_ACTORS,
+        row.maximumUniqueDailyActors >= MINIMUM_UNIQUE_DAILY_HASH_ACTORS,
     );
+}
+
+export function hasReportableDailyCohort(
+  uniqueActorCountsByDay: number[],
+): boolean {
+  return uniqueActorCountsByDay.some(
+    (count) => count >= MINIMUM_UNIQUE_DAILY_HASH_ACTORS,
+  );
+}
+
+export function uniqueDailyNetworkCohortSize(
+  networkDayHashes: readonly string[],
+): number {
+  return new Set(networkDayHashes).size;
 }
 
 function parseDays(arguments_: string[]): number {
@@ -83,8 +97,9 @@ export async function generateCompanyAnalyticsReport(
               update_product.company_slug
             )
           end as company_slug,
+          event.occurred_on,
           event.event_type,
-          event.visitor_day_hash
+          event.network_day_hash
         from private.analytics_events as event
         left join public.catalog_product_refs as product
           on event.subject_kind = 'product'
@@ -96,23 +111,42 @@ export async function generateCompanyAnalyticsReport(
           on update_product.slug = published_update.product_slug
         where event.occurred_on between ${period.start}::date and ${period.end}::date
       ),
-      reportable_engagement as (
+      daily_cohorts as (
         select
           company_slug,
-          count(*) filter (where event_type = 'profile_view')::integer
-            as "profileViews",
-          count(*) filter (where event_type = 'outbound_click')::integer
-            as "outboundClicks",
-          count(*) filter (where event_type = 'update_view')::integer
-            as "updateViews",
-          count(*) filter (where event_type = 'share')::integer
-            as "shares",
-          count(distinct visitor_day_hash)::integer
-            as "uniqueDailyHashActors"
+          occurred_on,
+          count(distinct network_day_hash)::integer as unique_daily_actors
         from mapped_events
         where company_slug is not null
-        group by company_slug
-        having count(distinct visitor_day_hash) >= ${MINIMUM_UNIQUE_DAILY_HASH_ACTORS}
+          and network_day_hash is not null
+        group by company_slug, occurred_on
+      ),
+      reportable_daily_cohorts as (
+        select
+          company_slug,
+          occurred_on,
+          unique_daily_actors
+        from daily_cohorts
+        where unique_daily_actors >= ${MINIMUM_UNIQUE_DAILY_HASH_ACTORS}
+      ),
+      engagement_totals as (
+        select
+          event.company_slug,
+          count(*) filter (where event.event_type = 'profile_view')::integer
+            as "profileViews",
+          count(*) filter (where event.event_type = 'outbound_click')::integer
+            as "outboundClicks",
+          count(*) filter (where event.event_type = 'update_view')::integer
+            as "updateViews",
+          count(*) filter (where event.event_type = 'share')::integer
+            as "shares",
+          max(cohort.unique_daily_actors)::integer
+            as "maximumUniqueDailyActors"
+        from mapped_events as event
+        join reportable_daily_cohorts as cohort
+          on cohort.company_slug = event.company_slug
+          and cohort.occurred_on = event.occurred_on
+        group by event.company_slug
       ),
       follow_counts as (
         select company_slug, count(*)::integer as "followerCount"
@@ -126,25 +160,25 @@ export async function generateCompanyAnalyticsReport(
         engagement."outboundClicks",
         engagement."updateViews",
         engagement."shares",
-        engagement."uniqueDailyHashActors",
+        engagement."maximumUniqueDailyActors",
         case
           when coalesce(follows."followerCount", 0) >= ${MINIMUM_UNIQUE_DAILY_HASH_ACTORS}
             then follows."followerCount"
           else null
         end as "followerCount"
-      from reportable_engagement as engagement
+      from engagement_totals as engagement
       join public.catalog_company_refs as company
         on company.slug = engagement.company_slug
         and company.is_active = true
       left join follow_counts as follows
         on follows.company_slug = engagement.company_slug
-      order by engagement."uniqueDailyHashActors" desc, company.name asc
+      order by engagement."maximumUniqueDailyActors" desc, company.name asc
     `);
 
     return {
       generatedAt: new Date().toISOString(),
       period,
-      minimumUniqueDailyHashActors: MINIMUM_UNIQUE_DAILY_HASH_ACTORS,
+      minimumUniqueActorsInOneUtcDay: MINIMUM_UNIQUE_DAILY_HASH_ACTORS,
       companies: suppressUnsafeRows(Array.from(rows)),
     };
   } finally {

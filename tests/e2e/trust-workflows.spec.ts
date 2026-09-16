@@ -47,11 +47,8 @@ test.describe("trust and activation workflows", () => {
     await expect(page.getByText("Add private notes", { exact: true })).toBeVisible();
     await expect(page.getByText("Compare serious candidates", { exact: true })).toBeVisible();
     await expect(page.getByText("browse every product and source without an account", { exact: false })).toBeVisible();
-    await expect(page.getByLabel("Email address")).toHaveAttribute("type", "email");
     await expect(page.getByText("No password required.", { exact: false })).toBeVisible();
-
-    const emailAction = page.getByRole("button", { name: "Email me a sign-in link" });
-    await expectMinimumTouchTarget(emailAction, "Magic-link action");
+    await expect(page.getByText("Email sign-in is not available yet", { exact: true })).toBeVisible();
 
     const left = await benefitSection.boundingBox();
     const right = await signInSection.boundingBox();

@@ -1,6 +1,15 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore, type FormEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type FormEvent,
+} from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { SearchIcon } from "lucide-react";
 
 import { FilterBar, ProductCard, ProductGrid } from "@/components/watchlist";
@@ -17,6 +26,12 @@ import {
 } from "@/components/ui/input-group";
 import type { saveProductAction } from "@/actions/workflows";
 import { trackSearchResultBucket } from "@/lib/analytics/events";
+import {
+  directoryHref,
+  isDirectoryDeployment,
+  isDirectorySort,
+  type DirectoryQueryState,
+} from "@/lib/catalog/directory-query";
 
 export interface DirectoryProduct {
   product: ProductSummary;
@@ -28,7 +43,7 @@ export interface DirectoryProduct {
 interface CatalogDirectoryProps {
   products: DirectoryProduct[];
   savedSlugs?: string[];
-  initialQuery?: string;
+  initialState: DirectoryQueryState;
   saveAction: typeof saveProductAction;
 }
 
@@ -49,19 +64,81 @@ const getServerHydratedSnapshot = () => false;
 export function CatalogDirectory({
   products,
   savedSlugs = [],
-  initialQuery = "",
+  initialState,
   saveAction,
 }: CatalogDirectoryProps) {
-  const [query, setQuery] = useState(initialQuery);
-  const [category, setCategory] = useState("all");
-  const [deployments, setDeployments] = useState<string[]>([]);
-  const [sort, setSort] = useState("name-asc");
+  const pathname = usePathname();
+  const router = useRouter();
+  const [directoryState, setDirectoryState] = useState(initialState);
+  const directoryStateRef = useRef(initialState);
+  const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingHrefRef = useRef<string | null>(null);
+  const { query, category, deployments, sort } = directoryState;
   const isHydrated = useSyncExternalStore(
     subscribeToHydration,
     getHydratedSnapshot,
     getServerHydratedSnapshot,
   );
   const saved = useMemo(() => new Set(savedSlugs), [savedSlugs]);
+
+  const replaceDirectoryUrl = useCallback(
+    (nextState: DirectoryQueryState) => {
+      const nextHref = directoryHref(pathname, nextState);
+      const currentHref = `${window.location.pathname}${window.location.search}`;
+      if (nextHref === currentHref) return;
+
+      pendingHrefRef.current = nextHref;
+      router.replace(nextHref, { scroll: false });
+    },
+    [pathname, router],
+  );
+
+  const clearPendingSearch = useCallback(() => {
+    if (searchTimerRef.current) {
+      clearTimeout(searchTimerRef.current);
+      searchTimerRef.current = null;
+    }
+  }, []);
+
+  const updateDirectoryState = useCallback(
+    (
+      update: (current: DirectoryQueryState) => DirectoryQueryState,
+      options: { debounce?: boolean } = {},
+    ) => {
+      const nextState = update(directoryStateRef.current);
+      directoryStateRef.current = nextState;
+      setDirectoryState(nextState);
+      clearPendingSearch();
+
+      if (options.debounce) {
+        searchTimerRef.current = setTimeout(() => {
+          replaceDirectoryUrl(directoryStateRef.current);
+          searchTimerRef.current = null;
+        }, 250);
+        return;
+      }
+
+      replaceDirectoryUrl(nextState);
+    },
+    [clearPendingSearch, replaceDirectoryUrl],
+  );
+
+  useEffect(() => clearPendingSearch, [clearPendingSearch]);
+
+  useEffect(() => {
+    const nextHref = directoryHref(pathname, initialState);
+    if (pendingHrefRef.current) {
+      if (pendingHrefRef.current === nextHref) {
+        pendingHrefRef.current = null;
+      }
+      return;
+    }
+    if (directoryHref(pathname, directoryStateRef.current) === nextHref) return;
+
+    clearPendingSearch();
+    directoryStateRef.current = initialState;
+    setDirectoryState(initialState);
+  }, [clearPendingSearch, initialState, pathname]);
 
   const categories = useMemo<MarketplaceCategory[]>(() => {
     const counts = new Map<string, number>();
@@ -114,11 +191,17 @@ export function CatalogDirectory({
   const appliedFilters: AppliedFilter[] = deployments.map((deployment) => ({
     id: `deployment-${deployment}`,
     label: deployment,
-    onRemove: () => setDeployments((values) => values.filter((value) => value !== deployment)),
+    onRemove: () =>
+      updateDirectoryState((current) => ({
+        ...current,
+        deployments: current.deployments.filter((value) => value !== deployment),
+      })),
   }));
 
   function handleSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    clearPendingSearch();
+    replaceDirectoryUrl(directoryStateRef.current);
     trackSearchResultBucket(visible.length);
   }
 
@@ -134,7 +217,13 @@ export function CatalogDirectory({
               <InputGroupInput
                 id="directory-search"
                 value={query}
-                onChange={(event) => setQuery(event.target.value)}
+                onChange={(event) => {
+                  const nextQuery = event.target.value;
+                  updateDirectoryState(
+                    (current) => ({ ...current, query: nextQuery }),
+                    { debounce: true },
+                  );
+                }}
                 placeholder="Search products, companies, or capabilities…"
                 autoComplete="off"
                 disabled={!isHydrated}
@@ -150,7 +239,12 @@ export function CatalogDirectory({
       <FilterBar
         categories={categories}
         selectedCategory={category}
-        onCategoryChange={setCategory}
+        onCategoryChange={(nextCategory) =>
+          updateDirectoryState((current) => ({
+            ...current,
+            category: nextCategory,
+          }))
+        }
         sections={[
           {
             id: "deployment",
@@ -164,9 +258,20 @@ export function CatalogDirectory({
           },
         ]}
         selectedFilters={{ deployment: deployments }}
-        onFilterChange={(id, values) => id === "deployment" && setDeployments(values)}
+        onFilterChange={(id, values) => {
+          if (id !== "deployment") return;
+          updateDirectoryState((current) => ({
+            ...current,
+            deployments: values.filter(isDirectoryDeployment),
+          }));
+        }}
         appliedFilters={appliedFilters}
-        onClearAll={() => setDeployments([])}
+        onClearAll={() =>
+          updateDirectoryState((current) => ({
+            ...current,
+            deployments: [],
+          }))
+        }
         resultCount={visible.length}
         sortOptions={[
           { value: "name-asc", label: "A–Z" },
@@ -174,11 +279,17 @@ export function CatalogDirectory({
           { value: "newest", label: "Newest added" },
         ]}
         selectedSort={sort}
-        onSortChange={setSort}
+        onSortChange={(nextSort) => {
+          if (!isDirectorySort(nextSort)) return;
+          updateDirectoryState((current) => ({
+            ...current,
+            sort: nextSort,
+          }));
+        }}
       />
 
       <div className="mx-auto w-full max-w-screen-2xl px-4 py-6 sm:px-6 lg:px-8">
-        <ProductGrid onClearHref="/tools">
+        <ProductGrid onClearHref={pathname}>
           {visible.length
             ? visible.map(({ product }, index) => (
                 <ProductCard

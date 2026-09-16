@@ -20,7 +20,38 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 
-export function LockedWorkflowPreview({ returnTo }: { returnTo: string }) {
+export function LockedWorkflowPreview({
+  returnTo,
+  compact = false,
+}: {
+  returnTo: string;
+  compact?: boolean;
+}) {
+  if (compact) {
+    return (
+      <Card size="sm">
+        <CardHeader>
+          <div className="flex flex-col gap-1">
+            <CardTitle className="flex items-center gap-2">
+              <LockKeyholeIcon className="size-4" aria-hidden="true" />
+              Private evaluation workspace
+            </CardTitle>
+            <CardDescription>
+              Your notes, evaluations, and research stay private.
+            </CardDescription>
+          </div>
+        </CardHeader>
+        <CardFooter className="justify-end">
+          <Button asChild className="h-11">
+            <Link href={`/sign-in?next=${encodeURIComponent(returnTo)}`}>
+              Sign in to use the workspace
+            </Link>
+          </Button>
+        </CardFooter>
+      </Card>
+    );
+  }
+
   return (
     <Card>
       <CardHeader>

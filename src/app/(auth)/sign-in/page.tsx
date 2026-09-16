@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 
 import { sendMagicLink, signInWithOAuth } from "@/actions/auth";
 import { AuthPanel } from "@/components/watchlist";
-import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { isAuthConfigured, isMagicLinkConfigured, isOAuthProviderConfigured } from "@/lib/auth/server";
+import { internalReturnPathSchema } from "@/lib/auth/schemas";
+
+// Provider availability and user-facing error/success state come from this request.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Sign in or create a workspace",
@@ -21,8 +25,11 @@ export default async function SignInPage({
   }>;
 }) {
   const params = await searchParams;
-  const configured = isSupabaseConfigured();
-  const next = params.next?.startsWith("/") ? params.next : "/workspace/saved";
+  const configured = isAuthConfigured();
+  const magicLinkConfigured = isMagicLinkConfigured();
+  const next = internalReturnPathSchema.safeParse(params.next).success
+    ? params.next!
+    : "/workspace/saved";
   const error = params.error
     ? params.error
     : configured
@@ -31,9 +38,9 @@ export default async function SignInPage({
 
   return (
     <AuthPanel
-      magicLinkAction={sendMagicLink}
-      googleAction={configured ? signInWithOAuth.bind(null, "google") : undefined}
-      githubAction={configured ? signInWithOAuth.bind(null, "github") : undefined}
+      magicLinkAction={magicLinkConfigured ? sendMagicLink : undefined}
+      googleAction={configured && isOAuthProviderConfigured("google") ? signInWithOAuth.bind(null, "google") : undefined}
+      githubAction={configured && isOAuthProviderConfigured("github") ? signInWithOAuth.bind(null, "github") : undefined}
       nextPath={next}
       emailDefaultValue={params.email}
       errorMessage={error}

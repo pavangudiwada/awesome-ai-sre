@@ -1,9 +1,35 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 import { validateCatalog } from "../src/lib/catalog/validation";
+import {
+  catalogWarningIdentity,
+  findNewWarningIdentities,
+  loadValidationWarningBaseline,
+} from "./lib/validation-warning-baseline";
 
 const report = validateCatalog();
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const warningBaseline = loadValidationWarningBaseline(repoRoot);
+const warningIdentities = report.issues
+  .filter((issue) => issue.severity === "warning")
+  .map(catalogWarningIdentity);
+const newWarningIdentities = findNewWarningIdentities(
+  warningIdentities,
+  warningBaseline.catalog,
+);
+const outputReport = {
+  ...report,
+  valid: report.valid && newWarningIdentities.length === 0,
+  warningBaseline: {
+    accepted: warningBaseline.catalog.length,
+    current: warningIdentities.length,
+    new: newWarningIdentities,
+  },
+};
 
 if (process.argv.includes("--json")) {
-  process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
+  process.stdout.write(`${JSON.stringify(outputReport, null, 2)}\n`);
 } else {
   const { counts } = report;
   process.stdout.write(
@@ -31,8 +57,14 @@ if (process.argv.includes("--json")) {
   const errorCount = report.issues.filter((issue) => issue.severity === "error").length;
   const warningCount = report.issues.filter((issue) => issue.severity === "warning").length;
   process.stdout.write(`\n${errorCount} error(s), ${warningCount} warning(s)\n`);
+
+  if (newWarningIdentities.length > 0) {
+    process.stderr.write(
+      `New catalog warning identities:\n${newWarningIdentities.map((identity) => `- ${identity}`).join("\n")}\n`,
+    );
+  }
 }
 
-if (!report.valid) {
+if (!outputReport.valid) {
   process.exitCode = 1;
 }

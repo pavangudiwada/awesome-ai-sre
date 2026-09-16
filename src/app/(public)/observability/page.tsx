@@ -3,6 +3,10 @@ import type { Metadata } from "next";
 import { saveProductAction } from "@/actions/workflows";
 import { CatalogDirectory, type DirectoryProduct } from "@/components/catalog/catalog-directory";
 import { getObservabilityProducts } from "@/lib/catalog";
+import {
+  parseDirectoryQuery,
+  type DirectorySearchParams,
+} from "@/lib/catalog/directory-query";
 import { toObservabilitySummary } from "@/lib/presentation/catalog";
 import { getSavedProductSlugs } from "@/lib/workflows/queries";
 
@@ -12,6 +16,12 @@ export const metadata: Metadata = {
     "Browse observability products by signals, deployment, ecosystem, and open-source status.",
   alternates: { canonical: "/observability" },
 };
+
+const OBSERVABILITY_DIRECTORY_CATEGORIES = [
+  "all",
+  "observability",
+  "oss",
+] as const;
 
 function normalizeDeployment(values: readonly string[]) {
   const normalized = new Set<string>();
@@ -27,9 +37,12 @@ function normalizeDeployment(values: readonly string[]) {
 export default async function ObservabilityPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<DirectorySearchParams>;
 }) {
-  const { q = "" } = await searchParams;
+  const initialState = parseDirectoryQuery(
+    await searchParams,
+    OBSERVABILITY_DIRECTORY_CATEGORIES,
+  );
   const products = getObservabilityProducts();
   const directoryProducts: DirectoryProduct[] = products.map((product) => ({
     product: toObservabilitySummary(product),
@@ -55,7 +68,7 @@ export default async function ObservabilityPage({
       <CatalogDirectory
         products={directoryProducts}
         savedSlugs={savedSlugs}
-        initialQuery={q}
+        initialState={initialState}
         saveAction={saveProductAction}
       />
     </main>

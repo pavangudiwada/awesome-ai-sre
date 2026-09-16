@@ -31,11 +31,27 @@ const RESOURCES = [
   },
   {
     slug: "state-of-ai-sre-2026",
-    title: "State of AI SRE 2026: baseline and research method",
+    title: "State of AI SRE 2026: catalog snapshot and research method",
   },
 ] as const;
 
 test.describe("public Watchlist routes", () => {
+  test("static resource content survives header personalization failure", async ({ page }, testInfo) => {
+    await page.route("**/api/header-state", (route) => route.abort());
+    await openRoute(page, "/resources");
+
+    await expect(
+      page.getByRole("heading", {
+        level: 1,
+        name: "Evaluate AI incident-response tools with a repeatable process",
+      }),
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "Sign in", exact: true })).toBeVisible();
+    await page.getByRole("button", { name: "Open updates", exact: true }).click();
+    await expect(page.getByText("Updates unavailable", { exact: true })).toBeVisible();
+    await expectPublicPageGuardrails(page, testInfo);
+  });
+
   test("home exposes real research and carries search intent into the catalog", async ({ page }, testInfo) => {
     await openRoute(page, "/");
 
@@ -82,28 +98,73 @@ test.describe("public Watchlist routes", () => {
 
     const search = page.getByRole("textbox", { name: "Search products" });
     await search.fill("RunWhen");
+    await expect(page).toHaveURL(/\/tools\?q=RunWhen$/);
     await expect(page.getByRole("link", { name: "View RunWhen profile" })).toBeVisible();
     await expect(page.getByText("1 product", { exact: true })).toBeVisible();
 
     await search.clear();
+    await expect(page).toHaveURL(/\/tools$/);
     const incidentCategory = page.getByRole("radio", { name: "Show Incident AI" });
     await incidentCategory.click();
+    await expect(page).toHaveURL(/\/tools\?category=incident-ai$/);
     await expect(incidentCategory).toBeChecked();
     await expect(page.getByRole("link", { name: "View RunWhen profile" })).toBeVisible();
+
+    const openSourceCategory = page.getByRole("radio", { name: "Show Open source" });
+    await openSourceCategory.click();
+    await expect(page).toHaveURL(/\/tools\?category=oss$/);
+    await expect(openSourceCategory).toBeChecked();
+    await expect(page.getByRole("link", { name: "View HolmesGPT profile" })).toBeVisible();
 
     const filters = page.getByRole("button", { name: "Filters", exact: true });
     await expectMinimumTouchTarget(filters, "Filters action");
     await filters.click();
     await expect(page.getByRole("heading", { name: "Filter products" })).toBeVisible();
 
-    await page.getByRole("checkbox", { name: "SaaS" }).check();
+    await page.getByRole("checkbox", { name: "On-premises" }).check();
+    await expect(page).toHaveURL(
+      /\/tools\?category=oss&deployment=on-prem$/,
+    );
     const viewResults = page.getByRole("button", { name: /View \d+ results?/ });
     await expectMinimumTouchTarget(viewResults, "Filter results action");
     await viewResults.click();
 
-    const removeSaas = page.getByRole("button", { name: "Remove SaaS filter" });
-    await expectMinimumTouchTarget(removeSaas, "Applied SaaS filter");
-    await expect(page.getByRole("link", { name: "View RunWhen profile" })).toBeVisible();
+    const removeOnPremises = page.getByRole("button", {
+      name: "Remove on-prem filter",
+    });
+    await expectMinimumTouchTarget(removeOnPremises, "Applied On-premises filter");
+
+    await page.getByRole("combobox", { name: "Sort" }).click();
+    await page.getByRole("option", { name: "Newest added" }).click();
+    await expect(page).toHaveURL(
+      /\/tools\?category=oss&deployment=on-prem&sort=newest$/,
+    );
+
+    await search.fill("HolmesGPT");
+    await expect(page).toHaveURL(
+      /\/tools\?q=HolmesGPT&category=oss&deployment=on-prem&sort=newest$/,
+    );
+    await expect(page.getByRole("link", { name: "View HolmesGPT profile" })).toBeVisible();
+
+    const shareableDirectoryUrl = page.url();
+    await page.reload({ waitUntil: "load" });
+    await expect(page.locator("html")).toHaveAttribute("data-app-hydrated", "true");
+    await expect(search).toHaveValue("HolmesGPT");
+    await expect(openSourceCategory).toBeChecked();
+    await expect(removeOnPremises).toBeVisible();
+    await expect(page.getByRole("combobox", { name: "Sort" })).toHaveText("Newest added");
+
+    await page.getByRole("link", { name: "View HolmesGPT profile" }).click();
+    await expect(page).toHaveURL(/\/tools\/holmesgpt$/);
+    await page.goBack({ waitUntil: "load" });
+    await expect(page).toHaveURL(shareableDirectoryUrl);
+    await expect(page.locator("html")).toHaveAttribute("data-app-hydrated", "true");
+    await expect(page.getByRole("link", { name: "View HolmesGPT profile" })).toBeVisible();
+
+    await removeOnPremises.click();
+    await expect(page).toHaveURL(
+      /\/tools\?q=HolmesGPT&category=oss&sort=newest$/,
+    );
     await expectPublicPageGuardrails(page, testInfo);
   });
 
@@ -111,9 +172,14 @@ test.describe("public Watchlist routes", () => {
     await openRoute(page, "/tools/runwhen");
 
     await expect(page.getByRole("heading", { level: 1, name: "RunWhen" })).toBeVisible();
-    await expect(page.getByText("Catalog overview", { exact: true })).toBeVisible();
-    await expect(page.getByText("Evidence", { exact: true })).toBeVisible();
-    await expect(page.getByText("Documented", { exact: true })).toHaveCount(3);
+    await expect(page.getByText("Evaluation summary", { exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Documented capabilities" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Evidence" })).toBeVisible();
+    await expect(
+      page
+        .getByRole("list", { name: "Product evidence claims" })
+        .getByText("Documented", { exact: true }),
+    ).toHaveCount(3);
     await expect(
       page.getByText(/This confirms a first-party source for the capability; it is not independent performance testing/).first(),
     ).toBeVisible();
@@ -155,24 +221,44 @@ test.describe("public Watchlist routes", () => {
 
     if (testInfo.project.name === "mobile") {
       const shareBox = await shareHeading.boundingBox();
-      const factsBox = await page.getByText("Product facts", { exact: true }).boundingBox();
+      const summaryBox = await page.getByText("Evaluation summary", { exact: true }).boundingBox();
       expect(shareBox).not.toBeNull();
-      expect(factsBox).not.toBeNull();
-      expect(shareBox!.y).toBeLessThan(factsBox!.y);
+      expect(summaryBox).not.toBeNull();
+      expect(summaryBox!.y).toBeLessThan(shareBox!.y);
     }
 
     await expectMinimumTouchTarget(
-      page.getByRole("button", { name: "Save RunWhen" }),
+      page.getByRole("button", { name: "Save RunWhen", exact: true }),
       "Save RunWhen action",
     );
     await expectMinimumTouchTarget(
-      page.getByRole("link", { name: "Add to evaluation" }),
+      page.getByRole("link", { name: "Add to evaluation", exact: true }),
       "Add RunWhen to evaluation action",
     );
     await expectImageHasNaturalSize(
-      page.getByRole("img", { name: "RunWhen product preview" }),
-      "RunWhen profile screenshot",
+      page.getByRole("img", { name: "RunWhen logo" }),
+      "RunWhen profile logo",
     );
+    await expectPublicPageGuardrails(page, testInfo);
+  });
+
+  test("company profile preloads its above-the-fold hero without LCP warnings", async ({ page }, testInfo) => {
+    const lcpWarnings: string[] = [];
+    page.on("console", (message) => {
+      if (message.type() === "warning" && message.text().includes("Largest Contentful Paint")) {
+        lcpWarnings.push(message.text());
+      }
+    });
+
+    await openRoute(page, "/companies/runwhen");
+    const hero = page.getByRole("img", { name: "RunWhen product preview" });
+    await expectImageHasNaturalSize(hero, "RunWhen company hero");
+    await expect(hero).toHaveAttribute("loading", "eager");
+    await expect(
+      page.locator('link[rel="preload"][as="image"][href="/screenshots/runwhen.png"]'),
+    ).toHaveCount(1);
+    await page.waitForTimeout(500);
+    expect(lcpWarnings).toEqual([]);
     await expectPublicPageGuardrails(page, testInfo);
   });
 
@@ -185,7 +271,16 @@ test.describe("public Watchlist routes", () => {
         name: "Find the telemetry foundation behind your incident workflow",
       }),
     ).toBeVisible();
-    await page.getByRole("textbox", { name: "Search products" }).fill("Grafana");
+    const search = page.getByRole("textbox", { name: "Search products" });
+    await search.fill("not-a-real-observability-product");
+    await expect(page).toHaveURL(
+      /\/observability\?q=not-a-real-observability-product$/,
+    );
+    await page.getByRole("link", { name: "Clear filters" }).click();
+    await expect(page).toHaveURL(/\/observability$/);
+
+    await search.fill("Grafana");
+    await expect(page).toHaveURL(/\/observability\?q=Grafana$/);
     await expect(page.getByRole("link", { name: "View Grafana profile" })).toBeVisible();
     await expectPublicPageGuardrails(page, testInfo);
 

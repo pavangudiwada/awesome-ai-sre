@@ -86,7 +86,7 @@ export default async function ObservabilityProductPage({
   const workflow = await getProductWorkflowState(workflowSlug);
   const canonicalUrl = new URL(
     `/observability/${product.slug}`,
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://aisre.pavangudiwada.dev",
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://aisrewatchlist.com",
   ).href;
   const resources = observabilityResourceLinks(product);
   const sources: SourceReference[] = [

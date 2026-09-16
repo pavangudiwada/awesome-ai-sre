@@ -14,6 +14,9 @@ import {
 } from "@/components/ui/card";
 import { getAllPublishedUpdates } from "@/lib/workflows/queries";
 
+// Published updates come from PostgreSQL and must not remain build-time output.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Reviewed updates",
   description:

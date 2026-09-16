@@ -90,6 +90,8 @@ interface SiteHeaderProps {
   onSearchOpen?: () => void
   onNotificationSelect?: (notification: WatchlistNotification) => void
   markNotificationReadAction?: ServerFormAction
+  accountPending?: boolean
+  notificationsStatus?: "loading" | "ready" | "unavailable"
 }
 
 export function SiteHeader({
@@ -102,6 +104,8 @@ export function SiteHeader({
   onSearchOpen,
   onNotificationSelect,
   markNotificationReadAction,
+  accountPending = false,
+  notificationsStatus = "ready",
 }: SiteHeaderProps) {
   const pathname = usePathname() ?? "/"
   const resolvedNavItems = navItems.map((item) => ({
@@ -180,11 +184,24 @@ export function SiteHeader({
 
           <NotificationsMenu
             notifications={notifications}
+            status={notificationsStatus}
             onNotificationSelect={onNotificationSelect}
             markNotificationReadAction={markNotificationReadAction}
           />
 
-          {viewer ? (
+          {accountPending ? (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="size-11 rounded-full"
+              disabled
+              aria-label="Loading account"
+              title="Loading account"
+            >
+              <UserIcon />
+            </Button>
+          ) : viewer ? (
             <ViewerMenu viewer={viewer} />
           ) : (
             <Button asChild className="h-11">
@@ -301,12 +318,14 @@ interface NotificationsMenuProps {
   notifications: WatchlistNotification[]
   onNotificationSelect?: (notification: WatchlistNotification) => void
   markNotificationReadAction?: ServerFormAction
+  status?: "loading" | "ready" | "unavailable"
 }
 
 function NotificationsMenu({
   notifications,
   onNotificationSelect,
   markNotificationReadAction,
+  status = "ready",
 }: NotificationsMenuProps) {
   const unreadCount = notifications.filter(({ unread }) => unread).length
 
@@ -329,6 +348,7 @@ function NotificationsMenu({
             <Separator />
             <NotificationList
               notifications={notifications}
+              status={status}
               onNotificationSelect={onNotificationSelect}
               markNotificationReadAction={markNotificationReadAction}
             />
@@ -350,6 +370,7 @@ function NotificationsMenu({
             </SheetHeader>
             <NotificationList
               notifications={notifications}
+              status={status}
               onNotificationSelect={onNotificationSelect}
               markNotificationReadAction={markNotificationReadAction}
               closeOnSelect
@@ -399,8 +420,35 @@ function NotificationList({
   notifications,
   onNotificationSelect,
   markNotificationReadAction,
+  status = "ready",
   closeOnSelect = false,
 }: NotificationsMenuProps & { closeOnSelect?: boolean }) {
+  if (status === "loading") {
+    return (
+      <Empty className="py-10" role="status" aria-live="polite">
+        <EmptyHeader>
+          <EmptyTitle>Loading updates</EmptyTitle>
+          <EmptyDescription>
+            Checking for published Watchlist updates.
+          </EmptyDescription>
+        </EmptyHeader>
+      </Empty>
+    )
+  }
+
+  if (status === "unavailable") {
+    return (
+      <Empty className="py-10" role="status">
+        <EmptyHeader>
+          <EmptyTitle>Updates unavailable</EmptyTitle>
+          <EmptyDescription>
+            Public navigation is still available. Try the updates menu again later.
+          </EmptyDescription>
+        </EmptyHeader>
+      </Empty>
+    )
+  }
+
   if (notifications.length === 0) {
     return (
       <Empty className="py-10">

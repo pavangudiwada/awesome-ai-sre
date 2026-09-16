@@ -1,0 +1,24 @@
+[Unit]
+Description=AI SRE Watchlist Next.js service
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=exedev
+Group=exedev
+WorkingDirectory=/srv/awesome-ai-sre/current
+Environment=NODE_ENV=production
+Environment=PORT=8000
+EnvironmentFile=/srv/awesome-ai-sre/shared/env/app.env
+ExecStart=/usr/local/bin/bun run start -- --hostname 127.0.0.1 --port 8000
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ReadWritePaths=/srv/awesome-ai-sre
+
+[Install]
+WantedBy=multi-user.target

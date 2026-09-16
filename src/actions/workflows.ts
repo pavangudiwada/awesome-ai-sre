@@ -1,7 +1,6 @@
 "use server";
 
-import { randomUUID } from "node:crypto";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -16,23 +15,30 @@ import {
   internalReturnPathSchema,
 } from "@/lib/auth/schemas";
 import { getAuthenticatedPractitionerId } from "@/lib/auth/actions";
-import { createClient } from "@/lib/supabase/server";
+import { workflowStore } from "@/lib/workflows/store";
+import { trustedClientIp } from "@/lib/http/client-ip";
+import {
+  editorialSubmissionSchema,
+  evaluationSchema,
+  parseOptionalCatalogSlug,
+  practitionerProfileSchema,
+  productNoteBodySchema,
+} from "@/lib/workflows/validation";
+import {
+  getSubmissionSecurityEnvironment,
+  hashSubmissionIdentity,
+  verifyEditorialTurnstile,
+} from "@/lib/workflows/submission-security";
 
-const booleanInput = z.enum(["true", "false"]).transform((value) => value === "true");
+const booleanInput = z
+  .enum(["true", "false"])
+  .transform((value) => value === "true");
 const uuidSchema = z.string().uuid();
-const bodySchema = z.string().max(20_000);
-const evaluationSchema = z.object({
-  name: z.string().trim().min(1).max(120),
-  goal: z.string().trim().max(4_000).default(""),
-  requirements: z.string().trim().max(8_000).default(""),
-  risks: z.string().trim().max(8_000).default(""),
-  decision: z.string().trim().max(8_000).default(""),
-  productSlug: catalogSlugSchema.optional(),
-});
 
 async function requirePractitioner(returnTo: string) {
   const practitionerId = await getAuthenticatedPractitionerId();
-  if (!practitionerId) redirect(`/sign-in?next=${encodeURIComponent(returnTo)}`);
+  if (!practitionerId)
+    redirect(`/sign-in?next=${encodeURIComponent(returnTo)}`);
   return practitionerId;
 }
 
@@ -54,9 +60,9 @@ async function deferAuthAction(
 export async function saveProductAction(formData: FormData) {
   const productSlug = catalogSlugSchema.parse(formData.get("productSlug"));
   const shouldSave = booleanInput.parse(formData.get("saved") ?? "true");
-  const returnTo = internalReturnPathSchema.catch(`/tools/${productSlug}`).parse(
-    formData.get("returnTo") ?? `/tools/${productSlug}`,
-  );
+  const returnTo = internalReturnPathSchema
+    .catch(`/tools/${productSlug}`)
+    .parse(formData.get("returnTo") ?? `/tools/${productSlug}`);
   const practitionerId = await getAuthenticatedPractitionerId();
 
   if (!practitionerId) {
@@ -64,19 +70,7 @@ export async function saveProductAction(formData: FormData) {
     redirect(`/sign-in?next=${encodeURIComponent(returnTo)}`);
   }
 
-  const supabase = await createClient();
-  const result = shouldSave
-    ? await supabase.from("saved_products").upsert(
-        { practitioner_id: practitionerId, product_slug: productSlug },
-        { onConflict: "practitioner_id,product_slug", ignoreDuplicates: true },
-      )
-    : await supabase
-        .from("saved_products")
-        .delete()
-        .eq("practitioner_id", practitionerId)
-        .eq("product_slug", productSlug);
-
-  if (result.error) throw result.error;
+  await workflowStore().saveProduct(practitionerId, productSlug, shouldSave);
   revalidatePath(returnTo);
   revalidatePath("/workspace/saved");
 }
@@ -84,9 +78,9 @@ export async function saveProductAction(formData: FormData) {
 export async function followCompanyAction(formData: FormData) {
   const companySlug = catalogSlugSchema.parse(formData.get("companySlug"));
   const shouldFollow = booleanInput.parse(formData.get("followed") ?? "true");
-  const returnTo = internalReturnPathSchema.catch(`/companies/${companySlug}`).parse(
-    formData.get("returnTo") ?? `/companies/${companySlug}`,
-  );
+  const returnTo = internalReturnPathSchema
+    .catch(`/companies/${companySlug}`)
+    .parse(formData.get("returnTo") ?? `/companies/${companySlug}`);
   const practitionerId = await getAuthenticatedPractitionerId();
 
   if (!practitionerId) {
@@ -94,33 +88,20 @@ export async function followCompanyAction(formData: FormData) {
     redirect(`/sign-in?next=${encodeURIComponent(returnTo)}`);
   }
 
-  const supabase = await createClient();
-  const result = shouldFollow
-    ? await supabase.from("company_follows").upsert(
-        { practitioner_id: practitionerId, company_slug: companySlug },
-        { onConflict: "practitioner_id,company_slug", ignoreDuplicates: true },
-      )
-    : await supabase
-        .from("company_follows")
-        .delete()
-        .eq("practitioner_id", practitionerId)
-        .eq("company_slug", companySlug);
-
-  if (result.error) throw result.error;
+  await workflowStore().followCompany(
+    practitionerId,
+    companySlug,
+    shouldFollow,
+  );
   revalidatePath(returnTo);
   revalidatePath("/workspace/following");
 }
 
 export async function upsertProductNoteAction(formData: FormData) {
   const productSlug = catalogSlugSchema.parse(formData.get("productSlug"));
-  const body = bodySchema.parse(formData.get("body") ?? "");
+  const body = productNoteBodySchema.parse(formData.get("body") ?? "");
   const practitionerId = await requirePractitioner(`/tools/${productSlug}`);
-  const supabase = await createClient();
-  const { error } = await supabase.from("product_notes").upsert(
-    { practitioner_id: practitionerId, product_slug: productSlug, body },
-    { onConflict: "practitioner_id,product_slug" },
-  );
-  if (error) throw error;
+  await workflowStore().upsertNote(practitionerId, productSlug, body);
   revalidatePath(`/tools/${productSlug}`);
   revalidatePath("/workspace/notes");
 }
@@ -131,34 +112,16 @@ export async function createEvaluationAction(formData: FormData) {
     goal: formData.get("goal") ?? "",
     requirements: formData.get("requirements") ?? "",
     risks: formData.get("risks") ?? "",
-    decision: formData.get("decision") ?? "",
+    decision: formData.get("decision") || "undecided",
     productSlug: formData.get("productSlug") || undefined,
   });
   const practitionerId = await requirePractitioner("/workspace/evaluations");
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("evaluations")
-    .insert({
-      practitioner_id: practitionerId,
-      name: input.name,
-      goal: input.goal,
-      requirements: input.requirements,
-      risks: input.risks,
-      decision: input.decision,
-    })
-    .select("id")
-    .single();
-  if (error) throw error;
-
-  if (input.productSlug) {
-    const { error: itemError } = await supabase.from("evaluation_products").insert({
-      evaluation_id: data.id,
-      product_slug: input.productSlug,
-      position: 0,
-    });
-    if (itemError) throw itemError;
-  }
-  redirect(`/workspace/evaluations/${data.id}`);
+  const evaluationId = await workflowStore().createEvaluation(
+    practitionerId,
+    input,
+    input.productSlug,
+  );
+  redirect(`/workspace/evaluations/${evaluationId}`);
 }
 
 export async function updateEvaluationAction(formData: FormData) {
@@ -168,150 +131,167 @@ export async function updateEvaluationAction(formData: FormData) {
     goal: formData.get("goal") ?? "",
     requirements: formData.get("requirements") ?? "",
     risks: formData.get("risks") ?? "",
-    decision: formData.get("decision") ?? "",
+    decision: formData.get("decision") || "undecided",
   });
-  const practitionerId = await requirePractitioner(`/workspace/evaluations/${id}`);
-  const supabase = await createClient();
-  const { error } = await supabase
-    .from("evaluations")
-    .update(input)
-    .eq("id", id)
-    .eq("practitioner_id", practitionerId);
-  if (error) throw error;
+  const practitionerId = await requirePractitioner(
+    `/workspace/evaluations/${id}`,
+  );
+  if (!(await workflowStore().updateEvaluation(practitionerId, id, input)))
+    throw new Error("Evaluation not found");
   revalidatePath(`/workspace/evaluations/${id}`);
 }
 
 export async function addEvaluationProductAction(formData: FormData) {
   const evaluationId = uuidSchema.parse(formData.get("evaluationId"));
   const productSlug = catalogSlugSchema.parse(formData.get("productSlug"));
-  await requirePractitioner(`/workspace/evaluations/${evaluationId}`);
-  const supabase = await createClient();
-  const { error } = await supabase.from("evaluation_products").upsert(
-    { evaluation_id: evaluationId, product_slug: productSlug },
-    { onConflict: "evaluation_id,product_slug", ignoreDuplicates: true },
+  const practitionerId = await requirePractitioner(
+    `/workspace/evaluations/${evaluationId}`,
   );
-  if (error) throw error;
+  if (
+    !(await workflowStore().addEvaluationProduct(
+      practitionerId,
+      evaluationId,
+      productSlug,
+    ))
+  )
+    throw new Error("Evaluation not found");
   revalidatePath(`/workspace/evaluations/${evaluationId}`);
 }
 
 export async function removeEvaluationProductAction(formData: FormData) {
   const evaluationId = uuidSchema.parse(formData.get("evaluationId"));
   const productSlug = catalogSlugSchema.parse(formData.get("productSlug"));
-  await requirePractitioner(`/workspace/evaluations/${evaluationId}`);
-  const supabase = await createClient();
-  const { error } = await supabase
-    .from("evaluation_products")
-    .delete()
-    .eq("evaluation_id", evaluationId)
-    .eq("product_slug", productSlug);
-  if (error) throw error;
+  const practitionerId = await requirePractitioner(
+    `/workspace/evaluations/${evaluationId}`,
+  );
+  if (
+    !(await workflowStore().removeEvaluationProduct(
+      practitionerId,
+      evaluationId,
+      productSlug,
+    ))
+  )
+    throw new Error("Evaluation candidate not found");
   revalidatePath(`/workspace/evaluations/${evaluationId}`);
 }
 
 export async function deleteEvaluationAction(formData: FormData) {
   const evaluationId = uuidSchema.parse(formData.get("evaluationId"));
   const practitionerId = await requirePractitioner("/workspace/evaluations");
-  const supabase = await createClient();
-  const { error } = await supabase
-    .from("evaluations")
-    .delete()
-    .eq("id", evaluationId)
-    .eq("practitioner_id", practitionerId);
-  if (error) throw error;
+  if (!(await workflowStore().deleteEvaluation(practitionerId, evaluationId)))
+    throw new Error("Evaluation not found");
   redirect("/workspace/evaluations");
 }
 
 export async function markUpdateReadAction(formData: FormData) {
   const updateId = uuidSchema.parse(formData.get("updateId"));
   const practitionerId = await requirePractitioner("/updates");
-  const supabase = await createClient();
-  const { error } = await supabase.from("update_reads").upsert(
-    { practitioner_id: practitionerId, update_id: updateId },
-    { onConflict: "practitioner_id,update_id", ignoreDuplicates: true },
-  );
-  if (error) throw error;
+  await workflowStore().markUpdateRead(practitionerId, updateId);
   revalidatePath("/updates");
   revalidatePath("/", "layout");
 }
 
-const profileSchema = z.object({
-  displayName: z.string().trim().min(1).max(120),
-  role: z.string().trim().max(120),
-  organization: z.string().trim().max(160),
-});
-
 export async function updateProfileAction(formData: FormData) {
-  const input = profileSchema.parse({
+  const input = practitionerProfileSchema.parse({
     displayName: formData.get("displayName"),
     role: formData.get("role") ?? "",
     organization: formData.get("organization") ?? "",
   });
   const practitionerId = await requirePractitioner("/settings");
-  const supabase = await createClient();
-  const { error } = await supabase.from("practitioner_profiles").upsert(
-    {
-      user_id: practitionerId,
-      display_name: input.displayName,
-      role: input.role,
-      organization: input.organization,
-    },
-    { onConflict: "user_id" },
-  );
-  if (error) throw error;
+  await workflowStore().updateProfile(practitionerId, input);
   revalidatePath("/settings");
 }
 
-const submissionSchema = z.object({
-  submissionType: z.enum(["correction", "company_update"]),
-  relationship: z.enum(["practitioner", "company_employee", "founder", "agency", "other"]),
-  productSlug: catalogSlugSchema.optional(),
-  companySlug: catalogSlugSchema.optional(),
-  sourceUrl: z.string().url().max(2_000),
-  message: z.string().trim().min(20).max(10_000),
-  contactEmail: z.string().trim().toLowerCase().email().max(320),
-  website: z.string().max(0).optional(),
-}).refine((value) => value.productSlug || value.companySlug, {
-  message: "Choose a product or company",
-});
+function submissionErrorUrl(
+  type: "correction" | "company_update",
+  message: string,
+) {
+  const path =
+    type === "company_update" ? "/submit/update" : "/submit/correction";
+  return `${path}?error=${encodeURIComponent(message)}`;
+}
 
 export async function submitEditorialAction(formData: FormData) {
-  const cookieStore = await cookies();
-  if (cookieStore.get("watchlist-submission-throttle")) {
-    redirect("/submit/correction?error=Please+wait+before+submitting+again");
-  }
-
-  const input = submissionSchema.parse({
+  const requestedType =
+    formData.get("submissionType") === "company_update"
+      ? "company_update"
+      : "correction";
+  const parsedInput = editorialSubmissionSchema.safeParse({
     submissionType: formData.get("submissionType"),
     relationship: formData.get("relationship"),
-    productSlug: formData.get("productSlug") || undefined,
-    companySlug: formData.get("companySlug") || undefined,
+    productSlug: parseOptionalCatalogSlug(formData.get("productSlug")),
+    companySlug: parseOptionalCatalogSlug(formData.get("companySlug")),
     sourceUrl: formData.get("sourceUrl"),
     message: formData.get("message"),
     contactEmail: formData.get("contactEmail"),
     website: formData.get("website") || undefined,
+    turnstileToken: formData.get("cf-turnstile-response"),
   });
+  if (!parsedInput.success) {
+    redirect(
+      submissionErrorUrl(
+        requestedType,
+        "Check the submission fields and try again",
+      ),
+    );
+  }
+  const input = parsedInput.data;
 
-  const supabase = await createClient();
+  const securityEnvironment = getSubmissionSecurityEnvironment();
+  const ipAddress = trustedClientIp(await headers());
+  const botCheckPassed = await verifyEditorialTurnstile({
+    token: input.turnstileToken,
+    ipAddress,
+    secret: securityEnvironment.TURNSTILE_SECRET_KEY,
+  });
+  if (!botCheckPassed) {
+    redirect(
+      submissionErrorUrl(
+        input.submissionType,
+        "Please complete the anti-bot check and try again",
+      ),
+    );
+  }
+
   const practitionerId = await getAuthenticatedPractitionerId();
-  const { error } = await supabase.from("editorial_submissions").insert({
-    submission_type: input.submissionType,
-    relationship: input.relationship,
-    product_slug: input.productSlug ?? null,
-    company_slug: input.companySlug ?? null,
-    source_url: input.sourceUrl,
-    message: input.message,
-    contact_email: input.contactEmail,
-    submitted_by: practitionerId,
-    status: "pending",
-  });
-  if (error) throw error;
+  const ipHash = hashSubmissionIdentity(
+    ipAddress,
+    securityEnvironment.SUBMISSION_HASH_SECRET,
+  );
+  const accountHash = practitionerId
+    ? hashSubmissionIdentity(
+        practitionerId,
+        securityEnvironment.SUBMISSION_HASH_SECRET,
+      )
+    : null;
+  try {
+    await workflowStore().submitEditorial({
+      submissionType: input.submissionType,
+      relationship: input.relationship,
+      productSlug: input.productSlug ?? null,
+      companySlug: input.companySlug ?? null,
+      sourceUrl: input.sourceUrl,
+      message: input.message,
+      contactEmail: input.contactEmail,
+      submittedBy: practitionerId,
+      ipHash,
+      accountHash,
+    });
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message.includes("submission rate limit exceeded")
+    ) {
+      redirect(
+        submissionErrorUrl(
+          input.submissionType,
+          "Please wait before submitting again",
+        ),
+      );
+    }
+    throw error;
+  }
 
-  cookieStore.set("watchlist-submission-throttle", randomUUID(), {
-    httpOnly: true,
-    maxAge: 60,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-  });
   redirect(
     input.submissionType === "company_update"
       ? "/submit/update?submitted=1"

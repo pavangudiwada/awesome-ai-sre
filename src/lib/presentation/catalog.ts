@@ -223,6 +223,38 @@ export function productEvidenceClaims(
   }));
 }
 
+export function sourceLinkedCapabilityClaim(
+  capability: string,
+  claims: readonly EvidenceClaim[],
+): EvidenceClaim | undefined {
+  return claims.find(
+    (claim) =>
+      claim.claim === capability &&
+      Boolean(claim.sourceHref) &&
+      typeof claim.sourceCount === "number" &&
+      claim.sourceCount > 0,
+  );
+}
+
+export function evidenceReviewLabel(claims: readonly EvidenceClaim[]): string {
+  if (claims.length === 0) return "Pending";
+
+  const statuses = new Set(claims.map((claim) => claim.status));
+  if (statuses.size > 1) return "Mixed evidence";
+
+  const [status] = statuses;
+  switch (status) {
+    case "documented":
+      return "Documented";
+    case "vendor-claimed":
+      return "Vendor claims";
+    case "observed":
+      return "Watchlist observed";
+    case "unknown":
+      return "Unknown";
+  }
+}
+
 export function observabilityEvidenceClaims(
   product: ObservabilityProduct,
 ): EvidenceClaim[] {
