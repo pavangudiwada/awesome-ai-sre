@@ -10,6 +10,8 @@ repository=${SOURCE_REPOSITORY:-"$root/repository"}
 releases="$root/releases"
 release_helper="$root/ops/exe/deploy-release.sh"
 state_dir="$root/shared/state"
+runtime_user=exedev
+runtime_group=exedev
 sha=${1:?usage: deploy-main.sh FULL_ORIGIN_MAIN_SHA}
 
 [[ "$sha" =~ ^[0-9a-f]{40}$ ]] || {
@@ -74,6 +76,15 @@ test -z "$(git -C "$release" status --porcelain)"
   unset AI_SRE_DATABASE_LOCK_HELD
   flock -u 8
 )
+
+# Builds run as root so deployment secrets remain in the protected shared
+# directory. Hand the immutable release itself to the account that systemd
+# uses before changing the current symlink; no shared files are included.
+chown -R "$runtime_user:$runtime_group" "$release"
+chmod -R u=rwX,go= "$release"
+chown root:"$runtime_group" "$releases"
+chmod 0750 "$releases"
+sudo -u "$runtime_user" -- sh -c 'cd "$1" && test -r .next/BUILD_ID' sh "$release"
 
 "$release_helper" "$release"
 created_release=0
