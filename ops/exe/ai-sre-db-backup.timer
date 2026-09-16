@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily AI SRE Watchlist PostgreSQL backup and restore verification
+
+[Timer]
+OnCalendar=*-*-* 03:30:00 UTC
+Persistent=true
+RandomizedDelaySec=15m
+Unit=ai-sre-db-backup.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,8 @@
+[Unit]
+Description=Back up and restore-verify AI SRE Watchlist PostgreSQL
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/ai-sre-db-backup-restore
