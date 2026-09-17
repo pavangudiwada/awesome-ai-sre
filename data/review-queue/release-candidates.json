@@ -3,6 +3,24 @@
   "generatedAt": null,
   "items": [
     {
+      "id": "288b41233905543e707e2ff27908f205a88cfaa71a10fe2753baf061e5870c00",
+      "productSlug": "holmesgpt",
+      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
+      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.42.0",
+      "title": "0.42.0",
+      "summary": "What's Changed Add conversation_link chat field rendered into the system prompt by @ezra-robusta in #2422 Surface MCP structuredContent and drop null optional params by @claude [bot] in #2459 Add configurable request timeout for New Relic toolset by @arikalon1 in #2457 Anonymize project slug in MCP toolset test fixture by @claude [bot] in #2463 Add GPU node diagnostics support to kubernetes-remediation MCP by @arikalon1 in #2462 Add namespaceScopedRBAC helm value for namespace-scoped Holmes installs by @arikalon1 in #2469 ROB-1395: Fix Coralogix UI permalinks for US2 and other regions by @moshemorad in #2478 ROB-973: harden kubernetes-remediation file-read policy defaults in the Helm chart by @naomi-robusta in #2479 New Contributors @ezra-robusta made their first contribution in #2422 @claude [bot] made their first contribution in #2459 Full Changelog : 0.41.0...0.42.0",
+      "publishedAt": "2026-09-16T19:31:54.000Z"
+    },
+    {
+      "id": "5ed11c54d34bf03ff088e50af7c7f26e450bee049cd4a47f93dcfd0ad36e16dc",
+      "productSlug": "holmesgpt",
+      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
+      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.42.0-alpha",
+      "title": "0.42.0-alpha",
+      "summary": "ROB-973: harden kubernetes-remediation file-read policy defaults in t… …he Helm chart ( #2479 ) Chart side of [ROB-973]( https://linear.app/robusta/issue/ROB-973/holmes-mcp-integrations-codex-h01-auto-approved-container-file-reads ) / [ROB-1103]( https://linear.app/robusta/issue/ROB-1103 ). Server side: robusta-dev/holmes-mcp-integrations PR \"ROB-973: harden read_file_from_container path policy\" (image `1.4.0`). ## What was wrong `mcpAddons.kubernetesRemediation.config.fileReadAllowedPaths` defaulted to `\"/\"`, so the auto-approved `read_file_from_container` tool (cluster-wide `pods/exec`) could read any file in any pod except three denied prefixes. Verified on a k3s cluster: GCP/AWS credential files, `.env`, TLS keys and a symlink into a Secret mount were all returned to the caller. The LLM instructions also told the model `/proc` was readable (the server hard-denies it) and that only secret/token mounts were refused. ## What changed - `fileReadAllowedPaths` default → `/app,/config,/data,/etc,/home,/opt,/srv,/tmp,/usr,/var/lib,/var/log,/var/tmp,/var/www,/workspace`. Honoured by the currently pinned `1.2.0` image. - New `fileReadRequireCanonicalization: true`, wired as `KUBECTL_FILE_READ_REQUIRE_CANONICALIZATION` through the ConfigMap and container env. Server `>= 1.4.0` refuses reads the container cannot resolve with `readlink -f`; older images ignore the variable, so this is safe on `1.2.0`. - Values comment documents the server's non-configurable hard-denied roots/patterns and how to make the tool approval-gated (`approvalRequiredTools`). - `_helpers.tpl` LLM instructions and `docs/data-sources/builtin-toolsets/kubernetes-remediation-mcp.md` corrected. ## Verification ``` $ helm template t helm/holmes --set mcpAddons.kubernetesRemediation.enabled=true --set mcpAddons.kubernetesRemediation.auth.existingSecret=x | grep KUBECTL_FILE_READ KUBECTL_FILE_READ_ALLOWED_PATHS: \"/app,/config,/data,/etc,/home,/opt,/srv,/tmp,/usr,/var/lib,/var/log,/var/tmp,/var/www,/workspace\"",
+      "publishedAt": "2026-09-16T16:57:37.000Z"
+    },
+    {
       "id": "abed993d683f754f456fcf120821d432bbaa2023c4cfde4bd3061b3a4738c62a",
       "productSlug": "holmesgpt",
       "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
@@ -73,24 +91,6 @@
       "title": "0.38.2",
       "summary": "What's Changed ROB-770 Add cross-cluster tools documentation by @naomi-robusta in #2341 ROB-808 docs: add Bitbucket instructions for loading custom skills by @Avi-Robusta in #2342 ROB-836 Pin *.sha256 manifests to LF so the Docker build works on Windows clones by @alonelish in #2354 ROB-841 Add RFC 8707 resource indicator support to MCP OAuth flow by @Avi-Robusta in #2355 Full Changelog : 0.38.1...0.38.2",
       "publishedAt": "2026-08-06T07:18:17.000Z"
-    },
-    {
-      "id": "d16ec42298c98771e2ad76c8c6cd8de0108d58546fa2a7e9e6e93df3917d7fa4",
-      "productSlug": "holmesgpt",
-      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
-      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.38.1",
-      "title": "0.38.1",
-      "summary": "What's Changed Behavior-guard tests: log-fetch transparency eval, fix permissions eval setup by @naomi-robusta in #2328 Fix operator image startup by removing holmes package dependency by @moshemorad in #2339 ROB-679 Log the TOOL_MEMORY_LIMIT_MB remedy when a tool is OOM killed by @Avi-Robusta in #2331 Full Changelog : 0.38.0...0.38.1",
-      "publishedAt": "2026-08-02T13:04:46.000Z"
-    },
-    {
-      "id": "f240c1da2fcd20d640c343f871e72e551da7aa861feed277b09aedc51d64b958",
-      "productSlug": "holmesgpt",
-      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
-      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.38.1-alpha",
-      "title": "0.38.1-alpha",
-      "summary": "What's Changed Rebuild Go binaries with Go 1.26.5 and add kubectl build by @moshemorad in #2324 ROB-678: evals for Slack channel-history context recovery by @Avi-Robusta in #2323 ROB-635 ROB-674 Reduce system prompt and tool description sizes (~50-60% fewer prompt tokens) by @naomi-robusta in #2301 ROB-677 Implement remote tool call approval workflows by @Avi-Robusta in #2311 ROB-759 Make conversation-worker slot exhaustion visible; bound reconnect sign-in by @Sheeproid in #2327 Full Changelog : 0.37.0...0.38.1-alpha",
-      "publishedAt": "2026-07-29T13:48:21.000Z"
     },
     {
       "id": "9393bf7ef6d9d3b7eb9ee3088c96c01b65ef04f76cccaa1d2a02c2359ef9eb0e",
