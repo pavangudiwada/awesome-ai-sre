@@ -15,24 +15,23 @@ test.describe("trust and activation workflows", () => {
       page.getByText("Saving a product does not follow this company. These are intentionally separate actions."),
     ).toBeVisible();
     await expect(
-      page.getByText(/Company follows and personalized update notifications are coming soon/),
+      page.getByText(/Following this company will prioritize its reviewed updates/),
     ).toBeVisible();
 
-    const save = page.getByRole("button", { name: "Save RunWhen — coming soon" });
-    const follow = page.getByRole("button", { name: "Follow RunWhen — coming soon" });
+    const save = page.getByRole("button", { name: "Save RunWhen" });
+    const follow = page.getByRole("button", { name: "Follow RunWhen" });
     await expectMinimumTouchTarget(save, "Product Save action");
     await expectMinimumTouchTarget(follow, "Company Follow action");
     await expect(save).toHaveAttribute("aria-pressed", "false");
     await expect(follow).toHaveAttribute("aria-pressed", "false");
-    await expect(save).toBeDisabled();
-    await expect(follow).toBeDisabled();
-    await expect(page.getByText("Follow company — coming soon", { exact: true })).toBeVisible();
-    await expect(page.getByText("Save", { exact: true })).toHaveCount(0);
+    await expect(save).toBeEnabled();
+    await expect(follow).toBeEnabled();
+    await expect(page.getByText("Follow company", { exact: true })).toBeVisible();
     await expect(page.getByText("No reviewed updates published yet", { exact: true })).toBeVisible();
     await expectPublicPageGuardrails(page, testInfo);
   });
 
-  test("sign-in clearly communicates the launch state while public browsing stays open", async ({ page }, testInfo) => {
+  test("sign-in keeps public browsing open while auth is unavailable", async ({ page }, testInfo) => {
     await openRoute(page, "/sign-in");
 
     const benefitSection = page.getByRole("heading", {
@@ -48,9 +47,8 @@ test.describe("trust and activation workflows", () => {
     await expect(page.getByText("Add private notes", { exact: true })).toBeVisible();
     await expect(page.getByText("Compare serious candidates", { exact: true })).toBeVisible();
     await expect(page.getByText("browse every product and source without an account", { exact: false })).toBeVisible();
-    await expect(page.getByText("Private workspace coming soon", { exact: true })).toBeVisible();
-    await expect(page.getByText("Sign-in is coming soon", { exact: true })).toBeVisible();
-    await expect(page.getByText(/public directory, profiles, sources, and newsletter remain available/i)).toBeVisible();
+    await expect(page.getByText("Sign in or create your workspace", { exact: true })).toBeVisible();
+    await expect(page.getByText(/Authentication is not configured for this local preview/i)).toBeVisible();
 
     const left = await benefitSection.boundingBox();
     const right = await signInSection.boundingBox();
@@ -61,7 +59,7 @@ test.describe("trust and activation workflows", () => {
       expect(Math.abs(left!.y - right!.y), "Desktop split panels should begin on the same row").toBeLessThanOrEqual(1);
       expect(right!.x, "The sign-in panel should be the right half of the desktop split").toBeGreaterThanOrEqual(left!.x + left!.width - 1);
     } else {
-      expect(left!.y, "Mobile should put the launch-state panel before supporting account details").toBeGreaterThanOrEqual(right!.y + right!.height - 1);
+      expect(left!.y, "Mobile should put supporting account details after the sign-in panel").toBeGreaterThanOrEqual(right!.y + right!.height - 1);
     }
 
     await expectPublicPageGuardrails(page, testInfo);
@@ -81,7 +79,7 @@ test.describe("trust and activation workflows", () => {
       page.getByText(/feed intentionally stays empty until an update has sources and editorial review/i),
     ).toBeVisible();
     await expect(page.getByText(/There are no placeholder unread badges/i)).toBeVisible();
-    await expect(page.getByRole("button", { name: "Updates coming soon" })).toBeDisabled();
+    await expect(page.getByRole("button", { name: "Open updates" }).first()).toBeEnabled();
     await expectPublicPageGuardrails(page, testInfo);
   });
 
@@ -127,8 +125,7 @@ test.describe("trust and activation workflows", () => {
       await expect(page).toHaveURL((url) => {
         return url.pathname === "/sign-in" && url.searchParams.get("next") === route;
       });
-      await expect(page.getByText("Private workspace coming soon", { exact: true })).toBeVisible();
-      await expect(page.getByText("Sign-in is coming soon", { exact: true })).toBeVisible();
+      await expect(page.getByText("Sign in or create your workspace", { exact: true })).toBeVisible();
       await expect(page.getByText("browse every product and source without an account", { exact: false })).toBeVisible();
       await expectPublicPageGuardrails(page, testInfo);
     }

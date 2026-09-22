@@ -50,7 +50,7 @@ export default async function UpdatesPage() {
                   {new Intl.DateTimeFormat("en", { dateStyle: "medium", timeZone: "UTC" }).format(new Date(update.published_at))}
                 </time>
                 <Button asChild variant="link" className="px-0">
-                  <Link href={`/updates/${update.slug}`}>Read update</Link>
+                  <Link href={update.source_url ?? `/updates/${update.slug}`}>Read update</Link>
                 </Button>
               </CardFooter>
             </Card>

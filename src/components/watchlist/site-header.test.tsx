@@ -11,7 +11,7 @@ function renderHeader(
 ) {
   return render(
     <TooltipProvider>
-      <SiteHeader privateWorkflowsAvailable {...props} />
+      <SiteHeader {...props} />
     </TooltipProvider>
   )
 }
@@ -46,14 +46,10 @@ describe("SiteHeader", () => {
     expect(screen.getByText("K")).toBeInTheDocument()
   })
 
-  it("keeps private launch features visible but disabled", () => {
-    renderHeader({ privateWorkflowsAvailable: false })
-
-    expect(screen.getByRole("status")).toHaveTextContent("More features are coming soon")
-    expect(screen.getByRole("button", { name: "Updates coming soon" })).toBeDisabled()
-    expect(screen.getByRole("button", { name: "Sign in coming soon" })).toBeDisabled()
-    expect(screen.getByText("Sign in soon")).toBeInTheDocument()
-    expect(screen.queryByRole("link", { name: "Sign in" })).not.toBeInTheDocument()
+  it("exposes sign-up and sign-in through the shared auth route", () => {
+    renderHeader()
+    expect(screen.getByRole("link", { name: "Sign in" })).toHaveAttribute("href", "/sign-in")
+    expect(screen.getByRole("link", { name: "Sign up" })).toHaveAttribute("href", "/sign-in")
   })
 
   it("opens command search when the header search button is clicked", () => {

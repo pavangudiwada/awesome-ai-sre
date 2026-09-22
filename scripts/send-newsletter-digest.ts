@@ -99,6 +99,7 @@ async function main() {
       select id::text as id, title, summary, content_path as "contentPath"
       from public.published_updates
       where published_at >= ${period.start}::date and published_at < ${period.end}::date
+        and content_path is not null and retired_at is null
       order by published_at asc, id asc
       limit 20
     `;

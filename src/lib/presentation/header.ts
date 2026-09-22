@@ -7,7 +7,6 @@ import type {
 import { signOut } from "@/actions/auth";
 import { getPostgresClient } from "@/db";
 import { getAuthenticatedPractitionerId } from "@/lib/auth/actions";
-import { isAuthConfigured } from "@/lib/auth/server";
 import { getCompanies } from "@/lib/catalog";
 
 import {
@@ -38,7 +37,7 @@ function presentNotifications(
     id: update.id,
     title: update.title,
     summary: update.summary,
-    href: `/updates/${update.slug}`,
+    href: update.source_url ?? `/updates/${update.slug}`,
     publishedAtLabel: formatUpdateDate(update.published_at),
     ...(includeReadState ? { unread: !readIds.has(update.id) } : {}),
     source:
@@ -52,7 +51,6 @@ function presentNotifications(
 }
 
 async function getAvailablePublicUpdates(): Promise<PublicHeaderUpdate[]> {
-  if (!isAuthConfigured()) return [];
   try {
     return await getPublicHeaderUpdates();
   } catch {

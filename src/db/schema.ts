@@ -417,8 +417,9 @@ export const publishedUpdates = pgTable(
     ),
     title: text("title").notNull(),
     summary: text("summary").notNull(),
-    contentPath: text("content_path").notNull(),
+    contentPath: text("content_path"),
     sourceUrl: text("source_url"),
+    retiredAt: timestamp("retired_at", { withTimezone: true, mode: "date" }),
     publishedAt: timestamp("published_at", {
       withTimezone: true,
       mode: "date",
@@ -439,10 +440,7 @@ export const publishedUpdates = pgTable(
       "published_updates_slug_format",
       sql`${table.slug} ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$'`,
     ),
-    check(
-      "published_updates_content_path_internal",
-      sql`${table.contentPath} ~ '^/updates/[a-z0-9]+(?:-[a-z0-9]+)*$'`,
-    ),
+    check("published_updates_content_path_internal", sql`${table.contentPath} is null or ${table.contentPath} ~ '^/updates/[a-z0-9]+(?:-[a-z0-9]+)*$'`),
   ],
 );
 

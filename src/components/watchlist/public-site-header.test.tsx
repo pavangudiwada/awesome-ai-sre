@@ -21,12 +21,10 @@ vi.mock("@/actions/workflows", () => ({
 
 import { PublicSiteHeader } from "./public-site-header";
 
-function renderHeader(privateWorkflowsAvailable = true) {
+function renderHeader() {
   return render(
     <TooltipProvider>
-      <PublicSiteHeader
-        privateWorkflowsAvailable={privateWorkflowsAvailable}
-        searchItems={[{
+      <PublicSiteHeader searchItems={[{
           type: "tool",
           label: "RunWhen",
           description: "AI-powered incident investigation",
@@ -55,21 +53,18 @@ describe("PublicSiteHeader", () => {
 
     renderHeader();
 
-    expect(screen.getByLabelText("Loading account")).toBeDisabled();
-    expect(screen.queryByRole("link", { name: "Sign in" })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Sign in" })).toBeInTheDocument();
     expect(screen.getAllByLabelText("Open updates")).toHaveLength(2);
     expect(screen.queryByText("New")).not.toBeInTheDocument();
   });
 
-  it("does not request private header state while launch workflows are disabled", () => {
+  it("requests public updates for anonymous visitors", () => {
     const fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);
 
-    renderHeader(false);
+    renderHeader();
 
-    expect(screen.getByRole("button", { name: "Updates coming soon" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "Sign in coming soon" })).toBeDisabled();
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalled();
   });
 
   it("hydrates a verified viewer and unread updates from the private endpoint", async () => {
@@ -102,6 +97,24 @@ describe("PublicSiteHeader", () => {
       cache: "no-store",
       credentials: "same-origin",
     }));
+  });
+
+  it("renders a source-linked latest alert for anonymous visitors", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(response({
+      viewer: null,
+      notifications: [{
+        id: "00000000-0000-4000-8000-000000000002",
+        title: "Acme funding",
+        summary: "Acme announced a round.",
+        href: "https://example.com/news",
+        publishedAtLabel: "Sep 22, 2026",
+        source: "watchlist",
+      }],
+    })));
+    renderHeader();
+    await waitFor(() => {
+      expect(screen.getByRole("link", { name: "Latest alert: Acme funding" })).toHaveAttribute("href", "https://example.com/news");
+    });
   });
 
   it("keeps public navigation usable and labels unavailable updates after failure", async () => {

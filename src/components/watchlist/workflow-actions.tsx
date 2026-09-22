@@ -2,7 +2,6 @@ import Link from "next/link"
 import { BookmarkIcon, FolderPlusIcon, RssIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features"
 import { cn } from "@/lib/utils"
 
 import type { ServerFormAction } from "./types"
@@ -19,7 +18,6 @@ interface ProfileProductActionsProps {
   evaluationVariant?: "default" | "outline"
   evaluationAriaLabel?: string
   saveAriaLabel?: string
-  privateWorkflowsAvailable?: boolean
 }
 
 export function ProfileProductActions({
@@ -34,7 +32,6 @@ export function ProfileProductActions({
   evaluationVariant = "outline",
   evaluationAriaLabel,
   saveAriaLabel,
-  privateWorkflowsAvailable = PRIVATE_WORKFLOWS_AVAILABLE,
 }: ProfileProductActionsProps) {
   const baseSaveLabel =
     saveAriaLabel ??
@@ -49,18 +46,15 @@ export function ProfileProductActions({
         variant={saved ? "secondary" : "outline"}
         className={cn("h-11", orientation === "vertical" && "w-full")}
         aria-pressed={saved}
-        aria-label={privateWorkflowsAvailable ? baseSaveLabel : `${baseSaveLabel} — coming soon`}
-        title={privateWorkflowsAvailable ? baseSaveLabel : "Saving products is coming soon"}
-        disabled={!privateWorkflowsAvailable}
+        aria-label={baseSaveLabel}
+        title={baseSaveLabel}
       >
         <BookmarkIcon data-icon="inline-start" fill={saved ? "currentColor" : "none"} />
-        {privateWorkflowsAvailable
-          ? saved ? "Saved" : "Save product"
-          : "Save product — coming soon"}
+        {saved ? "Saved" : "Save product"}
       </Button>
     </form>
   )
-  const evaluationControl = privateWorkflowsAvailable ? (
+  const evaluationControl = (
     <Button
       asChild
       variant={evaluationVariant}
@@ -70,18 +64,6 @@ export function ProfileProductActions({
         <FolderPlusIcon data-icon="inline-start" />
         Add to evaluation
       </Link>
-    </Button>
-  ) : (
-    <Button
-      type="button"
-      variant={evaluationVariant}
-      className={cn("h-11", orientation === "vertical" && "w-full")}
-      aria-label={`${evaluationAriaLabel ?? `Add ${productName} to evaluation`} — coming soon`}
-      title="Private evaluations are coming soon"
-      disabled
-    >
-      <FolderPlusIcon data-icon="inline-start" />
-      Add to evaluation — coming soon
     </Button>
   )
 
@@ -103,7 +85,6 @@ interface CompanyFollowActionProps {
   companyName: string
   following: boolean
   action: ServerFormAction
-  privateWorkflowsAvailable?: boolean
 }
 
 export function CompanyFollowAction({
@@ -111,7 +92,6 @@ export function CompanyFollowAction({
   companyName,
   following,
   action,
-  privateWorkflowsAvailable = PRIVATE_WORKFLOWS_AVAILABLE,
 }: CompanyFollowActionProps) {
   const label = following ? `Unfollow ${companyName}` : `Follow ${companyName}`
 
@@ -124,14 +104,11 @@ export function CompanyFollowAction({
         variant={following ? "secondary" : "outline"}
         className="h-11"
         aria-pressed={following}
-        aria-label={privateWorkflowsAvailable ? label : `${label} — coming soon`}
-        title={privateWorkflowsAvailable ? label : "Following companies is coming soon"}
-        disabled={!privateWorkflowsAvailable}
+        aria-label={label}
+        title={label}
       >
         <RssIcon data-icon="inline-start" />
-        {privateWorkflowsAvailable
-          ? following ? "Following company" : "Follow company"
-          : "Follow company — coming soon"}
+        {following ? "Following company" : "Follow company"}
       </Button>
     </form>
   )

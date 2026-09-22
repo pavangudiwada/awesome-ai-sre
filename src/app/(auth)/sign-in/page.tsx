@@ -4,15 +4,12 @@ import { sendMagicLink, signInWithOAuth } from "@/actions/auth";
 import { AuthPanel } from "@/components/watchlist";
 import { isAuthConfigured, isMagicLinkConfigured, isOAuthProviderConfigured } from "@/lib/auth/server";
 import { internalReturnPathSchema } from "@/lib/auth/schemas";
-import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features";
 
 // Provider availability and user-facing error/success state come from this request.
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: PRIVATE_WORKFLOWS_AVAILABLE
-    ? "Sign in or create a workspace"
-    : "Private workspace coming soon",
+  title: "Sign in or create a workspace",
   description: "Create a private place to save AI reliability products, add notes, and compare serious candidates.",
   alternates: { canonical: "/sign-in" },
 };
@@ -52,7 +49,6 @@ export default async function SignInPage({
           ? `A one-time sign-in link was sent to ${params.email}.`
           : undefined
       }
-      disabled={!PRIVATE_WORKFLOWS_AVAILABLE}
     />
   );
 }

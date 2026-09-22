@@ -19,4 +19,14 @@ describe("public header updates", () => {
     }]);
     await expect(getPublicHeaderUpdates()).resolves.toEqual(expect.arrayContaining([expect.objectContaining({ slug: "reliable-update" })]));
   });
+
+  it("accepts a safe HTTPS source URL for a manual alert", async () => {
+    mocks.sql.mockResolvedValueOnce([{
+      id: "00000000-0000-4000-8000-000000000002", slug: "funding", company_slug: null,
+      title: "Funding", summary: "Source linked", source_url: "https://example.com/news", published_at: "2026-07-15T12:00:00.000Z",
+    }]);
+    await expect(getPublicHeaderUpdates()).resolves.toEqual(expect.arrayContaining([
+      expect.objectContaining({ source_url: "https://example.com/news" }),
+    ]));
+  });
 });

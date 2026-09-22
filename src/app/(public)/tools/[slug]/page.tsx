@@ -56,7 +56,6 @@ import {
   getProductBySlug,
   getProducts,
 } from "@/lib/catalog";
-import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features";
 import {
   companySources,
   productBadges,
@@ -345,7 +344,7 @@ export default async function ProductPage({
             )}
           </section>
 
-          {PRIVATE_WORKFLOWS_AVAILABLE && workflow.signedIn ? (
+          {workflow.signedIn ? (
             <ConnectedProductNoteEditor
               productSlug={product.slug}
               productName={product.name}

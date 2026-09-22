@@ -11,7 +11,6 @@ describe("CompanyFollowAction", () => {
         companyName="RunWhen"
         following
         action={vi.fn()}
-        privateWorkflowsAvailable
       />,
     );
 
@@ -20,7 +19,7 @@ describe("CompanyFollowAction", () => {
     expect(container.querySelector('input[name="following"]')).toBeNull();
   });
 
-  it("keeps following visible but disabled for launch", () => {
+  it("keeps following available", () => {
     render(
       <CompanyFollowAction
         companySlug="runwhen"
@@ -31,7 +30,7 @@ describe("CompanyFollowAction", () => {
     );
 
     expect(
-      screen.getByRole("button", { name: "Follow RunWhen — coming soon" }),
-    ).toBeDisabled();
+      screen.getByRole("button", { name: "Follow RunWhen" }),
+    ).toBeEnabled();
   });
 });

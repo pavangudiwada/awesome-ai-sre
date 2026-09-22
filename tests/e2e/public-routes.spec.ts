@@ -45,9 +45,8 @@ test.describe("public Watchlist routes", () => {
         name: "Evaluate AI incident-response tools with a repeatable process",
       }),
     ).toBeVisible();
-    await expect(page.getByText(/More features are coming soon: accounts, saves, follows/)).toBeVisible();
-    await expect(page.getByRole("button", { name: "Sign in coming soon" })).toBeDisabled();
-    await expect(page.getByRole("button", { name: "Updates coming soon" })).toBeDisabled();
+    await expect(page.getByRole("link", { name: "Sign in" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Open updates" }).first()).toBeVisible();
     await expectPublicPageGuardrails(page, testInfo);
   });
 
@@ -90,18 +89,8 @@ test.describe("public Watchlist routes", () => {
     const headerSearch = page.getByRole("button", { name: "Search tools and resources" });
     await expect(headerSearch).toContainText("K");
 
-    const updates = page.getByRole("button", { name: "Updates coming soon" });
-    await expectMinimumTouchTarget(updates, "Disabled updates action");
-    await expect(updates).toBeDisabled();
-
-    await expectMinimumTouchTarget(
-      page.getByRole("button", { name: "Sign in coming soon" }),
-      "Disabled sign-in action",
-    );
-    await page.locator('[data-slot="tooltip-trigger"]').hover();
-    await expect(
-      page.getByRole("tooltip").getByText(/Sign-in, saves, follows, and private workspaces/),
-    ).toBeVisible();
+    await expectMinimumTouchTarget(page.getByRole("button", { name: "Open updates" }).first(), "Updates action");
+    await expect(page.getByRole("link", { name: "Sign in" })).toHaveAttribute("href", "/sign-in");
     await expectPublicPageGuardrails(page, testInfo);
 
     await page.getByRole("textbox", { name: "Search the AI SRE Watchlist" }).fill("RunWhen");
@@ -228,7 +217,7 @@ test.describe("public Watchlist routes", () => {
     await expect(page.getByRole("link", { name: "Official AI SRE documentation" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Official security and deployment page" })).toBeVisible();
     await expect(page.getByText("Private evaluation workspace", { exact: true })).toBeVisible();
-    await expect(page.getByRole("button", { name: "Workspace coming soon" })).toBeDisabled();
+    await expect(page.getByRole("link", { name: "Sign in to use the workspace" })).toBeVisible();
 
     const shareHeading = page.getByRole("heading", { level: 2, name: "Share RunWhen" });
     await expect(shareHeading).toBeVisible();
@@ -270,21 +259,21 @@ test.describe("public Watchlist routes", () => {
     }
 
     await expectMinimumTouchTarget(
-      page.getByRole("button", { name: "Save RunWhen — coming soon", exact: true }).first(),
+      page.getByRole("button", { name: "Save RunWhen", exact: true }).first(),
       "Save RunWhen action",
     );
     await expect(
-      page.getByRole("button", { name: "Save RunWhen — coming soon", exact: true }),
+      page.getByRole("button", { name: "Save RunWhen", exact: true }),
     ).toHaveCount(1);
     await expect(
-      page.getByRole("button", { name: "Save RunWhen — coming soon", exact: true }).first(),
-    ).toBeDisabled();
+      page.getByRole("button", { name: "Save RunWhen", exact: true }).first(),
+    ).toBeEnabled();
     await expectMinimumTouchTarget(
-      page.getByRole("button", { name: "Add RunWhen to evaluation — coming soon", exact: true }).first(),
+      page.getByRole("link", { name: "Add to evaluation", exact: true }).first(),
       "Add RunWhen to evaluation action",
     );
     await expect(
-      page.getByRole("button", { name: "Add RunWhen to evaluation — coming soon", exact: true }),
+      page.getByRole("link", { name: "Add to evaluation", exact: true }),
     ).toHaveCount(1);
     await expectImageHasNaturalSize(
       page.getByRole("img", { name: "RunWhen logo" }),
@@ -377,7 +366,7 @@ test.describe("public Watchlist routes", () => {
       expect(shareBox!.y).toBeLessThan(factsBox!.y);
     }
     await expectMinimumTouchTarget(
-      page.getByRole("button", { name: "Save Grafana — coming soon" }).first(),
+      page.getByRole("button", { name: "Save Grafana" }).first(),
       "Save Grafana action",
     );
     await expectImageHasNaturalSize(

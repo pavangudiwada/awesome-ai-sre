@@ -5,7 +5,6 @@ import { z } from "zod";
 
 import { getPostgresClient } from "@/db";
 import { getAuthenticatedPractitionerId } from "@/lib/auth/actions";
-import { isAuthConfigured } from "@/lib/auth/server";
 
 type EvaluationProduct = { product_slug: string; position: number | null };
 type WorkspaceEvaluation = {
@@ -66,17 +65,15 @@ export async function getCompanyFollowingState(companySlug: string) {
   );
 }
 export async function getCompanyPublishedUpdates(companySlug: string) {
-  if (!isAuthConfigured()) return [];
   try {
-    return await getPostgresClient()`select id::text as id, slug, title, summary, to_char(published_at at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') as published_at, source_url from public.published_updates where company_slug = ${companySlug} and published_at <= now() order by published_at desc`;
+    return await getPostgresClient()`select id::text as id, slug, title, summary, to_char(published_at at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') as published_at, source_url from public.published_updates where company_slug = ${companySlug} and published_at <= now() and retired_at is null order by published_at desc`;
   } catch {
     return [];
   }
 }
 export async function getAllPublishedUpdates() {
-  if (!isAuthConfigured()) return [];
   try {
-    return await getPostgresClient()`select id::text as id, slug, company_slug, product_slug, title, summary, to_char(published_at at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') as published_at, source_url from public.published_updates where published_at <= now() order by published_at desc`;
+    return await getPostgresClient()`select id::text as id, slug, company_slug, product_slug, title, summary, to_char(published_at at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') as published_at, source_url from public.published_updates where published_at <= now() and retired_at is null order by published_at desc`;
   } catch {
     return [];
   }

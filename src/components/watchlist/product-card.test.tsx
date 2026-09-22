@@ -27,7 +27,6 @@ describe("ProductCard", () => {
       <ProductCard
         product={product}
         onSaveChange={() => undefined}
-        privateWorkflowsAvailable
       />,
     )
 
@@ -46,7 +45,6 @@ describe("ProductCard", () => {
       <ProductCard
         product={product}
         onSaveChange={onSaveChange}
-        privateWorkflowsAvailable
       />,
     )
     await user.click(screen.getByRole("button", { name: "Save HolmesGPT" }))
@@ -55,11 +53,11 @@ describe("ProductCard", () => {
     expect(screen.queryByText(/follow/i)).not.toBeInTheDocument()
   })
 
-  it("keeps the save control in place but disables it for launch", () => {
+  it("keeps the save control available", () => {
     render(<ProductCard product={product} onSaveChange={() => undefined} />)
 
     expect(
-      screen.getByRole("button", { name: "Save HolmesGPT — coming soon" }),
-    ).toBeDisabled()
+      screen.getByRole("button", { name: "Save HolmesGPT" }),
+    ).toBeEnabled()
   })
 })

@@ -25,7 +25,6 @@ import {
   ItemTitle,
 } from "@/components/ui/item"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features"
 import { cn } from "@/lib/utils"
 
 import type { EvidenceClaim, EvidenceStatus } from "./types"
@@ -80,9 +79,7 @@ export function ProductSectionNav({
       aria-label="Product sections"
       className={cn(
         "sticky z-30 -mx-1 border-b bg-background/95 px-1 py-2 backdrop-blur",
-        PRIVATE_WORKFLOWS_AVAILABLE
-          ? "top-16"
-          : "top-[7.125rem] sm:top-[6.375rem]",
+        "top-16",
       )}
     >
       <div className="grid grid-cols-2 items-center gap-1 sm:flex sm:w-max">

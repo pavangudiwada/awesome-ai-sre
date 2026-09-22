@@ -31,7 +31,6 @@ import {
   getCompanyBySlug,
   getProductsByCompanySlug,
 } from "@/lib/catalog";
-import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features";
 import {
   companyMap,
   companySources,
@@ -163,7 +162,7 @@ export default async function CompanyPage({
                     </ItemContent>
                     <ItemFooter>
                     <Button asChild variant="link" className="h-11 px-0">
-                      <Link href={`/updates/${update.slug}`}>
+                      <Link href={update.source_url ?? `/updates/${update.slug}`}>
                         Read update
                         <ArrowRightIcon data-icon="inline-end" />
                       </Link>
@@ -178,9 +177,7 @@ export default async function CompanyPage({
                 <RssIcon />
                 <AlertTitle>No reviewed updates published yet</AlertTitle>
                 <AlertDescription>
-                  {PRIVATE_WORKFLOWS_AVAILABLE
-                    ? "Following this company will notify you after the Watchlist publishes a reviewed update. It does not expose your saves or evaluations."
-                    : "Company follows and personalized update notifications are coming soon. Public reviewed updates stay available here."}
+                  Following this company will prioritize its reviewed updates in your bell. It does not expose your saves or evaluations.
                 </AlertDescription>
               </Alert>
             )}

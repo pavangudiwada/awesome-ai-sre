@@ -12,6 +12,8 @@ const valid = {
   BETTER_AUTH_URL: "https://aisrewatchlist.com",
   NEXT_PUBLIC_SITE_URL: "https://aisrewatchlist.com",
   TRUST_PROXY: "exe",
+  GOOGLE_CLIENT_ID: "client",
+  GOOGLE_CLIENT_SECRET: "secret",
 };
 describe("release environment", () => {
   it("accepts a local server-only Postgres database and disabled Resend", () =>
@@ -36,4 +38,13 @@ describe("release environment", () => {
       }).join("\n"),
     ).toMatch(/NEWSLETTER_UNSUBSCRIBE_SECRET/);
   });
+  it("accepts Resend as the configured production sign-in method", () =>
+    expect(releaseEnvironmentIssues({
+      ...valid,
+      GOOGLE_CLIENT_ID: undefined,
+      GOOGLE_CLIENT_SECRET: undefined,
+      RESEND_API_KEY: "key",
+      RESEND_SENDER_EMAIL: "auth@example.com",
+      NEWSLETTER_UNSUBSCRIBE_SECRET: "f".repeat(32),
+    })).toEqual([]));
 });

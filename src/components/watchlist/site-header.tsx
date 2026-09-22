@@ -58,12 +58,6 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 
 import type {
@@ -94,7 +88,6 @@ interface SiteHeaderProps {
   markNotificationReadAction?: ServerFormAction
   accountPending?: boolean
   notificationsStatus?: "loading" | "ready" | "unavailable"
-  privateWorkflowsAvailable?: boolean
 }
 
 export function SiteHeader({
@@ -109,7 +102,6 @@ export function SiteHeader({
   markNotificationReadAction,
   accountPending = false,
   notificationsStatus = "ready",
-  privateWorkflowsAvailable = PRIVATE_WORKFLOWS_AVAILABLE,
 }: SiteHeaderProps) {
   const pathname = usePathname() ?? "/"
   const resolvedNavItems = navItems.map((item) => ({
@@ -136,14 +128,6 @@ export function SiteHeader({
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur">
-      {!privateWorkflowsAvailable ? (
-        <div
-          className="border-b bg-muted/70 px-4 py-2 text-center text-xs font-medium text-muted-foreground sm:text-sm"
-          role="status"
-        >
-          More features are coming soon: accounts, saves, follows, personalized updates, and private workspaces.
-        </div>
-      ) : null}
       <div className="mx-auto flex h-16 max-w-screen-2xl items-center gap-3 px-4 sm:px-6 lg:px-8">
         <MobileNavigation navItems={resolvedNavItems} />
 
@@ -185,7 +169,7 @@ export function SiteHeader({
         <div className="ml-auto flex items-center gap-1 sm:gap-2">
           <HeaderSearch searchHref={searchHref} onSearchOpen={onSearchOpen} />
 
-          {privateWorkflowsAvailable && viewer ? (
+          {viewer ? (
             <Button asChild variant="ghost" className="hidden h-11 md:inline-flex">
               <Link href={viewer.workspaceHref ?? "/workspace/saved"}>
                 Workspace
@@ -193,44 +177,14 @@ export function SiteHeader({
             </Button>
           ) : null}
 
-          {privateWorkflowsAvailable ? (
-            <NotificationsMenu
-              notifications={notifications}
-              status={notificationsStatus}
-              onNotificationSelect={onNotificationSelect}
-              markNotificationReadAction={markNotificationReadAction}
-            />
-          ) : (
-            <NotificationTrigger
-              unreadCount={0}
-              disabled
-              aria-label="Updates coming soon"
-              title="Personalized updates are coming soon"
-            />
-          )}
+          <NotificationsMenu
+            notifications={notifications}
+            status={notificationsStatus}
+            onNotificationSelect={onNotificationSelect}
+            markNotificationReadAction={markNotificationReadAction}
+          />
 
-          {!privateWorkflowsAvailable ? (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span
-                  className="inline-flex rounded-lg focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-                  tabIndex={0}
-                >
-                  <Button
-                    type="button"
-                    className="h-11"
-                    disabled
-                    aria-label="Sign in coming soon"
-                  >
-                    Sign in soon
-                  </Button>
-                </span>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                Sign-in, saves, follows, and private workspaces are coming soon.
-              </TooltipContent>
-            </Tooltip>
-          ) : accountPending ? (
+          {accountPending ? (
             <Button
               type="button"
               variant="ghost"
@@ -245,9 +199,14 @@ export function SiteHeader({
           ) : viewer ? (
             <ViewerMenu viewer={viewer} />
           ) : (
-            <Button asChild className="h-11">
-              <Link href={signInHref}>Sign in</Link>
-            </Button>
+            <>
+              <Button asChild variant="outline" className="hidden h-11 sm:inline-flex">
+                <Link href={signInHref}>Sign up</Link>
+              </Button>
+              <Button asChild className="h-11">
+                <Link href={signInHref}>Sign in</Link>
+              </Button>
+            </>
           )}
         </div>
       </div>

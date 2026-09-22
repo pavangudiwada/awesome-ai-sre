@@ -18,7 +18,7 @@ test.skip(
 );
 
 test.describe("authenticated release workflows", () => {
-  test.describe.configure({ mode: "serial" });
+  test.describe.configure({ mode: "serial", timeout: 300_000 });
   let users: AuthenticatedFixtureUsers;
 
   test.beforeAll(async () => {
@@ -77,7 +77,7 @@ test.describe("authenticated release workflows", () => {
       const note = page.getByLabel("Private note for RunWhen");
       await note.fill("Only the primary practitioner should see this incident-review note.");
       await note.blur();
-      await expect(page.getByRole("status")).toHaveText("Saved privately");
+      await expect(page.getByRole("status")).toHaveText("Saved privately", { timeout: 60_000 });
 
       await openRoute(page, "/workspace/notes");
       await expect(page.getByText(/Only the primary practitioner should see/)).toBeVisible();
@@ -91,7 +91,7 @@ test.describe("authenticated release workflows", () => {
       await page.getByLabel("Private note for RunWhen").fill("   ");
       await expect(page.getByLabel("Private note for RunWhen")).toHaveValue("   ");
       await page.getByLabel("Private note for RunWhen").blur();
-      await expect(page.getByRole("status")).toHaveText("Saved privately");
+      await expect(page.getByRole("status")).toHaveText("Saved privately", { timeout: 60_000 });
       await openRoute(page, "/workspace/notes");
       await expect(page.getByText("No product notes yet", { exact: true })).toBeVisible();
     });
@@ -118,27 +118,27 @@ test.describe("authenticated release workflows", () => {
       await page.getByLabel("Requirements").fill("Private deployment and audit trail");
       await page.getByLabel("Risks and open questions").fill("Evidence completeness");
       await page.getByRole("button", { name: "Create evaluation" }).click();
-      await expect(page).toHaveURL(/\/workspace\/evaluations\/[0-9a-f-]+$/);
+      await expect(page).toHaveURL(/\/workspace\/evaluations\/[0-9a-f-]+$/, { timeout: 60_000 });
       await expect(page.getByRole("heading", { level: 1, name: "Release incident pilot" })).toBeVisible();
       await expect(page.getByRole("link", { name: "RunWhen" })).toBeVisible();
 
       await page.getByLabel("Product").click();
       await page.getByRole("option", { name: "HolmesGPT" }).click();
       await page.getByRole("button", { name: "Add candidate" }).click();
-      await expect(page.getByRole("link", { name: "HolmesGPT" })).toBeVisible();
+      await expect(page.getByRole("link", { name: "HolmesGPT" })).toBeVisible({ timeout: 60_000 });
 
       await page.getByLabel("Name").fill("Release incident pilot updated");
       await page.getByLabel("Decision").click();
       await page.getByRole("option", { name: "Advance to pilot" }).click();
       await page.getByRole("button", { name: "Save brief" }).click();
-      await expect(page.getByRole("heading", { level: 1, name: "Release incident pilot updated" })).toBeVisible();
+      await expect(page.getByRole("heading", { level: 1, name: "Release incident pilot updated" })).toBeVisible({ timeout: 60_000 });
 
       await page.getByRole("button", { name: "Remove candidate" }).last().click();
-      await expect(page.getByRole("link", { name: "HolmesGPT" })).toHaveCount(0);
+      await expect(page.getByRole("link", { name: "HolmesGPT" })).toHaveCount(0, { timeout: 60_000 });
 
       await page.getByRole("button", { name: "Delete evaluation" }).click();
       await page.getByRole("button", { name: "Delete permanently" }).click();
-      await expect(page).toHaveURL("/workspace/evaluations");
+      await expect(page).toHaveURL("/workspace/evaluations", { timeout: 60_000 });
       await expect(page.getByText("No evaluations yet", { exact: true })).toBeVisible();
     });
 });

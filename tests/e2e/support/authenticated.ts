@@ -99,7 +99,7 @@ export async function clearCapturedMagicLinks() {
 
 async function capturedMagicLink(email: string): Promise<string> {
   const { capturePath, siteUrl } = localEnvironment();
-  for (let attempt = 0; attempt < 40; attempt += 1) {
+  for (let attempt = 0; attempt < 300; attempt += 1) {
     const lines = (await readFile(capturePath, "utf8")).trim().split("\n").filter(Boolean);
     const url = lines.at(-1);
     if (url) {

@@ -5,7 +5,6 @@ import { ArrowRightIcon, BookmarkIcon } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features"
 import {
   Card,
   CardContent,
@@ -27,7 +26,6 @@ export interface ProductCardProps {
   onSaveChange?: (product: ProductSummary, saved: boolean) => void
   savePending?: boolean
   mediaPriority?: boolean
-  privateWorkflowsAvailable?: boolean
 }
 
 export function ProductCard({
@@ -37,7 +35,6 @@ export function ProductCard({
   onSaveChange,
   savePending = false,
   mediaPriority = false,
-  privateWorkflowsAvailable = PRIVATE_WORKFLOWS_AVAILABLE,
 }: ProductCardProps) {
   const badges = visibleProductBadges(product.badges)
   const saveLabel = saved ? `Remove ${product.name} from saved` : `Save ${product.name}`
@@ -65,7 +62,6 @@ export function ProductCard({
                 label={saveLabel}
                 saved={saved}
                 pending={savePending}
-                comingSoon={!privateWorkflowsAvailable}
               />
             </form>
           ) : (
@@ -73,8 +69,7 @@ export function ProductCard({
               label={saveLabel}
               saved={saved}
               pending={savePending}
-              disabled={!onSaveChange || !privateWorkflowsAvailable}
-              comingSoon={!privateWorkflowsAvailable}
+              disabled={!onSaveChange}
               onClick={() => onSaveChange?.(product, !saved)}
             />
           )}
@@ -142,7 +137,6 @@ interface SaveButtonProps {
   pending: boolean
   disabled?: boolean
   onClick?: () => void
-  comingSoon?: boolean
 }
 
 function SaveButton({
@@ -151,9 +145,8 @@ function SaveButton({
   pending,
   disabled,
   onClick,
-  comingSoon = false,
 }: SaveButtonProps) {
-  const accessibleLabel = comingSoon ? `${label} — coming soon` : label
+  const accessibleLabel = label
 
   return (
     <Button
@@ -162,9 +155,9 @@ function SaveButton({
       size="icon"
       className="size-11 shadow-sm"
       aria-label={accessibleLabel}
-      title={comingSoon ? "Saving products is coming soon" : label}
+      title={label}
       aria-pressed={saved}
-      disabled={comingSoon || disabled || pending}
+      disabled={disabled || pending}
       onClick={onClick}
     >
       <BookmarkIcon fill={saved ? "currentColor" : "none"} />

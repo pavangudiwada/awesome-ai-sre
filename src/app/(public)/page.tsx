@@ -17,7 +17,6 @@ import {
   getResources,
   getRotatingFeaturedEntries,
 } from "@/lib/catalog";
-import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features";
 import { companyMap, toProductSummary } from "@/lib/presentation/catalog";
 import { getSavedProductSlugs } from "@/lib/workflows/queries";
 import type { CatalogProduct } from "@/types/catalog";
@@ -180,14 +179,10 @@ export default async function HomePage() {
               <ItemMedia variant="icon"><BookmarkIcon aria-hidden="true" /></ItemMedia>
               <ItemContent>
                 <ItemTitle>
-                  {PRIVATE_WORKFLOWS_AVAILABLE
-                    ? "Keep track when ready"
-                    : "Private workspace coming soon"}
+                  Keep track when ready
                 </ItemTitle>
                 <ItemDescription>
-                  {PRIVATE_WORKFLOWS_AVAILABLE
-                    ? "Browse freely, then sign in only if you want to save products or add private notes."
-                    : "Browse every public profile and source now. Saves, follows, and private notes will open later."}
+                  Browse freely, then sign in only if you want to save products or add private notes.
                 </ItemDescription>
               </ItemContent>
             </Item>

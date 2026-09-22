@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { z } from "zod";
 
 import { signOut } from "@/actions/auth";
 import { markUpdateReadAction } from "@/actions/workflows";
-import { PRIVATE_WORKFLOWS_AVAILABLE } from "@/lib/features";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import { SiteHeader } from "./site-header";
 import type { WatchlistNotification, WatchlistViewer } from "./types";
@@ -26,7 +27,10 @@ const notificationSchema = z.object({
   id: z.string().uuid(),
   title: z.string().min(1).max(500),
   summary: z.string().max(2_000).optional(),
-  href: z.string().regex(/^\/updates\/[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  href: z.union([
+    z.string().regex(/^\/updates\/[a-z0-9]+(?:-[a-z0-9]+)*$/),
+    z.string().url().refine((value) => new URL(value).protocol === "https:"),
+  ]),
   publishedAtLabel: z.string().min(1).max(100),
   unread: z.boolean().optional(),
   source: z.enum(["watchlist", "followed-company"]),
@@ -43,22 +47,14 @@ type HydrationStatus = "loading" | "ready" | "unavailable";
 
 export function PublicSiteHeader({
   searchItems = [],
-  privateWorkflowsAvailable = PRIVATE_WORKFLOWS_AVAILABLE,
 }: {
   searchItems?: readonly WatchlistSearchItem[];
-  privateWorkflowsAvailable?: boolean;
 }) {
   const [state, setState] = useState<HeaderPayload | null>(null);
-  const [status, setStatus] = useState<HydrationStatus>(
-    privateWorkflowsAvailable ? "loading" : "ready",
-  );
+  const [status, setStatus] = useState<HydrationStatus>("loading");
   const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
-    if (!privateWorkflowsAvailable) {
-      return;
-    }
-
     const controller = new AbortController();
 
     async function hydrateHeader() {
@@ -81,7 +77,7 @@ export function PublicSiteHeader({
 
     void hydrateHeader();
     return () => controller.abort();
-  }, [privateWorkflowsAvailable]);
+  }, []);
 
   const viewer: WatchlistViewer | null = state?.viewer
     ? { ...state.viewer, signOutAction: signOut }
@@ -93,9 +89,8 @@ export function PublicSiteHeader({
       <SiteHeader
         viewer={viewer}
         notifications={notifications}
-        accountPending={status === "loading"}
+        accountPending={false}
         notificationsStatus={status}
-        privateWorkflowsAvailable={privateWorkflowsAvailable}
         markNotificationReadAction={markUpdateReadAction}
         onSearchOpen={() => setSearchOpen(true)}
         onNotificationSelect={(selected) => {
@@ -113,6 +108,18 @@ export function PublicSiteHeader({
           });
         }}
       />
+      {notifications[0] ? (
+        <Alert className="mx-auto mt-3 max-w-screen-2xl px-4 py-3 sm:px-6 lg:px-8">
+          <AlertTitle>
+            <Link href={notifications[0].href} className="hover:underline">
+              Latest alert: {notifications[0].title}
+            </Link>
+          </AlertTitle>
+          {notifications[0].summary ? (
+            <AlertDescription>{notifications[0].summary}</AlertDescription>
+          ) : null}
+        </Alert>
+      ) : null}
       <WatchlistSearch
         items={searchItems}
         open={searchOpen}

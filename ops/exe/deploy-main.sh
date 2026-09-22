@@ -73,6 +73,7 @@ test -z "$(git -C "$release" status --porcelain)"
   ./node_modules/.bin/tsx scripts/migrate-database.ts
   ./node_modules/.bin/tsx scripts/sync-catalog-refs.ts --apply
   ./node_modules/.bin/tsx scripts/sync-catalog-refs.ts --verify
+  ./node_modules/.bin/tsx scripts/sync-published-updates.ts
   unset AI_SRE_DATABASE_LOCK_HELD
   flock -u 8
 )

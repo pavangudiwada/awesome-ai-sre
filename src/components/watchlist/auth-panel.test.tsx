@@ -47,18 +47,15 @@ describe("AuthPanel form composition", () => {
     expect(screen.getByText("A new link was sent.")).toBeInTheDocument()
   })
 
-  it("keeps configured sign-in controls in place but disables them before launch", () => {
+  it("does not advertise email delivery when email sign-in is unavailable", () => {
     render(
       <AuthPanel
-        magicLinkAction={formAction}
         googleAction={formAction}
-        disabled
       />,
     )
 
-    expect(screen.getByText("Sign-in is coming soon")).toBeInTheDocument()
-    expect(screen.getByLabelText("Email address")).toBeDisabled()
-    expect(screen.getByRole("button", { name: "Continue with Google" })).toBeDisabled()
-    expect(screen.getByRole("button", { name: "Email me a sign-in link" })).toBeDisabled()
+    expect(screen.queryByText("or use email")).not.toBeInTheDocument()
+    expect(screen.queryByLabelText("Email address")).not.toBeInTheDocument()
+    expect(screen.getByRole("button", { name: "Continue with Google" })).toBeEnabled()
   })
 })

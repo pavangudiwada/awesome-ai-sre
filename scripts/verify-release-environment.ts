@@ -42,12 +42,16 @@ export function releaseEnvironmentIssues(
   }
   if (env.TRUST_PROXY !== "exe")
     issues.push("TRUST_PROXY must be exe behind the exe reverse proxy");
+  const google = Boolean(env.GOOGLE_CLIENT_ID?.trim() && env.GOOGLE_CLIENT_SECRET?.trim());
+  const github = Boolean(env.GITHUB_CLIENT_ID?.trim() && env.GITHUB_CLIENT_SECRET?.trim());
   const resendKey = env.RESEND_API_KEY?.trim(),
     resendSender = env.RESEND_SENDER_EMAIL?.trim();
   if (Boolean(resendKey) !== Boolean(resendSender))
     issues.push(
       "RESEND_API_KEY and RESEND_SENDER_EMAIL must be configured together or both omitted",
     );
+  if (!google && !github && !(resendKey && resendSender))
+    issues.push("configure Google, GitHub, or both Resend values for production sign-in");
   if (resendKey && resendSender) {
     for (const name of [
       "NEWSLETTER_UNSUBSCRIBE_SECRET",

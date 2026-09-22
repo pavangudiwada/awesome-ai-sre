@@ -218,5 +218,6 @@ export function contentPublicPath(metadata: ContentMetadata): string | undefined
 }
 
 export function isPublishedContent(metadata: ContentMetadata): boolean {
-  return metadata.status === "published";
+  return metadata.status === "published" &&
+    (!metadata.publishedAt || new Date(`${metadata.publishedAt}T00:00:00Z`).getTime() <= Date.now());
 }
