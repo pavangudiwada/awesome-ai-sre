@@ -17,9 +17,9 @@ describe("catalog loaders", () => {
   it("normalizes all legacy products without turning claimed into verification", () => {
     const products = getProducts();
     const holmes = getProductBySlug("holmesgpt");
-    const unmappedProduct = getProductBySlug("agent-sre");
+    const unmappedProduct = getProductBySlug("alertd");
 
-    expect(products).toHaveLength(80);
+    expect(products).toHaveLength(78);
     expect(holmes?.companySlug).toBe("robusta");
     expect(holmes?.editorialState).toBe("unreviewed");
     expect(holmes?.lastReviewed).toBeNull();

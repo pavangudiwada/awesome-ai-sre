@@ -3,7 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
-const puppeteer = require("puppeteer");
+const { chromium } = require("@playwright/test");
 
 const ROOT = path.resolve(__dirname, "..");
 const TOOLS_DIR = path.join(ROOT, "tools", "operate");
@@ -16,7 +16,7 @@ const USER_AGENT = "awesome-ai-sre-image-fetcher/1.0";
 
 async function navigateForScreenshot(page, url) {
   try {
-    await page.goto(url, { waitUntil: "networkidle2", timeout: 30000 });
+    await page.goto(url, { waitUntil: "networkidle", timeout: 30000 });
     return;
   } catch (error) {
     if (!String(error && error.message).includes("Navigation timeout")) {
@@ -25,7 +25,7 @@ async function navigateForScreenshot(page, url) {
   }
 
   await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+  await page.waitForTimeout(5000);
 }
 
 function parseArgs(argv) {
@@ -129,10 +129,8 @@ async function main() {
     files = files.slice(0, args.limit);
   }
 
-  const browser = await puppeteer.launch({
+  const browser = await chromium.launch({
     headless: true,
-    protocolTimeout: 60000,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
   const failed = [];
@@ -150,9 +148,11 @@ async function main() {
     }
 
     try {
-      const page = await browser.newPage();
-      await page.setUserAgent(USER_AGENT);
-      await page.setViewport({ width: SCREENSHOT_WIDTH, height: SCREENSHOT_HEIGHT });
+      const context = await browser.newContext({
+        userAgent: USER_AGENT,
+        viewport: { width: SCREENSHOT_WIDTH, height: SCREENSHOT_HEIGHT },
+      });
+      const page = await context.newPage();
       await navigateForScreenshot(page, tool.url);
 
       const screenshotPath = path.join(SCREENSHOT_DIR, `${tool.slug}.png`);
@@ -161,7 +161,7 @@ async function main() {
         type: "png",
         clip: { x: 0, y: 0, width: SCREENSHOT_WIDTH, height: SCREENSHOT_HEIGHT },
       });
-      await page.close();
+      await context.close();
 
       tool.screenshot = `/screenshots/${tool.slug}.png`;
       tool.screenshot_last_fetched = TODAY;

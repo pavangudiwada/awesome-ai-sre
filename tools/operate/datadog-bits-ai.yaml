@@ -1,9 +1,7 @@
 name: Datadog (Bits AI)
 slug: datadog-bits-ai
 url: https://www.datadoghq.com
-summary: >-
-  See metrics from all of your apps, tools & services in one place with Datadog’s cloud monitoring as a service
-  solution. Try it for free.
+summary: Datadog provides a cloud platform for observability and security across infrastructure, applications, logs, and user experience. Bits AI adds agents for chat, investigation, and remediation within Datadog workflows.
 deployment:
   - saas
 opensource: false
@@ -17,9 +15,9 @@ screenshot: /screenshots/datadog-bits-ai.png
 logo: /logos/datadog-bits-ai.png
 screenshot_last_fetched: '2026-09-01'
 features:
-  - Assists with analysis across logs, traces, and metrics
-  - Speeds up incident investigation with natural language interactions
-  - Integrates directly into Datadog observability workflows
+  - Provides AI agents for chat, investigation, and remediation
+  - Monitors infrastructure, applications, logs, and network activity
+  - Supports incident management and workflow automation
 linkedin: https://www.linkedin.com/company/datadog
 github: https://github.com/DataDog
 x: https://x.com/datadoghq

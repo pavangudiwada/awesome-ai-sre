@@ -1,9 +1,7 @@
 name: SRE.ai
 slug: sre-ai
 url: https://www.sre.ai
-summary: >-
-  SRE.ai is the most advanced natural language DevOps platform, powering automation and software delivery for
-  fast-moving organizations at scale, freeing up teams to build.
+summary: SRE.ai provides a command center and AI teammates for enterprise software delivery. Its platform covers monitoring, documentation, build guidance, testing, release orchestration, and proactive issue handling.
 deployment:
   - saas
 opensource: false
@@ -17,7 +15,7 @@ screenshot: /screenshots/sre-ai.png
 logo: /logos/sre-ai.png
 screenshot_last_fetched: '2026-03-16'
 features:
-  - Automates parts of incident investigation and triage
-  - Provides reliability insights across system telemetry
-  - Supports faster operations decision-making
+  - Tracks deployments, system health, and performance metrics
+  - Provides guidance for documentation, code, testing, and release workflows
+  - Supports release checks, rollback protection, and release orchestration
 linkedin: https://www.linkedin.com/company/sre-ai

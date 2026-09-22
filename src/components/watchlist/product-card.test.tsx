@@ -60,4 +60,15 @@ describe("ProductCard", () => {
       screen.getByRole("button", { name: "Save HolmesGPT" }),
     ).toBeEnabled()
   })
+
+  it("does not show a pending review message when no review date is available", () => {
+    render(
+      <ProductCard
+        product={{ ...product, lastReviewedLabel: undefined }}
+        onSaveChange={() => undefined}
+      />,
+    )
+
+    expect(screen.queryByText(/review pending/i)).not.toBeInTheDocument()
+  })
 })

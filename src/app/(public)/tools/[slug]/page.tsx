@@ -3,14 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   ArrowUpRightIcon,
-  BadgeDollarSignIcon,
   CheckSquare2Icon,
   CloudIcon,
   Code2Icon,
   ExternalLinkIcon,
-  FileQuestionIcon,
   FileTextIcon,
-  LibraryIcon,
   MessageCircleQuestionIcon,
   PencilLineIcon,
   ScanSearchIcon,
@@ -33,7 +30,6 @@ import {
 } from "@/components/watchlist";
 import { ConnectedProductNoteEditor } from "@/components/workflow/product-note-editor";
 import { LockedWorkflowPreview } from "@/components/workflow/locked-workflow-preview";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -61,7 +57,6 @@ import {
   productBadges,
   productEvidenceClaims,
   productResourceLinks,
-  sourceLinkedCapabilityClaim,
 } from "@/lib/presentation/catalog";
 import { getProductWorkflowState } from "@/lib/workflows/queries";
 
@@ -136,13 +131,10 @@ export default async function ProductPage({
     .join(" / ") || "Unknown";
   const summaryFacts = [
     { label: "Category", value: categoryLabel, icon: TagsIcon },
-    {
-      label: "Deployment",
-      value: product.deployment.length ? product.deployment.join(" / ") : "Unknown",
-      icon: CloudIcon,
-    },
+    ...(product.deployment.length
+      ? [{ label: "Deployment", value: product.deployment.join(" / "), icon: CloudIcon }]
+      : []),
     { label: "Open source", value: product.openSource ? "Yes" : "No", icon: Code2Icon },
-    { label: "Pricing", value: "Unknown", icon: BadgeDollarSignIcon },
   ];
 
   return (
@@ -215,6 +207,7 @@ export default async function ProductPage({
           </header>
 
           <ProductSectionNav
+            hasCapabilities={Boolean(product.features.length)}
             evidenceCount={claims.length}
             sourceCount={sources.length}
           />
@@ -222,10 +215,7 @@ export default async function ProductPage({
           <section id="summary" className="scroll-mt-36">
             <Card size="sm">
               <CardHeader>
-                <CardTitle>Evaluation summary</CardTitle>
-                <CardDescription>
-                  The operational details available for an initial product screen.
-                </CardDescription>
+                <CardTitle>Product details</CardTitle>
               </CardHeader>
               <CardContent>
                 <ItemGroup className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
@@ -245,18 +235,14 @@ export default async function ProductPage({
             </Card>
           </section>
 
-          <section id="capabilities" className="scroll-mt-36">
-            <div className="mb-3 flex flex-col gap-1">
-              <h2 className="text-xl font-medium tracking-tight">Documented capabilities</h2>
-              <p className="text-sm text-muted-foreground">
-                Capability language comes from cataloged first-party material and is not performance testing.
-              </p>
-            </div>
-            {product.features.length ? (
+          {product.features.length ? (
+            <section id="capabilities" className="scroll-mt-36">
+              <div className="mb-3 flex flex-col gap-1">
+                <h2 className="text-xl font-medium tracking-tight">Capabilities</h2>
+              </div>
               <ItemGroup className="gap-2">
                 {product.features.map((feature, index) => {
                   const Icon = capabilityIcons[index] ?? FileTextIcon;
-                  const linkedClaim = sourceLinkedCapabilityClaim(feature, claims);
                   return (
                     <Item key={feature} variant="outline" className="items-start">
                       <ItemMedia variant="icon">
@@ -266,46 +252,28 @@ export default async function ProductPage({
                         <ItemTitle className="line-clamp-none leading-relaxed">
                           {feature}
                         </ItemTitle>
-                        <ItemDescription className="line-clamp-none">
-                          Review the linked evidence below before relying on this capability in a pilot.
-                        </ItemDescription>
-                        {linkedClaim ? (
-                          <Badge variant="outline">First-party source</Badge>
-                        ) : null}
                       </ItemContent>
                     </Item>
                   );
                 })}
               </ItemGroup>
-            ) : (
-              <Alert>
-                <FileQuestionIcon />
-                <AlertTitle>Capability review pending</AlertTitle>
-                <AlertDescription>
-                  No reviewed capability list is attached to this profile yet.
-                </AlertDescription>
-              </Alert>
-            )}
-          </section>
+            </section>
+          ) : null}
 
-          <section id="evidence" className="scroll-mt-36">
-            <div className="mb-3 flex flex-col gap-1">
-              <h2 className="text-xl font-medium tracking-tight">Evidence</h2>
-              <p className="text-sm text-muted-foreground">
-                Expand a claim to see its interpretation, source count, and review date.
-              </p>
-            </div>
-            <EvidenceExplorer claims={claims} productSlug={product.slug} />
-          </section>
+          {claims.length ? (
+            <section id="evidence" className="scroll-mt-36">
+              <div className="mb-3 flex flex-col gap-1">
+                <h2 className="text-xl font-medium tracking-tight">Evidence</h2>
+              </div>
+              <EvidenceExplorer claims={claims} productSlug={product.slug} />
+            </section>
+          ) : null}
 
-          <section id="sources" className="scroll-mt-36">
-            <div className="mb-3 flex flex-col gap-1">
-              <h2 className="text-xl font-medium tracking-tight">Sources</h2>
-              <p className="text-sm text-muted-foreground">
-                Primary documentation and first-party pages used for this profile.
-              </p>
-            </div>
-            {sources.length ? (
+          {sources.length ? (
+            <section id="sources" className="scroll-mt-36">
+              <div className="mb-3 flex flex-col gap-1">
+                <h2 className="text-xl font-medium tracking-tight">Official sources</h2>
+              </div>
               <ItemGroup aria-label="Profile sources" className="gap-2">
                 {sources.map((source) => (
                   <Item key={source.id} asChild variant="outline" className="min-h-16">
@@ -333,16 +301,8 @@ export default async function ProductPage({
                   </Item>
                 ))}
               </ItemGroup>
-            ) : (
-              <Alert>
-                <LibraryIcon />
-                <AlertTitle>No public sources listed</AlertTitle>
-                <AlertDescription>
-                  Source collection for this profile is still in progress.
-                </AlertDescription>
-              </Alert>
-            )}
-          </section>
+            </section>
+          ) : null}
 
           {workflow.signedIn ? (
             <ConnectedProductNoteEditor

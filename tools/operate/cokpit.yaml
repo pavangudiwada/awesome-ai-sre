@@ -1,7 +1,7 @@
 name: Cokpit
 slug: cokpit
 url: https://cokpit.ai
-summary: Cokpit scales with your needs — from startups to global enterprises.
+summary: Cokpit is an agentic AI platform for DevOps that provisions infrastructure, builds pipelines, investigates incidents, and documents changes across connected tools.
 deployment:
   - saas
 opensource: false
@@ -14,8 +14,8 @@ screenshot: /screenshots/cokpit.png
 logo: /logos/cokpit.png
 screenshot_last_fetched: '2026-03-16'
 features:
-  - Assists with operational investigations and troubleshooting
-  - Guides responders with contextual action recommendations
-  - Supports automation across engineering workflows
+  - Orchestrates agents across AWS, Azure, GCP, Kubernetes, Jenkins, and GitHub
+  - Generates and validates Terraform, Helm, and Docker configuration
+  - Automates incident investigation and response with audit trails
 linkedin: https://www.linkedin.com/company/cokpit-ai/
 x: https://x.com/Cokpit_ai

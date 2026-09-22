@@ -31,9 +31,9 @@ export function MarketplaceHero({
 }: MarketplaceHeroProps) {
   return (
     <section className="border-b bg-muted/30" aria-labelledby="marketplace-heading">
-      <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
-        <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
-          <div className="flex flex-col items-center gap-3">
+      <div className="mx-auto max-w-screen-xl px-4 py-6 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
+        <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
+          <div className="flex flex-col items-center gap-2">
             <h1
               id="marketplace-heading"
               className="max-w-2xl text-3xl font-semibold tracking-tight text-balance sm:text-4xl"
@@ -55,7 +55,7 @@ export function MarketplaceHero({
                 <FieldLabel htmlFor="marketplace-search" className="sr-only">
                   Search the AI SRE Watchlist
                 </FieldLabel>
-                <InputGroup className="mx-auto h-14 max-w-2xl bg-background shadow-xs">
+                <InputGroup className="mx-auto h-12 max-w-2xl bg-background shadow-xs">
                   <InputGroupInput
                     id="marketplace-search"
                     name="q"

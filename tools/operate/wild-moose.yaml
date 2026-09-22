@@ -2,8 +2,8 @@ name: Wild Moose
 slug: wild-moose
 url: https://www.wildmoose.ai
 summary: >-
-  Wild Moose helps developers solve production issues faster, kicking off any root cause investigation automatically.
-  Triggered by alerts, the AI moose autonomously.
+  Wild Moose is an always-on AI first responder that gathers context from fragmented observability tools and produces
+  evidence-backed root cause summaries and recommended next actions.
 deployment:
   - saas
 opensource: false
@@ -16,7 +16,7 @@ screenshot: /screenshots/wild-moose.png
 logo: /logos/wild-moose.png
 screenshot_last_fetched: '2026-09-01'
 features:
-  - Automates repetitive reliability and incident tasks
-  - Provides AI-assisted operational recommendations
-  - Supports team coordination during incidents
+  - Correlates logs, metrics, traces, and code when an alert fires
+  - Orchestrates company-specific debugging agents
+  - Learns from incident feedback and investigation patterns
 linkedin: https://www.linkedin.com/company/wild-moose

@@ -1,7 +1,7 @@
 name: Vibranium Labs
 slug: vibranium-labs
 url: https://vibraniumlabs.ai
-summary: AI reliability tooling company focused on incident response automation and operations intelligence.
+summary: Vibranium Labs develops Vibe OnCall, an incident-response platform with AI agents for paging, triage, root-cause investigation, remediation, and incident knowledge capture.
 deployment:
   - saas
 opensource: false
@@ -14,7 +14,7 @@ screenshot: /screenshots/vibranium-labs.png
 logo: /logos/vibranium-labs.png
 screenshot_last_fetched: '2026-03-16'
 features:
-  - Uses AI to accelerate production incident investigations
-  - Supports operational decision-making with contextual insights
-  - Helps teams reduce MTTR across critical services
+  - Pages and routes alerts to support incident response
+  - Investigates incidents and coordinates fixes with human approval gates
+  - Captures incidents and syncs structured post-mortems to a knowledge base
 linkedin: https://www.linkedin.com/company/vibraniumlabs/

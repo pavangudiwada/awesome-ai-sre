@@ -1,7 +1,7 @@
 name: Deeptrace
 slug: deeptrace
 url: https://deeptrace.com
-summary: Automate and cut your on-call/debugging time in half with AI.
+summary: Deeptrace investigates production alerts by reasoning across observability data, telemetry, and code, then helps teams move from diagnosis to fix.
 deployment:
   - saas
 opensource: false
@@ -14,7 +14,7 @@ screenshot: /screenshots/deeptrace.png
 logo: /logos/deeptrace.png
 screenshot_last_fetched: '2026-03-16'
 features:
-  - Helps analyze telemetry during production incidents
-  - Surfaces insights to accelerate root cause identification
-  - Supports reliability engineering workflows
+  - Groups and prioritizes related alerts
+  - Produces evidence-backed root cause analyses across logs, metrics, traces, and code
+  - Generates pull requests, documentation updates, and Linear tickets
 linkedin: https://www.linkedin.com/company/deeptrace-ai/

@@ -2,10 +2,11 @@ name: Causely
 slug: causely
 url: https://www.causely.ai
 summary: >-
-  Causely pinpoints the root cause of errors so that you can consistently meet reliability expectations of application
-  users in complex, cloud native environments.
+  Causely maintains a causal model of distributed systems so engineers and software agents can trace symptoms to likely
+  root causes and act on remediation context through its product and MCP server.
 deployment:
-  - saas
+  - hybrid
+  - on-prem
 opensource: false
 tags:
   - Observability
@@ -14,9 +15,9 @@ dateAdded: '2026-03-16'
 claimed: false
 screenshot: /screenshots/causely.png
 logo: /logos/causely.png
-screenshot_last_fetched: '2026-03-16'
+screenshot_last_fetched: '2026-09-22'
 features:
-  - Uses causal inference to identify likely failure paths
-  - Correlates telemetry across services and dependencies
-  - Supports faster diagnosis during incidents
+  - Maps causes to symptoms across services and infrastructure using a causal reasoning engine
+  - Exposes causal context and reliability workflows through an MCP server
+  - Proposes runtime, configuration, infrastructure-as-code, and application-code remediations
 linkedin: https://www.linkedin.com/company/causely-ai

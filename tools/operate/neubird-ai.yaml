@@ -2,8 +2,8 @@ name: NeuBird AI
 slug: neubird-ai
 url: https://neubird.ai
 summary: >-
-  NeuBird AI's agentic AI SRE delivers autonomous incident resolution, helping teams cut MTTR by up to 90% and reclaim
-  engineering hours lost to troubleshooting.
+  NeuBird is an agentic reliability platform that queries telemetry in place, remembers investigation conclusions, and
+  serves engineers and their agents through governed, policy-controlled interfaces.
 deployment:
   - saas
 opensource: false
@@ -16,7 +16,7 @@ screenshot: /screenshots/neubird-ai.png
 logo: /logos/neubird-ai.svg
 screenshot_last_fetched: '2026-09-01'
 features:
-  - Investigates alerts and operational anomalies
-  - Assists with root cause analysis across systems
-  - Guides remediation workflows for faster recovery
+  - Connects to cloud, APM, and logging systems without storing telemetry
+  - Preserves versioned investigation conclusions as operational memory
+  - Applies Suggest, Recommend, and Act controls with approval and audit trails
 linkedin: https://www.linkedin.com/company/neubird-ai

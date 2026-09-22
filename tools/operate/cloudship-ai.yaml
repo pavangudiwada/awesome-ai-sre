@@ -1,7 +1,7 @@
 name: Cloudship AI
 slug: cloudship-ai
 url: https://www.cloudshipai.com
-summary: AI platform for cloud and platform engineering workflows focused on reliability and operations.
+summary: CloudShip AI turns DevOps and FinOps responsibilities into deployable agents, running them on a team's infrastructure and presenting structured operational insights.
 deployment:
   - saas
 opensource: false
@@ -14,7 +14,7 @@ screenshot: /screenshots/cloudship-ai.png
 logo: /logos/cloudship-ai.svg
 screenshot_last_fetched: '2026-09-01'
 features:
-  - Automates repetitive cloud operations tasks
-  - Provides AI guidance for platform and SRE workflows
-  - Integrates with cloud-native toolchains
+  - Builds and customizes declarative agents with Station
+  - Runs agent bundles on customer infrastructure
+  - Provides structured outputs, widgets, and data lineage in the platform
 linkedin: https://www.linkedin.com/company/cloudshipai/

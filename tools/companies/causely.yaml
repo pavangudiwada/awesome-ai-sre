@@ -7,3 +7,7 @@ mappingStatus: confirmed
 sources:
   - label: Official website
     url: https://www.causely.ai
+    checkedAt: '2026-09-22'
+  - label: Official MCP server announcement
+    url: https://www.causely.ai/blog/introducing-causelys-mcp-server
+    checkedAt: '2026-09-22'

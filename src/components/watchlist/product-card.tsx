@@ -115,11 +115,9 @@ export function ProductCard({
       </CardContent>
 
       <CardFooter className="mt-auto flex items-center justify-between gap-3 px-4 pb-4">
-        <span className="text-xs text-muted-foreground">
-          {product.lastReviewedLabel
-            ? `Checked ${product.lastReviewedLabel}`
-            : "Evidence review pending"}
-        </span>
+        {product.lastReviewedLabel ? (
+          <span className="text-xs text-muted-foreground">Checked {product.lastReviewedLabel}</span>
+        ) : null}
         <Button asChild variant="link" size="sm" className="shrink-0 px-0">
           <Link href={product.href}>
             View profile

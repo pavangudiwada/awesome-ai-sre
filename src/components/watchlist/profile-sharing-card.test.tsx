@@ -128,7 +128,7 @@ describe("ProfileSharingCard", () => {
 
     expect(share).toHaveBeenCalledWith({
       title: "HolmesGPT | AI SRE Watchlist",
-      text: "Evaluating HolmesGPT? Review its capabilities, deployment details, and source-linked evidence on AI SRE Watchlist.",
+      text: "Evaluating HolmesGPT? Review its capabilities and deployment details on AI SRE Watchlist.",
       url: canonicalUrl,
     })
     expect(onShare).toHaveBeenCalledWith("native")

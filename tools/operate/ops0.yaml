@@ -2,8 +2,8 @@ name: Ops0
 slug: ops0
 url: https://www.ops0.com
 summary: >-
-  ops0 automates how infrastructure is created, managed, and operated. Turn intent into IaC, apply updates
-  intelligently, and resolve issues before they happen all powered.
+  ops0 is preventive cloud security for infrastructure. It finds risks in live cloud environments and routes governed,
+  cost-aware fixes through policy, approval, pull request, and audit workflows.
 deployment:
   - saas
 opensource: false
@@ -17,8 +17,8 @@ screenshot: /screenshots/ops0.png
 logo: /logos/ops0.svg
 screenshot_last_fetched: '2026-09-01'
 features:
-  - Generates and manages CI/CD pipelines from natural language descriptions
-  - Analyzes logs, events, and metrics to find root causes and propose fixes
-  - Monitors infrastructure and exposes an AI chat interface for troubleshooting
+  - Discovers drift, unmanaged resources, exposure, and cost leakage
+  - Maps dependencies and blast radius for cloud findings
+  - Prepares policy-checked Terraform or OpenTofu pull requests
 linkedin: https://www.linkedin.com/company/ops0
 x: https://x.com/Ops0HQ

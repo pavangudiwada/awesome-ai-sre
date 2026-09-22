@@ -1,9 +1,7 @@
 name: Robusta Dev
 slug: robusta
 url: https://home.robusta.dev
-summary: >-
-  Robusta's AI assistant empowers teams to troubleshoot Prometheus and Kubernetes alerts faster, leading to reduced MTTR
-  and enhanced engineering productivity.
+summary: Robusta provides an AI SRE platform that groups alerts, investigates incidents, identifies root causes, and recommends or executes fixes. It supports Kubernetes, cloud, and legacy environments through alert and data-source integrations.
 deployment:
   - hybrid
   - on-prem
@@ -18,9 +16,9 @@ screenshot: /screenshots/robusta.png
 logo: /logos/robusta.svg
 screenshot_last_fetched: '2026-09-01'
 features:
-  - Detects Kubernetes issues automatically
-  - Suggests remediation actions
-  - Integrates with Slack for alert workflows
+  - Groups duplicate alerts and investigates new incidents
+  - Identifies root causes, evidence, blast radius, and fixes
+  - Supports integrations through webhooks, HTTP APIs, MCP servers, and native connectors
 linkedin: https://linkedin.com/company/robusta-dev
 github: https://github.com/robusta-dev/robusta
 x: https://x.com/RobustaDev

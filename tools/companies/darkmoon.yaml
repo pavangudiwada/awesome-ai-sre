@@ -1,0 +1,13 @@
+name: Darkmoon
+slug: darkmoon
+website: https://dark-moon.org/
+productSlugs:
+  - darkmoon
+mappingStatus: confirmed
+sources:
+  - label: Official product website
+    url: https://dark-moon.org/
+    checkedAt: '2026-09-22'
+  - label: Official source repository
+    url: https://github.com/ASCIT31/Dark-Moon
+    checkedAt: '2026-09-22'

@@ -4,10 +4,6 @@
     "cohort_product_missing|tools/companies/_early-18.yaml|openobserve-ai-sre",
     "company_product_missing|tools/companies/openobserve.yaml|openobserve-ai-sre",
     "missing_asset_reference|tools/operate/hyground.yaml|hyground:screenshot",
-    "missing_asset_reference|tools/operate/knoxops.yaml|knoxops:screenshot",
-    "missing_asset_reference|tools/operate/oodle.yaml|oodle:screenshot",
-    "missing_asset_reference|tools/operate/phoebe.yaml|phoebe:logo",
-    "product_company_unmapped|tools/operate/agent-sre.yaml|agent-sre",
     "product_company_unmapped|tools/operate/alertd.yaml|alertd",
     "product_company_unmapped|tools/operate/aurora.yaml|aurora",
     "product_company_unmapped|tools/operate/autonomops-ai.yaml|autonomops-ai",
@@ -28,13 +24,11 @@
     "product_company_unmapped|tools/operate/harness-ai-sre.yaml|harness-ai-sre",
     "product_company_unmapped|tools/operate/hyground.yaml|hyground",
     "product_company_unmapped|tools/operate/incidentfox.yaml|incidentfox",
-    "product_company_unmapped|tools/operate/infrabase.yaml|infrabase",
     "product_company_unmapped|tools/operate/ingero.yaml|ingero",
     "product_company_unmapped|tools/operate/k8sgpt.yaml|k8sgpt",
     "product_company_unmapped|tools/operate/kagent.yaml|kagent",
     "product_company_unmapped|tools/operate/knoxops.yaml|knoxops",
     "product_company_unmapped|tools/operate/kubestellar-console.yaml|kubestellar-console",
-    "product_company_unmapped|tools/operate/kura.yaml|kura",
     "product_company_unmapped|tools/operate/lens-k8s-ide.yaml|lens-k8s-ide",
     "product_company_unmapped|tools/operate/lightrun.yaml|lightrun",
     "product_company_unmapped|tools/operate/logz-io.yaml|logz-io",
@@ -45,11 +39,9 @@
     "product_company_unmapped|tools/operate/obot.yaml|obot",
     "product_company_unmapped|tools/operate/observe-inc.yaml|observe-inc",
     "product_company_unmapped|tools/operate/ops0.yaml|ops0",
-    "product_company_unmapped|tools/operate/opscompanion.yaml|opscompanion",
     "product_company_unmapped|tools/operate/opsy.yaml|opsy",
     "product_company_unmapped|tools/operate/phoebe.yaml|phoebe",
     "product_company_unmapped|tools/operate/prodrescue-ai.yaml|prodrescue-ai",
-    "product_company_unmapped|tools/operate/rebase.yaml|rebase",
     "product_company_unmapped|tools/operate/robinrelay.yaml|robinrelay",
     "product_company_unmapped|tools/operate/rubixkube.yaml|rubixkube",
     "product_company_unmapped|tools/operate/runllm.yaml|runllm",
@@ -72,9 +64,6 @@
   ],
   "assets": [
     "logo_raster_too_small|ai-sre|datadog-bits-ai|logo|/logos/datadog-bits-ai.png",
-    "missing_logo_reference|ai-sre|phoebe|logo|none",
-    "missing_screenshot_reference|ai-sre|hyground|screenshot|none",
-    "missing_screenshot_reference|ai-sre|knoxops|screenshot|none",
-    "missing_screenshot_reference|ai-sre|oodle|screenshot|none"
+    "missing_screenshot_reference|ai-sre|hyground|screenshot|none"
   ]
 }
