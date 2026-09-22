@@ -3,13 +3,20 @@ import {
   ArrowRightIcon,
   BookmarkIcon,
   SearchCheckIcon,
+  SearchIcon,
   SquareLibraryIcon,
 } from "lucide-react";
 
 import { saveProductAction } from "@/actions/workflows";
-import { NewsletterSignup } from "@/components/newsletter/newsletter-signup";
 import { CompanyCard, MarketplaceHero, ProductCard } from "@/components/watchlist";
 import { Button } from "@/components/ui/button";
+import { Field, FieldLabel } from "@/components/ui/field";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from "@/components/ui/item";
 import {
   getCompanies,
@@ -45,24 +52,51 @@ export default async function HomePage() {
     <main>
       <MarketplaceHero />
 
-      <section id="newsletter" className="border-b" aria-label="Watchlist newsletter">
-        <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-          <NewsletterSignup
-            compact
-            title="Get the AI SRE Watchlist in your inbox"
-            description="The most useful AI SRE product updates, delivered to your inbox."
-          />
+      <section className="mx-auto flex max-w-screen-2xl flex-col gap-5 px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex max-w-3xl flex-col gap-1">
+            <h2 className="text-2xl font-semibold tracking-tight">Featured AI SRE tools</h2>
+            <p className="text-sm text-muted-foreground sm:text-base">
+              Source-linked products for evaluating your next reliability pilot.
+            </p>
+          </div>
+          <Button asChild variant="link" className="h-11 w-fit px-0">
+            <Link href="/tools">
+              View all {products.length} tools
+              <ArrowRightIcon data-icon="inline-end" />
+            </Link>
+          </Button>
         </div>
-      </section>
 
-      <section className="mx-auto flex max-w-screen-2xl flex-col gap-6 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-        <div className="flex max-w-3xl flex-col gap-2">
-          <p className="text-sm font-medium text-primary">Product directory</p>
-          <h2 className="text-3xl font-semibold tracking-tight">Featured AI SRE tools</h2>
-          <p className="text-muted-foreground">
-            A rotating selection from the directory, refreshed every day.
-          </p>
-        </div>
+        <form action="/tools" method="get" className="w-full">
+          <Field>
+            <FieldLabel htmlFor="homepage-directory-search" className="sr-only">
+              Search the AI SRE product directory
+            </FieldLabel>
+            <InputGroup className="h-12 bg-card shadow-xs">
+              <InputGroupInput
+                id="homepage-directory-search"
+                name="q"
+                placeholder="Search products, companies, or capabilities…"
+                autoComplete="off"
+              />
+              <InputGroupAddon>
+                <SearchIcon aria-hidden="true" />
+              </InputGroupAddon>
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton
+                  type="submit"
+                  aria-label="Search"
+                  className="size-10 px-0 sm:w-auto sm:px-4"
+                >
+                  <SearchIcon className="sm:hidden" aria-hidden="true" />
+                  <span className="hidden sm:inline">Search</span>
+                </InputGroupButton>
+              </InputGroupAddon>
+            </InputGroup>
+          </Field>
+        </form>
+
         <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,18rem),1fr))] gap-5">
           {featured.map((product, index) => {
             const summary = toProductSummary(product, companiesBySlug);
@@ -76,14 +110,6 @@ export default async function HomePage() {
               />
             );
           })}
-        </div>
-        <div className="flex justify-center pt-2">
-          <Button asChild size="lg" variant="outline" className="h-11">
-            <Link href="/tools">
-              View all {products.length} tools
-              <ArrowRightIcon data-icon="inline-end" />
-            </Link>
-          </Button>
         </div>
       </section>
 

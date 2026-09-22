@@ -21,6 +21,12 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 import { cn } from "@/lib/utils";
 
 export type NewsletterSignupProps = {
@@ -28,6 +34,7 @@ export type NewsletterSignupProps = {
   title?: string;
   description?: string;
   compact?: boolean;
+  inline?: boolean;
 };
 
 const newsletterInitialActionState: NewsletterActionState = {
@@ -40,11 +47,60 @@ export function NewsletterSignup({
   title = "AI SRE updates, without the noise",
   description = "A concise, editorially reviewed digest of releases and changes that matter to reliability teams.",
   compact = false,
+  inline = false,
 }: NewsletterSignupProps) {
   const [state, formAction, pending] = useActionState(
     subscribeNewsletterAction,
     newsletterInitialActionState,
   );
+
+  const statusAlert = state.status !== "idle" ? (
+    <Alert variant={state.status === "error" ? "destructive" : "default"}>
+      <AlertDescription aria-live="polite">{state.message}</AlertDescription>
+    </Alert>
+  ) : null;
+
+  if (inline) {
+    return (
+      <div className={cn("w-full", className)}>
+        <form action={formAction}>
+          <FieldGroup className="gap-3">
+            <Field className="sr-only !size-px" aria-hidden="true">
+              <FieldLabel htmlFor="newsletter-website">Website</FieldLabel>
+              <Input id="newsletter-website" name="website" tabIndex={-1} autoComplete="off" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="newsletter-email" className="sr-only">
+                Email
+              </FieldLabel>
+              <InputGroup className="mx-auto h-12 max-w-xl bg-background p-1 shadow-xs">
+                <InputGroupInput
+                  id="newsletter-email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  inputMode="email"
+                  placeholder="Enter your email"
+                  required
+                />
+                <InputGroupAddon align="inline-end" className="pr-0">
+                  <InputGroupButton
+                    type="submit"
+                    variant="default"
+                    className="h-10 px-4"
+                    disabled={pending}
+                  >
+                    {pending ? "Subscribing…" : "Subscribe"}
+                  </InputGroupButton>
+                </InputGroupAddon>
+              </InputGroup>
+            </Field>
+            {statusAlert}
+          </FieldGroup>
+        </form>
+      </div>
+    );
+  }
 
   return (
     <Card className={cn("w-full", compact && "shadow-none", className)}>
@@ -81,11 +137,7 @@ export function NewsletterSignup({
                 </Button>
               ) : null}
             </div>
-            {state.status !== "idle" ? (
-              <Alert variant={state.status === "error" ? "destructive" : "default"}>
-                <AlertDescription aria-live="polite">{state.message}</AlertDescription>
-              </Alert>
-            ) : null}
+            {statusAlert}
             {!compact ? (
               <Button type="submit" size="lg" className="h-11 w-full" disabled={pending}>
                 {pending ? "Saving preference…" : "Subscribe to the newsletter"}
