@@ -1,7 +1,7 @@
 name: IncidentFox
 slug: incidentfox
 url: https://www.incidentfox.ai
-summary: AI incident response platform designed to help teams investigate and resolve operational issues.
+summary: IncidentFox is an AI incident investigator that learns a team's systems and past incidents, investigates alerts, and prepares fixes for human approval.
 deployment:
   - saas
 opensource: false
@@ -15,8 +15,8 @@ screenshot: /screenshots/incidentfox.png
 logo: /logos/incidentfox.png
 screenshot_last_fetched: '2026-09-01'
 features:
-  - Assists with incident triage and diagnostic workflows
-  - Provides guided response actions during outages
-  - Helps teams reduce time to resolution
+  - Investigates alerts using logs, metrics, deployment history, and code context
+  - Delivers reports and fix scripts in Slack
+  - Supports human-approved remediation with audit logging
 linkedin: https://www.linkedin.com/company/incidentfox
 github: https://github.com/incidentfox/incidentfox

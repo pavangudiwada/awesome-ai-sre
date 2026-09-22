@@ -126,11 +126,11 @@ export function WorkspaceProductRow({
         ))}
       </CardContent>
       <CardFooter className="flex flex-wrap items-center justify-between gap-3">
-        <span className="text-xs text-muted-foreground">
-          {product.lastReviewedLabel
-            ? `Checked ${product.lastReviewedLabel}`
-            : "Evidence review pending"}
-        </span>
+        {product.lastReviewedLabel ? (
+          <span className="text-xs text-muted-foreground">
+            Checked {product.lastReviewedLabel}
+          </span>
+        ) : null}
         <div className="flex flex-wrap items-center gap-2">
           {actions}
           <Button asChild variant="ghost">

@@ -2,8 +2,8 @@ name: FireHydrant
 slug: firehydrant
 url: https://firehydrant.com
 summary: >-
-  All-in-one incident management software for modern teams. FireHydrant helps you plan, respond, and resolve faster with
-  smart alerting, on-call scheduling, AI-powered.
+  FireHydrant is an incident management platform for planning, responding to, and learning from incidents, with on-call,
+  alerting, collaboration, and AI-assisted workflows.
 deployment:
   - saas
 opensource: false
@@ -15,7 +15,7 @@ screenshot: /screenshots/firehydrant.png
 logo: /logos/firehydrant.svg
 screenshot_last_fetched: '2026-09-01'
 features:
-  - Structured incident lifecycle management
-  - Integrated communication and status updates
-  - Supports postmortems and operational learning
+  - Automated runbooks, on-call, and alerting
+  - Incident collaboration in Slack or Microsoft Teams
+  - AI-enhanced summaries, status updates, and retrospectives
 linkedin: https://www.linkedin.com/company/firehydrant

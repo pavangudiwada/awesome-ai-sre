@@ -59,13 +59,14 @@ test.describe("public Watchlist routes", () => {
         name: "Find the right tools for reliable systems.",
       }),
     ).toBeVisible();
-    await expect(page.getByText("The most useful AI SRE product updates, delivered to your inbox.")).toBeVisible();
-    await expect(page.getByRole("textbox", { name: "Email" })).toBeVisible();
+    await expect(page.getByText("The most useful AI SRE product updates, delivered to your inbox.")).toHaveCount(0);
+    await expect(page.getByRole("textbox", { name: "Email" })).toHaveCount(0);
     await expect(page.getByRole("combobox", { name: "Frequency" })).toHaveCount(0);
     await expect(page.getByRole("checkbox", { name: /newsletter/i })).toHaveCount(0);
-    await expect(page.getByRole("link", { name: `View all 80 tools` })).toBeVisible();
+    await expect(page.getByRole("link", { name: `View all 78 tools` })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Featured AI SRE tools" })).toBeVisible();
     await expect(page.getByText("A rotating selection from the directory, refreshed every day.")).toBeVisible();
-    await expect(page.getByText("Useful information, without the vendor pitch.")).toBeVisible();
+    await expect(page.getByText("Useful information, without the vendor pitch.")).toHaveCount(0);
 
     await page.getByRole("button", { name: "Search tools and resources" }).click();
     const commandSearch = page.getByPlaceholder("Search tools, companies, or guides…");
@@ -203,17 +204,14 @@ test.describe("public Watchlist routes", () => {
     await openRoute(page, "/tools/runwhen");
 
     await expect(page.getByRole("heading", { level: 1, name: "RunWhen" })).toBeVisible();
-    await expect(page.getByText("Evaluation summary", { exact: true })).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: "Documented capabilities" })).toBeVisible();
+    await expect(page.getByText("Product details", { exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Capabilities" })).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: "Evidence" })).toBeVisible();
     await expect(
       page
         .getByRole("list", { name: "Product evidence claims" })
         .getByText("Documented", { exact: true }),
     ).toHaveCount(3);
-    await expect(
-      page.getByText(/This confirms a first-party source for the capability; it is not independent performance testing/).first(),
-    ).toBeVisible();
     await expect(page.getByRole("link", { name: "Official AI SRE documentation" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Official security and deployment page" })).toBeVisible();
     await expect(page.getByText("Private evaluation workspace", { exact: true })).toBeVisible();
@@ -252,7 +250,7 @@ test.describe("public Watchlist routes", () => {
 
     if (testInfo.project.name === "mobile") {
       const shareBox = await shareHeading.boundingBox();
-      const summaryBox = await page.getByText("Evaluation summary", { exact: true }).boundingBox();
+      const summaryBox = await page.getByText("Product details", { exact: true }).boundingBox();
       expect(shareBox).not.toBeNull();
       expect(summaryBox).not.toBeNull();
       expect(summaryBox!.y).toBeLessThan(shareBox!.y);

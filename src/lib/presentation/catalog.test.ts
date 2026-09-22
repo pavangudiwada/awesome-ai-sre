@@ -32,7 +32,7 @@ describe("evidence presentation", () => {
   })
 
   it("does not promote an unreviewed non-cohort record into evidence", () => {
-    const product = getProductBySlug("agent-sre")
+    const product = getProductBySlug("alertd")
 
     expect(product).toBeDefined()
     expect(productEvidenceClaims(product!)).toEqual([])
@@ -109,14 +109,14 @@ describe("evidence presentation", () => {
   })
 
   it("does not invent absent social resources", () => {
-    const product = getProductBySlug("infrabase")
+    const product = getProductBySlug("corelayer")
 
     expect(product).toBeDefined()
     expect(productResourceLinks(product!)).toEqual([
       {
         kind: "website",
         label: "Official website",
-        href: "https://infrabase.co",
+        href: "https://www.corelayer.com/",
       },
     ])
   })

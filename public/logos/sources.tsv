@@ -1,5 +1,4 @@
 name	slug	format	source
-Agent SRE	agent-sre	svg	(existing)
 Agent0 by Dash0	agent0-by-dash0	svg	https://www.dash0.com/shared/logo_colors.svg
 AlertD	alertd	png	(existing)
 Aurora	aurora	png	https://www.aurorasre.ai/arvo-mark.png
@@ -15,8 +14,10 @@ Cleric	cleric	png	(existing)
 Cloudgeni	cloudgeni	svg	(existing)
 Cloudship AI	cloudship-ai	svg	(existing)
 Cokpit	cokpit	png	(existing)
+Corelayer	corelayer	svg	https://www.corelayer.com/icon.svg
 Cutover	cutover	svg	(existing)
 DagKnows, Inc	dagknows-inc	png	https://dagknows.ai/favicon.ico
+Darkmoon	darkmoon	svg	https://dark-moon.org/brand/favicon.svg
 Datadog (Bits AI)	datadog-bits-ai	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/datadog.svg
 Deductive AI	deductive-ai	svg	(existing)
 Deeptrace	deeptrace	png	https://www.deeptrace.com/favicon.ico?favicon.1b9fb2e4.ico
@@ -29,14 +30,13 @@ HolmesGPT	holmesgpt	png	(existing)
 Hyground	hyground	png	https://hyground.ai/apple-touch-icon.png
 incident.io Investigations	incident-io	png	(existing)
 IncidentFox	incidentfox	png	(existing)
-Infrabase	infrabase	svg	(existing)
 Ingero	ingero	png	(existing)
 K8sGPT	k8sgpt	svg	(existing)
 Kagent	kagent	png	(existing)
 KnoxOps	knoxops	png	https://knoxops.app/icon.png?icon.16din2zd.dihs.png
 Komodor	komodor	svg	(existing)
+kprompt	kprompt	png	https://kprompt.ai/icon.png?icon.b2980404.png
 KubeStellar Console	kubestellar-console	png	(existing)
-Kura	kura	svg	(existing)
 Lens K8s IDE	lens-k8s-ide	png	https://lenshq.io/apple-icon1.png?aa9a8b6b33b90fdf
 Lightrun	lightrun	svg	(existing)
 Logz.io	logz-io	svg	(existing)
@@ -49,12 +49,10 @@ Obot	obot	png	(existing)
 Observe, Inc.	observe-inc	svg	(existing)
 Oodle	oodle	png	https://github.com/oodle-ai.png
 Ops0	ops0	svg	(existing)
-OpsCompanion	opscompanion	svg	(existing)
 Opsy	opsy	svg	(existing)
 PagerDuty SRE Agent	pagerduty	svg	(existing)
 Phoebe	phoebe	svg	https://storage.ghost.io/c/59/83/59833b04-02b0-4cf2-932a-f9c5f8cbd9a8/content/images/2025/05/Phoebeblog-logo3.svg
 ProdRescue AI	prodrescue-ai	png	(existing)
-Rebase	rebase	png	(existing)
 Resolve AI	resolve-ai	svg	(existing)
 RobinRelay	robinrelay	png	(existing)
 Robusta Dev	robusta	svg	(existing)

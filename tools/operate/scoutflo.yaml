@@ -1,7 +1,7 @@
 name: Scoutflo
 slug: scoutflo
 url: https://scoutflo.com
-summary: Your AI SRE for incident response and debugging. AI handles alerts, finds root causes, and fixes issues in minutes.
+summary: Scoutflo is an AI SRE platform for Kubernetes and cloud-native teams. It helps investigate alerts, identify likely root causes, and turn resolved incidents into reusable playbooks.
 deployment:
   - saas
 opensource: false
@@ -15,7 +15,7 @@ screenshot: /screenshots/scoutflo.png
 logo: /logos/scoutflo.png
 screenshot_last_fetched: '2026-09-01'
 features:
-  - Automates incident diagnosis and response steps
-  - Provides AI-guided remediation recommendations
-  - Integrates with common observability and operations tools
+  - Investigates alerts and correlates operational signals across cloud-native systems
+  - Provides evidence-backed root-cause findings and next-step recommendations
+  - Creates reusable playbooks from resolved investigations
 linkedin: https://www.linkedin.com/company/scoutflo

@@ -1,9 +1,7 @@
 name: Komodor
 slug: komodor
 url: https://komodor.com
-summary: >-
-  Komodor automatically detects, investigates and remediates complex issues to proactively reduce cloud costs, slash
-  MTTR and vanquish TicketOps.
+summary: Komodor is an agentic operations platform for production. It provides governed workflows for incident management, troubleshooting, cost optimization, change intelligence, and software operations.
 deployment:
   - saas
 opensource: false
@@ -17,7 +15,7 @@ screenshot: /screenshots/komodor.png
 logo: /logos/komodor.svg
 screenshot_last_fetched: '2026-09-01'
 features:
-  - Provides cluster context for faster incident triage
-  - Tracks changes to identify causes of outages
-  - Supports remediation workflows for Kubernetes operations
+  - Provides incident-management and troubleshooting workflows
+  - Supports change intelligence and risk controls for production changes
+  - Runs agents with scoped permissions, approval gates, and audit trails
 linkedin: https://www.linkedin.com/company/komodor

@@ -2,8 +2,8 @@ name: RobinRelay
 slug: robinrelay
 url: https://robinrelay.ai
 summary: >-
-  AI on-call copilot for Slack that cuts MTTR by 75%. Reduce alert noise, recall past incident fixes, and save thousands
-  of engineering hours yearly.
+  RobinRelay is a Slack-native AI on-call copilot that monitors alert channels, adds context from past investigations and
+  fixes, and answers questions about incident history.
 deployment:
   - saas
 opensource: false
@@ -16,7 +16,7 @@ screenshot: /screenshots/robinrelay.png
 logo: /logos/robinrelay.png
 screenshot_last_fetched: '2026-09-01'
 features:
-  - Routes and contextualizes alerts for responders
-  - Helps coordinate response actions across teams
-  - Improves incident response efficiency
+  - Monitors selected Slack channels for alerts
+  - Recalls past investigations, fixes, and noisy-alert context
+  - Answers follow-up questions in threads or direct messages
 linkedin: https://www.linkedin.com/company/robinrelay

@@ -1,0 +1,22 @@
+name: Darkmoon
+slug: darkmoon
+url: https://dark-moon.org/
+summary: >-
+  Darkmoon is an open-source, self-hosted platform for autonomous penetration testing across web, API, cloud,
+  Kubernetes, Active Directory, and network targets.
+deployment:
+  - on-prem
+opensource: true
+tags:
+  - Security
+  - AIOps
+dateAdded: '2026-09-22'
+claimed: false
+screenshot: /screenshots/darkmoon.png
+logo: /logos/darkmoon.svg
+screenshot_last_fetched: '2026-09-22'
+features:
+  - Routes model-planned tool calls through an MCP gateway instead of direct shell access
+  - Enforces target scope and configurable safety controls during tests
+  - Produces findings with evidence, severity scoring, and remediation guidance
+github: https://github.com/ASCIT31/Dark-Moon

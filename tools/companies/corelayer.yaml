@@ -1,0 +1,13 @@
+name: Corelayer
+slug: corelayer
+website: https://www.corelayer.com/
+productSlugs:
+  - corelayer
+mappingStatus: confirmed
+sources:
+  - label: Official product website
+    url: https://www.corelayer.com/
+    checkedAt: '2026-09-22'
+  - label: Official deployment and security overview
+    url: https://www.corelayer.com/ai-sre-for-regulated-industries
+    checkedAt: '2026-09-22'

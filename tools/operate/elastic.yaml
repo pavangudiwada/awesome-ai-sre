@@ -2,8 +2,8 @@ name: Elastic
 slug: elastic
 url: https://www.elastic.co/observability
 summary: >-
-  Learn more about Elastic Observability. Elastic Observability resolves problems faster at reduced cost with an open
-  source, AI-powered observability, that is accurate,.
+  Elastic Observability brings logs, metrics, traces, and application performance data together for monitoring,
+  investigation, and AI-assisted remediation.
 deployment:
   - saas
 opensource: false
@@ -16,9 +16,9 @@ screenshot: /screenshots/elastic.png
 logo: /logos/elastic.svg
 screenshot_last_fetched: '2026-03-28'
 features:
-  - Unifies observability data across distributed systems
-  - Accelerates troubleshooting with search and analytics
-  - Supports reliability and incident response workflows
+  - Collects and analyzes logs, metrics, and traces
+  - Maps system context for incident investigation
+  - Supports AI-driven investigations and remediation workflows
 linkedin: https://www.linkedin.com/company/elastic-co
 github: https://github.com/elastic
 x: https://x.com/elastic

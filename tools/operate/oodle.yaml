@@ -3,7 +3,7 @@ slug: oodle
 url: https://www.oodle.ai/product/agent-driven-debugging
 summary: >-
   Oodle is a unified observability platform with an AI assistant that investigates alerts across metrics, logs, traces,
-  and events. It can run as managed SaaS, with customer-owned object storage, or in a customer cluster.
+  events, and service dependencies. It is available as managed SaaS, with customer-owned storage, or in a customer VPC.
 deployment:
   - saas
   - hybrid
@@ -15,11 +15,13 @@ tags:
   - AIOps
 dateAdded: '2026-07-10'
 claimed: false
+screenshot: /screenshots/oodle.png
 logo: /logos/oodle.png
+screenshot_last_fetched: '2026-09-22'
 features:
-  - Investigates alerts across metrics, logs, traces, and events
-  - Correlates services, dimensions, and telemetry signals in one debugging workflow
-  - Accepts plain-language questions and suggests next investigation steps
+  - Summarizes alerts and suggests investigation steps across metrics, logs, traces, and events
+  - Correlates Kubernetes services and telemetry in a shared debugging workflow
+  - Supports SaaS, bring-your-own-bucket, and bring-your-own-cloud deployments
 linkedin: https://www.linkedin.com/company/oodle-ai/
 github: https://github.com/oodle-ai
 x: https://x.com/oodleai

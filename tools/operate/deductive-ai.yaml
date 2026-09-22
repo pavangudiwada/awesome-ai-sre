@@ -1,9 +1,7 @@
 name: Deductive AI
 slug: deductive-ai
 url: https://www.deductive.ai
-summary: >-
-  Deductive AI transforms your root-causing process by effortlessly understanding your entire codebase along with the
-  telemetry data.
+summary: Deductive is an AI SRE platform that investigates and resolves incidents using context from code, telemetry, engineering discussions, and knowledge bases. It builds a knowledge graph to connect relationships across those sources.
 deployment:
   - saas
 opensource: false
@@ -17,7 +15,7 @@ screenshot: /screenshots/deductive-ai.png
 logo: /logos/deductive-ai.svg
 screenshot_last_fetched: '2026-09-01'
 features:
-  - Correlates telemetry to identify probable incident causes
-  - Helps reduce investigation time during outages
-  - Provides insights for reliability and operations workflows
+  - Correlates code and telemetry to investigate incidents and root causes
+  - Uses coordinated agents to test hypotheses and provide evidence-backed fixes
+  - Builds a knowledge graph across telemetry, code, discussions, and knowledge bases
 linkedin: https://www.linkedin.com/company/deductive-ai

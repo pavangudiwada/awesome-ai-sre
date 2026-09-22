@@ -1,0 +1,23 @@
+name: Corelayer
+slug: corelayer
+url: https://www.corelayer.com/
+summary: >-
+  Corelayer is an AI SRE platform for production incident investigation and prevention. It connects code, deployments,
+  infrastructure, telemetry, and operational context so teams can investigate failures across the full production stack.
+deployment:
+  - hybrid
+  - on-prem
+opensource: false
+tags:
+  - Incident Response
+  - Observability
+  - AIOps
+dateAdded: '2026-09-22'
+claimed: false
+screenshot: /screenshots/corelayer.png
+logo: /logos/corelayer.svg
+screenshot_last_fetched: '2026-09-22'
+features:
+  - Filters and groups production signals before escalating incidents
+  - Builds a context graph across code, deployments, infrastructure, telemetry, and data
+  - Supports customer-cloud and on-premises deployment with configurable model providers

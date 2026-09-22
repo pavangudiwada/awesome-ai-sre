@@ -215,7 +215,6 @@ export function productEvidenceClaims(
   return product.features.map((feature, index) => ({
     id: `${product.slug}-documented-${index + 1}`,
     claim: feature,
-    detail: `Documented in ${source.label}. This confirms a first-party source for the capability; it is not independent performance testing.`,
     status: "documented",
     sourceCount: 1,
     lastCheckedLabel: source.checkedAt,

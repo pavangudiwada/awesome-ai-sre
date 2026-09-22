@@ -3,11 +3,8 @@ import Link from "next/link"
 import {
   ArrowUpRightIcon,
   ExternalLinkIcon,
-  FileQuestionIcon,
-  LibraryIcon,
 } from "lucide-react"
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -134,11 +131,11 @@ export function ProductProfileHeader({
               </Button>
             ) : null}
             {actions}
-            <span className="basis-full text-xs text-muted-foreground sm:ml-auto sm:basis-auto">
-              {lastReviewedLabel
-                ? `Last reviewed ${lastReviewedLabel}`
-                : "Evidence review pending"}
-            </span>
+            {lastReviewedLabel ? (
+              <span className="basis-full text-xs text-muted-foreground sm:ml-auto sm:basis-auto">
+                Last reviewed {lastReviewedLabel}
+              </span>
+            ) : null}
           </CardFooter>
         </div>
 
@@ -223,6 +220,8 @@ export function EvidenceSection({
   title = "Evidence",
   description = "Each claim shows where it came from and when it was last checked.",
 }: EvidenceSectionProps) {
+  if (!claims.length) return null
+
   return (
     <ProfileSection
       id="evidence"
@@ -237,16 +236,7 @@ export function EvidenceSection({
         </Button>
       }
     >
-      {claims.length === 0 ? (
-        <Alert>
-          <FileQuestionIcon />
-          <AlertTitle>Evidence review pending</AlertTitle>
-          <AlertDescription>
-            This profile does not yet have source-linked evidence. Treat unsourced details as unknown.
-          </AlertDescription>
-        </Alert>
-      ) : (
-        <ItemGroup aria-label="Product evidence claims">
+      <ItemGroup aria-label="Product evidence claims">
           {claims.map((claim) => (
             <Item key={claim.id} asChild variant="outline" className="items-start">
               <article>
@@ -288,8 +278,7 @@ export function EvidenceSection({
               </article>
             </Item>
           ))}
-        </ItemGroup>
-      )}
+      </ItemGroup>
     </ProfileSection>
   )
 }
@@ -310,18 +299,11 @@ export function SourceList({
   description = "Primary documentation, repositories, and first-party announcements used for this profile.",
   analyticsSubject,
 }: SourceListProps) {
+  if (!sources.length) return null
+
   return (
     <ProfileSection title={title} description={description}>
-      {sources.length === 0 ? (
-        <Alert>
-          <LibraryIcon />
-          <AlertTitle>No public sources listed</AlertTitle>
-          <AlertDescription>
-            Source collection for this profile is still in progress.
-          </AlertDescription>
-        </Alert>
-      ) : (
-        <ItemGroup aria-label="Profile sources">
+      <ItemGroup aria-label="Profile sources">
           {sources.map((source) => (
             <Item key={source.id} asChild variant="outline" className="min-h-16">
               {analyticsSubject ? (
@@ -360,8 +342,7 @@ export function SourceList({
               )}
             </Item>
           ))}
-        </ItemGroup>
-      )}
+      </ItemGroup>
     </ProfileSection>
   )
 }

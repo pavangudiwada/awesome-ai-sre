@@ -148,7 +148,7 @@ export function ProfileSharingCard({
   const title = `${productName} | AI SRE Watchlist`
   const shareText =
     description ??
-    `Evaluating ${productName}? Review its capabilities, deployment details, and source-linked evidence on AI SRE Watchlist.`
+    `Evaluating ${productName}? Review its capabilities and deployment details on AI SRE Watchlist.`
   const shareUrls = useMemo(
     () => buildProfileShareUrls({ canonicalUrl, title, description: shareText }),
     [canonicalUrl, shareText, title],
@@ -198,7 +198,7 @@ export function ProfileSharingCard({
           Share {productName}
         </CardTitle>
         <CardDescription>
-          Know an SRE evaluating {productName}? Send them this source-linked profile.
+          Know an SRE evaluating {productName}? Send them this product profile.
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
@@ -273,7 +273,7 @@ export function OfficialResourcesCard({
           Official resources
         </CardTitle>
         <CardDescription>
-          Cataloged first-party destinations. These links are not independent evidence.
+          Official website and cataloged product links.
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">

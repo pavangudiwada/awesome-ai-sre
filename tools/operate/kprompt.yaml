@@ -1,0 +1,22 @@
+name: kprompt
+slug: kprompt
+url: https://kprompt.ai/
+summary: >-
+  kprompt is an open-source AI runtime for Kubernetes that turns natural-language requests into reviewable plans and
+  requires approval before it applies changes to a cluster.
+deployment:
+  - on-prem
+opensource: true
+tags:
+  - AIOps
+  - Deployment
+dateAdded: '2026-09-22'
+claimed: false
+screenshot: /screenshots/kprompt.png
+logo: /logos/kprompt.png
+screenshot_last_fetched: '2026-09-22'
+features:
+  - Investigates Kubernetes state through the user's existing kubeconfig
+  - Produces typed plans with risk and blast-radius details before changes are applied
+  - Supports bring-your-own model keys and local Ollama models
+github: https://github.com/kprompt/kprompt

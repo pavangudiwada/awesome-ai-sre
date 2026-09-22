@@ -5,12 +5,10 @@ import {
   CalendarIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  FileQuestionIcon,
   FileTextIcon,
 } from "lucide-react"
 
 import { TrackedOutboundAnchor } from "@/components/analytics/event-beacon"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -30,34 +28,42 @@ import { cn } from "@/lib/utils"
 import type { EvidenceClaim, EvidenceStatus } from "./types"
 import { evidenceStatusLabel, evidenceStatusTone } from "./utils"
 
-const PROFILE_SECTIONS = [
+const REQUIRED_PROFILE_SECTIONS = [
   { id: "summary", label: "Summary" },
-  { id: "capabilities", label: "Capabilities" },
-  { id: "evidence", label: "Evidence" },
-  { id: "sources", label: "Sources" },
 ] as const
 
 export function ProductSectionNav({
+  hasCapabilities,
   evidenceCount,
   sourceCount,
 }: {
+  hasCapabilities: boolean
   evidenceCount: number
   sourceCount: number
 }) {
   const [activeSection, setActiveSection] = useState("summary")
+  const sections = useMemo(
+    () => [
+      ...REQUIRED_PROFILE_SECTIONS,
+      ...(hasCapabilities ? [{ id: "capabilities", label: "Capabilities" }] : []),
+      ...(evidenceCount ? [{ id: "evidence", label: "Evidence" }] : []),
+      ...(sourceCount ? [{ id: "sources", label: "Sources" }] : []),
+    ],
+    [evidenceCount, hasCapabilities, sourceCount],
+  )
 
   useEffect(() => {
-    const sections = PROFILE_SECTIONS.flatMap(({ id }) => {
+    const visibleSections = sections.flatMap(({ id }) => {
       const section = document.getElementById(id)
       return section ? [section] : []
     })
-    if (!sections.length) return
+    if (!visibleSections.length) return
 
     const updateActiveSection = () => {
-      const current = sections
+      const current = visibleSections
         .filter((section) => section.getBoundingClientRect().top <= 160)
         .at(-1)
-      setActiveSection(current?.id ?? sections[0].id)
+      setActiveSection(current?.id ?? visibleSections[0].id)
     }
 
     updateActiveSection()
@@ -67,7 +73,7 @@ export function ProductSectionNav({
       window.removeEventListener("scroll", updateActiveSection)
       window.removeEventListener("resize", updateActiveSection)
     }
-  }, [])
+  }, [sections])
 
   function scrollToSection(id: string) {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" })
@@ -83,7 +89,7 @@ export function ProductSectionNav({
       )}
     >
       <div className="grid grid-cols-2 items-center gap-1 sm:flex sm:w-max">
-        {PROFILE_SECTIONS.map(({ id, label }) => {
+        {sections.map(({ id, label }) => {
           const count = id === "evidence" ? evidenceCount : id === "sources" ? sourceCount : null
           const active = activeSection === id
           return (
@@ -128,17 +134,7 @@ export function EvidenceExplorer({
   const filteredClaims =
     filter === "all" ? claims : claims.filter((claim) => claim.status === filter)
 
-  if (!claims.length) {
-    return (
-      <Alert>
-        <FileQuestionIcon />
-        <AlertTitle>Evidence review pending</AlertTitle>
-        <AlertDescription>
-          This profile does not yet have source-linked evidence. Treat unsourced details as unknown.
-        </AlertDescription>
-      </Alert>
-    )
-  }
+  if (!claims.length) return null
 
   return (
     <div className="flex flex-col gap-3">
