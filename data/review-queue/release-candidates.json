@@ -183,6 +183,15 @@
       "publishedAt": "2026-02-20T10:48:05.000Z"
     },
     {
+      "id": "46099a43f62065c2d09d1c7e7d50f181667350cf4ae883a7b20dc446d0569766",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha2",
+      "title": "v1.0.0-alpha2",
+      "summary": "What's Changed Features feat(helm): global values for registry, pull config, and namespace scope by @jjamroga in #2817 feat(harness): export executor construction and health config by @xytian315 in #2858 feat(adk): honour context compaction in the Go runtime by @teemow in #2790 feat(harness): load Claude-format plugins whole only on the Claude harness by @xytian315 in #2875 feat(core): serve the controller's metrics, and its gRPC metrics with them by @QuentinBisson in #2886 feat(tracing): add harness invocation identity, lifecycle, and bounded capture by @dhaifley in #2863 Bug Fixes fix: serialize AgentInstance lifecycle execution by @EItanya in #2857 fix(ui): isolate theme hook from refreshable provider by @Dragonzz27 in #2878 fix(ui): give checkpoint delete cancel buttons unique data-testids ( #2871 ) by @boxcee-interview in #2877 Other Changes chore(deps): bump the npm-minor-patch group in /ui with 9 updates by @dependabot [bot] in #2882 chore(deps): bump the python-google-ai group in /python with 2 updates by @dependabot [bot] in #2883 chore: bump substrate to v0.2.0-beta5 by @krisztianfekete in #2892 New Contributors @teemow made their first contribution in #2790 @Dragonzz27 made their first contribution in #2878 Full Changelog : v1.0.0-alpha1...v1.0.0-alpha2",
+      "publishedAt": "2026-09-22T16:12:31.000Z"
+    },
+    {
       "id": "ec253f51935fc86b8f071d45afebdff3f0039c55a7566246fcb00d9f91e88635",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -262,15 +271,6 @@
       "title": "v0.10.0-rc1",
       "summary": "What's Changed Features feat(models): wire maxOutputTokens for native Gemini and Vertex by @anthonytwh in #2147 feat: add envFrom support to agent deployment spec by @uncycler in #2321 feat: add native AWS Bedrock Guardrails support to ModelConfig by @sanskar-singh-2403 in #2323 feat(bedrock): configurable Bedrock read/connect timeout by @go-faustino in #2223 feat: add deploymentAnnotations to agent deployment spec by @anthonyhaussman in #2359 feat(helm/kagent): allow disabling default modelconfig by @anthonyhaussman in #2142 feat(sts): send RFC 8707 resource and audience on token exchange by @QuentinBisson in #2106 feat(sts): send RFC 8707 resource and audience on token exchange (Python) by @QuentinBisson in #2107 Bug Fixes fix(adk): keep token refresh loop alive after a failed read by @mesutoezdil in #2330 fix(acp-shim): drain child stdout during terminate to avoid teardown deadlock by @tomsen02 in #2338 fix(adk): keep full session state when num_recent_events is set by @mesutoezdil in #2329 Documentation docs: fix currency LangGraph sample README to match OpenAI implementation by @shreyasskasetty in #2356 Other Changes chore(deps): bump the npm-minor-patch group in /ui with 37 updates by @dependabot [bot] in #2340 chore(deps): bump actions/labeler from 6 to 7 by @dependabot [bot] in #2337 chore(deps): bump the go-minor-patch group in /go with 14 updates by @dependabot [bot] in #2339 Bump deps for CVE fixes by @iplay88keys in #2360 New Contributors @uncycler made their first contribution in #2321 @sanskar-singh-2403 made their first contribution in #2323 @tomsen02 made their first contribution in #2338 @shreyasskasetty made their first contribution in #2356 Full Changelog : v0.10.0-beta11...v0.10.0-rc1",
       "publishedAt": "2026-07-29T21:01:59.000Z"
-    },
-    {
-      "id": "a8072ac42a0c81d6933711ced8287d200f9c0ffc6b1a4171df94c3d095dce2e9",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.0-beta11",
-      "title": "v0.10.0-beta11",
-      "summary": "What's Changed Features feat(ui-test): Playwright UI E2E suite — helpers + feature flows (stage 2) by @cjlg-soloio in #2264 feat: serve A2A ListTasks from the task store by @QuentinBisson in #2187 feat(models): add maxCompletionTokens for OpenAI by @anthonytwh in #2175 Bug Fixes fix(security): scope task get, create, and delete to the owner by @mesutoezdil in #2265 Other Changes Add substrate badge to agent cards by @iplay88keys in #2316 helm: add annotations support to controller and UI ServiceAccounts by @jon-waggoner in #2319 chore(deps): update anthropic[vertex] requirement from >=0.117.0 to >=0.120.0 in /python by @dependabot [bot] in #2344 add xhigh as a valid reasoning effort for openai models by @peterj in #2345 chore(deps): update langsmith[otel] requirement from >=0.10.6 to >=0.10.10 in /python by @dependabot [bot] in #2342 chore(deps): update a2a-sdk[http-server] requirement from >=0.3.23 to >=0.3.26 in /python by @dependabot [bot] in #2343 honor event timestamp filters when loading sessions by @peterj in #2346 Force-flush trace spans before the A2A response completes for substrate by @iplay88keys in #2176 chore(build): fix stale node version comments in python full image by @mesutoezdil in #2236 perf(database): batch checkpoint writes to remove N+1 query by @anxkhn in #2248 chore(deps): bump distroless/cc-debian12 from 66aa873 to fccdbb0 in /python by @dependabot [bot] in #2336 refactor: hide pgx errors behind database.ErrNotFound by @QuentinBisson in #2274 New Contributors @anthonytwh made their first contribution in #2175 @jon-waggoner made their first contribution in #2319 Full Changelog : v0.10.0-beta10...v0.10.0-beta11",
-      "publishedAt": "2026-07-27T19:32:11.000Z"
     }
   ]
 }
