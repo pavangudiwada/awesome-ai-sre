@@ -183,6 +183,24 @@
       "publishedAt": "2026-02-20T10:48:05.000Z"
     },
     {
+      "id": "dc775ac8d4e1a775c93302fcac6d82bc9e03ffda07ec525a3c7269ca2b68b06b",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha3",
+      "title": "v1.0.0-alpha3",
+      "summary": "What's Changed Features feat: support structured output in JSON Schema over A2A DataPart by @supreme-gg-gg in #2890 feat(telemetry): add a Weaver registry as the telemetry contract by @krisztianfekete in #2906 feat: add list_files and grep_file skills tools by @brandonkeung in #2267 feat: add standalone sandbox guest using env services by @EItanya in #2911 feat(models): route Ollama cloud models to api.ollama.com by @dimetron in #2898 feat(ui): serve the UI under a sub-path behind a reverse proxy by @Charlesthebird in #2904 Bug Fixes fix: key STS token cache by acting subject, not session alone by @QuentinBisson in #2459 fix(codex): ignore child-thread notifications during delegation by @EItanya in #2914 fix(harness): Disable bare mode for Claude Code by @supreme-gg-gg in #2923 Testing test(ui): run the live Playwright suite in CI against the built UI image by @toreysoloio in #2874 test: run shared agent E2Es across all harnesses by @EItanya in #2919 Other Changes Revert \"test(ui): run the live Playwright suite in CI against the built UI image ( #2874 )\" by @Charlesthebird in #2910 refactor: standardize A2A metadata by @supreme-gg-gg in #2902 New Contributors @xavierpestel-ai made their first contribution in #2406 @brandonkeung made their first contribution in #2267 Full Changelog : v1.0.0-alpha2...v1.0.0-alpha3",
+      "publishedAt": "2026-09-24T01:35:49.000Z"
+    },
+    {
+      "id": "46e9f9c10cbfc4c661fa78eea015d6ce814fc3deecca3ff2ad09c288a2a4e5db",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.2",
+      "title": "v0.10.2",
+      "summary": "What's Changed Bug Fixes fix: skip unchanged MCP tool writes to Postgres by @supreme-gg-gg in #2796 fix(ui): resync the lockfile, and clear every fixable CVE by @Charlesthebird in #2867 fix(ui): copy to the clipboard outside a secure context by @Charlesthebird in #2866 Other Changes [0.10.x] Clean up python adk image to resolve CVEs by @inFocus7 in #2765 Full Changelog : v0.10.1...v0.10.2",
+      "publishedAt": "2026-09-23T16:04:39.000Z"
+    },
+    {
       "id": "46099a43f62065c2d09d1c7e7d50f181667350cf4ae883a7b20dc446d0569766",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -253,24 +271,6 @@
       "title": "v0.10.0-rc3",
       "summary": "What's Changed Features Backport 2409 (db session cleanup) to 0.10.x release by @supreme-gg-gg in #2403 Backport of 2408 (s3 skills) to 0.10.x release by @supreme-gg-gg in #2405 feat: configurable refresh interval for tool server controllers by @supreme-gg-gg in #2480 feat: support file upload in agent chat by @supreme-gg-gg in #2429 Other Changes Backport 2392 to 0.10.x release branch by @anthonyhaussman in #2430 Backport #2479 CVE fix to release/v0.10.x by @iplay88keys in #2481 Full Changelog : v0.10.0-rc2...v0.10.0-rc3",
       "publishedAt": "2026-08-18T21:42:14.000Z"
-    },
-    {
-      "id": "e4be4b3914db89b8380c7135407ec139c4b0d5ddf1814297f7bd513fed153f73",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.0-rc2",
-      "title": "v0.10.0-rc2",
-      "summary": "What's Changed Features Backport of 2407 (pg connection) to 0.10.x release by @supreme-gg-gg in #2399 Bug Fixes fix(controller): wire up SessionSharesHandler in NewHandlers ( #2363 ) by @onematchfox in #2420 Other Changes Backport 2361 and 2367 by @iplay88keys in #2368 Backport 2153 to 0.10.x release by @supreme-gg-gg in #2373 Backport 2369 to 0.10.x release branch by @supreme-gg-gg in #2375 Backport 2365 to 0.10.x release branch by @anthonyhaussman in #2378 Backport 2387 to 0.10.x release branch by @Charlesthebird in #2388 Backport 2091 to 0.10.x release branch by @EItanya in #2391 Backport #2394 CVE fixes to release/v0.10.x by @iplay88keys in #2395 Backport 2400 to 0.10.x release branch by @krisztianfekete in #2417 Full Changelog : v0.10.0-rc1...v0.10.0-rc2",
-      "publishedAt": "2026-08-11T18:37:10.000Z"
-    },
-    {
-      "id": "01e09a882e559d56b196bf8e454bebe8524799ebba1f3b8fd9ea9e23ce271555",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.0-rc1",
-      "title": "v0.10.0-rc1",
-      "summary": "What's Changed Features feat(models): wire maxOutputTokens for native Gemini and Vertex by @anthonytwh in #2147 feat: add envFrom support to agent deployment spec by @uncycler in #2321 feat: add native AWS Bedrock Guardrails support to ModelConfig by @sanskar-singh-2403 in #2323 feat(bedrock): configurable Bedrock read/connect timeout by @go-faustino in #2223 feat: add deploymentAnnotations to agent deployment spec by @anthonyhaussman in #2359 feat(helm/kagent): allow disabling default modelconfig by @anthonyhaussman in #2142 feat(sts): send RFC 8707 resource and audience on token exchange by @QuentinBisson in #2106 feat(sts): send RFC 8707 resource and audience on token exchange (Python) by @QuentinBisson in #2107 Bug Fixes fix(adk): keep token refresh loop alive after a failed read by @mesutoezdil in #2330 fix(acp-shim): drain child stdout during terminate to avoid teardown deadlock by @tomsen02 in #2338 fix(adk): keep full session state when num_recent_events is set by @mesutoezdil in #2329 Documentation docs: fix currency LangGraph sample README to match OpenAI implementation by @shreyasskasetty in #2356 Other Changes chore(deps): bump the npm-minor-patch group in /ui with 37 updates by @dependabot [bot] in #2340 chore(deps): bump actions/labeler from 6 to 7 by @dependabot [bot] in #2337 chore(deps): bump the go-minor-patch group in /go with 14 updates by @dependabot [bot] in #2339 Bump deps for CVE fixes by @iplay88keys in #2360 New Contributors @uncycler made their first contribution in #2321 @sanskar-singh-2403 made their first contribution in #2323 @tomsen02 made their first contribution in #2338 @shreyasskasetty made their first contribution in #2356 Full Changelog : v0.10.0-beta11...v0.10.0-rc1",
-      "publishedAt": "2026-07-29T21:01:59.000Z"
     }
   ]
 }
