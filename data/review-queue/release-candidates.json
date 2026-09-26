@@ -183,6 +183,15 @@
       "publishedAt": "2026-02-20T10:48:05.000Z"
     },
     {
+      "id": "901f615912eeafa5e5b65b18790e599d714fbc3365adbf9152aad35d9969594c",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha4",
+      "title": "v1.0.0-alpha4",
+      "summary": "What's Changed Features feat(telemetry): configure runtimes with SDK-spec OTEL variables by @krisztianfekete in #2909 feat(ui): support BYO harnesses by @Charlesthebird in #2935 feat(harness): support microvm sandboxes by @marosset in #2918 feat: serve per-instance A2A JSON-RPC and agent cards by @EItanya in #2933 feat(telemetry): export semconv metrics, drop ADK legacy spans, correlate logs by @krisztianfekete in #2929 feat: move A2A execution into runtimes with a gRPC TaskStore by @EItanya in #2939 Bug Fixes fix: honor kagent Harness command and args by @marosset in #2934 fix(ui): wait for schedule deletion redirect in live test by @Dragonzz27 in #2879 fix(hitl): compose the same pause text in every runtime and always declare the extension by @QuentinBisson in #2472 fix(harness): hold the Claude prompt until Claude Code can trace the turn by @dhaifley in #2943 Other Changes chore(deps): bump the go-minor-patch group across 1 directory with 39 updates by @dependabot [bot] in #2913 Bump kagent-tools to 0.3.0 by @inFocus7 in #2930 Full Changelog : v1.0.0-alpha3...v1.0.0-alpha4",
+      "publishedAt": "2026-09-25T19:51:11.000Z"
+    },
+    {
       "id": "dc775ac8d4e1a775c93302fcac6d82bc9e03ffda07ec525a3c7269ca2b68b06b",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -262,15 +271,6 @@
       "title": "v0.10.0-rc5",
       "summary": "bump go to v1.26.7 + x/mod v0.40.0 ( #2557 )",
       "publishedAt": "2026-08-26T13:41:33.000Z"
-    },
-    {
-      "id": "6afb75f1ce88b0029a853c46633ad0cf0f049f0cedfaaf630dfa50192ee1d269",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.0-rc3",
-      "title": "v0.10.0-rc3",
-      "summary": "What's Changed Features Backport 2409 (db session cleanup) to 0.10.x release by @supreme-gg-gg in #2403 Backport of 2408 (s3 skills) to 0.10.x release by @supreme-gg-gg in #2405 feat: configurable refresh interval for tool server controllers by @supreme-gg-gg in #2480 feat: support file upload in agent chat by @supreme-gg-gg in #2429 Other Changes Backport 2392 to 0.10.x release branch by @anthonyhaussman in #2430 Backport #2479 CVE fix to release/v0.10.x by @iplay88keys in #2481 Full Changelog : v0.10.0-rc2...v0.10.0-rc3",
-      "publishedAt": "2026-08-18T21:42:14.000Z"
     }
   ]
 }
