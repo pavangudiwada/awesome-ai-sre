@@ -183,6 +183,15 @@
       "publishedAt": "2026-02-20T10:48:05.000Z"
     },
     {
+      "id": "c65e3f1f4ff4a1f0768720fb1674dce0fdf95f225ed0e184d2d7c641242539ab",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha5",
+      "title": "v1.0.0-alpha5",
+      "summary": "What's Changed Features feat(ui): let app extensions replace chat part renderers by @Charlesthebird in #2945 feat: add explicit Agent definitions and Sessions by @EItanya in #2952 feat(api): add SandboxTemplate and Sandbox contracts by @EItanya in #2959 feat(sandbox): implement standalone sandbox runtimes by @EItanya in #2962 feat: add sandbox workflows and group agent commands by @EItanya in #2966 feat(ui): create, edit and delete explicit Agents by @Charlesthebird in #2953 Bug Fixes fix: flush buffered OTEL logs by @yashrajshuklaaa in #2772 fix(byo): centralize ADK runtime configuration by @EItanya in #2965 fix(kagent-adk): compact MCP App tool results only when the result carries a UI resource by @AmirF194 in #2579 fix: wire Helm authentication settings into controller startup by @EItanya in #2971 Documentation docs: add API design guidelines and refresh OIDC architecture by @EItanya in #2958 refactor: standardize environment settings and generate their reference by @EItanya in #2967 Other Changes chore: keep planning documents in gitignored .plans by @EItanya in #2955 chore: update Substrate to v0.3.0-alpha1 by @EItanya in #2963 ci: overlap slow E2E harness scenarios by @EItanya in #2969 New Contributors @AmirF194 made their first contribution in #2579 Full Changelog : v1.0.0-alpha4...v1.0.0-alpha5",
+      "publishedAt": "2026-09-27T18:23:40.000Z"
+    },
+    {
       "id": "901f615912eeafa5e5b65b18790e599d714fbc3365adbf9152aad35d9969594c",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -253,15 +262,6 @@
       "title": "v0.10.0-rc6",
       "summary": "What's Changed Bug Fixes fix: ensure API key passthrough works for OpenAI embedding models by @onematchfox in #2494 fix(adk): validate ask_user questions by @erauner12 in #2486 Backport fix(golang-adk): resolve user identity from A2A call context to 0.10.x by @buravc in #2507 fix(a2a): serve exact task reads from the persistent store by @erauner12 in #2484 Other Changes Backport #2423 CVE fixes to release/v0.10.x by @inFocus7 in #2487 Honor LOG_LEVEL in bundled agents and expose agent env config in helm by @iplay88keys in #2502 Backport #2539 (remove bundled doc2vec) to release/v0.10.x by @inFocus7 in #2547 Bump Google ADK to address Starlette CVEs by @iplay88keys in #2558 bump go to v1.26.7 + x/mod v0.40.0 by @inFocus7 in #2557 New Contributors @buravc made their first contribution in #2507 Full Changelog : v0.10.0-rc3...v0.10.0-rc6",
       "publishedAt": "2026-09-01T16:40:15.000Z"
-    },
-    {
-      "id": "856de1977a3ac3e725b22b9539e5e6fb51046d38cb88e43a9c9ea69d6883518e",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.0-rc4",
-      "title": "v0.10.0-rc4",
-      "summary": "What's Changed Bug Fixes fix: ensure API key passthrough works for OpenAI embedding models by @onematchfox in #2494 fix(adk): validate ask_user questions by @erauner12 in #2486 Backport fix(golang-adk): resolve user identity from A2A call context to 0.10.x by @buravc in #2507 fix(a2a): serve exact task reads from the persistent store by @erauner12 in #2484 Other Changes Backport #2423 CVE fixes to release/v0.10.x by @inFocus7 in #2487 Honor LOG_LEVEL in bundled agents and expose agent env config in helm by @iplay88keys in #2502 Backport #2539 (remove bundled doc2vec) to release/v0.10.x by @inFocus7 in #2547 Bump Google ADK to address Starlette CVEs by @iplay88keys in #2558 bump go to v1.26.7 + x/mod v0.40.0 by @inFocus7 in #2557 New Contributors @buravc made their first contribution in #2507 Full Changelog : v0.10.0-rc3...v0.10.0-rc4",
-      "publishedAt": "2026-08-28T16:24:58.000Z"
     },
     {
       "id": "12ca483cc6b23ef4a68651eb08d14a7d0b1dc9087fa56088bd51c617440a32af",
