@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { SearchIcon, XIcon } from "lucide-react";
@@ -15,16 +15,10 @@ import { filterGlossary, GLOSSARY_CHECKED_AT, GLOSSARY_TERMS, GLOSSARY_TOPICS } 
 
 export function GlossaryDirectory() {
   const searchParams = useSearchParams();
-  const initialTopic = searchParams.get("topic") ?? "All topics";
-  const [query, setQuery] = useState(searchParams.get("q") ?? "");
-  const [topic, setTopic] = useState(GLOSSARY_TOPICS.some(value => value === initialTopic) ? initialTopic : "All topics");
-  useEffect(() => {
-    setQuery(searchParams.get("q") ?? "");
-    const nextTopic = searchParams.get("topic") ?? "All topics";
-    setTopic(GLOSSARY_TOPICS.some(value => value === nextTopic) ? nextTopic : "All topics");
-  }, [searchParams]);
+  const query = searchParams.get("q") ?? "";
+  const requestedTopic = searchParams.get("topic") ?? "All topics";
+  const topic = GLOSSARY_TOPICS.some(value => value === requestedTopic) ? requestedTopic : "All topics";
   function change(nextQuery: string, nextTopic: string) {
-    setQuery(nextQuery); setTopic(nextTopic);
     const params = new URLSearchParams();
     if (nextQuery) params.set("q", nextQuery);
     if (nextTopic !== "All topics") params.set("topic", nextTopic);
