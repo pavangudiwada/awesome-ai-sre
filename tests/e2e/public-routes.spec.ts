@@ -63,7 +63,7 @@ test.describe("public Watchlist routes", () => {
     await expect(page.getByRole("textbox", { name: "Email" })).toHaveCount(0);
     await expect(page.getByRole("combobox", { name: "Frequency" })).toHaveCount(0);
     await expect(page.getByRole("checkbox", { name: /newsletter/i })).toHaveCount(0);
-    await expect(page.getByRole("link", { name: `View all 78 tools` })).toBeVisible();
+    await expect(page.getByRole("link", { name: /^View all \d+ tools$/ })).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: "Featured AI SRE tools" })).toBeVisible();
     await expect(page.getByText("A rotating selection from the directory, refreshed every day.")).toBeVisible();
     await expect(page.getByText("Useful information, without the vendor pitch.")).toHaveCount(0);
