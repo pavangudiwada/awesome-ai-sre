@@ -105,3 +105,5 @@ Observability: Zabbix	obs-zabbix	png	https://assets.zabbix.com/img/apple-touch-i
 Observability: AWS CloudWatch	obs-aws-cloudwatch	svg	https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/architecture/approved/architecture-icons/Icon-package_04302026.4705b90f5aa45b019271a2699e9ce9b97b941ee1.zip
 Observability: Loggly	obs-loggly	svg	https://www.loggly.com/wp-content/uploads/2026/06/SW_Logo2025_Loggly_Web_Orange-1.svg
 Hyground product preview	hyground	png	https://framerusercontent.com/images/pTSkBhS5RMlUxVlxTOptXpKSYE.png?height=1572&width=2532
+OpenObserve AI SRE Agent	openobserve-ai-sre	svg	https://openobserve.ai/favicon.svg
+OpenObserve AI SRE product preview	openobserve-ai-sre	png	https://openobserve.ai/assets/platform/ai-sre/systemic-intelligence.png

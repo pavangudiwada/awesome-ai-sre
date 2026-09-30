@@ -73,6 +73,7 @@ const DEFAULT_NAV_ITEMS: WatchlistNavItem[] = [
   { label: "Companies", href: "/companies" },
   { label: "Observability", href: "/observability" },
   { label: "Resources", href: "/resources" },
+  { label: "Glossary", href: "/glossary" },
   { label: "Updates", href: "/updates" },
 ]
 

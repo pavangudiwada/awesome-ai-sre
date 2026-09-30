@@ -19,12 +19,21 @@ describe("catalog loaders", () => {
     const holmes = getProductBySlug("holmesgpt");
     const unmappedProduct = getProductBySlug("alertd");
 
-    expect(products).toHaveLength(78);
+    expect(products).toHaveLength(79);
     expect(holmes?.companySlug).toBe("robusta");
     expect(holmes?.editorialState).toBe("unreviewed");
     expect(holmes?.lastReviewed).toBeNull();
     expect(holmes).not.toHaveProperty("claimed");
     expect(unmappedProduct?.companySlug).toBeNull();
+  });
+
+  it("keeps the OpenObserve Enterprise preview separate from platform open source status", () => {
+    const product = getProductBySlug("openobserve-ai-sre");
+    expect(product?.companySlug).toBe("openobserve");
+    expect(product?.openSource).toBe(false);
+    expect(product?.summary).toContain("Preview");
+    expect(product?.summary).toContain("Enterprise license");
+    expect(product?.editorialState).toBe("unreviewed");
   });
 
   it("preserves editorially supplied product social destinations", () => {
@@ -55,9 +64,7 @@ describe("catalog loaders", () => {
     expect(cohort.entries.map((entry) => entry.priority)).toEqual(
       Array.from({ length: 18 }, (_, index) => index + 1),
     );
-    expect(missingRecords.map((entry) => entry.productSlug)).toEqual([
-      "openobserve-ai-sre",
-    ]);
+    expect(missingRecords).toEqual([]);
   });
 
   it("publishes only the completed practitioner resources", () => {
@@ -85,8 +92,6 @@ describe("catalog loaders", () => {
 
     expect(report.valid).toBe(true);
     expect(report.issues.some((issue) => issue.severity === "error")).toBe(false);
-    expect(missingCohortProducts).toEqual([
-      'priority 11 requires a product record for "openobserve-ai-sre"',
-    ]);
+    expect(missingCohortProducts).toEqual([]);
   });
 });

@@ -1,0 +1,24 @@
+name: OpenObserve AI SRE Agent
+slug: openobserve-ai-sre
+url: https://openobserve.ai/ai-sre/
+summary: >-
+  Preview AI SRE service in OpenObserve Enterprise that investigates alerts using logs, metrics, and traces and
+  produces incident root cause analysis. Requires an Enterprise license; available in O2 Cloud and self-hosted
+  Kubernetes deployments. The Enterprise AI feature is distinct from the open-source observability platform.
+deployment:
+  - saas
+  - on-prem
+opensource: false
+tags:
+  - Incident Response
+  - Observability
+  - AIOps
+dateAdded: '2026-09-30'
+claimed: false
+logo: /logos/openobserve-ai-sre.svg
+screenshot: /screenshots/openobserve-ai-sre.png
+screenshot_last_fetched: '2026-09-30'
+features:
+  - Investigates alerts by correlating logs, metrics, and traces
+  - Produces incident root cause analysis with telemetry evidence
+  - Supports configured AI providers and Enterprise Kubernetes deployment
