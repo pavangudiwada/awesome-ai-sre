@@ -1,8 +1,6 @@
 {
   "version": 1,
   "catalog": [
-    "cohort_product_missing|tools/companies/_early-18.yaml|openobserve-ai-sre",
-    "company_product_missing|tools/companies/openobserve.yaml|openobserve-ai-sre",
     "product_company_unmapped|tools/operate/alertd.yaml|alertd",
     "product_company_unmapped|tools/operate/aurora.yaml|aurora",
     "product_company_unmapped|tools/operate/autonomops-ai.yaml|autonomops-ai",
