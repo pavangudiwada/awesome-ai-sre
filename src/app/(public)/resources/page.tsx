@@ -33,6 +33,13 @@ export default function ResourcesPage() {
           Owned Watchlist resources for security review, historical replay, pilot scoring, and decision discipline.
         </p>
       </header>
+      <Card>
+        <CardHeader>
+          <CardTitle>AI SRE, SRE &amp; DevOps glossary</CardTitle>
+          <CardDescription>Find plain-language definitions, primary sources, related concepts, and paths into the catalog.</CardDescription>
+        </CardHeader>
+        <CardFooter><Button asChild variant="outline" className="min-h-11"><Link href="/glossary">Explore the glossary<ArrowRightIcon data-icon="inline-end" /></Link></Button></CardFooter>
+      </Card>
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {resources.map((resource) => (
           <Card key={resource.metadata.slug}>
