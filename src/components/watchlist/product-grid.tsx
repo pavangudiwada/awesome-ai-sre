@@ -17,6 +17,7 @@ interface ProductGridProps {
   emptyTitle?: string
   emptyDescription?: string
   onClearHref?: string
+  clearLabel?: string
 }
 
 export function ProductGrid({
@@ -24,6 +25,7 @@ export function ProductGrid({
   emptyTitle = "No products match these filters",
   emptyDescription = "Try a broader category or clear some filters.",
   onClearHref,
+  clearLabel = "Clear filters",
 }: ProductGridProps) {
   if (Children.count(children) === 0) {
     return (
@@ -38,7 +40,7 @@ export function ProductGrid({
         {onClearHref ? (
           <EmptyContent>
             <Button asChild variant="outline" className="h-11">
-              <Link href={onClearHref}>Clear filters</Link>
+              <Link href={onClearHref}>{clearLabel}</Link>
             </Button>
           </EmptyContent>
         ) : null}

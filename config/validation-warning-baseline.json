@@ -3,7 +3,6 @@
   "catalog": [
     "cohort_product_missing|tools/companies/_early-18.yaml|openobserve-ai-sre",
     "company_product_missing|tools/companies/openobserve.yaml|openobserve-ai-sre",
-    "missing_asset_reference|tools/operate/hyground.yaml|hyground:screenshot",
     "product_company_unmapped|tools/operate/alertd.yaml|alertd",
     "product_company_unmapped|tools/operate/aurora.yaml|aurora",
     "product_company_unmapped|tools/operate/autonomops-ai.yaml|autonomops-ai",
@@ -62,8 +61,5 @@
     "product_company_unmapped|tools/operate/vigiles.yaml|vigiles",
     "product_company_unmapped|tools/operate/wild-moose.yaml|wild-moose"
   ],
-  "assets": [
-    "logo_raster_too_small|ai-sre|datadog-bits-ai|logo|/logos/datadog-bits-ai.png",
-    "missing_screenshot_reference|ai-sre|hyground|screenshot|none"
-  ]
+  "assets": []
 }

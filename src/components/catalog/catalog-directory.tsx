@@ -9,8 +9,8 @@ import {
   useSyncExternalStore,
   type FormEvent,
 } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { SearchIcon } from "lucide-react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { SearchIcon, XIcon } from "lucide-react";
 
 import { FilterBar, ProductCard, ProductGrid } from "@/components/watchlist";
 import type {
@@ -22,6 +22,7 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import {
   InputGroup,
   InputGroupAddon,
+  InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
 import type { saveProductAction } from "@/actions/workflows";
@@ -30,6 +31,7 @@ import {
   directoryHref,
   isDirectoryDeployment,
   isDirectorySort,
+  parseDirectoryQuery,
   type DirectoryQueryState,
 } from "@/lib/catalog/directory-query";
 
@@ -68,11 +70,10 @@ export function CatalogDirectory({
   saveAction,
 }: CatalogDirectoryProps) {
   const pathname = usePathname();
-  const router = useRouter();
+  const searchParams = useSearchParams();
   const [directoryState, setDirectoryState] = useState(initialState);
   const directoryStateRef = useRef(initialState);
-  const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const pendingHrefRef = useRef<string | null>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const { query, category, deployments, sort } = directoryState;
   const isHydrated = useSyncExternalStore(
     subscribeToHydration,
@@ -87,58 +88,39 @@ export function CatalogDirectory({
       const currentHref = `${window.location.pathname}${window.location.search}`;
       if (nextHref === currentHref) return;
 
-      pendingHrefRef.current = nextHref;
-      router.replace(nextHref, { scroll: false });
+      // Filtering is local. Avoid an in-flight server navigation sending a
+      // visitor back to the directory after they open a product profile.
+      window.history.replaceState(null, "", nextHref);
     },
-    [pathname, router],
+    [pathname],
   );
 
-  const clearPendingSearch = useCallback(() => {
-    if (searchTimerRef.current) {
-      clearTimeout(searchTimerRef.current);
-      searchTimerRef.current = null;
-    }
-  }, []);
-
   const updateDirectoryState = useCallback(
-    (
-      update: (current: DirectoryQueryState) => DirectoryQueryState,
-      options: { debounce?: boolean } = {},
-    ) => {
+    (update: (current: DirectoryQueryState) => DirectoryQueryState) => {
       const nextState = update(directoryStateRef.current);
       directoryStateRef.current = nextState;
       setDirectoryState(nextState);
-      clearPendingSearch();
-
-      if (options.debounce) {
-        searchTimerRef.current = setTimeout(() => {
-          replaceDirectoryUrl(directoryStateRef.current);
-          searchTimerRef.current = null;
-        }, 250);
-        return;
-      }
-
       replaceDirectoryUrl(nextState);
     },
-    [clearPendingSearch, replaceDirectoryUrl],
+    [replaceDirectoryUrl],
   );
 
-  useEffect(() => clearPendingSearch, [clearPendingSearch]);
-
   useEffect(() => {
-    const nextHref = directoryHref(pathname, initialState);
-    if (pendingHrefRef.current) {
-      if (pendingHrefRef.current === nextHref) {
-        pendingHrefRef.current = null;
-      }
-      return;
-    }
+    const nextState = parseDirectoryQuery(
+      {
+        q: searchParams.get("q") ?? undefined,
+        category: searchParams.get("category") ?? undefined,
+        deployment: searchParams.getAll("deployment"),
+        sort: searchParams.get("sort") ?? undefined,
+      },
+      Object.keys(CATEGORY_LABELS),
+    );
+    const nextHref = directoryHref(pathname, nextState);
     if (directoryHref(pathname, directoryStateRef.current) === nextHref) return;
 
-    clearPendingSearch();
-    directoryStateRef.current = initialState;
-    setDirectoryState(initialState);
-  }, [clearPendingSearch, initialState, pathname]);
+    directoryStateRef.current = nextState;
+    setDirectoryState(nextState);
+  }, [searchParams, pathname]);
 
   const categories = useMemo<MarketplaceCategory[]>(() => {
     const counts = new Map<string, number>();
@@ -200,7 +182,6 @@ export function CatalogDirectory({
 
   function handleSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    clearPendingSearch();
     replaceDirectoryUrl(directoryStateRef.current);
     trackSearchResultBucket(visible.length);
   }
@@ -215,13 +196,13 @@ export function CatalogDirectory({
             </FieldLabel>
             <InputGroup className="h-14 bg-card">
               <InputGroupInput
+                ref={searchInputRef}
                 id="directory-search"
                 value={query}
                 onChange={(event) => {
                   const nextQuery = event.target.value;
                   updateDirectoryState(
                     (current) => ({ ...current, query: nextQuery }),
-                    { debounce: true },
                   );
                 }}
                 placeholder="Search products, companies, or capabilities…"
@@ -231,6 +212,21 @@ export function CatalogDirectory({
               <InputGroupAddon>
                 <SearchIcon aria-hidden="true" />
               </InputGroupAddon>
+              {query ? (
+                <InputGroupAddon align="inline-end">
+                  <InputGroupButton
+                    aria-label="Clear search"
+                    size="icon-sm"
+                    className="size-11"
+                    onClick={() => {
+                      updateDirectoryState((current) => ({ ...current, query: "" }));
+                      searchInputRef.current?.focus();
+                    }}
+                  >
+                    <XIcon aria-hidden="true" />
+                  </InputGroupButton>
+                </InputGroupAddon>
+              ) : null}
             </InputGroup>
           </Field>
         </form>
@@ -289,7 +285,12 @@ export function CatalogDirectory({
       />
 
       <div className="mx-auto w-full max-w-screen-2xl px-4 py-6 sm:px-6 lg:px-8">
-        <ProductGrid onClearHref={pathname}>
+        <ProductGrid
+          onClearHref={pathname}
+          emptyTitle="No products match your search and filters"
+          emptyDescription="Try another search, choose a broader category, or reset the search and filters."
+          clearLabel="Reset search and filters"
+        >
           {visible.length
             ? visible.map(({ product }, index) => (
                 <ProductCard
