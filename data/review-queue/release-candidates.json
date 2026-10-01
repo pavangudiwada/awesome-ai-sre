@@ -183,6 +183,15 @@
       "publishedAt": "2026-02-20T10:48:05.000Z"
     },
     {
+      "id": "648e8b18e5265adf98e07f4e0c84618d451a4c6162134b543f641bdd2faad81f",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha6",
+      "title": "v1.0.0-alpha6",
+      "summary": "What's Changed Bug Fixes fix: expire idle sessions through the delete workflow by @EItanya in #2970 fix(adk): keep Ollama tool call argument order stable across requests by @garlicKim21 in #2988 fix(controller): simplify agent preparation and retry handling by @EItanya in #2994 fix(adk): pass MCP embedded resource text to OpenAI-compatible models by @acherifi in #2992 fix(e2e): wait for controller health and parallelize independent tests by @EItanya in #2993 fix: repair image scans and use uv-managed Python by @EItanya in #2995 fix(ui): report harness delete failures by @pai in #2964 fix: keep Go ADK SQLite connections out of VM snapshots by @EItanya in #3004 fix(api): defer unsupported configuration fields by @EItanya in #3007 Documentation docs: update README for the v1 architecture by @EItanya in #2996 Other Changes ci: build release artifacts before the final release job by @EItanya in #2972 chore(deps): bump alpine from 3.22 to 3.24 in /go in the docker-minor-patch group across 1 directory by @dependabot [bot] in #2973 chore(deps): bump the go-minor-patch group in /go with 15 updates by @dependabot [bot] in #2976 chore(deps): update langsmith[otel] requirement from >=0.10.10 to >=0.14.0 in /python by @dependabot [bot] in #2978 chore(deps): update setuptools requirement from >=83.0.0 to >=84.0.0 in /python by @dependabot [bot] in #2979 chore(deps): update google-adk[a2a,db] requirement from =2.6.2 to >=2.9.2, @dependabot [bot] in #2980 chore(deps): bump the npm-minor-patch group in /ui with 7 updates by @dependabot [bot] in #2974 chore(deps): update google-adk[a2a] requirement from =2.6.2 to >=2.9.2, @dependabot [bot] in #2983 chore(deps): bump mcp from 1.29.0 to 2.2.0 in /python by @dependabot [bot] in #2984 chore(deps): update anthropic[vertex] requirement from >=0.120.0 to >=1.8.0 in /python by @dependabot [bot] in #2985 chore(deps): bump the python-google-ai group in /python with 2 updates by @dependabot [bot] in #2975 chore(deps): bump the python-minor-patc",
+      "publishedAt": "2026-09-30T22:57:08.000Z"
+    },
+    {
       "id": "c65e3f1f4ff4a1f0768720fb1674dce0fdf95f225ed0e184d2d7c641242539ab",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -262,15 +271,6 @@
       "title": "v0.10.0-rc6",
       "summary": "What's Changed Bug Fixes fix: ensure API key passthrough works for OpenAI embedding models by @onematchfox in #2494 fix(adk): validate ask_user questions by @erauner12 in #2486 Backport fix(golang-adk): resolve user identity from A2A call context to 0.10.x by @buravc in #2507 fix(a2a): serve exact task reads from the persistent store by @erauner12 in #2484 Other Changes Backport #2423 CVE fixes to release/v0.10.x by @inFocus7 in #2487 Honor LOG_LEVEL in bundled agents and expose agent env config in helm by @iplay88keys in #2502 Backport #2539 (remove bundled doc2vec) to release/v0.10.x by @inFocus7 in #2547 Bump Google ADK to address Starlette CVEs by @iplay88keys in #2558 bump go to v1.26.7 + x/mod v0.40.0 by @inFocus7 in #2557 New Contributors @buravc made their first contribution in #2507 Full Changelog : v0.10.0-rc3...v0.10.0-rc6",
       "publishedAt": "2026-09-01T16:40:15.000Z"
-    },
-    {
-      "id": "12ca483cc6b23ef4a68651eb08d14a7d0b1dc9087fa56088bd51c617440a32af",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.0-rc5",
-      "title": "v0.10.0-rc5",
-      "summary": "bump go to v1.26.7 + x/mod v0.40.0 ( #2557 )",
-      "publishedAt": "2026-08-26T13:41:33.000Z"
     }
   ]
 }
