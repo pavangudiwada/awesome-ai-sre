@@ -18,6 +18,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
+import { companyBrandProduct } from "@/lib/presentation/company-brand"
 import type { CatalogCompany, CatalogProduct } from "@/types/catalog"
 
 interface CompanyCardProps {
@@ -27,7 +28,7 @@ interface CompanyCardProps {
 
 /** A compact public entry point. Hover or keyboard-focus the name for context. */
 export function CompanyCard({ company, products }: CompanyCardProps) {
-  const firstProduct = products[0]
+  const brandProduct = companyBrandProduct(company, products)
   const productLabel = `${products.length} listed ${products.length === 1 ? "product" : "products"}`
   const lastChecked = company.sources
     .map((source) => source.checkedAt)
@@ -39,7 +40,7 @@ export function CompanyCard({ company, products }: CompanyCardProps) {
     <Card size="sm" className="h-full">
       <CardHeader className="gap-3">
         <div className="flex min-w-0 items-start gap-3">
-          <BrandMark name={company.name} src={firstProduct?.logo} />
+          <BrandMark name={company.name} src={brandProduct?.logo} />
           <div className="min-w-0 flex-1">
             <HoverCard openDelay={150} closeDelay={100}>
               <HoverCardTrigger asChild>

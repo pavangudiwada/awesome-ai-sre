@@ -1,0 +1,10 @@
+name: CloudShip AI
+slug: cloudship-ai
+website: https://www.cloudshipai.com
+productSlugs:
+  - cloudship-ai
+mappingStatus: confirmed
+sources:
+  - label: Official vendor identity source
+    url: https://www.cloudshipai.com/about
+    checkedAt: '2026-09-30'

@@ -1,0 +1,13 @@
+name: Vigiles Pte. Ltd.
+slug: vigiles
+website: https://vigileshq.com
+productSlugs:
+  - vigiles
+mappingStatus: confirmed
+sources:
+  - label: Official terms identify service and intellectual-property owner
+    url: https://vigileshq.com/terms
+    checkedAt: '2026-10-02'
+  - label: Official company identity
+    url: https://vigileshq.com/about
+    checkedAt: '2026-10-02'
