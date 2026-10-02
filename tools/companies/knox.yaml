@@ -1,0 +1,10 @@
+name: Knox
+slug: knox
+website: https://knoxops.app
+productSlugs:
+  - knoxops
+mappingStatus: confirmed
+sources:
+  - label: Official product website
+    url: https://knoxops.app/
+    checkedAt: '2026-09-30'

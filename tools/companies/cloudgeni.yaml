@@ -1,0 +1,10 @@
+name: Cloudgeni
+slug: cloudgeni
+website: https://cloudgeni.ai
+productSlugs:
+  - cloudgeni
+mappingStatus: confirmed
+sources:
+  - label: Official product website
+    url: https://cloudgeni.ai
+    checkedAt: '2026-09-30'

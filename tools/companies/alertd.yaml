@@ -1,0 +1,10 @@
+name: AlertD
+slug: alertd
+website: https://www.alertd.ai/
+productSlugs:
+  - alertd
+mappingStatus: confirmed
+sources:
+  - label: Official product website
+    url: https://www.alertd.ai/
+    checkedAt: '2026-09-30'

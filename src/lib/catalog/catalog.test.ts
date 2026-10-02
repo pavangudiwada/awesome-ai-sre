@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { getEarlyCohort } from "./cohort";
+import { getCompanies } from "./companies";
 import {
   getAllContentDocuments,
   getAnyContentDocument,
@@ -17,7 +18,7 @@ describe("catalog loaders", () => {
   it("normalizes all legacy products without turning claimed into verification", () => {
     const products = getProducts();
     const holmes = getProductBySlug("holmesgpt");
-    const unmappedProduct = getProductBySlug("alertd");
+    const unmappedProduct = getProductBySlug("ingero");
 
     expect(products).toHaveLength(79);
     expect(holmes?.companySlug).toBe("robusta");
@@ -25,6 +26,28 @@ describe("catalog loaders", () => {
     expect(holmes?.lastReviewed).toBeNull();
     expect(holmes).not.toHaveProperty("claimed");
     expect(unmappedProduct?.companySlug).toBeNull();
+  });
+
+  it("keeps sourced vendor mappings unique and separate from capability verification", () => {
+    const companies = getCompanies();
+    const mappings = companies.flatMap((company) => company.productSlugs);
+    expect(new Set(mappings).size).toBe(mappings.length);
+    expect(getProductBySlug("deductive-ai")?.companySlug).toBe("elastic");
+    expect(getProductBySlug("elastic")?.companySlug).toBe("elastic");
+    expect(getProductBySlug("aurora")?.companySlug).toBe("arvo-ai");
+    expect(getProductBySlug("lens-k8s-ide")?.companySlug).toBe("mirantis");
+    expect(getProductBySlug("phoebe")?.companySlug).toBe("phoebe-technology");
+    expect(getProductBySlug("observe-inc")?.companySlug).toBe("snowflake");
+    expect(getProductBySlug("vigiles")?.companySlug).toBe("vigiles");
+    expect(getProducts().filter((product) => product.companySlug === null).map((product) => product.slug).sort()).toEqual([
+      "ingero", "k8sgpt", "kagent", "kubestellar-console", "sre-bench",
+    ]);
+    for (const slug of ["alertd", "aurora", "deductive-ai", "phoebe", "runllm", "stakpak"]) {
+      const product = getProductBySlug(slug);
+      expect(product?.editorialState).toBe("unreviewed");
+      expect(product?.lastReviewed).toBeNull();
+      expect(product).not.toHaveProperty("claimed");
+    }
   });
 
   it("keeps the OpenObserve Enterprise preview separate from platform open source status", () => {

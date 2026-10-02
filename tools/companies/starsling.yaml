@@ -1,0 +1,10 @@
+name: StarSling
+slug: starsling
+website: https://starsling.dev/
+productSlugs:
+  - starsling
+mappingStatus: confirmed
+sources:
+  - label: Official product website
+    url: https://starsling.dev/
+    checkedAt: '2026-09-30'

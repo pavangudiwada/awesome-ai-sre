@@ -3,8 +3,13 @@ slug: elastic
 website: https://www.elastic.co
 productSlugs:
   - elastic
+  - deductive-ai
 mappingStatus: confirmed
 sources:
   - label: Official product website
     url: https://www.elastic.co/observability
+    checkedAt: '2026-09-30'
+  - label: Completed acquisition of Deductive AI
+    url: >-
+      https://ir.elastic.co/News--Events/news/news-details/2026/Elastic-Completes-Acquisition-of-Deductive-AI/default.aspx
     checkedAt: '2026-09-30'

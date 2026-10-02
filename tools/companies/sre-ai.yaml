@@ -1,0 +1,10 @@
+name: SRE.ai
+slug: sre-ai
+website: https://www.sre.ai
+productSlugs:
+  - sre-ai
+mappingStatus: confirmed
+sources:
+  - label: Official product website
+    url: https://www.sre.ai
+    checkedAt: '2026-09-30'

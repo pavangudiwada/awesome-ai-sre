@@ -31,6 +31,7 @@ import {
   getCompanyBySlug,
   getProductsByCompanySlug,
 } from "@/lib/catalog";
+import { companyBrandProduct } from "@/lib/presentation/company-brand";
 import {
   companyMap,
   companySources,
@@ -80,7 +81,7 @@ export default async function CompanyPage({
   ]);
   const saved = new Set(savedSlugs);
   const companies = companyMap([company]);
-  const firstProduct = products[0];
+  const brandProduct = companyBrandProduct(company, products);
 
   return (
     <main className="mx-auto flex max-w-screen-2xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
@@ -98,8 +99,9 @@ export default async function CompanyPage({
             ? `${company.name} publishes ${products.map((product) => product.name).join(", ")}, ${products.length === 1 ? "a product" : "products"} tracked by the AI SRE Watchlist.`
             : `${company.name} is included in the Watchlist company research registry.`
         }
-        logoSrc={firstProduct?.logo}
-        screenshotSrc={firstProduct?.screenshot}
+        logoSrc={brandProduct?.logo}
+        screenshotSrc={brandProduct?.screenshot}
+        showMedia={Boolean(brandProduct?.screenshot)}
         websiteHref={company.website}
         websiteLabel="Visit company website"
         analyticsSubject={{ kind: "company", slug: company.slug }}

@@ -1,0 +1,10 @@
+name: Harness
+slug: harness
+website: https://www.harness.io
+productSlugs:
+  - harness-ai-sre
+mappingStatus: confirmed
+sources:
+  - label: Official vendor identity source
+    url: https://www.harness.io/products/ai-sre
+    checkedAt: '2026-09-30'

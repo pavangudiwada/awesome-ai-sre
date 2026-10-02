@@ -1,0 +1,10 @@
+name: Beeps
+slug: beeps
+website: https://beeps.dev/
+productSlugs:
+  - beeps
+mappingStatus: confirmed
+sources:
+  - label: Official product website
+    url: https://beeps.dev:443/
+    checkedAt: '2026-09-30'
