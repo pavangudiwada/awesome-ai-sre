@@ -10,11 +10,15 @@ test.describe("new source-backed products", () => {
     test(`${product.name} preserves its scope, source links, and media`, async ({ page }, testInfo) => {
       await openRoute(page, `/tools/${product.slug}`);
       await expect(page.getByRole("heading", { level: 1, name: product.name, exact: true })).toBeVisible();
-      await expect(page.getByText(product.boundary, { exact: false })).toBeVisible();
+      await expect(page.locator("article header").getByText(product.boundary, { exact: false })).toBeVisible();
       await expectImageHasNaturalSize(page.getByRole("img", { name: `${product.name} logo`, exact: true }), `${product.name} logo`);
       await expectImageHasNaturalSize(page.getByRole("img", { name: `${product.name} product preview`, exact: true }), `${product.name} preview`);
       await expect(page.getByRole("link", { name: product.source })).toBeVisible();
       await expectPublicPageGuardrails(page, testInfo);
+      await page.screenshot({
+        path: testInfo.outputPath(`public-catalog-${product.slug}.png`),
+        fullPage: true,
+      });
 
       await page.locator(`article header a[href="/companies/${product.company}"]`).click();
       await expect(page.getByRole("heading", { level: 1, name: product.company, exact: true })).toBeVisible();

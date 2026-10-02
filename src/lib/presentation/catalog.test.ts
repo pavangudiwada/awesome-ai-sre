@@ -20,7 +20,7 @@ describe("evidence presentation", () => {
   it("labels vendor-page screenshots as previews without claiming a product session", () => {
     const product = getProductBySlug("empirik")
     expect(product).toBeDefined()
-    expect(toProductSummary(product!, new Map()).screenshotAlt).toBe("empirik product preview")
+    expect(toProductSummary(product!, new Map()).screenshotAlt).toBe("empirik catalog preview")
   })
 
   it("turns Wave 1 capabilities into source-linked documented claims", () => {
