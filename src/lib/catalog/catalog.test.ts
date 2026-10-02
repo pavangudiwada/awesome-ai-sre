@@ -20,7 +20,7 @@ describe("catalog loaders", () => {
     const holmes = getProductBySlug("holmesgpt");
     const unmappedProduct = getProductBySlug("ingero");
 
-    expect(products).toHaveLength(79);
+    expect(products).toHaveLength(81);
     expect(holmes?.companySlug).toBe("robusta");
     expect(holmes?.editorialState).toBe("unreviewed");
     expect(holmes?.lastReviewed).toBeNull();
@@ -57,6 +57,29 @@ describe("catalog loaders", () => {
     expect(product?.summary).toContain("Preview");
     expect(product?.summary).toContain("Enterprise license");
     expect(product?.editorialState).toBe("unreviewed");
+  });
+
+  it("preserves ilert's GA autonomy boundary and former product name", () => {
+    const product = getProductBySlug("ilert-ai-sre");
+    expect(product?.companySlug).toBe("ilert");
+    expect(product?.summary).toContain("formerly ilert Responder");
+    expect(product?.summary).toContain("paid plans and trials");
+    expect(product?.summary).toContain("action execution left to the engineer");
+    expect(product?.deployment).toEqual(["saas"]);
+    expect(product?.openSource).toBe(false);
+    expect(product?.editorialState).toBe("unreviewed");
+  });
+
+  it("keeps empirik's change-risk scope and VPC qualification explicit", () => {
+    const product = getProductBySlug("empirik");
+    expect(product?.companySlug).toBe("empirik");
+    expect(product?.summary).toContain("change review and incident prevention");
+    expect(product?.summary).toContain("customer-managed VPC");
+    expect(product?.tags).toEqual(["AIOps"]);
+    expect(product?.deployment).toEqual(["saas"]);
+    expect(product?.openSource).toBe(false);
+    expect(product?.editorialState).toBe("unreviewed");
+    expect(product?.lastReviewed).toBeNull();
   });
 
   it("preserves editorially supplied product social destinations", () => {

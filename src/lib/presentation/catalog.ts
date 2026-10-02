@@ -72,7 +72,7 @@ export function toProductSummary(
     companyHref: company ? `/companies/${company.slug}` : undefined,
     logoSrc: product.logo,
     screenshotSrc: product.screenshot,
-    screenshotAlt: `${product.name} product interface`,
+    screenshotAlt: `${product.name} product preview`,
     badges: productBadges(product),
     lastReviewedLabel: lastSourceCheck,
   };

@@ -1,0 +1,19 @@
+name: empirik
+slug: empirik
+website: https://empirik.ai
+productSlugs:
+  - empirik
+mappingStatus: confirmed
+sources:
+  - label: Official infrastructure-change product and deployment options
+    url: https://empirik.ai/product
+    checkedAt: '2026-10-02'
+  - label: Official launch announcement
+    url: https://empirik.ai/blog/introducing-empirik-the-autonomous-infrastructure-engineer
+    checkedAt: '2026-10-02'
+  - label: Official security and customer-managed VPC deployment boundary
+    url: https://empirik.ai/security-and-trust
+    checkedAt: '2026-10-02'
+  - label: Official commercial service terms
+    url: https://empirik.ai/terms-and-conditions
+    checkedAt: '2026-10-02'

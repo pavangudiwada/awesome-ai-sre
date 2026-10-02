@@ -24,7 +24,7 @@ test.describe("sourced company mappings", () => {
     await openRoute(page, "/companies/mirantis");
     await expect(page.getByRole("heading", { level: 1, name: "Mirantis" })).toBeVisible();
     await expect(page.getByText("Preview unavailable", { exact: true })).toHaveCount(0);
-    await expectImageHasNaturalSize(page.getByRole("img", { name: "Lens K8s IDE product interface", exact: true }), "Lens product preview");
+    await expectImageHasNaturalSize(page.getByRole("img", { name: "Lens K8s IDE product preview", exact: true }), "Lens product preview");
     await expectPublicPageGuardrails(page, testInfo);
   });
 
