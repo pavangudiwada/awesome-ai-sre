@@ -183,6 +183,15 @@
       "publishedAt": "2026-02-20T10:48:05.000Z"
     },
     {
+      "id": "211034c90f75f52074772ad6ba459e05b19cb9ca0186c4c8e2ee12c97633df51",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha7",
+      "title": "v1.0.0-alpha7",
+      "summary": "What's Changed Features feat(helm): make the controller ServiceAccount optional by @TarasLykhenko in #3022 Bug Fixes fix: allow disabling kagent model streaming by @EItanya in #3028 fix(translator): accept Mistral ModelConfigs in v1alpha3 by @moezdil in #3008 Other Changes chore: bump retired gemini 2.5 default models to 3.5 by @kaizakin in #3027 New Contributors @TarasLykhenko made their first contribution in #3022 Full Changelog : v1.0.0-alpha6...v1.0.0-alpha7",
+      "publishedAt": "2026-10-01T15:25:55.000Z"
+    },
+    {
       "id": "648e8b18e5265adf98e07f4e0c84618d451a4c6162134b543f641bdd2faad81f",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -262,15 +271,6 @@
       "title": "v0.10.0",
       "summary": "What's Changed Features feat(streaming): configurable nginx, controller, and UI inactivity ti… by @yanivmn in #1973 feat(helm): add controller service annotations by @anthonyhaussman in #2088 feat: enable sharing of chat sessions by @onematchfox in #1935 feat: substrate support for BYO and python runtimes for SandboxAgent CR by @jmhbh in #2043 feat(substrate): bump agent substrate to 0.0.7 by @supreme-gg-gg in #2109 feat(substrate): bump agent substrate to 0.0.8 by @jjamroga in #2140 feat(helm/kagent): support deployment annotations by @anthonyhaussman in #2143 feat: add nodeSelector support to agent helm charts by @the-mentor in #2145 feat: expose icon, provider, documentation URL and version on agent A2A card by @QuentinBisson in #2188 feat: add claude ACP sandbox target by @the-mentor in #2189 feat(sandbox-agents): Store session state in durableDir volume for declarative sandbox agents by @jmhbh in #2171 feat(helm): add UI HTTPRoute by @younsl in #2165 feat(helm): bump bundled oauth2-proxy subchart to ~10.7.0 by @elihai-risk in #2254 feat: default nodeSelector for agent deployments (--default-agent-node-selector) by @elihai-risk in #2259 feat(helm): add podLabels for controller and UI pod templates by @elihai-risk in #2237 feat(helm): add extraObjects for arbitrary manifests by @younsl in #2174 feat(ui-test): Playwright ui tests foundation stage 0 by @cjlg-soloio in #2262 feat: allow read-only shares to read A2A tasks by @QuentinBisson in #2191 feat(controller): make Go (ADK) runtime agent image independently configurable by @QuentinBisson in #2021 feat(helm): allow custom annotations on the default ModelConfig by @marians in #2201 feat(ui-test): Playwright UI E2E suite — helpers + feature flows (stage 2) by @cjlg-soloio in #2264 feat: serve A2A ListTasks from the task store by @QuentinBisson in #2187 feat(models): add maxCompletionTokens for OpenAI by @anthonytwh in #2175 feat(models): wire maxOutputTokens for native Gemini and Vertex by @anthonytwh in #2147 fea",
       "publishedAt": "2026-09-04T15:05:52.000Z"
-    },
-    {
-      "id": "f8793512dceadb9d691be51ef1375d4c054f58389302cc6dc378497ab2dae3c3",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.0-rc6",
-      "title": "v0.10.0-rc6",
-      "summary": "What's Changed Bug Fixes fix: ensure API key passthrough works for OpenAI embedding models by @onematchfox in #2494 fix(adk): validate ask_user questions by @erauner12 in #2486 Backport fix(golang-adk): resolve user identity from A2A call context to 0.10.x by @buravc in #2507 fix(a2a): serve exact task reads from the persistent store by @erauner12 in #2484 Other Changes Backport #2423 CVE fixes to release/v0.10.x by @inFocus7 in #2487 Honor LOG_LEVEL in bundled agents and expose agent env config in helm by @iplay88keys in #2502 Backport #2539 (remove bundled doc2vec) to release/v0.10.x by @inFocus7 in #2547 Bump Google ADK to address Starlette CVEs by @iplay88keys in #2558 bump go to v1.26.7 + x/mod v0.40.0 by @inFocus7 in #2557 New Contributors @buravc made their first contribution in #2507 Full Changelog : v0.10.0-rc3...v0.10.0-rc6",
-      "publishedAt": "2026-09-01T16:40:15.000Z"
     }
   ]
 }
