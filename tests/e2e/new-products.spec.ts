@@ -21,10 +21,12 @@ test.describe("new source-backed products", () => {
       });
 
       await page.locator(`article header a[href="/companies/${product.company}"]`).click();
+      await expect(page).toHaveURL(new RegExp(`/companies/${product.company}$`));
       await expect(page.getByRole("heading", { level: 1, name: product.company, exact: true })).toBeVisible();
       await expect(page.getByRole("link", { name: product.source })).toBeVisible();
       await expectPublicPageGuardrails(page, testInfo);
       await page.goBack();
+      await expect(page).toHaveURL(new RegExp(`/tools/${product.slug}$`));
       await expect(page.getByRole("heading", { level: 1, name: product.name, exact: true })).toBeVisible();
     });
   }
