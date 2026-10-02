@@ -1,0 +1,16 @@
+name: ilert
+slug: ilert
+website: https://www.ilert.com
+productSlugs:
+  - ilert-ai-sre
+mappingStatus: confirmed
+sources:
+  - label: Official AI SRE product page and GA autonomy boundary
+    url: https://www.ilert.com/product/ilert-ai-sre
+    checkedAt: '2026-10-02'
+  - label: General availability announcement and former Responder name
+    url: https://www.ilert.com/blog/ilert-ai-sre-is-generally-available
+    checkedAt: '2026-10-02'
+  - label: Official ilert company page
+    url: https://www.ilert.com/about-us
+    checkedAt: '2026-10-02'

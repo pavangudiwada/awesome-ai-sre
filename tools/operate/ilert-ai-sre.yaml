@@ -1,0 +1,22 @@
+name: ilert AI SRE
+slug: ilert-ai-sre
+url: https://www.ilert.com/product/ilert-ai-sre
+summary: >-
+  AI investigation module in ilert incident management, formerly ilert Responder. Generally available on
+  paid plans and trials since September 2026, it analyzes telemetry and recent changes after an engineer
+  starts an investigation; GA is investigate-and-propose, with action execution left to the engineer.
+deployment:
+  - saas
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-10-02'
+claimed: false
+logo: /logos/ilert-ai-sre.svg
+screenshot: /screenshots/ilert-ai-sre.jpg
+screenshot_last_fetched: '2026-10-02'
+features:
+  - Starts investigations from an alert, incident, or natural-language chat
+  - Correlates logs, metrics, traces, and deployment or repository changes
+  - Returns root-cause hypotheses, confidence labels, evidence links, and proposed next actions
