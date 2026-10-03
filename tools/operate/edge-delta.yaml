@@ -2,8 +2,8 @@ name: Edge Delta
 slug: edge-delta
 url: https://www.edgedelta.com/
 summary: >-
-  Observability pipeline and AI analytics platform for processing telemetry at scale and accelerating incident
-  investigation.
+  Telemetry-native AI SRE whose AI Teammates detect, investigate, and remediate production issues with approval,
+  reasoning over live logs, metrics, traces, and events.
 deployment:
   - saas
 opensource: false
