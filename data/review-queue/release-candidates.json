@@ -183,6 +183,15 @@
       "publishedAt": "2026-02-20T10:48:05.000Z"
     },
     {
+      "id": "b4bf128920462faad8a530cc18cd9e0cf2a8abd7b69129c90da2027d7ad9e53a",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.3",
+      "title": "v0.10.3",
+      "summary": "What's Changed Bug Fixes fix(controller): derive full runtime image from the tag name by @rtemperini in #2640 Other Changes Bump kagent-tools to 0.3.0 (backport to release/v0.10.x) by @inFocus7 in #2931 New Contributors @rtemperini made their first contribution in #2640 Full Changelog : v0.10.2...v0.10.3",
+      "publishedAt": "2026-10-02T18:35:18.000Z"
+    },
+    {
       "id": "211034c90f75f52074772ad6ba459e05b19cb9ca0186c4c8e2ee12c97633df51",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -262,15 +271,6 @@
       "title": "v0.10.1",
       "summary": "What's Changed Features feat(adk): support responses API for Python ADK agents by @onematchfox in #2679 Bug Fixes fix(adk): preserve A2A user identity before task resolution by @erauner12 in #2483 fix(adk): Python agents HITL resume and align memory API by @supreme-gg-gg in #2751 Other Changes ci: run workflows on Blacksmith runners (backport to release/v0.10.x) by @Charlesthebird in #2712 Full Changelog : v0.10.0...v0.10.1",
       "publishedAt": "2026-09-08T20:45:01.000Z"
-    },
-    {
-      "id": "6eb8d16ff329f5eefac5cf73b1a71288d5cc6be5553dfad1f8c7b824d84ed2f3",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.0",
-      "title": "v0.10.0",
-      "summary": "What's Changed Features feat(streaming): configurable nginx, controller, and UI inactivity ti… by @yanivmn in #1973 feat(helm): add controller service annotations by @anthonyhaussman in #2088 feat: enable sharing of chat sessions by @onematchfox in #1935 feat: substrate support for BYO and python runtimes for SandboxAgent CR by @jmhbh in #2043 feat(substrate): bump agent substrate to 0.0.7 by @supreme-gg-gg in #2109 feat(substrate): bump agent substrate to 0.0.8 by @jjamroga in #2140 feat(helm/kagent): support deployment annotations by @anthonyhaussman in #2143 feat: add nodeSelector support to agent helm charts by @the-mentor in #2145 feat: expose icon, provider, documentation URL and version on agent A2A card by @QuentinBisson in #2188 feat: add claude ACP sandbox target by @the-mentor in #2189 feat(sandbox-agents): Store session state in durableDir volume for declarative sandbox agents by @jmhbh in #2171 feat(helm): add UI HTTPRoute by @younsl in #2165 feat(helm): bump bundled oauth2-proxy subchart to ~10.7.0 by @elihai-risk in #2254 feat: default nodeSelector for agent deployments (--default-agent-node-selector) by @elihai-risk in #2259 feat(helm): add podLabels for controller and UI pod templates by @elihai-risk in #2237 feat(helm): add extraObjects for arbitrary manifests by @younsl in #2174 feat(ui-test): Playwright ui tests foundation stage 0 by @cjlg-soloio in #2262 feat: allow read-only shares to read A2A tasks by @QuentinBisson in #2191 feat(controller): make Go (ADK) runtime agent image independently configurable by @QuentinBisson in #2021 feat(helm): allow custom annotations on the default ModelConfig by @marians in #2201 feat(ui-test): Playwright UI E2E suite — helpers + feature flows (stage 2) by @cjlg-soloio in #2264 feat: serve A2A ListTasks from the task store by @QuentinBisson in #2187 feat(models): add maxCompletionTokens for OpenAI by @anthonytwh in #2175 feat(models): wire maxOutputTokens for native Gemini and Vertex by @anthonytwh in #2147 fea",
-      "publishedAt": "2026-09-04T15:05:52.000Z"
     }
   ]
 }
