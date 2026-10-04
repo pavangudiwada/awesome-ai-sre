@@ -24,6 +24,7 @@ import {
   EvidenceExplorer,
   OfficialResourcesCard,
   ProductSectionNav,
+  ProductMedia,
   ProfileProductActions,
   ProfileSharingCard,
   WatchlistBreadcrumb,
@@ -233,6 +234,14 @@ export default async function ProductPage({
                 </ItemGroup>
               </CardContent>
             </Card>
+            {product.screenshot ? (
+              <figure className="mt-6 overflow-hidden rounded-xl border bg-card">
+                <ProductMedia name={product.name} src={product.screenshot} />
+                <figcaption className="border-t px-4 py-3 text-xs text-muted-foreground">
+                  Cataloged product preview. This image is not independent evidence of product performance.
+                </figcaption>
+              </figure>
+            ) : null}
           </section>
 
           {product.features.length ? (
