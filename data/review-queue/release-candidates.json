@@ -183,6 +183,15 @@
       "publishedAt": "2026-02-20T10:48:05.000Z"
     },
     {
+      "id": "1dd4009834f7546561188e8ca04ff86237801bda13c9e35050925a2547918129",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha8",
+      "title": "v1.0.0-alpha8",
+      "summary": "What's Changed Features feat(session): let a session share expire by @QuentinBisson in #2987 feat: configure database polling and skip unchanged MCP writes by @EItanya in #3038 feat(models): add Claude Fable 5.1, Opus 5/5.5 and Sonnet 5.5 to discovery list by @yashrajshuklaaa in #3041 feat(models): add prompt caching for the Anthropic provider (promptCaching, cacheTTL) by @teemow in #2788 Bug Fixes fix(controller): honor kagent.dev/discovery=disabled for RemoteMCPServer and MCPServer tool discovery by @teemow in #2752 fix(ui): call the per-chat unit a session on the agent concepts card by @Charlesthebird in #3034 fix: propagate helm postgres pool variables to db connection by @jcopi in #3032 Documentation docs: add local AGENTS.md guides by @EItanya in #3035 Other Changes K: pin the UI base image digest and apk major versions by @Charlesthebird in #2951 chore(deps): update google-adk[a2a] requirement from =2.9.2 to >=2.11.0, @dependabot [bot] in #3059 chore(deps): update anthropic[vertex] requirement from >=1.8.0 to >=1.11.0 in /python by @dependabot [bot] in #3057 chore(deps): upgrade Substrate to v0.4.0-alpha1 by @EItanya in #3064 New Contributors @jcopi made their first contribution in #3032 Full Changelog : v1.0.0-alpha7...v1.0.0-alpha8",
+      "publishedAt": "2026-10-05T14:41:02.000Z"
+    },
+    {
       "id": "b4bf128920462faad8a530cc18cd9e0cf2a8abd7b69129c90da2027d7ad9e53a",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -262,15 +271,6 @@
       "title": "v1.0.0-alpha1",
       "summary": "What's Changed Features feat(ui): add agent namespace to list view by @onematchfox in #2364 feat(helm): add affinity and topologySpreadConstraints on Kagent controller and ui by @anthonyhaussman in #2365 feat: support responses api in kagent harness by @supreme-gg-gg in #2369 feat(api): add topologySpreadConstraints to SharedDeploymentSpec by @anthonyhaussman in #2384 feat(helm): add PodDisruptionBudget for controller and UI by @anthonyhaussman in #2392 feat: add helm values to configure pgx connection by @supreme-gg-gg in #2407 feat: add TTL and cleanup for hard-deleting sessions and events by @supreme-gg-gg in #2409 feat: support fetching skills from S3 by @supreme-gg-gg in #2408 feat: add API v2 configuration CRDs by @EItanya in #2426 feat: add agent instance lifecycle contracts by @EItanya in #2427 feat: add upstream A2A gRPC runtime servers by @EItanya in #2428 feat: add AgentTemplate preparation and immutable revisions by @EItanya in #2434 feat: add imperative AgentInstance lifecycle by @EItanya in #2436 feat: add minimal API v2 controller runtime by @EItanya in #2442 feat: add AgentInstance suspend and resume by @EItanya in #2445 feat: add AgentInstance A2A gateway by @EItanya in #2446 feat: persist AgentInstance A2A tasks by @EItanya in #2463 feat: add AgentInstance message idempotency by @EItanya in #2477 feat: extend the AgentInstance A2A gateway by @EItanya in #2478 feat: load Agent Plugins in Go runtime by @EItanya in #2500 feat(python-adk): honor isolateSessions for remote agent tools by @Whxuan0701 in #2504 feat: support max OpenAI reasoning effort by @wattmto in #2418 feat: compile shared agent templates by @EItanya in #2521 feat: auto-suspend AgentInstances and add checkpoints by @EItanya in #2534 feat(helm): allow scheduling the bundled PostgreSQL pod by @CarlosLanderas in #2553 feat(app): let an extension supply the A2A handler by @jjamroga in #2544 feat: fork AgentInstances from checkpoints by @EItanya in #2555 feat: validate protobuf requests wit",
       "publishedAt": "2026-09-18T12:40:55.000Z"
-    },
-    {
-      "id": "56e5c2657c621fcba5c5358c9efae33d42484e0c80a6fb068e99290dbdd2aede",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.1",
-      "title": "v0.10.1",
-      "summary": "What's Changed Features feat(adk): support responses API for Python ADK agents by @onematchfox in #2679 Bug Fixes fix(adk): preserve A2A user identity before task resolution by @erauner12 in #2483 fix(adk): Python agents HITL resume and align memory API by @supreme-gg-gg in #2751 Other Changes ci: run workflows on Blacksmith runners (backport to release/v0.10.x) by @Charlesthebird in #2712 Full Changelog : v0.10.0...v0.10.1",
-      "publishedAt": "2026-09-08T20:45:01.000Z"
     }
   ]
 }
