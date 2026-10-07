@@ -3,6 +3,15 @@
   "generatedAt": null,
   "items": [
     {
+      "id": "3025da2194c4887ea8973a2d2ccb08e036427a178531e09d481923c7c0d57b33",
+      "productSlug": "holmesgpt",
+      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
+      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.43.0",
+      "title": "0.43.0",
+      "summary": "What's Changed ROB-357 Remove kube-lineage from Holmes by @RoiGlinik in #2464 ROB-1233 Constrain impact claims in the narrative to observed evidence by @naomi-robusta in #2449 ROB-1107 Bind conversation worker identity to the Conversations row owner by @naomi-robusta in #2480 ROB-1402 Document Baseten Model APIs as a provider by @ezra-robusta in #2483 ROB-1402 Drop the Baseten rate-limits section by @ezra-robusta in #2489 ROB-1104 Reject shell metacharacters in propagated HTTP headers by @RoiGlinik in #2467 Fix High/Critical CVEs in the Holmes image: bump grpc, x/crypto, Helm 3.22 by @moshemorad in #2494 ROB-974: bump kubernetes-remediation MCP image to 1.4.0 by @naomi-robusta in #2481 ROB-1346 Show real allow-list prefixes in the bash toolset docs by @Sheeproid in #2495 ROB-1389 Honor the account-level Robusta AI opt-out by @ezra-robusta in #2486 Replace bashlex tree sitter slim by @arikalon1 in #2500 Fix pytds certificate validation for pyOpenSSL >= 26.2 by @arikalon1 in #2505 FRO-518 Send the running model as X-Robusta-Model on platform-mcp calls by @naomi-robusta in #2506 docs: fix examples that fail when followed as written by @ezra-robusta in #2507 docs: one deployment tab shape on the model provider pages by @ezra-robusta in #2508 docs: render the deployment and multi-instance fences as markdown, and drop the shared upgrade snippet by @ezra-robusta in #2510 docs: one deployment tab shape on the cloud and Kubernetes MCP pages by @ezra-robusta in #2511 docs: one deployment tab shape on the SaaS MCP server pages by @ezra-robusta in #2512 docs: one deployment tab shape on the observability and ticketing pages by @ezra-robusta in #2513 docs: one deployment tab shape on the database pages by @ezra-robusta in #2514 docs: one deployment tab shape on the Kubernetes built-in and general data source pages by @ezra-robusta in #2515 docs: check the deployment tab shape on every model provider and data source page by @ezra-robusta in #2516 ROB-1099: gate /eval and /list on",
+      "publishedAt": "2026-10-07T09:13:36.000Z"
+    },
+    {
       "id": "288b41233905543e707e2ff27908f205a88cfaa71a10fe2753baf061e5870c00",
       "productSlug": "holmesgpt",
       "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
@@ -82,15 +91,6 @@
       "title": "0.39.0-alpha",
       "summary": "What's Changed ROB-856 Add Atlassian Rovo MCP integration documentation by @Avi-Robusta in #2373 ROB-855 pulling skills with github app credentials by @Avi-Robusta in #2371 Full Changelog : 0.38.2...0.39.0-alpha",
       "publishedAt": "2026-08-09T16:15:42.000Z"
-    },
-    {
-      "id": "c88c33e39bf359d18ffe41243ff73cb39c5d5db2dac8883d3ecd70ab07d0b6f1",
-      "productSlug": "holmesgpt",
-      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
-      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.38.2",
-      "title": "0.38.2",
-      "summary": "What's Changed ROB-770 Add cross-cluster tools documentation by @naomi-robusta in #2341 ROB-808 docs: add Bitbucket instructions for loading custom skills by @Avi-Robusta in #2342 ROB-836 Pin *.sha256 manifests to LF so the Docker build works on Windows clones by @alonelish in #2354 ROB-841 Add RFC 8707 resource indicator support to MCP OAuth flow by @Avi-Robusta in #2355 Full Changelog : 0.38.1...0.38.2",
-      "publishedAt": "2026-08-06T07:18:17.000Z"
     },
     {
       "id": "9393bf7ef6d9d3b7eb9ee3088c96c01b65ef04f76cccaa1d2a02c2359ef9eb0e",
