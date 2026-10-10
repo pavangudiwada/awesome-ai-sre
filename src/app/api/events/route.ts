@@ -14,7 +14,7 @@ import {
 } from "@/lib/analytics/server";
 import { trustedClientIp } from "@/lib/http/client-ip";
 
-export const ANALYTICS_EVENT_MAX_BODY_BYTES = 1_024;
+const ANALYTICS_EVENT_MAX_BODY_BYTES = 1_024;
 
 const NO_STORE_HEADERS = { "Cache-Control": "no-store" } as const;
 const OUTCOME_HEADER = "X-Analytics-Outcome";
@@ -83,7 +83,7 @@ async function readBoundedBody(request: NextRequest): Promise<string | null> {
 }
 
 /** Only the explicit exe proxy mode trusts its rightmost appended XFF value. */
-export function analyticsNetworkSource(request: NextRequest): string {
+function analyticsNetworkSource(request: NextRequest): string {
   return trustedClientIp(request.headers);
 }
 

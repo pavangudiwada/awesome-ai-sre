@@ -325,7 +325,7 @@ test.describe("public Watchlist routes", () => {
     await expect(page).toHaveURL(
       /\/observability\?q=not-a-real-observability-product$/,
     );
-    await page.getByRole("link", { name: "Clear filters" }).click();
+    await page.getByRole("link", { name: "Reset search and filters" }).click();
     await expect(page).toHaveURL(/\/observability$/);
 
     await search.fill("Grafana");
