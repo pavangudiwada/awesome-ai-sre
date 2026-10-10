@@ -93,6 +93,15 @@
       "publishedAt": "2026-08-09T16:15:42.000Z"
     },
     {
+      "id": "a75c7caf75f19792677aa21e6989f6a462e50cffc53ca1bbd384023868012f52",
+      "productSlug": "k8sgpt",
+      "sourceFeedUrl": "https://github.com/k8sgpt-ai/k8sgpt/releases.atom",
+      "sourceUrl": "https://github.com/k8sgpt-ai/k8sgpt/releases/tag/v0.4.40",
+      "title": "v0.4.40",
+      "summary": "0.4.40 (2026-10-09) Features add ResourceClaim analyzer for missing DeviceClasses ( #1768 ) ( f2dd92e ) Bug Fixes close the custom analyzer gRPC connection after each analysis ( #1800 ) ( d6d75f7 ) correct API doc lookups for the webhook analyzers ( #1802 ) ( ce78560 ) handle empty AI responses and respect configured language ( #1756 ) ( 9456068 ) honor StatefulSet start ordinals ( #1759 ) ( dd16466 ) honour K8SGPT_BACKEND on every serve start ( #1749 ) ( 6959a93 ) ignore in-progress Deployment replica mismatches ( #1743 ) ( cbaae54 ) paginate S3 object listings ( #1811 ) ( 21aadb4 ) recognize EKS node monitoring agent node conditions ( #1798 ) ( 635d9b1 ), closes #1461 register kyverno policy-report scheme once to avoid concurrent map writes ( #1777 ) ( 2556f80 ) render PDB selector operators as readable phrases ( #1820 ) ( 1bd139d ) report blocked PDBs whose selector is empty or uses matchExpressions ( #1797 ) ( 2a129c5 ) report DeadlineExceeded and JobFailed conditions in Job analyzer ( #1809 ) ( 7b26cd1 ) report FailedBinding events in PersistentVolumeClaim analyzer ( #1808 ) ( 9ca8484 ) report missing default backend services in Ingress analyzer ( #1810 ) ( 79fdc97 ) scope analyzer events to object identity ( #1790 ) ( 09c5098 ) scope ConfigMap usage tracking to pod namespace ( #1812 ) ( c422c96 ) scope NetworkPolicy pod lookup to policy namespace ( #1747 ) ( 432ebaa ) scope service events to endpoint namespace ( #1795 ) ( 8cb270e ) send involvedObject filters as a field selector in MCP list-events ( #1792 ) ( 42d6447 ) stop reporting local StorageClasses as deprecated ( #1779 ) ( 988f4b4 ) stop the OLM analyzers panicking on catalogs without an image ( #1815 ) ( 613a74b ) thread analyzer context instead of context.Background() ( #1732 ) ( 9b026e8 ) use apimeta.FindStatusCondition for GatewayClass Accepted condition ( #1806 ) ( 0f89704 ) use apimeta.FindStatusCondition for PDB DisruptionAllowed condition ( #1807 ) ( 2247f5c ) Other deps: update codecov/codecov-",
+      "publishedAt": "2026-10-09T20:24:09.000Z"
+    },
+    {
       "id": "9393bf7ef6d9d3b7eb9ee3088c96c01b65ef04f76cccaa1d2a02c2359ef9eb0e",
       "productSlug": "k8sgpt",
       "sourceFeedUrl": "https://github.com/k8sgpt-ai/k8sgpt/releases.atom",
@@ -174,13 +183,22 @@
       "publishedAt": "2026-03-24T14:40:03.000Z"
     },
     {
-      "id": "eb440074309670f48482ace15f928314de8e651e1ddecb14a012869fa6e8bcae",
-      "productSlug": "k8sgpt",
-      "sourceFeedUrl": "https://github.com/k8sgpt-ai/k8sgpt/releases.atom",
-      "sourceUrl": "https://github.com/k8sgpt-ai/k8sgpt/releases/tag/v0.4.30",
-      "title": "v0.4.30",
-      "summary": "0.4.30 (2026-02-20) Bug Fixes validate namespace before running custom analyzers ( #1617 ) ( 458aa9d )",
-      "publishedAt": "2026-02-20T10:48:05.000Z"
+      "id": "8383f5d0cdd8ad96dc9856024b6a4fc49a4b43a195fbc9f6eddd768ffd9a41ad",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha11",
+      "title": "v1.0.0-alpha11",
+      "summary": "What's Changed Features Make the db image installed by kagent install configurable by @iplay88keys in #3112 Bug Fixes fix: stabilize unit tests and scheduled run timeouts by @EItanya in #3129 fix(ui): fix three flaky browser tests by @Charlesthebird in #3118 fix(adk): replace retired default Anthropic model by @yashrajshuklaaa in #3039 fix: make push notification JWT signing optional with operator-managed PEM keys by @supreme-gg-gg in #3122 fix(ui): fix the remaining flaky browser tests, and cut redundant ones by @Charlesthebird in #3132 fix(cli): rely on Helm for install namespaces and reject unmanaged CRDs by @iplay88keys in #3137 Testing Run upgrade tests through kagent install by @iplay88keys in #3113 Other Changes ci: skip protobuf regeneration in CI builds by @iplay88keys in #3128 refactor: Remove transitional v2 naming by @timflannagan in #3119 Install development clusters through kagent install by @iplay88keys in #3110 Store Kagent tables in a kagent schema with a configurable pgvector schema by @iplay88keys in #3111 Bump Substrate to 0.5.0-alpha2 by @iplay88keys in #3116 lint: Use custom KAL binary by @timflannagan in #3135 Full Changelog : v1.0.0-alpha10...v1.0.0-alpha11",
+      "publishedAt": "2026-10-09T21:03:43.000Z"
+    },
+    {
+      "id": "e97a376e143f48d530c0232ffeaab02c5af01e1a41d3e483fbbc231ebb8036cb",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha10",
+      "title": "v1.0.0-alpha10",
+      "summary": "What's Changed Features feat(telemetry): move Python runtimes onto upstream GenAI instrumentation by @krisztianfekete in #3103 feat: wake session quiescence workers after task settlement by @EItanya in #3074 feat(telemetry): Weaver live-check, registry catch-up, reference collector by @krisztianfekete in #3107 feat: a2a task push notifications by @supreme-gg-gg in #3036 Bug Fixes fix(ui): hide other users' conversations from new-chat rail by @pood1e in #3091 fix(substrate): isolate worker pool placement by namespace by @adalundhe in #3089 fix(ui): count Agent resources in the dashboard Agents tile by @Charlesthebird in #3105 fix(ui): note shared workers on the Substrate page by @Charlesthebird in #3108 Exit non-zero when cli kagent install fails by @iplay88keys in #3109 Other Changes chore(deps): bump the go-minor-patch group in /go with 10 updates by @dependabot [bot] in #3054 chore(deps): update google-adk[a2a,db] requirement from =2.9.2 to >=2.11.0, @dependabot [bot] in #3058 Pass the quiescence channel and recovery interval in the push worker test by @iplay88keys in #3117 Bump Substrate to 0.5.0-alpha1 and share PostgreSQL via kagent install by @iplay88keys in #2708 ci: create release tags from manual workflow input by @EItanya in #3127 New Contributors @pood1e made their first contribution in #3091 @adalundhe made their first contribution in #3089 Full Changelog : v1.0.0-alpha9...v1.0.0-alpha10",
+      "publishedAt": "2026-10-09T14:57:18.000Z"
     },
     {
       "id": "84893593dd060bd10fcada13b650abf52615fa8f593339adc5a07495a130bcbd",
@@ -253,24 +271,6 @@
       "title": "v1.0.0-alpha3",
       "summary": "What's Changed Features feat: support structured output in JSON Schema over A2A DataPart by @supreme-gg-gg in #2890 feat(telemetry): add a Weaver registry as the telemetry contract by @krisztianfekete in #2906 feat: add list_files and grep_file skills tools by @brandonkeung in #2267 feat: add standalone sandbox guest using env services by @EItanya in #2911 feat(models): route Ollama cloud models to api.ollama.com by @dimetron in #2898 feat(ui): serve the UI under a sub-path behind a reverse proxy by @Charlesthebird in #2904 Bug Fixes fix: key STS token cache by acting subject, not session alone by @QuentinBisson in #2459 fix(codex): ignore child-thread notifications during delegation by @EItanya in #2914 fix(harness): Disable bare mode for Claude Code by @supreme-gg-gg in #2923 Testing test(ui): run the live Playwright suite in CI against the built UI image by @toreysoloio in #2874 test: run shared agent E2Es across all harnesses by @EItanya in #2919 Other Changes Revert \"test(ui): run the live Playwright suite in CI against the built UI image ( #2874 )\" by @Charlesthebird in #2910 refactor: standardize A2A metadata by @supreme-gg-gg in #2902 New Contributors @xavierpestel-ai made their first contribution in #2406 @brandonkeung made their first contribution in #2267 Full Changelog : v1.0.0-alpha2...v1.0.0-alpha3",
       "publishedAt": "2026-09-24T01:35:49.000Z"
-    },
-    {
-      "id": "46e9f9c10cbfc4c661fa78eea015d6ce814fc3deecca3ff2ad09c288a2a4e5db",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.2",
-      "title": "v0.10.2",
-      "summary": "What's Changed Bug Fixes fix: skip unchanged MCP tool writes to Postgres by @supreme-gg-gg in #2796 fix(ui): resync the lockfile, and clear every fixable CVE by @Charlesthebird in #2867 fix(ui): copy to the clipboard outside a secure context by @Charlesthebird in #2866 Other Changes [0.10.x] Clean up python adk image to resolve CVEs by @inFocus7 in #2765 Full Changelog : v0.10.1...v0.10.2",
-      "publishedAt": "2026-09-23T16:04:39.000Z"
-    },
-    {
-      "id": "46099a43f62065c2d09d1c7e7d50f181667350cf4ae883a7b20dc446d0569766",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha2",
-      "title": "v1.0.0-alpha2",
-      "summary": "What's Changed Features feat(helm): global values for registry, pull config, and namespace scope by @jjamroga in #2817 feat(harness): export executor construction and health config by @xytian315 in #2858 feat(adk): honour context compaction in the Go runtime by @teemow in #2790 feat(harness): load Claude-format plugins whole only on the Claude harness by @xytian315 in #2875 feat(core): serve the controller's metrics, and its gRPC metrics with them by @QuentinBisson in #2886 feat(tracing): add harness invocation identity, lifecycle, and bounded capture by @dhaifley in #2863 Bug Fixes fix: serialize AgentInstance lifecycle execution by @EItanya in #2857 fix(ui): isolate theme hook from refreshable provider by @Dragonzz27 in #2878 fix(ui): give checkpoint delete cancel buttons unique data-testids ( #2871 ) by @boxcee-interview in #2877 Other Changes chore(deps): bump the npm-minor-patch group in /ui with 9 updates by @dependabot [bot] in #2882 chore(deps): bump the python-google-ai group in /python with 2 updates by @dependabot [bot] in #2883 chore: bump substrate to v0.2.0-beta5 by @krisztianfekete in #2892 New Contributors @teemow made their first contribution in #2790 @Dragonzz27 made their first contribution in #2878 Full Changelog : v1.0.0-alpha1...v1.0.0-alpha2",
-      "publishedAt": "2026-09-22T16:12:31.000Z"
     }
   ]
 }
