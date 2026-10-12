@@ -3,6 +3,15 @@
   "generatedAt": null,
   "items": [
     {
+      "id": "e4d76e99b37af2d0f0cace9a642847e343792496524fce2db0806105f2b87c1d",
+      "productSlug": "holmesgpt",
+      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
+      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.44.0-alpha",
+      "title": "0.44.0-alpha",
+      "summary": "What's Changed ROB-1237 Price Robusta models whose upstream name isn't provider/id by @naomi-robusta in #2546 ROB-1369 Default the auto executor to one conversation at a time by @naomi-robusta in #2566 ROB-1507 - GPT-6.1 Handle multi-choice LLM responses by merging choices by @Avi-Robusta in #2556 ROB-801 Refresh litellm cost map when a model lookup misses by @Avi-Robusta in #2553 ROB-1291 Per-user Dex auth for the Kubernetes MCP addon, with private CA support by @RoiGlinik in #2554 Weekly Benchmark Results 2026-10-10_21-37 by @github-actions[bot] in #2580 ROB-1519 Summarize oversized conversation history in chunks by @naomi-robusta in #2538 Full Changelog : 0.43.0...0.44.0-alpha",
+      "publishedAt": "2026-10-12T11:36:32.000Z"
+    },
+    {
       "id": "3025da2194c4887ea8973a2d2ccb08e036427a178531e09d481923c7c0d57b33",
       "productSlug": "holmesgpt",
       "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
@@ -82,15 +91,6 @@
       "title": "0.39.0",
       "summary": "What's Changed ROB-856 Add Atlassian Rovo MCP integration documentation by @Avi-Robusta in #2373 ROB-855 pulling skills with github app credentials by @Avi-Robusta in #2371 Weekly Benchmark Results 2026-08-05_12-14 by @github-actions[bot] in #2357 ROB-853: support GitHub App installed on multiple orgs in github MCP addon by @Avi-Robusta in #2374 Full Changelog : 0.38.2...0.39.0",
       "publishedAt": "2026-08-10T15:02:51.000Z"
-    },
-    {
-      "id": "8a96906035cb63267d55a46a259b0a7cab58c3c11a45a9c54ade190005e9f410",
-      "productSlug": "holmesgpt",
-      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
-      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.39.0-alpha",
-      "title": "0.39.0-alpha",
-      "summary": "What's Changed ROB-856 Add Atlassian Rovo MCP integration documentation by @Avi-Robusta in #2373 ROB-855 pulling skills with github app credentials by @Avi-Robusta in #2371 Full Changelog : 0.38.2...0.39.0-alpha",
-      "publishedAt": "2026-08-09T16:15:42.000Z"
     },
     {
       "id": "a75c7caf75f19792677aa21e6989f6a462e50cffc53ca1bbd384023868012f52",
