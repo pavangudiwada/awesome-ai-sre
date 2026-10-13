@@ -183,6 +183,15 @@
       "publishedAt": "2026-03-24T14:40:03.000Z"
     },
     {
+      "id": "c55b2a6c276957da38100f0b21ea0746bd2906cf260405427db8a2c499e91440",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha12",
+      "title": "v1.0.0-alpha12",
+      "summary": "What's Changed Features feat(helm): run Substrate workers under their own ServiceAccount by @danielle-mustillo in #3067 feat(sandbox): read_sandbox_file returns text pages and images by @thomasbarrett in #3120 feat(helm): allow setting allowedNamespaces on the built-in tool server by @davidkarlsen in #3145 feat: Add Responses API support to Azure OpenAI provider by @danielle-mustillo in #3143 feat(harness): write chat and execute_tool spans from the runtime by @xytian315 in #3121 Bug Fixes fix: restore A2A timeline ordering and immediate approval prompts by @supreme-gg-gg in #3142 fix(ui): give each e2e dev server its own pre-bundle cache by @Charlesthebird in #3141 fix: update vulnerable dependencies in runtime images by @EItanya in #3159 Other Changes refactor: Remove obsolete skills-init code by @timflannagan in #3144 api: Require Harness references for Agents by @timflannagan in #3080 chore(deps): bump google-genai from 2.27.0 to 2.29.0 in /python in the python-google-ai group by @dependabot [bot] in #3172 chore(deps): bump the npm-minor-patch group in /ui with 8 updates by @dependabot [bot] in #3171 chore(deps): bump the python-minor-patch group in /python with 4 updates by @dependabot [bot] in #3174 New Contributors @danielle-mustillo made their first contribution in #3067 Full Changelog : v1.0.0-alpha11...v1.0.0-alpha12",
+      "publishedAt": "2026-10-13T10:10:03.000Z"
+    },
+    {
       "id": "8383f5d0cdd8ad96dc9856024b6a4fc49a4b43a195fbc9f6eddd768ffd9a41ad",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -262,15 +271,6 @@
       "title": "v1.0.0-alpha4",
       "summary": "What's Changed Features feat(telemetry): configure runtimes with SDK-spec OTEL variables by @krisztianfekete in #2909 feat(ui): support BYO harnesses by @Charlesthebird in #2935 feat(harness): support microvm sandboxes by @marosset in #2918 feat: serve per-instance A2A JSON-RPC and agent cards by @EItanya in #2933 feat(telemetry): export semconv metrics, drop ADK legacy spans, correlate logs by @krisztianfekete in #2929 feat: move A2A execution into runtimes with a gRPC TaskStore by @EItanya in #2939 Bug Fixes fix: honor kagent Harness command and args by @marosset in #2934 fix(ui): wait for schedule deletion redirect in live test by @Dragonzz27 in #2879 fix(hitl): compose the same pause text in every runtime and always declare the extension by @QuentinBisson in #2472 fix(harness): hold the Claude prompt until Claude Code can trace the turn by @dhaifley in #2943 Other Changes chore(deps): bump the go-minor-patch group across 1 directory with 39 updates by @dependabot [bot] in #2913 Bump kagent-tools to 0.3.0 by @inFocus7 in #2930 Full Changelog : v1.0.0-alpha3...v1.0.0-alpha4",
       "publishedAt": "2026-09-25T19:51:11.000Z"
-    },
-    {
-      "id": "dc775ac8d4e1a775c93302fcac6d82bc9e03ffda07ec525a3c7269ca2b68b06b",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha3",
-      "title": "v1.0.0-alpha3",
-      "summary": "What's Changed Features feat: support structured output in JSON Schema over A2A DataPart by @supreme-gg-gg in #2890 feat(telemetry): add a Weaver registry as the telemetry contract by @krisztianfekete in #2906 feat: add list_files and grep_file skills tools by @brandonkeung in #2267 feat: add standalone sandbox guest using env services by @EItanya in #2911 feat(models): route Ollama cloud models to api.ollama.com by @dimetron in #2898 feat(ui): serve the UI under a sub-path behind a reverse proxy by @Charlesthebird in #2904 Bug Fixes fix: key STS token cache by acting subject, not session alone by @QuentinBisson in #2459 fix(codex): ignore child-thread notifications during delegation by @EItanya in #2914 fix(harness): Disable bare mode for Claude Code by @supreme-gg-gg in #2923 Testing test(ui): run the live Playwright suite in CI against the built UI image by @toreysoloio in #2874 test: run shared agent E2Es across all harnesses by @EItanya in #2919 Other Changes Revert \"test(ui): run the live Playwright suite in CI against the built UI image ( #2874 )\" by @Charlesthebird in #2910 refactor: standardize A2A metadata by @supreme-gg-gg in #2902 New Contributors @xavierpestel-ai made their first contribution in #2406 @brandonkeung made their first contribution in #2267 Full Changelog : v1.0.0-alpha2...v1.0.0-alpha3",
-      "publishedAt": "2026-09-24T01:35:49.000Z"
     }
   ]
 }
