@@ -90,7 +90,8 @@ test.describe("trust and activation workflows", () => {
   test("anonymous Bell includes dated public ecosystem news without fabricated unread state", async ({ page }, testInfo) => {
     await openRoute(page, "/updates");
     await expect(page.getByRole("link", { name: /Latest alert:/ })).toBeVisible();
-    const trigger = page.getByRole("button", { name: "Open updates", exact: true }).nth(testInfo.project.name === "mobile" ? 1 : 0);
+    const trigger = page.getByRole("button", { name: "Open updates", exact: true });
+    await expect(trigger).toHaveCount(1);
     await trigger.click();
     await expect(page.getByRole("dialog").getByRole("link", { name: /AWS DevOps Agent adds investigation quality reviews/ })).toHaveAttribute("href", "https://docs.aws.amazon.com/devopsagent/latest/userguide/whats-new.html");
     await expect(page.getByText(/Announced Oct 9, 2026.*Actual event: Unknown/)).toBeVisible();

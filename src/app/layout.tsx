@@ -42,6 +42,7 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary" },
   icons: {
+    apple: [{ url: "/brand/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
     icon: [
       { url: "/favicon.ico", sizes: "any" },
       { url: "/brand/favicon-16.png", sizes: "16x16", type: "image/png" },
