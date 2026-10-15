@@ -63,6 +63,12 @@ describe("SiteHeader", () => {
     expect(screen.getByRole("button", { name: "Search tools and resources" })).toHaveAttribute("aria-keyshortcuts", "Control+k Meta+k")
   })
 
+  it("does not advertise a shortcut for the workspace navigation fallback", () => {
+    renderHeader()
+    expect(screen.queryByText("Ctrl K")).not.toBeInTheDocument()
+    expect(screen.getByRole("link", { name: "Search tools and resources" })).not.toHaveAttribute("aria-keyshortcuts")
+  })
+
   it("exposes sign-up and sign-in through the shared auth route", () => {
     renderHeader()
     expect(screen.getByRole("link", { name: "Sign in" })).toHaveAttribute("href", "/sign-in")

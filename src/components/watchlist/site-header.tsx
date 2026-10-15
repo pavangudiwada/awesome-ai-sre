@@ -259,13 +259,13 @@ function HeaderSearch({
     <>
       <SearchIcon data-icon="inline-start" />
       <span className="lg:hidden 2xl:inline">Search Watchlist</span>
-      <Badge
+      {onSearchOpen ? <Badge
         variant="secondary"
         className="ml-auto hidden gap-1 rounded-md px-1.5 font-normal 2xl:inline-flex"
         aria-hidden="true"
       >
         {shortcut}
-      </Badge>
+      </Badge> : null}
     </>
   )
 
@@ -290,8 +290,7 @@ function HeaderSearch({
       <Link
         href={searchHref}
         aria-label="Search tools and resources"
-        title="Search tools and resources (Ctrl+K or Command+K)"
-      aria-keyshortcuts="Control+k Meta+k"
+        title="Search tools and resources"
       >
         {content}
       </Link>
