@@ -101,6 +101,8 @@ jobs:
             test-results/**/public-brand-*.png
             test-results/**/anyshift-company.png
             test-results/**/emisar-company.png
+            test-results/**/test-failed-*.png
+            test-results/**/error-context.md
           retention-days: 1
           if-no-files-found: error
           include-hidden-files: false

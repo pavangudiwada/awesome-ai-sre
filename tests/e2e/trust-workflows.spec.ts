@@ -89,7 +89,7 @@ test.describe("trust and activation workflows", () => {
 
   test("anonymous Bell includes dated public ecosystem news without fabricated unread state", async ({ page }, testInfo) => {
     await openRoute(page, "/updates");
-    await expect(page.getByRole("link", { name: /Latest alert:/ })).toBeVisible();
+    await expect(page.getByRole("region", { name: "Latest update" }).getByRole("link")).toBeVisible();
     const trigger = page.getByRole("button", { name: "Open updates", exact: true });
     await expect(trigger).toHaveCount(1);
     await trigger.click();
