@@ -65,9 +65,11 @@ describe("pending auth intents", () => {
       returnTo: "/companies/better-stack",
     });
     const [payload, signature] = token.split(".");
-    const tamperedSignature = `${signature.slice(0, -1)}${
-      signature.endsWith("A") ? "B" : "A"
-    }`;
+    // Change signed bytes, not unused padding bits in the last base64url digit.
+    const signatureBytes = Buffer.from(signature, "base64url");
+    signatureBytes[0] ^= 1;
+    const tamperedSignature = signatureBytes.toString("base64url");
+    expect(Buffer.from(tamperedSignature, "base64url")).not.toEqual(Buffer.from(signature, "base64url"));
 
     expect(
       verifyPendingAuthIntent(`${payload}.${tamperedSignature}`),
