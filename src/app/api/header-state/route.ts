@@ -24,6 +24,8 @@ export async function GET() {
             }
           : null,
         notifications: state.notifications,
+        publicationStatus: state.publicationStatus,
+        personalizationUnavailable: state.personalizationUnavailable,
       },
       { headers: PRIVATE_HEADERS },
     );

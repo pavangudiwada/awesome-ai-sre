@@ -91,6 +91,21 @@ jobs:
       - name: Run public workflow tests
         run: npm run test:e2e
 
+      - name: Upload public catalog review screenshots
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: public-catalog-review-screenshots
+          path: |
+            test-results/**/public-catalog-*.png
+            test-results/**/public-brand-*.png
+            test-results/**/test-failed-*.png
+            test-results/**/error-context.md
+          retention-days: 1
+          if-no-files-found: error
+          include-hidden-files: false
+
+
   authenticated-browser:
     name: Authenticated local release workflows
     needs: quality

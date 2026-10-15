@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRightIcon, Building2Icon, RssIcon } from "lucide-react";
 
+import { publicPageMetadata } from "@/lib/seo";
+
 import { followCompanyAction, saveProductAction } from "@/actions/workflows";
 import { PublicProfileView } from "@/components/analytics/public-events";
 import {
@@ -31,6 +33,7 @@ import {
   getCompanyBySlug,
   getProductsByCompanySlug,
 } from "@/lib/catalog";
+import { companyBrandProduct } from "@/lib/presentation/company-brand";
 import {
   companyMap,
   companySources,
@@ -57,11 +60,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const company = getCompanyBySlug(slug);
   if (!company) return {};
-  return {
+  return publicPageMetadata({
     title: company.name,
     description: `Products, official sources, and reviewed updates for ${company.name}.`,
-    alternates: { canonical: `/companies/${company.slug}` },
-  };
+    path: `/companies/${company.slug}`,
+  });
 }
 
 export default async function CompanyPage({
@@ -80,7 +83,7 @@ export default async function CompanyPage({
   ]);
   const saved = new Set(savedSlugs);
   const companies = companyMap([company]);
-  const firstProduct = products[0];
+  const brandProduct = companyBrandProduct(company, products);
 
   return (
     <main className="mx-auto flex max-w-screen-2xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
@@ -98,8 +101,9 @@ export default async function CompanyPage({
             ? `${company.name} publishes ${products.map((product) => product.name).join(", ")}, ${products.length === 1 ? "a product" : "products"} tracked by the AI SRE Watchlist.`
             : `${company.name} is included in the Watchlist company research registry.`
         }
-        logoSrc={firstProduct?.logo}
-        screenshotSrc={firstProduct?.screenshot}
+        logoSrc={brandProduct?.logo}
+        screenshotSrc={brandProduct?.screenshot}
+        showMedia={Boolean(brandProduct?.screenshot)}
         websiteHref={company.website}
         websiteLabel="Visit company website"
         analyticsSubject={{ kind: "company", slug: company.slug }}
@@ -184,7 +188,7 @@ export default async function CompanyPage({
           </ProfileSection>
         </div>
 
-        <aside className="flex flex-col gap-4 xl:sticky xl:top-24 xl:self-start">
+        <aside className="flex flex-col gap-4 xl:sticky xl:top-36 xl:self-start">
           <ProfileSection title="Company actions" description="Company submissions are reviewed before publication.">
             <div className="flex flex-col gap-3">
               <Button asChild variant="outline" className="justify-start">

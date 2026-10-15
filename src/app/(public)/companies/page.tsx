@@ -1,14 +1,14 @@
-import type { Metadata } from "next"
+import { publicPageMetadata } from "@/lib/seo"
 
 import { CompanyCard } from "@/components/watchlist"
 import { getCompanies, getProducts } from "@/lib/catalog"
 import type { CatalogProduct } from "@/types/catalog"
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata({
   title: "Companies",
   description: "Browse the companies behind products in the AI SRE Watchlist catalog.",
-  alternates: { canonical: "/companies" },
-}
+  path: "/companies",
+})
 
 export default function CompaniesPage() {
   const companies = [...getCompanies()].sort((left, right) => left.name.localeCompare(right.name))
@@ -25,7 +25,7 @@ export default function CompaniesPage() {
     <main className="mx-auto flex max-w-screen-2xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8">
       <header className="flex max-w-3xl flex-col gap-3">
         <p className="text-sm font-medium text-primary">Company directory</p>
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+        <h1 className="font-semibold text-title sm:text-title-desktop">
           Explore the teams behind the products
         </h1>
         <p className="text-lg leading-relaxed text-muted-foreground">

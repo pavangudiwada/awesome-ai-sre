@@ -56,7 +56,7 @@ test.describe("public Watchlist routes", () => {
     await expect(
       page.getByRole("heading", {
         level: 1,
-        name: "Find the right tools for reliable systems.",
+        name: "Find the right AI SRE tools for reliable systems.",
       }),
     ).toBeVisible();
     await expect(page.getByText("The most useful AI SRE product updates, delivered to your inbox.")).toHaveCount(0);
@@ -64,6 +64,7 @@ test.describe("public Watchlist routes", () => {
     await expect(page.getByRole("combobox", { name: "Frequency" })).toHaveCount(0);
     await expect(page.getByRole("checkbox", { name: /newsletter/i })).toHaveCount(0);
     await expect(page.getByRole("link", { name: `View all 78 tools` })).toBeVisible();
+
     await expect(page.getByRole("heading", { level: 2, name: "Featured AI SRE tools" })).toBeVisible();
     await expect(page.getByText("A rotating selection from the directory, refreshed every day.")).toBeVisible();
     await expect(page.getByText("Useful information, without the vendor pitch.")).toHaveCount(0);
@@ -325,7 +326,7 @@ test.describe("public Watchlist routes", () => {
     await expect(page).toHaveURL(
       /\/observability\?q=not-a-real-observability-product$/,
     );
-    await page.getByRole("link", { name: "Clear filters" }).click();
+    await page.getByRole("link", { name: "Reset search and filters" }).click();
     await expect(page).toHaveURL(/\/observability$/);
 
     await search.fill("Grafana");

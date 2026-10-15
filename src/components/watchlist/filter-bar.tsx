@@ -143,8 +143,8 @@ export function FilterBar({
                 Clear all
               </Button>
             ) : null}
-            {appliedFilters.length === 0 && typeof resultCount === "number" ? (
-              <p className="text-sm text-muted-foreground">
+            {typeof resultCount === "number" ? (
+              <p role="status" className="text-sm text-muted-foreground">
                 {resultCount.toLocaleString()} {resultCount === 1 ? "product" : "products"}
               </p>
             ) : null}
@@ -207,7 +207,7 @@ function FilterSheet({
         <SheetHeader>
           <SheetTitle>Filter products</SheetTitle>
           <SheetDescription>
-            Narrow the directory by deployment, pricing, and technical criteria.
+            Choose filters to narrow the directory. Results update as you select.
           </SheetDescription>
         </SheetHeader>
 

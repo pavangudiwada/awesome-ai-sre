@@ -27,6 +27,8 @@ export interface WatchlistNotification {
   summary?: string
   href: string
   publishedAtLabel: string
+  actualEventDateLabel?: string
+  category?: string
   unread?: boolean
   source: "watchlist" | "followed-company"
   companyName?: string

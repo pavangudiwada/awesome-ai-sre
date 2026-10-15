@@ -1,4 +1,6 @@
 import Link from "next/link"
+import { JsonLd } from "@/components/content/json-ld"
+import { breadcrumbStructuredData } from "@/lib/seo"
 
 import {
   Breadcrumb,
@@ -21,6 +23,8 @@ export function WatchlistBreadcrumb({
   currentLabel,
 }: WatchlistBreadcrumbProps) {
   return (
+    <>
+    <JsonLd data={breadcrumbStructuredData(parentHref, parentLabel, currentLabel)} />
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
@@ -34,5 +38,6 @@ export function WatchlistBreadcrumb({
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
+    </>
   )
 }

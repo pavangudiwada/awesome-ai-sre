@@ -62,7 +62,7 @@ export function WorkspaceShell({
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="flex max-w-3xl flex-col gap-2">
             <p className="text-sm font-medium text-primary">Private workspace</p>
-            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h1>
+            <h1 className="font-semibold text-title sm:text-title-desktop">{title}</h1>
             <p className="text-base leading-relaxed text-muted-foreground">{description}</p>
           </div>
           {actions ? <div className="flex flex-wrap gap-2">{actions}</div> : null}

@@ -10,7 +10,7 @@ export default function EditorialPolicyPage() {
     <main className="mx-auto flex max-w-4xl flex-col gap-8 px-4 py-10 sm:px-6">
       <header className="flex flex-col gap-3">
         <p className="text-sm font-medium text-primary">Editorial independence</p>
-        <h1 className="text-4xl font-semibold tracking-tight">How products and updates enter the Watchlist</h1>
+        <h1 className="font-semibold text-title sm:text-title-desktop">How products and updates enter the Watchlist</h1>
         <p className="text-lg text-muted-foreground">The practitioner experience is the product. Company participation cannot silently rewrite it.</p>
       </header>
       <div className="grid gap-4 sm:grid-cols-2">

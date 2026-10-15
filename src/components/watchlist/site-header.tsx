@@ -1,12 +1,11 @@
 "use client"
 
-import { useEffect, type ComponentProps } from "react"
+import { useEffect, useSyncExternalStore, type ComponentProps } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
-  AudioLinesIcon,
   BellIcon,
-  CommandIcon,
+  ChevronDownIcon,
   LogOutIcon,
   MenuIcon,
   SearchIcon,
@@ -54,11 +53,14 @@ import {
 import {
   NavigationMenu,
   NavigationMenuItem,
+  NavigationMenuContent,
+  NavigationMenuTrigger,
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
+import { isPersistedUpdateId } from "@/lib/presentation/notification-id"
 
 import type {
   WatchlistNavItem,
@@ -67,13 +69,20 @@ import type {
   ServerFormAction,
 } from "./types"
 import { getInitials } from "./utils"
+import { BrandLockup } from "./brand-lockup"
+import { PublicProjectLinks } from "./public-project-links"
 
 const DEFAULT_NAV_ITEMS: WatchlistNavItem[] = [
   { label: "Tools", href: "/tools" },
-  { label: "Companies", href: "/companies" },
   { label: "Observability", href: "/observability" },
   { label: "Resources", href: "/resources" },
   { label: "Updates", href: "/updates" },
+]
+
+const RESOURCE_ITEMS = [
+  { label: "All resources", href: "/resources" },
+  { label: "Glossary", href: "/glossary" },
+  { label: "Companies", href: "/companies" },
 ]
 
 interface SiteHeaderProps {
@@ -87,7 +96,8 @@ interface SiteHeaderProps {
   onNotificationSelect?: (notification: WatchlistNotification) => void
   markNotificationReadAction?: ServerFormAction
   accountPending?: boolean
-  notificationsStatus?: "loading" | "ready" | "unavailable"
+  accountUnavailable?: boolean
+  notificationsStatus?: "loading" | "ready" | "unavailable" | "partial"
 }
 
 export function SiteHeader({
@@ -101,6 +111,7 @@ export function SiteHeader({
   onNotificationSelect,
   markNotificationReadAction,
   accountPending = false,
+  accountUnavailable = false,
   notificationsStatus = "ready",
 }: SiteHeaderProps) {
   const pathname = usePathname() ?? "/"
@@ -128,26 +139,40 @@ export function SiteHeader({
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-screen-2xl items-center gap-3 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex min-h-16 max-w-screen-2xl flex-wrap items-center gap-x-3 gap-y-1 pb-2 lg:flex-nowrap lg:pb-0 px-4 sm:px-6 lg:px-8">
         <MobileNavigation navItems={resolvedNavItems} />
 
         <Link
           href={homeHref}
-          className="flex min-h-11 shrink-0 items-center gap-2 font-semibold tracking-tight"
+          className="-ml-3 flex min-h-11 shrink-0 items-center rounded-lg focus-visible:outline-2 focus-visible:outline-ring"
           aria-label="AI SRE Watchlist home"
           title="AI SRE Watchlist home"
         >
-          <WatchlistMark />
-          <span className="hidden sm:inline">AI SRE Watchlist</span>
+          <BrandLockup compactOnMobile />
         </Link>
 
         <NavigationMenu
           viewport={false}
-          className="ml-4 hidden lg:flex"
+          className="hidden xl:flex"
           aria-label="Primary"
         >
           <NavigationMenuList>
-            {resolvedNavItems.map((item) => (
+            {resolvedNavItems.map((item) => item.href === "/resources" ? (
+              <NavigationMenuItem key={item.href}>
+                <NavigationMenuTrigger className="h-11 px-3">Resources</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="w-48 p-1">
+                    {RESOURCE_ITEMS.map((resource) => (
+                      <li key={resource.href}>
+                        <NavigationMenuLink asChild active={pathname === resource.href || pathname.startsWith(`${resource.href}/`)} className="min-h-11">
+                          <Link href={resource.href} aria-current={pathname === resource.href || pathname.startsWith(`${resource.href}/`) ? "page" : undefined}>{resource.label}</Link>
+                        </NavigationMenuLink>
+                      </li>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            ) : (
               <NavigationMenuItem key={item.href}>
                 <NavigationMenuLink
                   asChild
@@ -166,8 +191,12 @@ export function SiteHeader({
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div className="ml-auto flex items-center gap-1 sm:gap-2">
+        <div className="order-last flex w-full items-center gap-2 lg:order-none lg:ml-auto lg:w-auto" data-header-search-community>
           <HeaderSearch searchHref={searchHref} onSearchOpen={onSearchOpen} />
+          <PublicProjectLinks />
+        </div>
+
+        <div className="ml-auto flex items-center gap-1 sm:gap-2 lg:ml-0">
 
           {viewer ? (
             <Button asChild variant="ghost" className="hidden h-11 md:inline-flex">
@@ -184,15 +213,15 @@ export function SiteHeader({
             markNotificationReadAction={markNotificationReadAction}
           />
 
-          {accountPending ? (
+          {accountPending || accountUnavailable ? (
             <Button
               type="button"
               variant="ghost"
               size="icon"
               className="size-11 rounded-full"
               disabled
-              aria-label="Loading account"
-              title="Loading account"
+              aria-label={accountUnavailable ? "Account temporarily unavailable" : "Loading account"}
+              title={accountUnavailable ? "Account temporarily unavailable" : "Loading account"}
             >
               <UserIcon />
             </Button>
@@ -214,15 +243,9 @@ export function SiteHeader({
   )
 }
 
-function WatchlistMark() {
-  return (
-    <Avatar className="size-9 rounded-md" aria-hidden="true">
-      <AvatarFallback className="rounded-md">
-        <AudioLinesIcon />
-      </AvatarFallback>
-    </Avatar>
-  )
-}
+const subscribeToPlatform = () => () => {}
+const getPlatformShortcut = () => /Mac|iPhone|iPad|iPod/.test(navigator.platform) ? "⌘ K" : "Ctrl K"
+const getServerShortcut = () => "Ctrl K"
 
 function HeaderSearch({
   searchHref,
@@ -231,18 +254,18 @@ function HeaderSearch({
   searchHref: string
   onSearchOpen?: () => void
 }) {
+  const shortcut = useSyncExternalStore(subscribeToPlatform, getPlatformShortcut, getServerShortcut)
   const content = (
     <>
       <SearchIcon data-icon="inline-start" />
-      <span className="hidden sm:inline">Search Watchlist</span>
-      <Badge
+      <span className="lg:hidden 2xl:inline">Search Watchlist</span>
+      {onSearchOpen ? <Badge
         variant="secondary"
-        className="ml-auto hidden gap-1 rounded-md px-1.5 font-normal sm:inline-flex"
+        className="ml-auto hidden gap-1 rounded-md px-1.5 font-normal 2xl:inline-flex"
         aria-hidden="true"
       >
-        <CommandIcon />
-        K
-      </Badge>
+        {shortcut}
+      </Badge> : null}
     </>
   )
 
@@ -250,10 +273,11 @@ function HeaderSearch({
     <Button
       type="button"
       variant="outline"
-      className="size-11 justify-center sm:h-11 sm:w-56 sm:justify-start"
+      className="h-11 min-w-11 flex-1 justify-start lg:size-11 lg:flex-none lg:justify-center 2xl:w-56 2xl:justify-start"
       onClick={onSearchOpen}
       aria-label="Search tools and resources"
-      title="Search tools and resources"
+      title="Search tools and resources (Ctrl+K or Command+K)"
+      aria-keyshortcuts="Control+k Meta+k"
     >
       {content}
     </Button>
@@ -261,7 +285,7 @@ function HeaderSearch({
     <Button
       asChild
       variant="outline"
-      className="size-11 justify-center sm:h-11 sm:w-56 sm:justify-start"
+      className="h-11 min-w-11 flex-1 justify-start lg:size-11 lg:flex-none lg:justify-center 2xl:w-56 2xl:justify-start"
     >
       <Link
         href={searchHref}
@@ -282,7 +306,7 @@ function MobileNavigation({ navItems }: { navItems: WatchlistNavItem[] }) {
           type="button"
           variant="ghost"
           size="icon"
-          className="size-11 lg:hidden"
+          className="size-11 xl:hidden"
           aria-label="Open navigation"
           title="Open navigation"
         >
@@ -297,7 +321,22 @@ function MobileNavigation({ navItems }: { navItems: WatchlistNavItem[] }) {
           </SheetDescription>
         </SheetHeader>
         <nav className="flex flex-col gap-1 px-4" aria-label="Mobile primary">
-          {navItems.map((item) => (
+          {navItems.map((item) => item.href === "/resources" ? (
+            <DropdownMenu key={item.href}>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-11 justify-between">Resources <ChevronDownIcon aria-hidden="true" /></Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-64">
+                {RESOURCE_ITEMS.map((resource) => (
+                  <DropdownMenuItem key={resource.href} asChild>
+                    <SheetClose asChild>
+                      <Link href={resource.href} className="min-h-11">{resource.label}</Link>
+                    </SheetClose>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
             <SheetClose key={item.href} asChild>
               <Button
                 asChild
@@ -323,7 +362,7 @@ interface NotificationsMenuProps {
   notifications: WatchlistNotification[]
   onNotificationSelect?: (notification: WatchlistNotification) => void
   markNotificationReadAction?: ServerFormAction
-  status?: "loading" | "ready" | "unavailable"
+  status?: "loading" | "ready" | "unavailable" | "partial"
 }
 
 function NotificationsMenu({
@@ -332,7 +371,7 @@ function NotificationsMenu({
   markNotificationReadAction,
   status = "ready",
 }: NotificationsMenuProps) {
-  const unreadCount = notifications.filter(({ unread }) => unread).length
+  const unreadCount = notifications.filter(({ unread, id }) => unread && isPersistedUpdateId(id)).length
 
   return (
     <>
@@ -347,7 +386,7 @@ function NotificationsMenu({
                 Updates
               </PopoverTitle>
               <PopoverDescription>
-                Watchlist reports and updates from companies you follow.
+                Public AI SRE news, with followed-company updates highlighted.
               </PopoverDescription>
             </PopoverHeader>
             <Separator />
@@ -370,7 +409,7 @@ function NotificationsMenu({
             <SheetHeader>
               <SheetTitle>Updates</SheetTitle>
               <SheetDescription>
-                Watchlist reports and updates from companies you follow.
+                Public AI SRE news, with followed-company updates highlighted.
               </SheetDescription>
             </SheetHeader>
             <NotificationList
@@ -443,7 +482,7 @@ function NotificationList({
     )
   }
 
-  if (status === "unavailable") {
+  if ((status === "unavailable" || status === "partial") && notifications.length === 0) {
     return (
       <Empty className="py-10" role="status">
         <EmptyHeader>
@@ -462,7 +501,7 @@ function NotificationList({
         <EmptyHeader>
           <EmptyTitle>No updates yet</EmptyTitle>
           <EmptyDescription>
-            Published Watchlist updates and followed-company updates will appear here.
+            Reviewed funding, launches, and product news will appear here.
           </EmptyDescription>
         </EmptyHeader>
       </Empty>
@@ -472,13 +511,18 @@ function NotificationList({
   return (
     <ScrollArea className="max-h-[28rem]">
       <div className="flex flex-col">
+        {status === "partial" || status === "unavailable" ? (
+          <p role="status" className="border-b p-4 text-sm text-muted-foreground">
+            Some publications or read states are temporarily unavailable. Public news remains available.
+          </p>
+        ) : null}
         {notifications.map((notification, index) => {
           const notificationLink = (
             <Link
               href={notification.href}
               onClick={() => {
                 onNotificationSelect?.(notification)
-                if (notification.unread && markNotificationReadAction) {
+                if (notification.unread && isPersistedUpdateId(notification.id) && markNotificationReadAction) {
                   const formData = new FormData()
                   formData.set("updateId", notification.id)
                   void markNotificationReadAction(formData)
@@ -488,7 +532,11 @@ function NotificationList({
             >
               <div className="flex items-start justify-between gap-3">
                 <span className="font-medium leading-snug">{notification.title}</span>
-                {notification.unread ? <Badge>New</Badge> : null}
+                {notification.unread && isPersistedUpdateId(notification.id) ? <Badge>New</Badge> : null}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {notification.category ? <Badge variant="outline">{notification.category}</Badge> : null}
+                {notification.source === "followed-company" ? <Badge variant="secondary">Followed company</Badge> : null}
               </div>
               {notification.summary ? (
                 <span className="line-clamp-2 text-sm text-muted-foreground">
@@ -498,9 +546,10 @@ function NotificationList({
               <span className="text-xs text-muted-foreground">
                 {notification.source === "followed-company"
                   ? notification.companyName ?? "Followed company"
-                  : "AI SRE Watchlist"}
+                  : notification.companyName ?? "AI SRE Watchlist"}
                 {" · "}
                 {notification.publishedAtLabel}
+                {notification.actualEventDateLabel ? ` · Actual event: ${notification.actualEventDateLabel}` : ""}
               </span>
             </Link>
           )
@@ -516,6 +565,7 @@ function NotificationList({
             </div>
           )
         })}
+        <Button asChild variant="link" className="min-h-11"><Link href="/updates">View all Global Updates</Link></Button>
       </div>
     </ScrollArea>
   )

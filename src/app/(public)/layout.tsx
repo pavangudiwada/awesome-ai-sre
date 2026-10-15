@@ -1,3 +1,4 @@
+import { BrandLockup } from "@/components/watchlist/brand-lockup";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import Link from "next/link";
 import { PublicSiteHeader } from "@/components/watchlist/public-site-header";
 import type { WatchlistSearchItem } from "@/components/watchlist/watchlist-search";
 import { getCompanies, getProducts, getResources } from "@/lib/catalog";
+import { PROJECT_LINKEDIN_URL } from "@/lib/public-project";
 
 export default function PublicLayout({ children }: { children: ReactNode }) {
   const products = getProducts();
@@ -43,7 +45,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
       <footer className="border-t bg-card">
         <div className="mx-auto grid max-w-screen-2xl gap-8 px-4 py-10 text-sm sm:px-6 md:grid-cols-[1fr_auto] lg:px-8">
           <div className="flex max-w-xl flex-col gap-2">
-            <p className="font-medium">AI SRE Watchlist</p>
+            <Link href="/" aria-label="AI SRE Watchlist home" className="-ml-3 self-start rounded-lg focus-visible:outline-2 focus-visible:outline-ring"><BrandLockup /></Link>
             <p className="text-muted-foreground">A public directory for evaluating AI SRE tools.</p>
             <p className="text-muted-foreground">
               Built with ❤️ by{" "}
@@ -57,7 +59,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
               </a>
             </p>
             <a
-              href="https://www.linkedin.com/company/112729107/"
+              href={PROJECT_LINKEDIN_URL}
               target="_blank"
               rel="noreferrer"
               className="mt-2 inline-flex min-h-11 w-fit items-center gap-2 rounded-md font-medium underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"

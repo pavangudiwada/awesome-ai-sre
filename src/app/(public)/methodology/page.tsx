@@ -23,7 +23,7 @@ export default function MethodologyPage() {
     <main className="mx-auto flex max-w-4xl flex-col gap-8 px-4 py-10 sm:px-6">
       <header className="flex flex-col gap-3">
         <p className="text-sm font-medium text-primary">Trust model</p>
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">Evidence before confidence</h1>
+        <h1 className="font-semibold text-title sm:text-title-desktop">Evidence before confidence</h1>
         <p className="text-lg leading-relaxed text-muted-foreground">
           Profiles are research aids, not rankings. Every material claim should expose its source, evidence state, and review date.
         </p>

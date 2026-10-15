@@ -1,3 +1,4 @@
+import { publicPageMetadata, SITE_DESCRIPTION } from "@/lib/seo";
 import Link from "next/link";
 import {
   ArrowRightIcon,
@@ -18,6 +19,12 @@ import { companyMap, toProductSummary } from "@/lib/presentation/catalog";
 import { getSavedProductSlugs } from "@/lib/workflows/queries";
 import type { CatalogProduct } from "@/types/catalog";
 export const dynamic = "force-dynamic";
+
+export const metadata = publicPageMetadata({
+  title: "AI SRE Tools and Agents",
+  description: SITE_DESCRIPTION,
+  path: "/",
+});
 
 export default async function HomePage() {
   const products = getProducts();

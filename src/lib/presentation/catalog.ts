@@ -26,8 +26,8 @@ const TAG_LABELS: Record<string, string> = {
   IDP: "AI SRE",
   IaC: "AI SRE",
   FinOps: "AI SRE",
-  Security: "Learning",
-  Deployment: "Runbooks",
+  Security: "Security",
+  Deployment: "Deployment",
 };
 
 const PRODUCT_RESOURCE_LABELS: Record<ProductResourceKind, string> = {
@@ -72,7 +72,7 @@ export function toProductSummary(
     companyHref: company ? `/companies/${company.slug}` : undefined,
     logoSrc: product.logo,
     screenshotSrc: product.screenshot,
-    screenshotAlt: `${product.name} product interface`,
+    screenshotAlt: `${product.name} catalog preview`,
     badges: productBadges(product),
     lastReviewedLabel: lastSourceCheck,
   };
