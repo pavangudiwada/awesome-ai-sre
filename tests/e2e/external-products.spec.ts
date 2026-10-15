@@ -23,6 +23,6 @@ for (const product of [
     await expectImageHasNaturalSize(page.locator(`img[src="/screenshots/${product.slug}.jpg"]`).first(), `${product.name} official-page preview`);
     await expect(page.getByRole("link", { name: /Official (product|company|project)/ }).first()).toBeVisible();
     await expectPublicPageGuardrails(page, testInfo);
-    await page.screenshot({ path: testInfo.outputPath(`${product.slug}-company.png`), fullPage: true });
+    await page.screenshot({ path: testInfo.outputPath(`${product.slug}-company.png`), fullPage: true, caret: "initial" });
   });
 }
