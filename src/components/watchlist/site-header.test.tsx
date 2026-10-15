@@ -42,10 +42,25 @@ describe("SiteHeader", () => {
     expect(onSearchOpen).toHaveBeenCalledTimes(1)
   })
 
-  it("shows the complete Command K shortcut", () => {
+  it("shows the complete platform shortcut", () => {
     renderHeader({ onSearchOpen: vi.fn() })
 
-    expect(screen.getByText("K")).toBeInTheDocument()
+    expect(screen.getByText("Ctrl K")).toBeInTheDocument()
+  })
+
+  it("shows Command K on macOS", () => {
+    const platform = vi.spyOn(window.navigator, "platform", "get").mockReturnValue("MacIntel")
+    renderHeader({ onSearchOpen: vi.fn() })
+    expect(screen.getByText("⌘ K")).toBeInTheDocument()
+    platform.mockRestore()
+  })
+
+  it("opens command search with Control K", () => {
+    const onSearchOpen = vi.fn()
+    renderHeader({ onSearchOpen })
+    fireEvent.keyDown(window, { key: "k", ctrlKey: true })
+    expect(onSearchOpen).toHaveBeenCalledTimes(1)
+    expect(screen.getByRole("button", { name: "Search tools and resources" })).toHaveAttribute("aria-keyshortcuts", "Control+k Meta+k")
   })
 
   it("exposes sign-up and sign-in through the shared auth route", () => {

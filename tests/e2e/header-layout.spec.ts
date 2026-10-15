@@ -60,3 +60,22 @@ test("latest notice is compact, dismissible and stays dismissed until a new upda
   await bell.click();
   await expect(page.getByRole("link", { name: /A new way to explore AI SRE/ }).last()).toBeVisible();
 });
+
+
+test("search shortcut displays the platform key and opens from keyboard", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "Keyboard shortcut badge is for desktop layouts");
+  await page.setViewportSize({ width: 1536, height: 900 });
+  await page.goto("/");
+  const expectedShortcut = await page.evaluate(() => /Mac|iPhone|iPad|iPod/.test(navigator.platform) ? "⌘ K" : "Ctrl K");
+  const search = page.getByRole("button", { name: "Search tools and resources" });
+  await expect(search).toContainText(expectedShortcut);
+  await expect(search.getByText(expectedShortcut, { exact: true })).toBeVisible();
+  for (const key of ["Control+k", "Meta+k"]) {
+    await page.keyboard.press(key);
+    await expect(page.getByRole("dialog", { name: "Search the AI SRE Watchlist" })).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("dialog", { name: "Search the AI SRE Watchlist" })).toBeHidden();
+  }
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath("public-brand-search-shortcut.png"), fullPage: false });
+});

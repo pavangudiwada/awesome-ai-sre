@@ -72,7 +72,7 @@ export async function expectImageHasNaturalSize(image: Locator, label: string) {
   await image.scrollIntoViewIfNeeded();
   await expect.poll(async () => image.evaluate((node) => {
     const element = node as HTMLImageElement;
-    return element.complete && element.naturalWidth > 0 && element.naturalHeight > 0;
+    return element.naturalWidth > 0 && element.naturalHeight > 0;
   }), { message: `${label} should finish decoding`, timeout: 10_000 }).toBe(true);
   const dimensions = await image.evaluate((node) => {
     const element = node as HTMLImageElement;

@@ -21,7 +21,9 @@ for (const product of [
     await openRoute(page, `/companies/${product.slug}`);
     await expect(page.getByRole("heading", { level: 1, name: product.name, exact: true })).toBeVisible();
     await expect(page.getByRole("link", { name: "Visit company website", exact: true })).toHaveAttribute("href", product.website);
-    await expectImageHasNaturalSize(page.locator(`img[src="/screenshots/${product.slug}.jpg"]`).first(), `${product.name} official-page preview`);
+    const companyPreview = page.getByRole("img", { name: `${product.name} product preview`, exact: true });
+    await expectImageHasNaturalSize(companyPreview, `${product.name} official-page preview`);
+    expect(await companyPreview.evaluate((image: HTMLImageElement) => new URL(image.currentSrc || image.src).pathname)).toBe(`/screenshots/${product.slug}.jpg`);
     await expect(page.getByRole("link", { name: /Official (product|company|project)/ }).first()).toBeVisible();
     const companyLogos = page.getByRole("img", { name: `${product.name} logo`, exact: true });
     await expect(companyLogos).toHaveCount(2);

@@ -1,11 +1,10 @@
 "use client"
 
-import { useEffect, type ComponentProps } from "react"
+import { useEffect, useSyncExternalStore, type ComponentProps } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
   BellIcon,
-  CommandIcon,
   ChevronDownIcon,
   LogOutIcon,
   MenuIcon,
@@ -244,6 +243,10 @@ export function SiteHeader({
   )
 }
 
+const subscribeToPlatform = () => () => {}
+const getPlatformShortcut = () => /Mac|iPhone|iPad|iPod/.test(navigator.platform) ? "⌘ K" : "Ctrl K"
+const getServerShortcut = () => "Ctrl K"
+
 function HeaderSearch({
   searchHref,
   onSearchOpen,
@@ -251,6 +254,7 @@ function HeaderSearch({
   searchHref: string
   onSearchOpen?: () => void
 }) {
+  const shortcut = useSyncExternalStore(subscribeToPlatform, getPlatformShortcut, getServerShortcut)
   const content = (
     <>
       <SearchIcon data-icon="inline-start" />
@@ -260,8 +264,7 @@ function HeaderSearch({
         className="ml-auto hidden gap-1 rounded-md px-1.5 font-normal 2xl:inline-flex"
         aria-hidden="true"
       >
-        <CommandIcon />
-        K
+        {shortcut}
       </Badge>
     </>
   )
@@ -273,7 +276,8 @@ function HeaderSearch({
       className="h-11 min-w-11 flex-1 justify-start lg:size-11 lg:flex-none lg:justify-center 2xl:w-56 2xl:justify-start"
       onClick={onSearchOpen}
       aria-label="Search tools and resources"
-      title="Search tools and resources"
+      title="Search tools and resources (Ctrl+K or Command+K)"
+      aria-keyshortcuts="Control+k Meta+k"
     >
       {content}
     </Button>
@@ -286,7 +290,8 @@ function HeaderSearch({
       <Link
         href={searchHref}
         aria-label="Search tools and resources"
-        title="Search tools and resources"
+        title="Search tools and resources (Ctrl+K or Command+K)"
+      aria-keyshortcuts="Control+k Meta+k"
       >
         {content}
       </Link>
