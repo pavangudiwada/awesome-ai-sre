@@ -10,7 +10,7 @@ for (const product of [
     await openRoute(page, `/tools?q=${product.slug}&category=${product.category}`);
     const result = page.getByRole("link", { name: `View ${product.name} profile`, exact: true });
     await expect(result).toBeVisible();
-    await expect(page.getByText(product.categoryLabel, { exact: true }).first()).toBeVisible();
+    await expect(page.getByRole("radio", { name: `Show ${product.categoryLabel}`, exact: true })).toHaveAttribute("aria-checked", "true");
     await Promise.all([page.waitForURL(`**/tools/${product.slug}`), result.click()]);
     await expect(page.getByRole("heading", { level: 1, name: product.name, exact: true })).toBeVisible();
     await expect(page.locator("article > header").getByText(product.summary, { exact: false })).toBeVisible();
