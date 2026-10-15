@@ -1,0 +1,16 @@
+name: Amazon Web Services
+slug: aws
+website: https://aws.amazon.com
+productSlugs:
+  - aws-devops-agent
+mappingStatus: confirmed
+sources:
+  - label: Official AWS DevOps Agent product page
+    url: https://aws.amazon.com/devops-agent/
+    checkedAt: '2026-10-14'
+  - label: Official general availability announcement
+    url: https://aws.amazon.com/about-aws/whats-new/2026/03/aws-devops-agent-generally-available/
+    checkedAt: '2026-10-14'
+  - label: Directed action permissions and operator approval
+    url: https://docs.aws.amazon.com/devopsagent/latest/userguide/working-with-devops-agent-working-with-directed-actions.html
+    checkedAt: '2026-10-14'

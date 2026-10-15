@@ -1,0 +1,16 @@
+name: Google Cloud
+slug: google-cloud
+website: https://cloud.google.com
+productSlugs:
+  - gemini-cloud-assist-investigations
+mappingStatus: confirmed
+sources:
+  - label: Official Gemini Cloud Assist product page
+    url: https://cloud.google.com/products/gemini/cloud-assist
+    checkedAt: '2026-10-14'
+  - label: Official investigations documentation, Preview access, and diagnostic boundaries
+    url: https://docs.cloud.google.com/cloud-assist/investigations
+    checkedAt: '2026-10-14'
+  - label: Official release notes and access-change effective date
+    url: https://docs.cloud.google.com/cloud-assist/release-notes
+    checkedAt: '2026-10-14'

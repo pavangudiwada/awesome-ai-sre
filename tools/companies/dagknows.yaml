@@ -1,0 +1,10 @@
+name: DagKnows
+slug: dagknows
+website: https://dagknows.ai
+productSlugs:
+  - dagknows-inc
+mappingStatus: confirmed
+sources:
+  - label: Official product website
+    url: https://dagknows.ai
+    checkedAt: '2026-09-30'

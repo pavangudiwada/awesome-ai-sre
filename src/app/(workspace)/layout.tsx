@@ -8,12 +8,14 @@ import { getHeaderState } from "@/lib/presentation/header";
 export const dynamic = "force-dynamic";
 
 export default async function WorkspaceLayout({ children }: { children: ReactNode }) {
-  const { viewer, notifications } = await getHeaderState();
+  const { viewer, notifications, publicationStatus, personalizationUnavailable } = await getHeaderState();
   return (
     <>
       <SiteHeader
         viewer={viewer}
         notifications={notifications}
+        accountUnavailable={personalizationUnavailable}
+        notificationsStatus={publicationStatus !== "available" || personalizationUnavailable ? "partial" : "ready"}
         markNotificationReadAction={markUpdateReadAction}
       />
       {children}

@@ -2,6 +2,7 @@ name	slug	format	source
 Agent0 by Dash0	agent0-by-dash0	svg	https://www.dash0.com/shared/logo_colors.svg
 AlertD	alertd	png	(existing)
 Aurora	aurora	png	https://www.aurorasre.ai/arvo-mark.png
+Anyshift	anyshift	svg	https://www.anyshift.io/images/anyshift-logo.svg
 AutonomOps AI	autonomops-ai	png	(existing)
 Azure SRE Agent	azure-sre-agent	png	(existing)
 Bacca.ai	bacca-ai	svg	(existing)
@@ -18,12 +19,13 @@ Corelayer	corelayer	svg	https://www.corelayer.com/icon.svg
 Cutover	cutover	svg	(existing)
 DagKnows, Inc	dagknows-inc	png	https://dagknows.ai/favicon.ico
 Darkmoon	darkmoon	svg	https://dark-moon.org/brand/favicon.svg
-Datadog (Bits AI)	datadog-bits-ai	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/datadog.svg
+Datadog Bits AI	datadog-bits-ai	svg	https://corp.dd-static.net/img/favicons/safari-pinned-tab.svg
 Deductive AI	deductive-ai	svg	(existing)
 Deeptrace	deeptrace	png	https://www.deeptrace.com/favicon.ico?favicon.1b9fb2e4.ico
 DrDroid	drdroid	svg	(existing)
 Edge Delta	edge-delta	svg	(existing)
 Elastic	elastic	svg	(existing)
+emisar	emisar	svg	https://emisar.dev/favicon-346920936eec9b2b80b5380b30462108.svg?vsn=d
 FireHydrant	firehydrant	svg	(existing)
 Harness AI-SRE	harness-ai-sre	png	(existing)
 HolmesGPT	holmesgpt	png	(existing)
@@ -104,3 +106,13 @@ Observability: Vector	obs-vector	svg	https://raw.githubusercontent.com/vectordot
 Observability: Zabbix	obs-zabbix	png	https://assets.zabbix.com/img/apple-touch-icon-180x180-precomposed.png
 Observability: AWS CloudWatch	obs-aws-cloudwatch	svg	https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/architecture/approved/architecture-icons/Icon-package_04302026.4705b90f5aa45b019271a2699e9ce9b97b941ee1.zip
 Observability: Loggly	obs-loggly	svg	https://www.loggly.com/wp-content/uploads/2026/06/SW_Logo2025_Loggly_Web_Orange-1.svg
+Hyground product preview	hyground	png	https://framerusercontent.com/images/pTSkBhS5RMlUxVlxTOptXpKSYE.png?height=1572&width=2532
+OpenObserve AI SRE Agent	openobserve-ai-sre	svg	https://openobserve.ai/favicon.svg
+OpenObserve AI SRE product preview	openobserve-ai-sre	png	https://openobserve.ai/assets/platform/ai-sre/systemic-intelligence.png
+empirik	empirik	svg	https://empirik.ai/_next/static/media/empirik-logo.3u5la2vl4ta7x.svg
+ilert AI SRE	ilert-ai-sre	svg	https://www.ilert.com/product/ilert-ai-sre
+Autoheal	autoheal	svg	https://autoheal.ai/
+AWS DevOps Agent	aws-devops-agent	svg	https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/architecture/approved/architecture-icons/Icon-package_04302026.4705b90f5aa45b019271a2699e9ce9b97b941ee1.zip
+Coralogix Olly	coralogix-olly	svg	https://coralogix.com/docs/user-guides/olly/
+Gemini Cloud Assist investigations	gemini-cloud-assist-investigations	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/googlecloud.svg
+New Relic Autopilot	new-relic-autopilot	svg	https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/newrelic.svg

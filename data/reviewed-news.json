@@ -1,0 +1,599 @@
+[
+  {
+    "slug": "aws-devops-agent-adds-investigation-quality-reviews",
+    "company": "AWS",
+    "product": "DevOps Agent",
+    "category": "Product update",
+    "title": "AWS DevOps Agent adds investigation quality reviews",
+    "summary": "AWS documents investigation quality reviews for DevOps Agent.",
+    "announcedAt": "2026-10-09",
+    "eventDate": null,
+    "dateNote": "Source announcement date. The actual event date is not separately established.",
+    "availability": "See the original source for availability and access conditions",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://docs.aws.amazon.com/devopsagent/latest/userguide/whats-new.html",
+        "scope": "timeline"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "aws"
+  },
+  {
+    "slug": "new-relic-autopilot-2-5-fixes-investigation-time-windows-and-query-results",
+    "company": "New Relic",
+    "product": "Autopilot",
+    "category": "Product update",
+    "title": "New Relic Autopilot 2.5 fixes investigation time windows and query results",
+    "summary": "The Autopilot release notes describe fixes to investigation time windows and query results.",
+    "announcedAt": "2026-10-08",
+    "eventDate": null,
+    "dateNote": "Source announcement date. The actual event date is not separately established.",
+    "availability": "See the original source for availability and access conditions",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://docs.newrelic.com/docs/release-notes/autopilot-release-notes/autopilot-26-10-08/",
+        "scope": "event"
+      },
+      {
+        "label": "Product documentation",
+        "url": "https://docs.newrelic.com/docs/agentic-ai/autopilot/overview/",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "new-relic"
+  },
+  {
+    "slug": "rootly-launches-organization-wide-ai-instructions",
+    "company": "Rootly",
+    "product": "Rootly AI Instructions",
+    "category": "Product update",
+    "title": "Rootly launches organization-wide AI Instructions",
+    "summary": "Administrators can set global and feature-specific guidance for Rootly agents, incident summaries, retrospectives, and proactive intelligence, with edit history and default best-practice instructions.",
+    "announcedAt": "2026-10-07",
+    "eventDate": "2026-10-07",
+    "dateNote": "Announcement and availability date.",
+    "availability": "Available in all Rootly organizations",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://rootly.com/changelog/rootly-ai-with-best-practices-built-in",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "rootly"
+  },
+  {
+    "slug": "olly-can-help-create-and-edit-scheduled-tasks",
+    "company": "Coralogix",
+    "product": "Olly",
+    "category": "Product update",
+    "title": "Olly can help create and edit scheduled tasks",
+    "summary": "Coralogix documents creating and editing scheduled tasks with Olly.",
+    "announcedAt": "2026-10-04",
+    "eventDate": null,
+    "dateNote": "Source announcement date. The actual event date is not separately established.",
+    "availability": "See the original source for availability and access conditions",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://coralogix.com/docs/user-guides/release-notes/olly/",
+        "scope": "timeline"
+      },
+      {
+        "label": "Product documentation",
+        "url": "https://coralogix.com/docs/user-guides/olly/scheduled-tasks/",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "coralogix"
+  },
+  {
+    "slug": "autoheal-announces-a-7-9m-seed-round",
+    "company": "Autoheal",
+    "product": "Autoheal",
+    "category": "Funding",
+    "title": "Autoheal announces a $7.9M seed round",
+    "summary": "Autoheal announced $7.9 million in seed funding. The funding close date is not established.",
+    "announcedAt": "2026-09-28",
+    "eventDate": null,
+    "dateNote": "Source announcement date. The actual event date is not separately established.",
+    "availability": "Funding announcement",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://autoheal.ai/blog/autoheal-seed-funding",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "autoheal"
+  },
+  {
+    "slug": "komodor-launches-agentic-operations-platform",
+    "company": "Komodor",
+    "product": "Agentic Operations Platform",
+    "category": "Launch",
+    "title": "Komodor launches Agentic Operations Platform",
+    "summary": "Komodor introduced pre-built SRE and software-operations workflows plus infrastructure for teams to build or import custom agents under shared context, governance, spending controls, and audit trails.",
+    "announcedAt": "2026-09-16",
+    "eventDate": "2026-09-16",
+    "dateNote": "Announcement and availability date.",
+    "availability": "Available immediately",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://komodor.com/blog/komodor-launches-agentic-operations-platform-combining-ready-to-run-automation-with-a-comprehensive-backbone-for-custom-agents/",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "komodor"
+  },
+  {
+    "slug": "coralogix-adds-olly-dashboard-watch",
+    "company": "Coralogix",
+    "product": "Olly",
+    "category": "Product update",
+    "title": "Coralogix adds Olly dashboard watch",
+    "summary": "Coralogix release notes introduce dashboard watch for Olly.",
+    "announcedAt": "2026-09-15",
+    "eventDate": null,
+    "dateNote": "Source announcement date. The actual event date is not separately established.",
+    "availability": "See the original source for availability and access conditions",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://coralogix.com/docs/user-guides/release-notes/olly/",
+        "scope": "timeline"
+      },
+      {
+        "label": "Product documentation",
+        "url": "https://coralogix.com/docs/user-guides/olly/dashboard-watch/",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "coralogix"
+  },
+  {
+    "slug": "rootly-adds-automatic-related-incident-discovery",
+    "company": "Rootly",
+    "product": "Related Incidents",
+    "category": "Product update",
+    "title": "Rootly adds automatic related-incident discovery",
+    "summary": "Rootly's agent now surfaces up to three relevant past public incidents directly in Slack, including a matching explanation, severity, resolution time, and links to the original incident.",
+    "announcedAt": "2026-09-03",
+    "eventDate": "2026-09-03",
+    "dateNote": "Announcement and availability date.",
+    "availability": "Available immediately",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://rootly.com/changelog/related-incidents-detected-automatically",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "rootly"
+  },
+  {
+    "slug": "traversal-makes-incident-workers-generally-available",
+    "company": "Traversal",
+    "product": "Incident Workers",
+    "category": "General availability",
+    "title": "Traversal makes Incident Workers generally available",
+    "summary": "Traversal announced general availability of Incident Workers.",
+    "announcedAt": "2026-09-02",
+    "eventDate": "2026-09-02",
+    "dateNote": "Source announcement date. The source separately establishes the actual event date.",
+    "availability": "Generally available",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://www.traversal.com/blog/traversal-workers-are-now-generally-available",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "traversal"
+  },
+  {
+    "slug": "pagerduty-expands-sre-agent-triage-connectors-and-controls",
+    "company": "PagerDuty",
+    "product": "SRE Agent",
+    "category": "Product update",
+    "title": "PagerDuty expands SRE Agent triage, connectors, and controls",
+    "summary": "PagerDuty detailed generally available incident-workflow triggers, connectors, tools, team permissions, and recommended workflows. Escalation-policy triggers and custom skills were in early access.",
+    "announcedAt": "2026-08-05",
+    "eventDate": null,
+    "dateNote": "Dated rollout announcement; exact prior rollout dates are unspecified. The actual event date is not separately established.",
+    "availability": "Mixed general availability and early access",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://www.pagerduty.com/blog/ai/sre-agent-enhancements-faster-triage-greater-access-controls-deeper-system-connectivity/",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "pagerduty"
+  },
+  {
+    "slug": "grafana-assistant-investigations-becomes-generally-available",
+    "company": "Grafana Labs",
+    "product": "Assistant Investigations",
+    "category": "General availability",
+    "title": "Grafana Assistant Investigations becomes generally available",
+    "summary": "Grafana Cloud's investigation agent analyzes metrics, logs, traces, and profiles to produce evidence-backed reports. Investigations can start from alerts or IRM webhooks and be reviewed in Grafana, Slack, MCP, or gcx.",
+    "announcedAt": "2026-07-29",
+    "eventDate": "2026-07-29",
+    "dateNote": "Explicit release date.",
+    "availability": "Generally available in Grafana Cloud; no self-managed release",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://grafana.com/whats-new/2026-07-29-assistant-investigations-is-now-generally-available-in-grafana-cloud/",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": null
+  },
+  {
+    "slug": "komodor-adds-persistent-investigation-memory-to-klaudia",
+    "company": "Komodor",
+    "product": "Klaudia Memory",
+    "category": "Launch",
+    "title": "Komodor adds persistent investigation memory to Klaudia",
+    "summary": "Klaudia Memory retains failure patterns and successful resolutions from earlier investigations, alongside customer runbooks and architectural context. The release also expands investigation access through APIs, MCP, chat, and developer tools.",
+    "announcedAt": "2026-07-21",
+    "eventDate": "2026-07-21",
+    "dateNote": "Company release dateline and publication date.",
+    "availability": "Available immediately",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://komodor.com/blog/klaudia-memory-launch/",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "komodor"
+  },
+  {
+    "slug": "datadog-previews-expanded-bits-ai-operations-agents",
+    "company": "Datadog",
+    "product": "Bits AI",
+    "category": "Preview",
+    "title": "Datadog previews expanded Bits AI operations agents",
+    "summary": "At DASH, Datadog announced previews of Bits Detection, Memories, Remediation, and Infrastructure Operations, extending its AI workflow from finding problems to retaining operational knowledge and taking guarded corrective actions.",
+    "announcedAt": "2026-06-09",
+    "eventDate": null,
+    "dateNote": "DASH announcement date. The actual event date is not separately established.",
+    "availability": "Preview",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://www.datadoghq.com/blog/dash-2026-new-feature-roundup-keynote/",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "datadog"
+  },
+  {
+    "slug": "ciroos-expands-signal-intelligence-and-cross-domain-investigations",
+    "company": "Ciroos",
+    "product": "AI SRE Teammate",
+    "category": "Product update",
+    "title": "Ciroos expands signal intelligence and cross-domain investigations",
+    "summary": "Ciroos announced alert normalization and correlation, persistent context via a knowledge graph, and expanded investigations across infrastructure domains with more than 50 integrations.",
+    "announcedAt": "2026-05-12",
+    "eventDate": null,
+    "dateNote": "Company-issued press-release dateline. The actual event date is not separately established.",
+    "availability": "Announced capabilities; press release does not separately label release stage",
+    "sources": [
+      {
+        "label": "Company announcement",
+        "url": "https://www.globenewswire.com/news-release/2026/05/12/3292904/0/en/Ciroos-Expands-AI-SRE-Capabilities-to-Tame-Complexity-and-Noise-in-Enterprise-Operations.html",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "ciroos"
+  },
+  {
+    "slug": "resolve-ai-announces-a-40m-series-a-extension",
+    "company": "Resolve AI",
+    "product": "Resolve AI",
+    "category": "Funding",
+    "title": "Resolve AI announces a $40M Series A extension",
+    "summary": "Resolve AI announced a $40 million Series A extension and Resolve AI Labs. The funding close date is not established.",
+    "announcedAt": "2026-04-16",
+    "eventDate": null,
+    "dateNote": "Source announcement date. The actual event date is not separately established.",
+    "availability": "Funding announcement",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://resolve.ai/news/Series-A-extension-and-Resolve-AI-Labs",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "resolve-ai"
+  },
+  {
+    "slug": "gemini-cloud-assist-investigations-changes-access-requirements",
+    "company": "Google Cloud",
+    "product": "Gemini Cloud Assist investigations",
+    "category": "Access change",
+    "title": "Gemini Cloud Assist investigations changes access requirements",
+    "summary": "Google documents an investigations-access change: Premium Support or access arranged through an account team is required.",
+    "announcedAt": "2026-04-10",
+    "eventDate": "2026-04-10",
+    "dateNote": "Source announcement date. The source separately establishes the actual event date.",
+    "availability": "See the original source for availability and access conditions",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://docs.cloud.google.com/cloud-assist/release-notes",
+        "scope": "timeline"
+      },
+      {
+        "label": "Product documentation",
+        "url": "https://docs.cloud.google.com/cloud-assist/investigations",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "google-cloud"
+  },
+  {
+    "slug": "neubird-announces-19-3m-in-new-funding",
+    "company": "NeuBird",
+    "product": "NeuBird",
+    "category": "Funding",
+    "title": "NeuBird announces $19.3M in new funding",
+    "summary": "NeuBird announced $19.3 million in new funding. The round stage and funding close date are not established.",
+    "announcedAt": "2026-04-06",
+    "eventDate": null,
+    "dateNote": "Source announcement date. The actual event date is not separately established.",
+    "availability": "Funding announcement",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://neubird.ai/blog/production-has-outgrown-human-understanding",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "neubird"
+  },
+  {
+    "slug": "aws-devops-agent-reaches-general-availability",
+    "company": "AWS",
+    "product": "DevOps Agent",
+    "category": "General availability",
+    "title": "AWS DevOps Agent reaches general availability",
+    "summary": "AWS announced general availability of DevOps Agent.",
+    "announcedAt": "2026-03-31",
+    "eventDate": "2026-03-31",
+    "dateNote": "Source announcement date. The source separately establishes the actual event date.",
+    "availability": "Generally available",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://aws.amazon.com/about-aws/whats-new/2026/03/aws-devops-agent-generally-available/",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "aws"
+  },
+  {
+    "slug": "datadog-updates-bits-investigation-reasoning-and-data-access",
+    "company": "Datadog",
+    "product": "Bits Investigation",
+    "category": "Product update",
+    "title": "Datadog updates Bits Investigation reasoning and data access",
+    "summary": "Datadog announced a new agent harness, broader telemetry access, an Agent Trace view, and expanded triage and workflow integrations for its autonomous incident investigator.",
+    "announcedAt": "2026-03-05",
+    "eventDate": null,
+    "dateNote": "Company product announcement date. The actual event date is not separately established.",
+    "availability": "Product update announced",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://www.datadoghq.com/blog/bits-ai-sre-deeper-reasoning/",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "datadog"
+  },
+  {
+    "slug": "resolve-ai-announces-a-125m-series-a",
+    "company": "Resolve AI",
+    "product": "Resolve AI",
+    "category": "Funding",
+    "title": "Resolve AI announces a $125M Series A",
+    "summary": "Resolve AI announced a $125 million Series A. The funding close date is not established.",
+    "announcedAt": "2026-02-04",
+    "eventDate": null,
+    "dateNote": "Source announcement date. The actual event date is not separately established.",
+    "availability": "Funding announcement",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://resolve.ai/news/resolveai-raises-125-million-series-a",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "resolve-ai"
+  },
+  {
+    "slug": "pagerduty-makes-sre-agent-workflow-integrations-generally-available",
+    "company": "PagerDuty",
+    "product": "SRE Agent workflow integrations",
+    "category": "General availability",
+    "title": "PagerDuty makes SRE Agent workflow integrations generally available",
+    "summary": "SRE Agent can retrieve logs from tools including Grafana, Datadog, and CloudWatch, plus runbooks from Confluence and GitHub, to guide incident investigation, triage, and resolution.",
+    "announcedAt": "2026-01-12",
+    "eventDate": "2026-01-12",
+    "dateNote": "Explicit release-note date.",
+    "availability": "Generally available",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://support.pagerduty.com/main/changelog/sre-agent-workflow-integrations-are-generally-available",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "pagerduty"
+  },
+  {
+    "slug": "cleric-announces-its-self-learning-ai-sre-launch",
+    "company": "Cleric",
+    "product": "Cleric",
+    "category": "Launch",
+    "title": "Cleric announces its self-learning AI SRE launch",
+    "summary": "Cleric announced its self-learning AI SRE. The announcement does not separately establish the actual launch date.",
+    "announcedAt": "2025-12-09",
+    "eventDate": null,
+    "dateNote": "Source announcement date. The actual event date is not separately established.",
+    "availability": "See the original source for availability and access conditions",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://cleric.ai/blog/cleric-launches-the-first-self-learning-ai-sre",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "cleric"
+  },
+  {
+    "slug": "traversal-announces-48m-across-seed-and-series-a-funding",
+    "company": "Traversal",
+    "product": "Traversal",
+    "category": "Funding",
+    "title": "Traversal announces $48M across seed and Series A funding",
+    "summary": "Traversal announced $48 million across its seed and Series A rounds. This is a combined total, not the size of a single round; funding close dates are not established.",
+    "announcedAt": "2025-06-19",
+    "eventDate": null,
+    "dateNote": "Traversal's Resource Hub dates this announcement June 19, 2025; the article itself does not display a date. Funding close dates are not established.",
+    "availability": "Funding announcement",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://www.traversal.com/blog/launch-announcement",
+        "scope": "event"
+      },
+      {
+        "label": "Announcement date source",
+        "url": "https://www.traversal.com/resources?1f4cc8a4_page=4",
+        "scope": "timeline"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "traversal"
+  },
+  {
+    "slug": "ciroos-announces-21m-funding-and-ai-sre-teammate",
+    "company": "Ciroos",
+    "product": "AI SRE Teammate",
+    "category": "Funding and launch",
+    "title": "Ciroos announces $21M funding and AI SRE Teammate",
+    "summary": "Energy Impact Partners led $21 million in funding as Ciroos introduced its multi-agent platform for cross-domain incident investigation and operational automation, with an early-access program.",
+    "announcedAt": "2025-06-03",
+    "eventDate": null,
+    "dateNote": "Company-issued press-release dateline. The actual event date is not separately established.",
+    "availability": "Launch announcement and early access",
+    "sources": [
+      {
+        "label": "Company announcement",
+        "url": "https://www.globenewswire.com/news-release/2025/06/03/3092817/0/en/ciroos-raises-21m-to-bring-agentic-ai-to-operations-teams.html",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "ciroos"
+  },
+  {
+    "slug": "incident-io-announces-a-62m-series-b",
+    "company": "incident.io",
+    "product": "incident.io",
+    "category": "Funding",
+    "title": "incident.io announces a $62M Series B",
+    "summary": "incident.io announced a $62 million Series B. The funding close date is not established.",
+    "announcedAt": "2025-04-10",
+    "eventDate": null,
+    "dateNote": "Source announcement date. The actual event date is not separately established.",
+    "availability": "Funding announcement",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://incident.io/blog/incident.io-raises-62m",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "incident-io"
+  },
+  {
+    "slug": "causely-announces-an-8-8m-seed-round",
+    "company": "Causely",
+    "product": "Causely",
+    "category": "Funding",
+    "title": "Causely announces an $8.8M seed round",
+    "summary": "Causely announced $8.8 million in seed funding for its causal AI platform. The funding close date is not established.",
+    "announcedAt": "2023-06-29",
+    "eventDate": null,
+    "dateNote": "Source announcement date. The actual event date is not separately established.",
+    "availability": "Funding announcement",
+    "sources": [
+      {
+        "label": "Original source",
+        "url": "https://www.causely.ai/blog/causely-raises-8-8m-in-seed-funding-to-deliver-it-industrys-first-causal-ai-platform",
+        "scope": "event"
+      }
+    ],
+    "reviewed": true,
+    "reviewedAt": "2026-10-15",
+    "companySlug": "causely"
+  }
+]

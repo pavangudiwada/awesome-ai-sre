@@ -47,6 +47,17 @@ describe("header-state API", () => {
     });
   });
 
+  it("returns public fallback news and explicit degradation without exposing private failures", async () => {
+    mocks.getHeaderState.mockResolvedValue({
+      viewer: null, publicationStatus: "unavailable", personalizationUnavailable: true,
+      notifications: [{ id: "news:public-launch", title: "Public launch", href: "https://example.com/news", publishedAtLabel: "Announced Oct 9, 2026", source: "watchlist" }],
+    });
+    const response = await GET();
+    expect(response.status).toBe(200);
+    expect(response.headers.get("cache-control")).toBe("private, no-store, max-age=0");
+    expect(await response.json()).toMatchObject({ publicationStatus: "unavailable", personalizationUnavailable: true, viewer: null, notifications: [{ id: "news:public-launch" }] });
+  });
+
   it("returns a non-cacheable degraded response without leaking errors", async () => {
     mocks.getHeaderState.mockRejectedValue(new Error("private database detail"));
 

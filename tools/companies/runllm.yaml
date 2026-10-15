@@ -1,0 +1,10 @@
+name: RunLLM, Inc.
+slug: runllm
+website: https://herald.dev
+productSlugs:
+  - runllm
+mappingStatus: confirmed
+sources:
+  - label: Official vendor identity source
+    url: https://herald.dev/
+    checkedAt: '2026-09-30'

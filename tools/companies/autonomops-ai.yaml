@@ -1,0 +1,10 @@
+name: AutonomOps AI
+slug: autonomops-ai
+website: https://autonomops.ai
+productSlugs:
+  - autonomops-ai
+mappingStatus: confirmed
+sources:
+  - label: Official vendor identity source
+    url: https://autonomops.ai/terms/
+    checkedAt: '2026-09-30'

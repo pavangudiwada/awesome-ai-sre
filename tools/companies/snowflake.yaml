@@ -1,0 +1,13 @@
+name: Snowflake
+slug: snowflake
+website: https://www.snowflake.com
+productSlugs:
+  - observe-inc
+mappingStatus: confirmed
+sources:
+  - label: Observe by Snowflake official product website
+    url: https://www.observeinc.com
+    checkedAt: '2026-09-30'
+  - label: Official vendor identity source
+    url: https://www.snowflake.com/en/product/observe/
+    checkedAt: '2026-09-30'

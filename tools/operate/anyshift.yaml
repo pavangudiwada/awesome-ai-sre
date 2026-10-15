@@ -1,0 +1,23 @@
+name: Anyshift
+slug: anyshift
+url: https://www.anyshift.io/
+summary: >-
+  AI agents for production incident investigation, alert triage, and deployment checks, grounded in a live graph
+  connecting code, infrastructure, and observability data.
+deployment:
+  - saas
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+  - Observability
+dateAdded: '2026-10-15'
+claimed: false
+screenshot: /screenshots/anyshift.jpg
+logo: /logos/anyshift.svg
+screenshot_last_fetched: '2026-10-15'
+features:
+  - Correlates cloud, code, Kubernetes, and monitoring context to investigate incidents
+  - Tracks infrastructure relationships and changes in a versioned production graph
+  - Exposes production context through MCP, CLI, and SDK for engineers and their agents
+linkedin: https://www.linkedin.com/company/anyshift-io/

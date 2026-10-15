@@ -1,0 +1,23 @@
+name: Coralogix Olly
+slug: coralogix-olly
+url: https://coralogix.com/docs/user-guides/olly/
+summary: >-
+  AI observability agent built into Coralogix that investigates incidents across logs, metrics, traces, and alerts,
+  returning evidence and recommended next steps. Olly uses the caller's data permissions and requires an active
+  Coralogix subscription; its documented alert-configuration changes require confirmation.
+deployment:
+  - saas
+opensource: false
+tags:
+  - Incident Response
+  - Observability
+  - AIOps
+dateAdded: '2026-10-14'
+claimed: false
+screenshot: /screenshots/coralogix-olly.jpg
+logo: /logos/coralogix-olly.svg
+screenshot_last_fetched: '2026-10-14'
+features:
+  - Runs multi-step investigations and returns supporting telemetry with proposed causes
+  - Adds GitHub code context and reusable team skills to investigations
+  - Supports scheduled analysis and automatic case investigations under configured permissions

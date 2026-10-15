@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { MdxArticle } from "@/components/content/mdx-article";
+import { JsonLd } from "@/components/content/json-ld";
+import { articleStructuredData } from "@/lib/seo";
 import { WatchlistBreadcrumb } from "@/components/watchlist";
 import { Badge } from "@/components/ui/badge";
 import { getPublishedContentDocument, getPublishedContentDocuments } from "@/lib/catalog";
@@ -45,6 +47,7 @@ export default async function ResourcePage({
   if (!document || document.metadata.kind !== "resource") notFound();
   return (
     <main className="mx-auto flex max-w-screen-2xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
+      <JsonLd data={articleStructuredData(document.metadata, `/resources/${slug}`)} />
       <WatchlistBreadcrumb
         parentHref="/resources"
         parentLabel="Resources"
@@ -52,7 +55,7 @@ export default async function ResourcePage({
       />
       <header className="flex max-w-4xl flex-col gap-4 border-b pb-8">
         <Badge variant="outline" className="w-fit">{document.metadata.resourceType}</Badge>
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+        <h1 className="font-semibold text-title sm:text-title-desktop">
           {document.metadata.title}
         </h1>
         <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground">

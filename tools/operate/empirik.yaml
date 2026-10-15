@@ -1,0 +1,22 @@
+name: empirik
+slug: empirik
+url: https://empirik.ai/product
+summary: >-
+  AI infrastructure-change agent that maps proposed changes to live dependencies, assesses blast radius,
+  and detects drift. Focuses on change review and incident prevention, with SaaS and customer-managed
+  VPC deployment options; execution follows configured policies and approval workflows.
+deployment:
+  - saas
+opensource: false
+tags:
+  - AIOps
+dateAdded: '2026-10-02'
+claimed: false
+logo: /logos/empirik.svg
+screenshot: /screenshots/empirik.jpg
+screenshot_last_fetched: '2026-10-02'
+features:
+  - Maps pull requests, change tickets, and pipeline intent to live infrastructure
+  - Identifies affected resources, service owners, and change blast radius
+  - Reconciles intended and runtime state with a history of infrastructure changes
+linkedin: https://www.linkedin.com/company/empirik-ai

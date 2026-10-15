@@ -1,3 +1,4 @@
+import { BrandLockup } from "./brand-lockup"
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { CheckIcon, MailIcon, ShieldCheckIcon } from "lucide-react"
@@ -80,8 +81,9 @@ export function AuthPanel({
       <section className="order-2 flex items-center border-t bg-muted/30 px-4 py-10 sm:px-8 lg:order-1 lg:border-r lg:border-t-0 lg:px-12">
         <div className="mx-auto flex w-full max-w-lg flex-col gap-7">
           <div className="flex flex-col gap-4">
+            <Link href="/" aria-label="AI SRE Watchlist home" className="-ml-3 self-start rounded-lg focus-visible:outline-2 focus-visible:outline-ring"><BrandLockup /></Link>
             <p className="text-sm font-medium text-primary">Practitioner workspace</p>
-            <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+            <h1 className="font-semibold text-balance text-title sm:text-title-desktop">
               {title}
             </h1>
             <p className="max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">

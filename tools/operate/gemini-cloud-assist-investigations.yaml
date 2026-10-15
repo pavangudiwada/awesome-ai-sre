@@ -1,0 +1,26 @@
+name: Gemini Cloud Assist investigations
+slug: gemini-cloud-assist-investigations
+url: https://docs.cloud.google.com/cloud-assist/investigations
+summary: >-
+  Google Cloud's Preview investigation capability analyzes logs, metrics, and configurations
+  to identify probable root causes within a Google Cloud project or App Hub application.
+  Creating, running, and editing investigations requires Premium Support or access requested
+  through a Google Cloud account team.
+  It recommends troubleshooting steps and fixes, with diagnostic access limited to the
+  caller's permissions and no mutation of workload data.
+deployment:
+  - saas
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+  - Observability
+dateAdded: '2026-10-14'
+claimed: false
+features:
+  - Produces ranked observations linked to supporting evidence
+  - Identifies probable causes and recommends troubleshooting steps
+  - Transfers investigation context into Google Cloud support cases
+logo: /logos/gemini-cloud-assist-investigations.svg
+screenshot: /screenshots/gemini-cloud-assist-investigations.jpg
+screenshot_last_fetched: '2026-10-14'

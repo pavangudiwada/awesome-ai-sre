@@ -1,0 +1,13 @@
+name: Phoebe Technology Limited
+slug: phoebe-technology
+website: https://withcoral.com
+productSlugs:
+  - phoebe
+mappingStatus: confirmed
+sources:
+  - label: Legacy Phoebe domain redirects to Coral
+    url: https://phoebe.ai
+    checkedAt: '2026-09-30'
+  - label: Official vendor identity source
+    url: https://withcoral.com/terms
+    checkedAt: '2026-09-30'

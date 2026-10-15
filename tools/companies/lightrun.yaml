@@ -1,0 +1,10 @@
+name: Lightrun
+slug: lightrun
+website: https://lightrun.com
+productSlugs:
+  - lightrun
+mappingStatus: confirmed
+sources:
+  - label: Official vendor identity source
+    url: https://docs.lightrun.com/
+    checkedAt: '2026-09-30'

@@ -67,16 +67,15 @@ export async function expectMinimumTouchTarget(
 export async function expectImageHasNaturalSize(image: Locator, label: string) {
   await expect(image, `${label} should render as an image`).toBeVisible();
 
-  const dimensions = await image.evaluate(async (node) => {
+  // Bring lazy media into view, then re-resolve the locator on every poll. A
+  // one-shot load listener can hang if hydration replaces the image element.
+  await image.scrollIntoViewIfNeeded();
+  await expect.poll(async () => image.evaluate((node) => {
     const element = node as HTMLImageElement;
-
-    if (!element.complete) {
-      await new Promise<void>((resolve) => {
-        element.addEventListener("load", () => resolve(), { once: true });
-        element.addEventListener("error", () => resolve(), { once: true });
-      });
-    }
-
+    return element.naturalWidth > 0 && element.naturalHeight > 0;
+  }), { message: `${label} should finish decoding`, timeout: 10_000 }).toBe(true);
+  const dimensions = await image.evaluate((node) => {
+    const element = node as HTMLImageElement;
     return {
       currentSrc: element.currentSrc || element.src,
       naturalWidth: element.naturalWidth,

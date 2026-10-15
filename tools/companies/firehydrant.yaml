@@ -1,0 +1,10 @@
+name: FireHydrant
+slug: firehydrant
+website: https://firehydrant.com
+productSlugs:
+  - firehydrant
+mappingStatus: confirmed
+sources:
+  - label: Official product website
+    url: https://firehydrant.com
+    checkedAt: '2026-09-30'

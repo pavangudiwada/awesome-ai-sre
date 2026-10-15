@@ -199,7 +199,7 @@ export default async function EvaluationPage({ params }: { params: Promise<{ id:
           </div>
         </div>
 
-        <aside className="flex flex-col gap-4 xl:sticky xl:top-24 xl:self-start">
+        <aside className="flex flex-col gap-4 xl:sticky xl:top-36 xl:self-start">
           <Card>
             <CardHeader>
               <CardTitle>Add a candidate</CardTitle>

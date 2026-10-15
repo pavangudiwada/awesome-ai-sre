@@ -67,7 +67,7 @@ entries:
     targetName: OpenObserve AI SRE
     productSlug: openobserve-ai-sre
     companySlug: openobserve
-    researchState: needs-product-record
+    researchState: source-ready
   - priority: 12
     wave: 2
     targetName: Datadog Bits AI SRE

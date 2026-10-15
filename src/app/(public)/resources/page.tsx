@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { publicPageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowRightIcon, BookOpenIcon } from "lucide-react";
 
@@ -13,12 +13,12 @@ import {
 } from "@/components/ui/card";
 import { getPublishedContentDocuments } from "@/lib/catalog";
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata({
   title: "AI SRE resources",
   description:
     "Practical scorecards, checklists, and guides for evaluating AI incident-response products.",
-  alternates: { canonical: "/resources" },
-};
+  path: "/resources",
+});
 
 export default function ResourcesPage() {
   const resources = getPublishedContentDocuments("resource");
@@ -26,13 +26,20 @@ export default function ResourcesPage() {
     <main className="mx-auto flex max-w-screen-2xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8">
       <header className="flex max-w-4xl flex-col gap-3">
         <p className="text-sm font-medium text-primary">Practitioner library</p>
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+        <h1 className="font-semibold text-title sm:text-title-desktop">
           Evaluate AI incident-response tools with a repeatable process
         </h1>
         <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground">
           Owned Watchlist resources for security review, historical replay, pilot scoring, and decision discipline.
         </p>
       </header>
+      <Card>
+        <CardHeader>
+          <CardTitle>AI SRE, SRE &amp; DevOps glossary</CardTitle>
+          <CardDescription>Find plain-language definitions, primary sources, related concepts, and paths into the catalog.</CardDescription>
+        </CardHeader>
+        <CardFooter><Button asChild variant="outline" className="min-h-11"><Link href="/glossary">Explore the glossary<ArrowRightIcon data-icon="inline-end" /></Link></Button></CardFooter>
+      </Card>
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {resources.map((resource) => (
           <Card key={resource.metadata.slug}>

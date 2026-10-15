@@ -1,0 +1,10 @@
+name: Obot AI
+slug: obot-ai
+website: https://obot.ai
+productSlugs:
+  - obot
+mappingStatus: confirmed
+sources:
+  - label: Official vendor identity source
+    url: https://obot.ai/about-us/
+    checkedAt: '2026-09-30'

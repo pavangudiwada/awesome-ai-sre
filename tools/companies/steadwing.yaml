@@ -1,0 +1,10 @@
+name: Steadwing
+slug: steadwing
+website: https://www.steadwing.com
+productSlugs:
+  - steadwing
+mappingStatus: confirmed
+sources:
+  - label: Official product website
+    url: https://www.steadwing.com
+    checkedAt: '2026-09-30'
