@@ -28,7 +28,9 @@ test("related concepts lead into a sourced catalog profile and Back recovers glo
   await page.getByRole("link", { name: "Explore the RunWhen AI SRE profile" }).click();
   await expect(page).toHaveURL(/\/tools\/runwhen$/);
   await expect(page.getByRole("heading", { name: "RunWhen", exact: true })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Official AI SRE documentation", exact: true })).toBeVisible();
+  const officialSource = page.getByRole("list", { name: "Profile sources" }).getByRole("link", { name: /^Official AI SRE documentation RunWhen/ });
+  await expect(officialSource).toBeVisible();
+  await expect(officialSource).toHaveAttribute("href", "https://docs.runwhen.com/");
   await page.goBack();
   await expect(page).toHaveURL(/\/glossary\?q=AI\+SRE$/);
   await expect(page.getByRole("textbox", { name: "Find a term" })).toHaveValue("AI SRE");

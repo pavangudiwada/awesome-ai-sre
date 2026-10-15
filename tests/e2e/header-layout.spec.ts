@@ -1,7 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { openRoute } from "./support/watchlist";
+
 test("Resources groups guides, glossary and companies with keyboard and mobile dismissal", async ({ page }, testInfo) => {
-  await page.goto("/");
+  await openRoute(page, "/");
   const mobileMenu = page.getByRole("button", { name: "Open navigation" });
   const usesSheet = await mobileMenu.isVisible();
   if (usesSheet) await mobileMenu.click();
@@ -14,7 +16,26 @@ test("Resources groups guides, glossary and companies with keyboard and mobile d
   await expect(glossary).toBeVisible();
   await expect(page.getByRole(usesSheet ? "menuitem" : "link", { name: "All resources", exact: true })).toHaveAttribute("href", "/resources");
   await expect(page.getByRole(usesSheet ? "menuitem" : "link", { name: "Companies", exact: true })).toHaveAttribute("href", "/companies");
-  await page.screenshot({ path: testInfo.outputPath("public-brand-resources-open.png"), fullPage: false });
+  const expandedTrigger = usesSheet
+    ? page.locator('[data-slot="sheet-content"] [data-slot="dropdown-menu-trigger"]')
+    : trigger;
+  await expect(expandedTrigger).toHaveAttribute("aria-expanded", "true");
+  for (const label of ["All resources", "Glossary", "Companies"]) {
+    await expect(page.getByRole(usesSheet ? "menuitem" : "link", { name: label, exact: true })).toBeInViewport({ ratio: 1 });
+  }
+  // Visibility alone allows opacity zero. The dropdown is portaled outside
+  // the drawer, so check both surfaces and their ancestors before capturing.
+  const surfaces = usesSheet ? [glossary, page.locator('[data-slot="sheet-content"]')] : [glossary];
+  for (const surface of surfaces) {
+    await expect.poll(() => surface.evaluate((element) => {
+      for (let current: Element | null = element; current; current = current.parentElement) {
+        if (Number(getComputedStyle(current).opacity) < 1) return false;
+        if (current.getAnimations().some((animation) => animation.playState === "running" || animation.pending)) return false;
+      }
+      return true;
+    }), { message: "Resources submenu and drawer should be fully opaque and settled" }).toBe(true);
+  }
+  await page.screenshot({ path: testInfo.outputPath("public-brand-resources-open.png"), fullPage: false, animations: "disabled" });
   await page.keyboard.press("Escape");
   await expect(glossary).toBeHidden();
   await expect(trigger).toBeFocused();
@@ -65,16 +86,28 @@ test("latest notice is compact, dismissible and stays dismissed until a new upda
 test("search shortcut displays the platform key and opens from keyboard", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "Keyboard shortcut badge is for desktop layouts");
   await page.setViewportSize({ width: 1536, height: 900 });
-  await page.goto("/");
+  // The shortcut badge is SSR content; wait for client effects before pressing
+  // a shortcut rather than mistaking a visible label for an attached handler.
+  // This request starts in PublicSiteHeader's effect, so it also establishes
+  // header hydration when React hydrates streamed boundaries separately.
+  const headerHydrated = page.waitForRequest("**/api/header-state");
+  await openRoute(page, "/");
+  await headerHydrated;
   const expectedShortcut = await page.evaluate(() => /Mac|iPhone|iPad|iPod/.test(navigator.platform) ? "⌘ K" : "Ctrl K");
   const search = page.getByRole("button", { name: "Search tools and resources" });
   await expect(search).toContainText(expectedShortcut);
   await expect(search.getByText(expectedShortcut, { exact: true })).toBeVisible();
-  for (const key of ["Control+k", "Meta+k"]) {
+  const dialog = page.getByRole("dialog", { name: "Search the AI SRE Watchlist" });
+  const dialogTitle = page.getByRole("heading", { name: "Search the AI SRE Watchlist", exact: true });
+  await expect(dialogTitle).toHaveCount(0);
+  for (const key of ["Control+k", "Meta+k", "Control+k"]) {
     await page.keyboard.press(key);
-    await expect(page.getByRole("dialog", { name: "Search the AI SRE Watchlist" })).toBeVisible();
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByRole("heading", { name: "Search the AI SRE Watchlist", exact: true })).toHaveCount(1);
+    await expect(dialog.getByRole("combobox")).toBeFocused();
     await page.keyboard.press("Escape");
-    await expect(page.getByRole("dialog", { name: "Search the AI SRE Watchlist" })).toBeHidden();
+    await expect(dialog).toBeHidden();
+    await expect(dialogTitle).toHaveCount(0);
   }
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await page.screenshot({ path: testInfo.outputPath("public-brand-search-shortcut.png"), fullPage: false });
