@@ -3,6 +3,33 @@
   "generatedAt": null,
   "items": [
     {
+      "id": "cff72f81a8c58ffbbafddba3f69f7f70ef3ffe492e6a89be152e7e1cd8ae654f",
+      "productSlug": "holmesgpt",
+      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
+      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.45.0",
+      "title": "0.45.0",
+      "summary": "What's Changed ROB-1291 Multi-tenant Prometheus toolset (Mimir X-Scope-OrgID routed by a Kubernetes label) by @RoiGlinik in #2555 ROB-1525 Reuse the server's cached tool executor in /api/info and the OAuth callback by @RoiGlinik in #2592 Keep an executor rebuilt while a toolset refresh runs by @RoiGlinik in #2591 Check toolsets once in the refresh cycle that builds the executor by @RoiGlinik in #2595 ROB-1365 Stop regenerating the remediation MCP auth token on every render by @naomi-robusta in #2537 Support internal request kinds (oauth_callback, holmes_logs) in tool-call worker by @arikalon1 in #2520 Full Changelog : 0.44.0...0.45.0",
+      "publishedAt": "2026-10-15T08:20:25.000Z"
+    },
+    {
+      "id": "2a973cffdd69098b2484ad4ea1e70f7713b20b152f762855720f788aa952a98a",
+      "productSlug": "holmesgpt",
+      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
+      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.45.0-alpha",
+      "title": "0.45.0-alpha",
+      "summary": "What's Changed ROB-1291 Multi-tenant Prometheus toolset (Mimir X-Scope-OrgID routed by a Kubernetes label) by @RoiGlinik in #2555 ROB-1525 Reuse the server's cached tool executor in /api/info and the OAuth callback by @RoiGlinik in #2592 Keep an executor rebuilt while a toolset refresh runs by @RoiGlinik in #2591 Check toolsets once in the refresh cycle that builds the executor by @RoiGlinik in #2595 ROB-1365 Stop regenerating the remediation MCP auth token on every render by @naomi-robusta in #2537 Support internal request kinds (oauth_callback, holmes_logs) in tool-call worker by @arikalon1 in #2520 Full Changelog : 0.44.0...0.45.0",
+      "publishedAt": "2026-10-15T07:51:03.000Z"
+    },
+    {
+      "id": "75e3ef7176209b2c155dc6db84f33c16517a25c306690a4b0379369390a000af",
+      "productSlug": "holmesgpt",
+      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
+      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.44.0",
+      "title": "0.44.0",
+      "summary": "What's Changed ROB-1237 Price Robusta models whose upstream name isn't provider/id by @naomi-robusta in #2546 ROB-1369 Default the auto executor to one conversation at a time by @naomi-robusta in #2566 ROB-1507 - GPT-6.1 Handle multi-choice LLM responses by merging choices by @Avi-Robusta in #2556 ROB-801 Refresh litellm cost map when a model lookup misses by @Avi-Robusta in #2553 ROB-1291 Per-user Dex auth for the Kubernetes MCP addon, with private CA support by @RoiGlinik in #2554 Weekly Benchmark Results 2026-10-10_21-37 by @github-actions[bot] in #2580 ROB-1519 Summarize oversized conversation history in chunks by @naomi-robusta in #2538 Add Ezra Yellin ( @ezra-robusta ) to MAINTAINERS.md by @arikalon1 in #2518 ROB-1574 - Patch Critical/High CVEs in the holmes image by @Avi-Robusta in #2584 ROB-1564: Add namespace/label/field selectors to kubernetes query tools by @RoiGlinik in #2585 ROB-1580 Retry expired-JWT PostgREST calls with the new credentials by @naomi-robusta in #2583 Full Changelog : 0.43.0...0.44.0",
+      "publishedAt": "2026-10-14T10:25:42.000Z"
+    },
+    {
       "id": "03889e6200ca28d205d737a615a75995d0709c3be0594d27e67355d6a7ad67e2",
       "productSlug": "holmesgpt",
       "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
@@ -64,33 +91,6 @@
       "title": "0.41.0-alpha",
       "summary": "What's Changed ROB-1161 Fetch the Supabase api key from relay with caching and local fallback by @Avi-Robusta in #2420 Patch all High CVEs (and Mediums >60 days) in the holmes image by @moshemorad in #2432 ROB-1258 Live-refresh git-synced skills via first-class skill_repos by @naomi-robusta in #2434 ROB-889 Refresh the realtime JWT before it expires by @Avi-Robusta in #2383 Full Changelog : 0.40.0...0.41.0-alpha",
       "publishedAt": "2026-09-06T08:53:05.000Z"
-    },
-    {
-      "id": "e9fdd2beff64e4da2ad424eb8bee054556639bc28aa7adbfbb273c46aa19de62",
-      "productSlug": "holmesgpt",
-      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
-      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.40.0",
-      "title": "0.40.0",
-      "summary": "What's Changed ROB-878 remove stale Sonnet 4.0/4.5 model recommendations from docs by @Sheeproid in #2378 Remove experimental Azure SQL toolset by @moshemorad in #2377 ROB-893 Fix command injection vulnerability in Kubernetes toolset by @naomi-robusta in #2382 Remove MariaDB MCP integration, consolidate to native MariaDB datasource by @moshemorad in #2389 Fix command injection in slab/kubevela/inspektor_gadget/aks toolsets (ROB-893 follow-up) by @naomi-robusta in #2386 Fix SSRF in internet/fetch_webpage and connectivity_check toolsets (ROB-896) by @naomi-robusta in #2385 Harden kubectl-run toolset: run commands without a host shell by @Sheeproid in #2391 Add LLM eval for AKS --query command injection by @naomi-robusta in #2393 bash toolset: validate command arguments & redirections, not just the prefix by @Sheeproid in #2388 Sign bash session-approval prefixes to prevent forgery attacks by @moshemorad in #2394 Update GitLab MCP to v2.1.46 and use whoami health check by @moshemorad in #2398 ROB-424 ROB-425 ROB-665: fix compaction on Bedrock Converse gateways (tools-attached summarization, user-role summary) by @moshemorad in #2214 Improve shell injection security in GitHub Actions workflows by @moshemorad in #2399 Fix SSRF via unrestricted redirect following in the http toolset (ROB-915) by @naomi-robusta in #2392 ROB-857 Surface skill titles for UI-added skills in fetch_skill results by @avshyz in #2380 ROB-1177 Only inject __robusta_user_approved into relay-routed remote MCP calls by @Avi-Robusta in #2408 Fix NetworkPolicy selectors to match Holmes pod labels by @moshemorad in #2410 Require an allowlist before tcp_check probes private networks (ROB-1114) by @naomi-robusta in #2402 Add diagnostic-pod target policy to prevent SSRF/exfiltration (ROB-910) by @naomi-robusta in #2412 ROB-900: wire kubernetes-remediation MCP bearer-token auth in Helm chart by @arikalon1 in #2396 ROB-831 Add personal skills and a per-account name-collision hierarchy by @alonelish in #2350 ",
-      "publishedAt": "2026-08-26T07:30:35.000Z"
-    },
-    {
-      "id": "6efd275e0a0272105cb16eef4841516942e10f647e98525b3d690ce66f4ac1c4",
-      "productSlug": "holmesgpt",
-      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
-      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.40.0-alpha",
-      "title": "0.40.0-alpha",
-      "summary": "What's Changed ROB-878 remove stale Sonnet 4.0/4.5 model recommendations from docs by @Sheeproid in #2378 Remove experimental Azure SQL toolset by @moshemorad in #2377 ROB-893 Fix command injection vulnerability in Kubernetes toolset by @naomi-robusta in #2382 Remove MariaDB MCP integration, consolidate to native MariaDB datasource by @moshemorad in #2389 Fix command injection in slab/kubevela/inspektor_gadget/aks toolsets (ROB-893 follow-up) by @naomi-robusta in #2386 Fix SSRF in internet/fetch_webpage and connectivity_check toolsets (ROB-896) by @naomi-robusta in #2385 Harden kubectl-run toolset: run commands without a host shell by @Sheeproid in #2391 Add LLM eval for AKS --query command injection by @naomi-robusta in #2393 bash toolset: validate command arguments & redirections, not just the prefix by @Sheeproid in #2388 Sign bash session-approval prefixes to prevent forgery attacks by @moshemorad in #2394 Update GitLab MCP to v2.1.46 and use whoami health check by @moshemorad in #2398 ROB-424 ROB-425 ROB-665: fix compaction on Bedrock Converse gateways (tools-attached summarization, user-role summary) by @moshemorad in #2214 Improve shell injection security in GitHub Actions workflows by @moshemorad in #2399 Fix SSRF via unrestricted redirect following in the http toolset (ROB-915) by @naomi-robusta in #2392 ROB-857 Surface skill titles for UI-added skills in fetch_skill results by @avshyz in #2380 ROB-1177 Only inject __robusta_user_approved into relay-routed remote MCP calls by @Avi-Robusta in #2408 Fix NetworkPolicy selectors to match Holmes pod labels by @moshemorad in #2410 Require an allowlist before tcp_check probes private networks (ROB-1114) by @naomi-robusta in #2402 Add diagnostic-pod target policy to prevent SSRF/exfiltration (ROB-910) by @naomi-robusta in #2412 ROB-900: wire kubernetes-remediation MCP bearer-token auth in Helm chart by @arikalon1 in #2396 ROB-831 Add personal skills and a per-account name-collision hierarchy by @alonelish in #2350 ",
-      "publishedAt": "2026-08-25T14:25:58.000Z"
-    },
-    {
-      "id": "eb5c2c0c80a5dee4789e7ea479337a8c80baeb25314651f9fdff567f48805c1b",
-      "productSlug": "holmesgpt",
-      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
-      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.39.1-alpha",
-      "title": "0.39.1-alpha",
-      "summary": "What's Changed ROB-878 remove stale Sonnet 4.0/4.5 model recommendations from docs by @Sheeproid in #2378 Remove experimental Azure SQL toolset by @moshemorad in #2377 ROB-893 Fix command injection vulnerability in Kubernetes toolset by @naomi-robusta in #2382 Remove MariaDB MCP integration, consolidate to native MariaDB datasource by @moshemorad in #2389 Fix command injection in slab/kubevela/inspektor_gadget/aks toolsets (ROB-893 follow-up) by @naomi-robusta in #2386 Fix SSRF in internet/fetch_webpage and connectivity_check toolsets (ROB-896) by @naomi-robusta in #2385 Harden kubectl-run toolset: run commands without a host shell by @Sheeproid in #2391 Add LLM eval for AKS --query command injection by @naomi-robusta in #2393 bash toolset: validate command arguments & redirections, not just the prefix by @Sheeproid in #2388 Sign bash session-approval prefixes to prevent forgery attacks by @moshemorad in #2394 Update GitLab MCP to v2.1.46 and use whoami health check by @moshemorad in #2398 ROB-424 ROB-425 ROB-665: fix compaction on Bedrock Converse gateways (tools-attached summarization, user-role summary) by @moshemorad in #2214 Improve shell injection security in GitHub Actions workflows by @moshemorad in #2399 Full Changelog : 0.39.0...0.39.1-alpha",
-      "publishedAt": "2026-08-16T12:43:41.000Z"
     },
     {
       "id": "a75c7caf75f19792677aa21e6989f6a462e50cffc53ca1bbd384023868012f52",
