@@ -26,8 +26,8 @@ const TAG_LABELS: Record<string, string> = {
   IDP: "AI SRE",
   IaC: "AI SRE",
   FinOps: "AI SRE",
-  Security: "Learning",
-  Deployment: "Runbooks",
+  Security: "Security",
+  Deployment: "Deployment",
 };
 
 const PRODUCT_RESOURCE_LABELS: Record<ProductResourceKind, string> = {

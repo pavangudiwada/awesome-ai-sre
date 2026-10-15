@@ -1,0 +1,16 @@
+name: emisar
+slug: emisar
+website: https://emisar.dev/
+productSlugs:
+  - emisar
+mappingStatus: confirmed
+sources:
+  - label: Official product and hosted deployment overview
+    url: https://emisar.dev/
+    checkedAt: '2026-10-15'
+  - label: Official project and founder overview
+    url: https://emisar.dev/about
+    checkedAt: '2026-10-15'
+  - label: Component-specific Apache and Business Source licenses
+    url: https://github.com/AndrewDryga/emisar/blob/main/LICENSE.md
+    checkedAt: '2026-10-15'
