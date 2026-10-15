@@ -45,7 +45,7 @@ describe("CompanyCard", () => {
     )
     expect(screen.getByText("1 listed product")).toBeInTheDocument()
     expect(screen.getByText("Identity mapped")).toBeInTheDocument()
-    expect(screen.getByText("Sources checked 2026-07-10")).toBeInTheDocument()
+    expect(screen.queryByText(/Sources checked|Source check date unknown/)).not.toBeInTheDocument()
     expect(screen.getByRole("link", { name: "View company" })).toHaveAttribute(
       "href",
       "/companies/runwhen",

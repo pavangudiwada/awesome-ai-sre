@@ -56,7 +56,7 @@ test.describe("public Watchlist routes", () => {
     await expect(
       page.getByRole("heading", {
         level: 1,
-        name: "Find the right tools for reliable systems.",
+        name: "Find the right AI SRE tools for reliable systems.",
       }),
     ).toBeVisible();
     await expect(page.getByText("The most useful AI SRE product updates, delivered to your inbox.")).toHaveCount(0);
@@ -64,6 +64,8 @@ test.describe("public Watchlist routes", () => {
     await expect(page.getByRole("combobox", { name: "Frequency" })).toHaveCount(0);
     await expect(page.getByRole("checkbox", { name: /newsletter/i })).toHaveCount(0);
     await expect(page.getByRole("link", { name: /^View all \d+ tools$/ })).toBeVisible();
+
+
     await expect(page.getByRole("heading", { level: 2, name: "Featured AI SRE tools" })).toBeVisible();
     await expect(page.getByText("A rotating selection from the directory, refreshed every day.")).toBeVisible();
     await expect(page.getByText("Useful information, without the vendor pitch.")).toHaveCount(0);

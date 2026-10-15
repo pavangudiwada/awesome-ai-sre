@@ -3,6 +3,8 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
 
+vi.mock("./public-project-links", () => ({ PublicProjectLinks: () => null }));
+
 const mocks = vi.hoisted(() => ({
   markUpdateReadAction: vi.fn(),
   push: vi.fn(),
@@ -59,7 +61,7 @@ describe("PublicSiteHeader", () => {
   });
 
   it("requests public updates for anonymous visitors", () => {
-    const fetchMock = vi.fn();
+    const fetchMock = vi.fn(() => new Promise(() => undefined));
     vi.stubGlobal("fetch", fetchMock);
 
     renderHeader();
@@ -115,6 +117,38 @@ describe("PublicSiteHeader", () => {
     await waitFor(() => {
       expect(screen.getByRole("link", { name: "Latest alert: Acme funding" })).toHaveAttribute("href", "https://example.com/news");
     });
+  });
+
+  it("accepts file-only news in a degraded feed with dates and no mark-read action", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(response({
+      viewer: null, publicationStatus: "unavailable", personalizationUnavailable: true,
+      notifications: [{ id: "news:acme-funding", title: "Acme funding", href: "https://example.com/news", publishedAtLabel: "Announced Oct 9, 2026", actualEventDateLabel: "Unknown", category: "Funding", source: "watchlist" }],
+    })));
+    renderHeader();
+    await waitFor(() => expect(screen.getByLabelText("Account temporarily unavailable")).toBeDisabled());
+    expect(screen.getAllByLabelText("Open updates")).toHaveLength(2);
+    fireEvent.click(screen.getAllByLabelText("Open updates")[0]);
+    const link = screen.getByRole("link", { name: /Acme funding Funding/ });
+    link.addEventListener("click", (event) => event.preventDefault());
+    fireEvent.click(link);
+    expect(mocks.markUpdateReadAction).not.toHaveBeenCalled();
+    expect(screen.queryByText("New")).not.toBeInTheDocument();
+    expect(screen.getByRole("status")).toHaveTextContent("Public news remains available");
+  });
+
+  it.each([
+    { id: "invalid-id" },
+    { id: "news:valid-slug", unread: true },
+  ])("rejects invalid or fabricated persisted notification state %#", async (identity) => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(response({
+      viewer: null,
+      notifications: [{ ...identity, title: "Invalid item", href: "https://example.com/news", publishedAtLabel: "Oct 9, 2026", source: "watchlist" }],
+    })));
+    renderHeader();
+    fireEvent.click(screen.getAllByLabelText("Open updates")[0]);
+    await waitFor(() => expect(screen.getByText("Updates unavailable")).toBeInTheDocument());
+    expect(screen.queryByText("Invalid item")).not.toBeInTheDocument();
+    expect(mocks.markUpdateReadAction).not.toHaveBeenCalled();
   });
 
   it("keeps public navigation usable and labels unavailable updates after failure", async () => {

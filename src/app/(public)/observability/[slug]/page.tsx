@@ -173,7 +173,7 @@ export default async function ObservabilityProductPage({
             <LockedWorkflowPreview returnTo={`/observability/${product.slug}`} />
           )}
         </div>
-        <aside className="order-1 flex flex-col gap-4 xl:order-2 xl:sticky xl:top-24 xl:self-start">
+        <aside className="order-1 flex flex-col gap-4 xl:order-2 xl:sticky xl:top-36 xl:self-start">
           <ProfileSharingCard
             productName={product.name}
             productSlug={workflowSlug}

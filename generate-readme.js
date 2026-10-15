@@ -166,7 +166,23 @@ function buildReadme(tools) {
     .join(" | ");
 
   const lines = [
+    "# Awesome AI SRE",
+    "",
     "![Awesome AI SRE](assets/header-image.png)",
+    "",
+    "Awesome AI SRE is a curated list of AI tools and agents for site reliability engineering (SRE), including incident response, root cause analysis (RCA), observability, AIOps, infrastructure, and DevOps workflows.",
+    "",
+    "Explore [AI SRE Watchlist](https://aisrewatchlist.com), the companion website, for searchable product profiles, deployment options, official sources, and practical evaluation guides.",
+    "",
+    "[Browse AI SRE tools](https://aisrewatchlist.com/tools) · [Observability tools](https://aisrewatchlist.com/observability) · [Evaluation guides](https://aisrewatchlist.com/resources) · [Methodology](https://aisrewatchlist.com/methodology)",
+    "",
+    "## How to use this list",
+    "",
+    "Start with your workflow and deployment requirements, then check the linked official sources. A listing is not an endorsement or an independent performance benchmark. Use the [AI SRE pilot scorecard](https://aisrewatchlist.com/resources/ai-sre-pilot-scorecard) and [security and data-access checklist](https://aisrewatchlist.com/resources/ai-sre-security-data-access-checklist) to plan your evaluation.",
+    "",
+    "## Contributing",
+    "",
+    "Suggest a tool or correction through a [GitHub issue](https://github.com/pavangudiwada/awesome-ai-sre/issues) or pull request. Tool records live in [`tools/operate/`](tools/operate/); start from the [`_template.yaml`](tools/operate/_template.yaml), include official sources, and regenerate this README with `npm run generate:readme` after validating your change.",
     "",
     "If this repository is useful, please consider starring :star: it.",
     "",
@@ -234,4 +250,6 @@ function main() {
   console.log(`README.md generated with ${tools.length} tool(s).`);
 }
 
-main();
+if (require.main === module) main();
+
+module.exports = { buildReadme };

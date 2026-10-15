@@ -1,0 +1,25 @@
+name: Autoheal
+slug: autoheal
+url: https://autoheal.ai/use-cases/incident-response
+summary: >-
+  Incident-response agents within Autoheal's operational software platform correlate alerts, logs, traces,
+  deployments, and code changes into investigations. The documented workflow can test fixes in a sandbox and
+  open pull requests; the engineering team retains merge control. SaaS, hybrid, and customer-cloud options are documented.
+deployment:
+  - saas
+  - hybrid
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-10-14'
+claimed: false
+screenshot: /screenshots/autoheal.jpg
+logo: /logos/autoheal.svg
+screenshot_last_fetched: '2026-10-14'
+features:
+  - Correlates telemetry and recent code changes into evidence-backed incident reports
+  - Proposes tested fix pull requests for engineering review
+  - Drafts postmortems and applies policy-controlled access and approval gates
+linkedin: https://www.linkedin.com/company/autohealai/
+x: https://x.com/AutohealAI

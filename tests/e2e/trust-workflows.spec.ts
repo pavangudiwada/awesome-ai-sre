@@ -65,21 +65,40 @@ test.describe("trust and activation workflows", () => {
     await expectPublicPageGuardrails(page, testInfo);
   });
 
-  test("updates show an honest empty state and no invented unread count", async ({ page }, testInfo) => {
+  test("global updates stay public with dated news and original sources", async ({ page }, testInfo) => {
     await openRoute(page, "/updates");
 
-    await expect(
-      page.getByRole("heading", {
-        level: 1,
-        name: "Reviewed updates, not vendor-feed noise",
-      }),
-    ).toBeVisible();
-    await expect(page.getByText("No reviewed updates have been published yet", { exact: true })).toBeVisible();
-    await expect(
-      page.getByText(/feed intentionally stays empty until an update has sources and editorial review/i),
-    ).toBeVisible();
-    await expect(page.getByText(/There are no placeholder unread badges/i)).toBeVisible();
-    await expect(page.getByRole("button", { name: "Open updates" }).first()).toBeEnabled();
+    await expect(page.getByRole("heading", { level: 1, name: "Global Updates" })).toBeVisible();
+    await expect(page.getByText(/Everyone sees the same public news/)).toBeVisible();
+    await expect(page.getByText(/No sign-in required/)).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "2026", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 4, name: "Rootly launches organization-wide AI Instructions" })).toBeVisible();
+    await expect(page.getByText("No reviewed updates have been published yet", { exact: true })).toHaveCount(0);
+    const source = page.getByRole("link", { name: "Original source for Rootly launches organization-wide AI Instructions (opens in a new tab)" });
+    await expect(source).toHaveAttribute("href", "https://rootly.com/changelog/rootly-ai-with-best-practices-built-in");
+    await expectMinimumTouchTarget(source, "Original news source");
+    await page.getByRole("navigation", { name: "Jump to news year" }).getByRole("link", { name: "2025" }).click();
+    await expect(page).toHaveURL(/#updates-2025$/);
+    await expect(page.getByRole("heading", { level: 4, name: "Ciroos announces $21M funding and AI SRE Teammate" })).toBeVisible();
+    await page.goBack();
+    await expect(page).toHaveURL(/\/updates$/);
+    await page.reload();
+    await expect(page.getByRole("heading", { level: 1, name: "Global Updates" })).toBeVisible();
+    await expectPublicPageGuardrails(page, testInfo);
+  });
+
+  test("anonymous Bell includes dated public ecosystem news without fabricated unread state", async ({ page }, testInfo) => {
+    await openRoute(page, "/updates");
+    await expect(page.getByRole("link", { name: /Latest alert:/ })).toBeVisible();
+    const trigger = page.getByRole("button", { name: "Open updates", exact: true }).nth(testInfo.project.name === "mobile" ? 1 : 0);
+    await trigger.click();
+    await expect(page.getByRole("dialog").getByRole("link", { name: /AWS DevOps Agent adds investigation quality reviews/ })).toHaveAttribute("href", "https://docs.aws.amazon.com/devopsagent/latest/userguide/whats-new.html");
+    await expect(page.getByText(/Announced Oct 9, 2026.*Actual event: Unknown/)).toBeVisible();
+    await expect(page.getByText("New", { exact: true })).toHaveCount(0);
+    await page.keyboard.press("Escape");
+    await trigger.click();
+    await expect(page.getByRole("link", { name: "View all Global Updates" })).toBeVisible();
+    await page.keyboard.press("Escape");
     await expectPublicPageGuardrails(page, testInfo);
   });
 

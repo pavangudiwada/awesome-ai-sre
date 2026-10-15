@@ -6,6 +6,8 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 
 import { SiteHeader } from "./site-header"
 
+vi.mock("./public-project-links", () => ({ PublicProjectLinks: () => null }))
+
 function renderHeader(
   props: ComponentProps<typeof SiteHeader> = {}
 ) {
@@ -93,6 +95,40 @@ describe("SiteHeader", () => {
     fireEvent.click(screen.getAllByLabelText("Open updates")[triggerIndex])
 
     expect(screen.getByText("No updates yet")).toBeInTheDocument()
+  })
+
+  it("never marks file-only news read or gives it an unread badge even if malformed props request one", () => {
+    const markNotificationReadAction = vi.fn()
+    renderHeader({
+      notifications: [{ id: "news:acme-funding", title: "Acme funding", href: "https://example.com/news", publishedAtLabel: "Announced Oct 9, 2026", unread: true, source: "watchlist" }],
+      markNotificationReadAction,
+    })
+    fireEvent.click(screen.getAllByLabelText("Open updates")[0])
+    const updateLink = screen.getByRole("link", { name: /Acme funding/ })
+    updateLink.addEventListener("click", (event) => event.preventDefault())
+    fireEvent.click(updateLink)
+    expect(markNotificationReadAction).not.toHaveBeenCalled()
+    expect(screen.queryByText("New")).not.toBeInTheDocument()
+  })
+
+  it("keeps public news visible while publication or personalization state is partial", () => {
+    renderHeader({
+      notifications: [{ id: "news:acme-funding", title: "Acme funding", href: "https://example.com/news", publishedAtLabel: "Announced Oct 9, 2026", source: "watchlist" }],
+      notificationsStatus: "partial", accountUnavailable: true,
+    })
+    expect(screen.getByLabelText("Account temporarily unavailable")).toBeDisabled()
+    fireEvent.click(screen.getAllByLabelText("Open updates")[0])
+    expect(screen.getByRole("link", { name: /Acme funding/ })).toBeInTheDocument()
+    expect(screen.getByRole("status")).toHaveTextContent("Public news remains available")
+    expect(screen.getByRole("link", { name: "View all Global Updates" })).toHaveAttribute("href", "/updates")
+  })
+
+  it("visibly distinguishes followed-company public news without requiring unread state", () => {
+    renderHeader({ notifications: [{ id: "news:aws-update", title: "AWS update", href: "https://example.com/news", publishedAtLabel: "Announced Oct 9, 2026", source: "followed-company", companyName: "Amazon Web Services" }] })
+    fireEvent.click(screen.getAllByLabelText("Open updates")[0])
+    expect(screen.getByText("Followed company", { exact: true })).toBeInTheDocument()
+    expect(screen.getByText(/Amazon Web Services/)).toBeInTheDocument()
+    expect(screen.queryByText("New")).not.toBeInTheDocument()
   })
 
   it("marks a real unread update only after it is selected", () => {

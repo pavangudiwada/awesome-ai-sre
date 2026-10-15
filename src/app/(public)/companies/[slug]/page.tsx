@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRightIcon, Building2Icon, RssIcon } from "lucide-react";
 
+import { publicPageMetadata } from "@/lib/seo";
+
 import { followCompanyAction, saveProductAction } from "@/actions/workflows";
 import { PublicProfileView } from "@/components/analytics/public-events";
 import {
@@ -58,11 +60,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const company = getCompanyBySlug(slug);
   if (!company) return {};
-  return {
+  return publicPageMetadata({
     title: company.name,
     description: `Products, official sources, and reviewed updates for ${company.name}.`,
-    alternates: { canonical: `/companies/${company.slug}` },
-  };
+    path: `/companies/${company.slug}`,
+  });
 }
 
 export default async function CompanyPage({
@@ -186,7 +188,7 @@ export default async function CompanyPage({
           </ProfileSection>
         </div>
 
-        <aside className="flex flex-col gap-4 xl:sticky xl:top-24 xl:self-start">
+        <aside className="flex flex-col gap-4 xl:sticky xl:top-36 xl:self-start">
           <ProfileSection title="Company actions" description="Company submissions are reviewed before publication.">
             <div className="flex flex-col gap-3">
               <Button asChild variant="outline" className="justify-start">

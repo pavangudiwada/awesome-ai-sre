@@ -54,8 +54,8 @@ const CATEGORY_LABELS: Record<string, string> = {
   "incident-ai": "Incident AI",
   observability: "Observability",
   aiops: "AIOps",
-  runbooks: "Runbooks",
-  learning: "Learning",
+  runbooks: "Deployment",
+  learning: "Security",
   oss: "Open source",
 };
 

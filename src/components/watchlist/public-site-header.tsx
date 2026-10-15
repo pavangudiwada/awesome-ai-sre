@@ -7,6 +7,7 @@ import { z } from "zod";
 import { signOut } from "@/actions/auth";
 import { markUpdateReadAction } from "@/actions/workflows";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { isPersistedUpdateId, notificationIdSchema } from "@/lib/presentation/notification-id";
 
 import { SiteHeader } from "./site-header";
 import type { WatchlistNotification, WatchlistViewer } from "./types";
@@ -24,7 +25,7 @@ const viewerSchema = z.object({
 });
 
 const notificationSchema = z.object({
-  id: z.string().uuid(),
+  id: notificationIdSchema,
   title: z.string().min(1).max(500),
   summary: z.string().max(2_000).optional(),
   href: z.union([
@@ -32,14 +33,20 @@ const notificationSchema = z.object({
     z.string().url().refine((value) => new URL(value).protocol === "https:"),
   ]),
   publishedAtLabel: z.string().min(1).max(100),
+  actualEventDateLabel: z.string().min(1).max(100).optional(),
+  category: z.string().min(1).max(100).optional(),
   unread: z.boolean().optional(),
   source: z.enum(["watchlist", "followed-company"]),
   companyName: z.string().max(200).optional(),
+}).refine((notification) => isPersistedUpdateId(notification.id) || notification.unread === undefined, {
+  message: "File-only news cannot carry persisted read state",
 });
 
 const headerStateSchema = z.object({
   viewer: viewerSchema.nullable(),
   notifications: z.array(notificationSchema).max(12),
+  publicationStatus: z.enum(["available", "unavailable", "partial"]).optional(),
+  personalizationUnavailable: z.boolean().optional(),
 });
 
 type HeaderPayload = z.infer<typeof headerStateSchema>;
@@ -90,11 +97,12 @@ export function PublicSiteHeader({
         viewer={viewer}
         notifications={notifications}
         accountPending={false}
-        notificationsStatus={status}
+        accountUnavailable={state?.personalizationUnavailable}
+        notificationsStatus={status === "ready" && ((state?.publicationStatus && state.publicationStatus !== "available") || state?.personalizationUnavailable) ? "partial" : status}
         markNotificationReadAction={markUpdateReadAction}
         onSearchOpen={() => setSearchOpen(true)}
         onNotificationSelect={(selected) => {
-          if (!selected.unread) return;
+          if (!selected.unread || !isPersistedUpdateId(selected.id)) return;
           setState((current) => {
             if (!current) return current;
             return {
@@ -115,6 +123,7 @@ export function PublicSiteHeader({
               Latest alert: {notifications[0].title}
             </Link>
           </AlertTitle>
+          <p className="text-xs text-muted-foreground">{notifications[0].category ? `${notifications[0].category} · ` : ""}{notifications[0].publishedAtLabel}</p>
           {notifications[0].summary ? (
             <AlertDescription>{notifications[0].summary}</AlertDescription>
           ) : null}

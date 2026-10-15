@@ -1,0 +1,19 @@
+name: New Relic
+slug: new-relic
+website: https://newrelic.com
+productSlugs:
+  - new-relic-autopilot
+mappingStatus: confirmed
+sources:
+  - label: Official Autopilot overview, access requirements, and action boundaries
+    url: https://docs.newrelic.com/docs/agentic-ai/autopilot/overview/
+    checkedAt: '2026-10-14'
+  - label: Official documentation update confirming GA and SRE Agent rename
+    url: https://docs.newrelic.com/docs/release-notes/docs-release-notes/docs-7-24-2026/
+    checkedAt: '2026-10-14'
+  - label: Official announcement identifying New Relic as the managed agent operator
+    url: https://newrelic.com/press-release/20260623-2
+    checkedAt: '2026-10-14'
+  - label: Official Autopilot 2.5 release notes
+    url: https://docs.newrelic.com/docs/release-notes/autopilot-release-notes/autopilot-26-10-08/
+    checkedAt: '2026-10-14'

@@ -17,7 +17,7 @@ export default async function CompanyUpdatePage({
     <main className="mx-auto flex max-w-3xl flex-col gap-6 px-4 py-10 sm:px-6">
       <header className="flex flex-col gap-3">
         <p className="text-sm font-medium text-primary">Reviewed company contribution</p>
-        <h1 className="text-4xl font-semibold tracking-tight">Share a source-linked product update</h1>
+        <h1 className="font-semibold text-title sm:text-title-desktop">Share a source-linked product update</h1>
         <p className="text-muted-foreground">There is no direct publishing or company dashboard in this version.</p>
       </header>
       {params.submitted === "1" ? (

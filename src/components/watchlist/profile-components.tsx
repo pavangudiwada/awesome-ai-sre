@@ -81,7 +81,7 @@ export function ProductProfileHeader({
             <div className="flex items-start gap-4">
               <BrandMark name={name} src={logoSrc} size="profile" />
               <div className="min-w-0 flex-1">
-                <h1 className="text-3xl font-medium leading-snug tracking-tight sm:text-4xl">
+                <h1 className="text-title sm:text-title-desktop">
                   {name}
                 </h1>
                 {companyName ? (

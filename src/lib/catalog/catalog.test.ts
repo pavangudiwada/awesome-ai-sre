@@ -20,7 +20,7 @@ describe("catalog loaders", () => {
     const holmes = getProductBySlug("holmesgpt");
     const unmappedProduct = getProductBySlug("ingero");
 
-    expect(products).toHaveLength(81);
+    expect(products).toHaveLength(88);
     expect(holmes?.companySlug).toBe("robusta");
     expect(holmes?.editorialState).toBe("unreviewed");
     expect(holmes?.lastReviewed).toBeNull();
@@ -90,6 +90,17 @@ describe("catalog loaders", () => {
       github: "https://github.com/BetterStackHQ",
       x: "https://x.com/betterstackhq",
     });
+  });
+
+  it("retains the five sourced October additions without inventing evidence review", () => {
+    for (const slug of ["autoheal", "aws-devops-agent", "coralogix-olly", "gemini-cloud-assist-investigations", "new-relic-autopilot"]) {
+      const product = getProductBySlug(slug);
+      expect(product).toBeDefined();
+      expect(product?.companySlug).toBeTruthy();
+      expect(product?.logo).toBeTruthy();
+      expect(product?.screenshot).toBeTruthy();
+      expect(product?.editorialState).toBe("unreviewed");
+    }
   });
 
   it("validates and loads observability data as a separate catalog family", () => {

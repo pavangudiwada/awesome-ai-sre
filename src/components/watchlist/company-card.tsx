@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowRightIcon, FileTextIcon } from "lucide-react"
+import { ArrowRightIcon } from "lucide-react"
 
 import { BrandMark } from "@/components/watchlist/brand-mark"
 import { Badge } from "@/components/ui/badge"
@@ -30,11 +30,6 @@ interface CompanyCardProps {
 export function CompanyCard({ company, products }: CompanyCardProps) {
   const brandProduct = companyBrandProduct(company, products)
   const productLabel = `${products.length} listed ${products.length === 1 ? "product" : "products"}`
-  const lastChecked = company.sources
-    .map((source) => source.checkedAt)
-    .filter((value): value is string => Boolean(value))
-    .sort()
-    .at(-1)
 
   return (
     <Card size="sm" className="h-full">
@@ -87,11 +82,7 @@ export function CompanyCard({ company, products }: CompanyCardProps) {
           {company.mappingStatus === "confirmed" ? "Identity mapped" : "Mapping needs review"}
         </Badge>
       </CardContent>
-      <CardFooter className="mt-auto justify-between gap-3">
-        <span className="flex min-w-0 items-center gap-1 text-xs text-muted-foreground">
-          <FileTextIcon aria-hidden="true" />
-          {lastChecked ? `Sources checked ${lastChecked}` : "Source check date unknown"}
-        </span>
+      <CardFooter className="mt-auto justify-end gap-3">
         <Button asChild variant="link" size="sm" className="shrink-0 px-0">
           <Link href={`/companies/${company.slug}`}>
             View company

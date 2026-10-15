@@ -4,7 +4,6 @@ import { useEffect, type ComponentProps } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
-  AudioLinesIcon,
   BellIcon,
   CommandIcon,
   LogOutIcon,
@@ -59,6 +58,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
+import { isPersistedUpdateId } from "@/lib/presentation/notification-id"
 
 import type {
   WatchlistNavItem,
@@ -67,6 +67,8 @@ import type {
   ServerFormAction,
 } from "./types"
 import { getInitials } from "./utils"
+import { BrandLockup } from "./brand-lockup"
+import { PublicProjectLinks } from "./public-project-links"
 
 const DEFAULT_NAV_ITEMS: WatchlistNavItem[] = [
   { label: "Tools", href: "/tools" },
@@ -88,7 +90,8 @@ interface SiteHeaderProps {
   onNotificationSelect?: (notification: WatchlistNotification) => void
   markNotificationReadAction?: ServerFormAction
   accountPending?: boolean
-  notificationsStatus?: "loading" | "ready" | "unavailable"
+  accountUnavailable?: boolean
+  notificationsStatus?: "loading" | "ready" | "unavailable" | "partial"
 }
 
 export function SiteHeader({
@@ -102,6 +105,7 @@ export function SiteHeader({
   onNotificationSelect,
   markNotificationReadAction,
   accountPending = false,
+  accountUnavailable = false,
   notificationsStatus = "ready",
 }: SiteHeaderProps) {
   const pathname = usePathname() ?? "/"
@@ -129,22 +133,22 @@ export function SiteHeader({
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur">
+      <PublicProjectLinks />
       <div className="mx-auto flex h-16 max-w-screen-2xl items-center gap-3 px-4 sm:px-6 lg:px-8">
         <MobileNavigation navItems={resolvedNavItems} />
 
         <Link
           href={homeHref}
-          className="flex min-h-11 shrink-0 items-center gap-2 font-semibold tracking-tight"
+          className="-ml-3 flex min-h-11 shrink-0 items-center rounded-lg focus-visible:outline-2 focus-visible:outline-ring"
           aria-label="AI SRE Watchlist home"
           title="AI SRE Watchlist home"
         >
-          <WatchlistMark />
-          <span className="hidden sm:inline">AI SRE Watchlist</span>
+          <BrandLockup compactOnMobile />
         </Link>
 
         <NavigationMenu
           viewport={false}
-          className="ml-4 hidden lg:flex"
+          className="hidden xl:flex"
           aria-label="Primary"
         >
           <NavigationMenuList>
@@ -185,15 +189,15 @@ export function SiteHeader({
             markNotificationReadAction={markNotificationReadAction}
           />
 
-          {accountPending ? (
+          {accountPending || accountUnavailable ? (
             <Button
               type="button"
               variant="ghost"
               size="icon"
               className="size-11 rounded-full"
               disabled
-              aria-label="Loading account"
-              title="Loading account"
+              aria-label={accountUnavailable ? "Account temporarily unavailable" : "Loading account"}
+              title={accountUnavailable ? "Account temporarily unavailable" : "Loading account"}
             >
               <UserIcon />
             </Button>
@@ -215,16 +219,6 @@ export function SiteHeader({
   )
 }
 
-function WatchlistMark() {
-  return (
-    <Avatar className="size-9 rounded-md" aria-hidden="true">
-      <AvatarFallback className="rounded-md">
-        <AudioLinesIcon />
-      </AvatarFallback>
-    </Avatar>
-  )
-}
-
 function HeaderSearch({
   searchHref,
   onSearchOpen,
@@ -235,10 +229,10 @@ function HeaderSearch({
   const content = (
     <>
       <SearchIcon data-icon="inline-start" />
-      <span className="hidden sm:inline">Search Watchlist</span>
+      <span className="hidden 2xl:inline">Search Watchlist</span>
       <Badge
         variant="secondary"
-        className="ml-auto hidden gap-1 rounded-md px-1.5 font-normal sm:inline-flex"
+        className="ml-auto hidden gap-1 rounded-md px-1.5 font-normal 2xl:inline-flex"
         aria-hidden="true"
       >
         <CommandIcon />
@@ -251,7 +245,7 @@ function HeaderSearch({
     <Button
       type="button"
       variant="outline"
-      className="size-11 justify-center sm:h-11 sm:w-56 sm:justify-start"
+      className="size-11 justify-center 2xl:w-56 2xl:justify-start"
       onClick={onSearchOpen}
       aria-label="Search tools and resources"
       title="Search tools and resources"
@@ -262,7 +256,7 @@ function HeaderSearch({
     <Button
       asChild
       variant="outline"
-      className="size-11 justify-center sm:h-11 sm:w-56 sm:justify-start"
+      className="size-11 justify-center 2xl:w-56 2xl:justify-start"
     >
       <Link
         href={searchHref}
@@ -283,7 +277,7 @@ function MobileNavigation({ navItems }: { navItems: WatchlistNavItem[] }) {
           type="button"
           variant="ghost"
           size="icon"
-          className="size-11 lg:hidden"
+          className="size-11 xl:hidden"
           aria-label="Open navigation"
           title="Open navigation"
         >
@@ -324,7 +318,7 @@ interface NotificationsMenuProps {
   notifications: WatchlistNotification[]
   onNotificationSelect?: (notification: WatchlistNotification) => void
   markNotificationReadAction?: ServerFormAction
-  status?: "loading" | "ready" | "unavailable"
+  status?: "loading" | "ready" | "unavailable" | "partial"
 }
 
 function NotificationsMenu({
@@ -333,7 +327,7 @@ function NotificationsMenu({
   markNotificationReadAction,
   status = "ready",
 }: NotificationsMenuProps) {
-  const unreadCount = notifications.filter(({ unread }) => unread).length
+  const unreadCount = notifications.filter(({ unread, id }) => unread && isPersistedUpdateId(id)).length
 
   return (
     <>
@@ -348,7 +342,7 @@ function NotificationsMenu({
                 Updates
               </PopoverTitle>
               <PopoverDescription>
-                Watchlist reports and updates from companies you follow.
+                Public AI SRE news, with followed-company updates highlighted.
               </PopoverDescription>
             </PopoverHeader>
             <Separator />
@@ -371,7 +365,7 @@ function NotificationsMenu({
             <SheetHeader>
               <SheetTitle>Updates</SheetTitle>
               <SheetDescription>
-                Watchlist reports and updates from companies you follow.
+                Public AI SRE news, with followed-company updates highlighted.
               </SheetDescription>
             </SheetHeader>
             <NotificationList
@@ -444,7 +438,7 @@ function NotificationList({
     )
   }
 
-  if (status === "unavailable") {
+  if ((status === "unavailable" || status === "partial") && notifications.length === 0) {
     return (
       <Empty className="py-10" role="status">
         <EmptyHeader>
@@ -463,7 +457,7 @@ function NotificationList({
         <EmptyHeader>
           <EmptyTitle>No updates yet</EmptyTitle>
           <EmptyDescription>
-            Published Watchlist updates and followed-company updates will appear here.
+            Reviewed funding, launches, and product news will appear here.
           </EmptyDescription>
         </EmptyHeader>
       </Empty>
@@ -473,13 +467,18 @@ function NotificationList({
   return (
     <ScrollArea className="max-h-[28rem]">
       <div className="flex flex-col">
+        {status === "partial" || status === "unavailable" ? (
+          <p role="status" className="border-b p-4 text-sm text-muted-foreground">
+            Some publications or read states are temporarily unavailable. Public news remains available.
+          </p>
+        ) : null}
         {notifications.map((notification, index) => {
           const notificationLink = (
             <Link
               href={notification.href}
               onClick={() => {
                 onNotificationSelect?.(notification)
-                if (notification.unread && markNotificationReadAction) {
+                if (notification.unread && isPersistedUpdateId(notification.id) && markNotificationReadAction) {
                   const formData = new FormData()
                   formData.set("updateId", notification.id)
                   void markNotificationReadAction(formData)
@@ -489,7 +488,11 @@ function NotificationList({
             >
               <div className="flex items-start justify-between gap-3">
                 <span className="font-medium leading-snug">{notification.title}</span>
-                {notification.unread ? <Badge>New</Badge> : null}
+                {notification.unread && isPersistedUpdateId(notification.id) ? <Badge>New</Badge> : null}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {notification.category ? <Badge variant="outline">{notification.category}</Badge> : null}
+                {notification.source === "followed-company" ? <Badge variant="secondary">Followed company</Badge> : null}
               </div>
               {notification.summary ? (
                 <span className="line-clamp-2 text-sm text-muted-foreground">
@@ -499,9 +502,10 @@ function NotificationList({
               <span className="text-xs text-muted-foreground">
                 {notification.source === "followed-company"
                   ? notification.companyName ?? "Followed company"
-                  : "AI SRE Watchlist"}
+                  : notification.companyName ?? "AI SRE Watchlist"}
                 {" · "}
                 {notification.publishedAtLabel}
+                {notification.actualEventDateLabel ? ` · Actual event: ${notification.actualEventDateLabel}` : ""}
               </span>
             </Link>
           )
@@ -517,6 +521,7 @@ function NotificationList({
             </div>
           )
         })}
+        <Button asChild variant="link" className="min-h-11"><Link href="/updates">View all Global Updates</Link></Button>
       </div>
     </ScrollArea>
   )

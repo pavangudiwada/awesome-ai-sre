@@ -1,0 +1,19 @@
+name: Autoheal
+slug: autoheal
+website: https://autoheal.ai
+productSlugs:
+  - autoheal
+mappingStatus: confirmed
+sources:
+  - label: Official incident-response workflow and merge boundaries
+    url: https://autoheal.ai/use-cases/incident-response
+    checkedAt: '2026-10-14'
+  - label: Official product and deployment options
+    url: https://autoheal.ai/product
+    checkedAt: '2026-10-14'
+  - label: Official seed funding announcement
+    url: https://autoheal.ai/blog/autoheal-seed-funding
+    checkedAt: '2026-10-14'
+  - label: Commercial service ownership terms
+    url: https://autoheal.ai/terms-of-service
+    checkedAt: '2026-10-14'

@@ -17,7 +17,7 @@ export default async function CorrectionPage({
     <main className="mx-auto flex max-w-3xl flex-col gap-6 px-4 py-10 sm:px-6">
       <header className="flex flex-col gap-3">
         <p className="text-sm font-medium text-primary">Editorial contribution</p>
-        <h1 className="text-4xl font-semibold tracking-tight">Help keep a profile accurate</h1>
+        <h1 className="font-semibold text-title sm:text-title-desktop">Help keep a profile accurate</h1>
         <p className="text-muted-foreground">Corrections need a primary source. Public proof remains public after review.</p>
       </header>
       {params.submitted === "1" ? (

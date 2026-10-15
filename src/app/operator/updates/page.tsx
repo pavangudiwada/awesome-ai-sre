@@ -30,7 +30,7 @@ export default async function OperatorUpdatesPage({
   return (
     <main className="mx-auto flex max-w-3xl flex-col gap-6 px-4 py-8 sm:px-6">
       <header className="flex flex-col gap-2">
-        <h1 className="text-3xl font-semibold tracking-tight">Publish alert</h1>
+        <h1 className="font-semibold text-title sm:text-title-desktop">Publish alert</h1>
         <p className="text-muted-foreground">Source-linked alerts appear in the public bell and open their source directly.</p>
       </header>
       {params.error ? <Alert variant="destructive"><AlertTitle>Could not publish alert</AlertTitle><AlertDescription>{params.error}</AlertDescription></Alert> : null}
