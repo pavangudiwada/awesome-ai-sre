@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { productBadges, productFacts } from "../presentation/catalog";
+
 import { getCompanyBySlug } from "./companies";
 import { getProductBySlug, getProducts } from "./products";
 
@@ -30,6 +32,8 @@ describe("independently sourced external product suggestions", () => {
     expect(emisar?.deployment).toEqual(["hybrid"]);
     expect(emisar?.tags[0]).toBe("Security");
     expect(emisar?.summary).toContain("hosted control plane");
+    expect(productBadges(emisar!).map((badge) => badge.label)).toEqual(["Security", "Deployment"]);
+    expect(productFacts(emisar!).find((fact) => fact.label === "Category")?.value).toBe("Security, Deployment");
     expect(getCompanyBySlug("emisar")?.sources.some((source) =>
       source.url === "https://github.com/AndrewDryga/emisar/blob/main/LICENSE.md",
     )).toBe(true);
