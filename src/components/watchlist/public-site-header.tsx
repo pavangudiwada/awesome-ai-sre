@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { XIcon } from "lucide-react";
 import { z } from "zod";
 
 import { signOut } from "@/actions/auth";
 import { markUpdateReadAction } from "@/actions/workflows";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import { isPersistedUpdateId, notificationIdSchema } from "@/lib/presentation/notification-id";
 
 import { SiteHeader } from "./site-header";
@@ -52,6 +54,19 @@ const headerStateSchema = z.object({
 type HeaderPayload = z.infer<typeof headerStateSchema>;
 type HydrationStatus = "loading" | "ready" | "unavailable";
 
+function dismissalStorageKey(notificationId: string) {
+  return `watchlist:home-notice:dismissed:${notificationId}`;
+}
+
+function isNotificationDismissed(notificationId: string) {
+  try {
+    return window.localStorage.getItem(dismissalStorageKey(notificationId)) === "1";
+  } catch {
+    // Storage can be unavailable in private or restricted browser sessions.
+    return false;
+  }
+}
+
 export function PublicSiteHeader({
   searchItems = [],
 }: {
@@ -60,6 +75,7 @@ export function PublicSiteHeader({
   const [state, setState] = useState<HeaderPayload | null>(null);
   const [status, setStatus] = useState<HydrationStatus>("loading");
   const [searchOpen, setSearchOpen] = useState(false);
+  const [dismissedNotificationIds, setDismissedNotificationIds] = useState<ReadonlySet<string>>(new Set());
 
   useEffect(() => {
     const controller = new AbortController();
@@ -74,6 +90,12 @@ export function PublicSiteHeader({
         if (!response.ok) throw new Error("Header state request failed");
         const result = headerStateSchema.safeParse(await response.json());
         if (!result.success) throw new Error("Header state response was invalid");
+        // Read dismissal state before showing the fetched notice to avoid a flash on reload.
+        setDismissedNotificationIds(new Set(
+          result.data.notifications
+            .filter((notification) => isNotificationDismissed(notification.id))
+            .map((notification) => notification.id),
+        ));
         setState(result.data);
         setStatus("ready");
       } catch (error) {
@@ -90,6 +112,16 @@ export function PublicSiteHeader({
     ? { ...state.viewer, signOutAction: signOut }
     : null;
   const notifications = (state?.notifications ?? []) as WatchlistNotification[];
+  const latestNotification = notifications[0];
+
+  function dismissNotification(notificationId: string) {
+    setDismissedNotificationIds((current) => new Set([...current, notificationId]));
+    try {
+      window.localStorage.setItem(dismissalStorageKey(notificationId), "1");
+    } catch {
+      // Closing the notice still works for this page when storage is unavailable.
+    }
+  }
 
   return (
     <>
@@ -116,18 +148,41 @@ export function PublicSiteHeader({
           });
         }}
       />
-      {notifications[0] ? (
-        <Alert className="mx-auto mt-3 max-w-screen-2xl px-4 py-3 sm:px-6 lg:px-8">
-          <AlertTitle>
-            <Link href={notifications[0].href} className="hover:underline">
-              Latest alert: {notifications[0].title}
-            </Link>
-          </AlertTitle>
-          <p className="text-xs text-muted-foreground">{notifications[0].category ? `${notifications[0].category} · ` : ""}{notifications[0].publishedAtLabel}</p>
-          {notifications[0].summary ? (
-            <AlertDescription>{notifications[0].summary}</AlertDescription>
-          ) : null}
-        </Alert>
+      {latestNotification && !dismissedNotificationIds.has(latestNotification.id) ? (
+        <div className="mx-auto mt-2 w-full max-w-screen-2xl px-4 sm:px-6 lg:px-8">
+          <Alert
+            role="region"
+            aria-label="Latest update"
+            className="flex items-center gap-2 px-3 py-0"
+          >
+            <div className="min-w-0 flex-1 py-2 leading-5 [overflow-wrap:anywhere]">
+              <AlertTitle className="inline">
+                <Link
+                  href={latestNotification.href}
+                  className="rounded-sm hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  {latestNotification.title}
+                </Link>
+              </AlertTitle>
+              {latestNotification.summary ? (
+                <AlertDescription className="inline text-pretty">
+                  <span aria-hidden="true"> · </span>
+                  {latestNotification.summary}
+                </AlertDescription>
+              ) : null}
+            </div>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="-mr-2 size-11 self-start"
+              aria-label="Dismiss latest update"
+              onClick={() => dismissNotification(latestNotification.id)}
+            >
+              <XIcon aria-hidden="true" />
+            </Button>
+          </Alert>
+        </div>
       ) : null}
       <WatchlistSearch
         items={searchItems}

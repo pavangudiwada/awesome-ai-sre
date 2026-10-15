@@ -18,7 +18,14 @@ test.describe("public project community links", () => {
     }
     await expect(github).toHaveAttribute("href", "https://github.com/pavangudiwada/awesome-ai-sre");
     await expect(linkedin).toHaveAttribute("href", "https://www.linkedin.com/company/112729107/");
-    await expect(page.getByText("Open source", { exact: true })).toBeVisible();
+    const search = page.getByRole("button", { name: "Search tools and resources" });
+    const searchBox = await search.boundingBox();
+    const githubBox = await github.boundingBox();
+    const linkedinBox = await linkedin.boundingBox();
+    expect(Math.abs(searchBox!.y - githubBox!.y)).toBeLessThan(2);
+    expect(Math.abs(searchBox!.y - linkedinBox!.y)).toBeLessThan(2);
+    expect(githubBox!.x).toBeGreaterThan(searchBox!.x);
+    expect(linkedinBox!.x).toBeGreaterThan(githubBox!.x);
     await expect(page.getByText(/Sources checked|Source check date unknown/)).toHaveCount(0);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   });
@@ -29,8 +36,9 @@ test.describe("public project community links", () => {
     const github = page.getByRole("link", { name: "Open-source project on GitHub", exact: true });
     await expect(github).toContainText("View stars");
     await expect(page.getByRole("link", { name: "Follow AI SRE Watchlist on LinkedIn" })).toBeVisible();
+    await page.getByRole("button", { name: "Search tools and resources" }).focus();
     await page.keyboard.press("Tab");
-    // The community actions remain real focusable links during upstream failure.
+    // Search is followed immediately by the community actions.
     await expect(github).toBeFocused();
     await page.keyboard.press("Tab");
     await expect(page.getByRole("link", { name: "Follow AI SRE Watchlist on LinkedIn" })).toBeFocused();

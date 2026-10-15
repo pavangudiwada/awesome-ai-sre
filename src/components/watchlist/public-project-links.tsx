@@ -44,12 +44,11 @@ export function PublicProjectLinks() {
   }).format(new Date(stats.checkedAt)) : null;
 
   return (
-    <div className="border-b bg-muted/30">
       <nav
         aria-label="Project community"
-        className="mx-auto flex min-h-14 max-w-screen-2xl items-center justify-between gap-2 px-4 sm:justify-end sm:px-6 lg:px-8"
+        className="flex shrink-0 items-center gap-1"
       >
-        <Button asChild variant="ghost" className="h-11 gap-2 px-2">
+        <Button asChild variant="ghost" className="h-11 min-w-11 gap-2 px-2">
           <a
             href={PROJECT_GITHUB_URL}
             target="_blank"
@@ -58,23 +57,19 @@ export function PublicProjectLinks() {
             title={checkedAt ? `GitHub stars checked ${checkedAt} UTC` : "Open-source repository on GitHub"}
           >
             <CodeXmlIcon aria-hidden="true" />
-            <span className="flex flex-col items-start leading-tight">
-              <span>GitHub</span>
-              <span className="text-xs text-muted-foreground">Open source</span>
-            </span>
+            <span className="hidden sm:inline">GitHub</span>
             <span className="flex items-center gap-1 text-xs text-muted-foreground">
               <StarIcon className="size-3.5" aria-hidden="true" />
               {count ?? (pending ? "…" : "View stars")}
             </span>
           </a>
         </Button>
-        <Button asChild variant="ghost" className="h-11 gap-2 px-2">
+        <Button asChild variant="ghost" className="h-11 min-w-11 gap-2 px-2">
           <a href={PROJECT_LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="Follow AI SRE Watchlist on LinkedIn">
             <Image src="/icons/linkedin.svg" width={16} height={16} alt="" aria-hidden="true" />
-            LinkedIn
+            <span className="hidden 2xl:inline">LinkedIn</span>
           </a>
         </Button>
       </nav>
-    </div>
   );
 }

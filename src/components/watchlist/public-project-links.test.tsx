@@ -10,7 +10,6 @@ describe("PublicProjectLinks", () => {
     vi.stubGlobal("fetch", vi.fn(() => new Promise(() => undefined)));
     render(<PublicProjectLinks />);
     expect(screen.getByRole("link", { name: "Open-source project on GitHub" })).toHaveAttribute("href", "https://github.com/pavangudiwada/awesome-ai-sre");
-    expect(screen.getByText("Open source")).toBeVisible();
     expect(screen.getByRole("link", { name: "Follow AI SRE Watchlist on LinkedIn" })).toHaveAttribute("href", "https://www.linkedin.com/company/112729107/");
     expect(screen.queryByText("0")).not.toBeInTheDocument();
   });

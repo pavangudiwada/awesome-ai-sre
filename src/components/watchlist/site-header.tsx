@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation"
 import {
   BellIcon,
   CommandIcon,
+  ChevronDownIcon,
   LogOutIcon,
   MenuIcon,
   SearchIcon,
@@ -53,6 +54,8 @@ import {
 import {
   NavigationMenu,
   NavigationMenuItem,
+  NavigationMenuContent,
+  NavigationMenuTrigger,
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
@@ -72,11 +75,15 @@ import { PublicProjectLinks } from "./public-project-links"
 
 const DEFAULT_NAV_ITEMS: WatchlistNavItem[] = [
   { label: "Tools", href: "/tools" },
-  { label: "Companies", href: "/companies" },
   { label: "Observability", href: "/observability" },
   { label: "Resources", href: "/resources" },
-  { label: "Glossary", href: "/glossary" },
   { label: "Updates", href: "/updates" },
+]
+
+const RESOURCE_ITEMS = [
+  { label: "All resources", href: "/resources" },
+  { label: "Glossary", href: "/glossary" },
+  { label: "Companies", href: "/companies" },
 ]
 
 interface SiteHeaderProps {
@@ -133,8 +140,7 @@ export function SiteHeader({
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur">
-      <PublicProjectLinks />
-      <div className="mx-auto flex h-16 max-w-screen-2xl items-center gap-3 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex min-h-16 max-w-screen-2xl flex-wrap items-center gap-x-3 gap-y-1 pb-2 lg:flex-nowrap lg:pb-0 px-4 sm:px-6 lg:px-8">
         <MobileNavigation navItems={resolvedNavItems} />
 
         <Link
@@ -152,7 +158,22 @@ export function SiteHeader({
           aria-label="Primary"
         >
           <NavigationMenuList>
-            {resolvedNavItems.map((item) => (
+            {resolvedNavItems.map((item) => item.href === "/resources" ? (
+              <NavigationMenuItem key={item.href}>
+                <NavigationMenuTrigger className="h-11 px-3">Resources</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="w-48 p-1">
+                    {RESOURCE_ITEMS.map((resource) => (
+                      <li key={resource.href}>
+                        <NavigationMenuLink asChild active={pathname === resource.href || pathname.startsWith(`${resource.href}/`)} className="min-h-11">
+                          <Link href={resource.href} aria-current={pathname === resource.href || pathname.startsWith(`${resource.href}/`) ? "page" : undefined}>{resource.label}</Link>
+                        </NavigationMenuLink>
+                      </li>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            ) : (
               <NavigationMenuItem key={item.href}>
                 <NavigationMenuLink
                   asChild
@@ -171,8 +192,12 @@ export function SiteHeader({
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div className="ml-auto flex items-center gap-1 sm:gap-2">
+        <div className="order-last flex w-full items-center gap-2 lg:order-none lg:ml-auto lg:w-auto" data-header-search-community>
           <HeaderSearch searchHref={searchHref} onSearchOpen={onSearchOpen} />
+          <PublicProjectLinks />
+        </div>
+
+        <div className="ml-auto flex items-center gap-1 sm:gap-2 lg:ml-0">
 
           {viewer ? (
             <Button asChild variant="ghost" className="hidden h-11 md:inline-flex">
@@ -229,7 +254,7 @@ function HeaderSearch({
   const content = (
     <>
       <SearchIcon data-icon="inline-start" />
-      <span className="hidden 2xl:inline">Search Watchlist</span>
+      <span className="lg:hidden 2xl:inline">Search Watchlist</span>
       <Badge
         variant="secondary"
         className="ml-auto hidden gap-1 rounded-md px-1.5 font-normal 2xl:inline-flex"
@@ -245,7 +270,7 @@ function HeaderSearch({
     <Button
       type="button"
       variant="outline"
-      className="size-11 justify-center 2xl:w-56 2xl:justify-start"
+      className="h-11 min-w-11 flex-1 justify-start lg:size-11 lg:flex-none lg:justify-center 2xl:w-56 2xl:justify-start"
       onClick={onSearchOpen}
       aria-label="Search tools and resources"
       title="Search tools and resources"
@@ -256,7 +281,7 @@ function HeaderSearch({
     <Button
       asChild
       variant="outline"
-      className="size-11 justify-center 2xl:w-56 2xl:justify-start"
+      className="h-11 min-w-11 flex-1 justify-start lg:size-11 lg:flex-none lg:justify-center 2xl:w-56 2xl:justify-start"
     >
       <Link
         href={searchHref}
@@ -292,7 +317,22 @@ function MobileNavigation({ navItems }: { navItems: WatchlistNavItem[] }) {
           </SheetDescription>
         </SheetHeader>
         <nav className="flex flex-col gap-1 px-4" aria-label="Mobile primary">
-          {navItems.map((item) => (
+          {navItems.map((item) => item.href === "/resources" ? (
+            <DropdownMenu key={item.href}>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-11 justify-between">Resources <ChevronDownIcon aria-hidden="true" /></Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-64">
+                {RESOURCE_ITEMS.map((resource) => (
+                  <DropdownMenuItem key={resource.href} asChild>
+                    <SheetClose asChild>
+                      <Link href={resource.href} className="min-h-11">{resource.label}</Link>
+                    </SheetClose>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
             <SheetClose key={item.href} asChild>
               <Button
                 asChild

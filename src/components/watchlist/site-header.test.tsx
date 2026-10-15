@@ -76,9 +76,12 @@ describe("SiteHeader", () => {
     }
   })
 
-  it("includes the public company directory in navigation", () => {
+  it("groups the public company directory and glossary under Resources", () => {
     renderHeader()
 
+    expect(screen.queryByRole("link", { name: "Companies" })).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole("button", { name: "Resources" }))
+    expect(screen.getByRole("link", { name: "Glossary" })).toHaveAttribute("href", "/glossary")
     const companyLinks = screen.getAllByRole("link", { name: "Companies" })
     expect(companyLinks).toHaveLength(1)
     for (const link of companyLinks) {

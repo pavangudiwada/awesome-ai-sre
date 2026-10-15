@@ -1,5 +1,6 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
 
@@ -45,7 +46,12 @@ function response(body: unknown, ok = true) {
 }
 
 describe("PublicSiteHeader", () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
   afterEach(() => {
+    vi.restoreAllMocks();
     vi.clearAllMocks();
     vi.unstubAllGlobals();
   });
@@ -101,7 +107,7 @@ describe("PublicSiteHeader", () => {
     }));
   });
 
-  it("renders a source-linked latest alert for anonymous visitors", async () => {
+  it("renders only a source-linked title and subtitle in the latest notice", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(response({
       viewer: null,
       notifications: [{
@@ -110,13 +116,99 @@ describe("PublicSiteHeader", () => {
         summary: "Acme announced a round.",
         href: "https://example.com/news",
         publishedAtLabel: "Sep 22, 2026",
+        category: "Product update",
         source: "watchlist",
       }],
     })));
     renderHeader();
     await waitFor(() => {
-      expect(screen.getByRole("link", { name: "Latest alert: Acme funding" })).toHaveAttribute("href", "https://example.com/news");
+      expect(screen.getByRole("link", { name: "Acme funding" })).toHaveAttribute("href", "https://example.com/news");
     });
+    const notice = screen.getByRole("region", { name: "Latest update" });
+    expect(within(notice).getByText("Acme announced a round.")).toBeInTheDocument();
+    expect(notice).not.toHaveTextContent("Product update");
+    expect(notice).not.toHaveTextContent("Sep 22, 2026");
+    expect(notice).not.toHaveTextContent("Latest alert:");
+    expect(within(notice).getByRole("button", { name: "Dismiss latest update" })).toHaveClass("size-11");
+  });
+
+  it("dismisses the notice with the keyboard and keeps it dismissed after remount", async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(response({
+      viewer: null,
+      notifications: [{
+        id: "news:acme-funding",
+        title: "Acme funding",
+        href: "https://example.com/news",
+        publishedAtLabel: "Sep 22, 2026",
+        source: "watchlist",
+      }],
+    })));
+
+    const header = renderHeader();
+    const close = await screen.findByRole("button", { name: "Dismiss latest update" });
+    close.focus();
+    await user.keyboard("{Enter}");
+
+    expect(screen.queryByRole("region", { name: "Latest update" })).not.toBeInTheDocument();
+    expect(window.localStorage.getItem("watchlist:home-notice:dismissed:news:acme-funding")).toBe("1");
+    expect(mocks.markUpdateReadAction).not.toHaveBeenCalled();
+    fireEvent.click(screen.getAllByLabelText("Open updates")[0]);
+    expect(screen.getByRole("link", { name: /Acme funding/ })).toBeInTheDocument();
+
+    header.unmount();
+    renderHeader();
+    await waitFor(() => expect(fetch).toHaveBeenCalledTimes(2));
+    await waitFor(() => expect(screen.getAllByLabelText("Open updates")[0]).toBeEnabled());
+    fireEvent.click(screen.getAllByLabelText("Open updates")[0]);
+    expect(await screen.findByRole("link", { name: /Acme funding/ })).toBeInTheDocument();
+    expect(screen.queryByRole("region", { name: "Latest update" })).not.toBeInTheDocument();
+  });
+
+  it("shows a new notification ID even when an older notice was dismissed", async () => {
+    window.localStorage.setItem("watchlist:home-notice:dismissed:news:acme-funding", "1");
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(response({
+      viewer: null,
+      notifications: [{
+        id: "news:acme-release",
+        title: "Acme release",
+        href: "https://example.com/release",
+        publishedAtLabel: "Oct 15, 2026",
+        source: "watchlist",
+      }],
+    })));
+
+    renderHeader();
+
+    const notice = await screen.findByRole("region", { name: "Latest update" });
+    expect(within(notice).getByRole("link", { name: "Acme release" })).toBeInTheDocument();
+    expect(notice.querySelector('[data-slot="alert-description"]')).toBeNull();
+  });
+
+  it("still shows and closes the notice when browser storage is unavailable", async () => {
+    vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
+      throw new DOMException("Storage unavailable", "SecurityError");
+    });
+    vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
+      throw new DOMException("Storage unavailable", "QuotaExceededError");
+    });
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(response({
+      viewer: null,
+      notifications: [{
+        id: "news:acme-funding",
+        title: "Acme funding",
+        href: "https://example.com/news",
+        publishedAtLabel: "Sep 22, 2026",
+        source: "watchlist",
+      }],
+    })));
+
+    renderHeader();
+    fireEvent.click(await screen.findByRole("button", { name: "Dismiss latest update" }));
+
+    expect(screen.queryByRole("region", { name: "Latest update" })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Sign in" })).toBeInTheDocument();
+    expect(screen.getAllByLabelText("Open updates")).toHaveLength(2);
   });
 
   it("accepts file-only news in a degraded feed with dates and no mark-read action", async () => {
