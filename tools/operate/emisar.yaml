@@ -1,0 +1,22 @@
+name: emisar
+slug: emisar
+url: https://emisar.dev/
+summary: >-
+  Controlled infrastructure access for AI agents through declared actions, policy checks, approval gates, and audit
+  records. Its hosted control plane coordinates runners on customer hosts.
+deployment:
+  - hybrid
+opensource: false
+tags:
+  - Security
+  - Deployment
+dateAdded: '2026-10-15'
+claimed: false
+screenshot: /screenshots/emisar.jpg
+logo: /logos/emisar.svg
+screenshot_last_fetched: '2026-10-15'
+features:
+  - Restricts agent requests to versioned action packs and host-side admission rules
+  - Applies allow, approval-required, or deny policies to scoped infrastructure actions
+  - Pairs central audit records with a tamper-evident journal on the runner host
+github: https://github.com/AndrewDryga/emisar

@@ -2,6 +2,7 @@ name	slug	format	source
 Agent0 by Dash0	agent0-by-dash0	svg	https://www.dash0.com/shared/logo_colors.svg
 AlertD	alertd	png	(existing)
 Aurora	aurora	png	https://www.aurorasre.ai/arvo-mark.png
+Anyshift	anyshift	svg	https://www.anyshift.io/images/anyshift-logo.svg
 AutonomOps AI	autonomops-ai	png	(existing)
 Azure SRE Agent	azure-sre-agent	png	(existing)
 Bacca.ai	bacca-ai	svg	(existing)
@@ -24,6 +25,7 @@ Deeptrace	deeptrace	png	https://www.deeptrace.com/favicon.ico?favicon.1b9fb2e4.i
 DrDroid	drdroid	svg	(existing)
 Edge Delta	edge-delta	svg	(existing)
 Elastic	elastic	svg	(existing)
+emisar	emisar	svg	https://emisar.dev/favicon-346920936eec9b2b80b5380b30462108.svg?vsn=d
 FireHydrant	firehydrant	svg	(existing)
 Harness AI-SRE	harness-ai-sre	png	(existing)
 HolmesGPT	holmesgpt	png	(existing)
