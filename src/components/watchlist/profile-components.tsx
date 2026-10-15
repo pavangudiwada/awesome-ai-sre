@@ -43,6 +43,7 @@ interface ProductProfileHeaderProps {
   logoSrc?: string | null
   screenshotSrc?: string | null
   screenshotAlt?: string
+  showMedia?: boolean
   companyName?: string
   companyHref?: string
   websiteHref?: string
@@ -62,6 +63,7 @@ export function ProductProfileHeader({
   logoSrc,
   screenshotSrc,
   screenshotAlt,
+  showMedia = true,
   companyName,
   companyHref,
   websiteHref,
@@ -73,13 +75,13 @@ export function ProductProfileHeader({
 }: ProductProfileHeaderProps) {
   return (
     <Card className="overflow-hidden p-0">
-      <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(20rem,36rem)]">
+      <div className={showMedia ? "grid lg:grid-cols-[minmax(0,1fr)_minmax(20rem,36rem)]" : "grid"}>
         <div className="flex min-w-0 flex-col">
           <CardHeader className="gap-5 p-6 sm:p-8">
             <div className="flex items-start gap-4">
               <BrandMark name={name} src={logoSrc} size="profile" />
               <div className="min-w-0 flex-1">
-                <h1 className="text-3xl font-medium leading-snug tracking-tight sm:text-4xl">
+                <h1 className="text-title sm:text-title-desktop">
                   {name}
                 </h1>
                 {companyName ? (
@@ -139,14 +141,14 @@ export function ProductProfileHeader({
           </CardFooter>
         </div>
 
-        <div className="border-t bg-muted/30 lg:border-l lg:border-t-0">
+        {showMedia ? <div className="border-t bg-muted/30 lg:border-l lg:border-t-0">
           <ProductMedia
             name={name}
             src={screenshotSrc}
             alt={screenshotAlt}
             preload
           />
-        </div>
+        </div> : null}
       </div>
     </Card>
   )

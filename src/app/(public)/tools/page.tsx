@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { publicPageMetadata } from "@/lib/seo";
 
 import { saveProductAction } from "@/actions/workflows";
 import { CatalogDirectory, type DirectoryProduct } from "@/components/catalog/catalog-directory";
@@ -10,12 +10,12 @@ import {
 import { companyMap, toProductSummary } from "@/lib/presentation/catalog";
 import { getSavedProductSlugs } from "@/lib/workflows/queries";
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata({
   title: "AI SRE tools",
   description:
     "Browse AI incident-response, AIOps, runbook, and reliability products with explicit evidence status.",
-  alternates: { canonical: "/tools" },
-};
+  path: "/tools",
+});
 
 const TAG_CATEGORIES: Record<string, string> = {
   "Incident Response": "incident-ai",
@@ -65,7 +65,7 @@ export default async function ToolsPage({
     <main className="flex flex-col gap-8 py-10">
       <header className="mx-auto flex w-full max-w-screen-2xl flex-col gap-3 px-4 sm:px-6 lg:px-8">
         <p className="text-sm font-medium text-primary">AI reliability marketplace</p>
-        <h1 className="max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl">
+        <h1 className="max-w-4xl font-semibold text-title sm:text-title-desktop">
           Products for investigating and improving reliability
         </h1>
         <p className="max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">

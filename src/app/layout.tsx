@@ -4,6 +4,8 @@ import type { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/next";
 
 import { AppProviders } from "@/components/app-providers";
+import { JsonLd } from "@/components/content/json-ld";
+import { SITE_DESCRIPTION, siteStructuredData } from "@/lib/seo";
 
 import "./globals.css";
 
@@ -29,39 +31,29 @@ export const metadata: Metadata = {
     default: "AI SRE Watchlist",
     template: "%s | AI SRE Watchlist",
   },
-  description:
-    "Find AI SRE, observability, and incident-response tools through clear, source-linked product profiles.",
+  description: SITE_DESCRIPTION,
   alternates: { canonical: "/" },
   openGraph: {
     title: "AI SRE Watchlist",
-    description:
-      "Find AI SRE, observability, and incident-response tools through clear, source-linked product profiles.",
+    description: SITE_DESCRIPTION,
     url: "/",
     siteName: "AI SRE Watchlist",
     type: "website",
   },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary" },
+  icons: {
+    apple: [{ url: "/brand/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/brand/favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/brand/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/brand/favicon-light.svg", type: "image/svg+xml", media: "(prefers-color-scheme: light)" },
+      { url: "/brand/favicon-dark.svg", type: "image/svg+xml", media: "(prefers-color-scheme: dark)" },
+    ],
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "@id": `${siteUrl}/#organization`,
-        name: "AI SRE Watchlist",
-        url: siteUrl,
-      },
-      {
-        "@type": "WebSite",
-        "@id": `${siteUrl}/#website`,
-        name: "AI SRE Watchlist",
-        url: siteUrl,
-        publisher: { "@id": `${siteUrl}/#organization` },
-      },
-    ],
-  };
   return (
     <html
       lang="en"
@@ -69,10 +61,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       suppressHydrationWarning
     >
       <body>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
+        <JsonLd data={siteStructuredData()} />
         <AppProviders>{children}</AppProviders>
         {isVercelDeployment ? <Analytics /> : null}
       </body>

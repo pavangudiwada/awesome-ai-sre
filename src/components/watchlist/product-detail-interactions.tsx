@@ -85,7 +85,7 @@ export function ProductSectionNav({
       aria-label="Product sections"
       className={cn(
         "sticky z-30 -mx-1 border-b bg-background/95 px-1 py-2 backdrop-blur",
-        "top-16",
+        "top-32",
       )}
     >
       <div className="grid grid-cols-2 items-center gap-1 sm:flex sm:w-max">

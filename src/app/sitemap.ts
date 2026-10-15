@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/companies",
     "/observability",
     "/resources",
+    "/glossary",
     "/updates",
     "/methodology",
     "/editorial-policy",

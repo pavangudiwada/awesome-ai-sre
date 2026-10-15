@@ -22,7 +22,7 @@ interface MarketplaceHeroProps {
 }
 
 export function MarketplaceHero({
-  title = "Find the right tools for reliable systems.",
+  title = "Find the right AI SRE tools for reliable systems.",
   description = "Explore source-linked AI SRE, observability, and incident-response tools.",
   searchPlaceholder = "Search by tool, company, or problem…",
   searchHref = "/tools",
@@ -36,7 +36,7 @@ export function MarketplaceHero({
           <div className="flex flex-col items-center gap-2">
             <h1
               id="marketplace-heading"
-              className="max-w-2xl text-3xl font-semibold tracking-tight text-balance sm:text-4xl"
+              className="max-w-2xl font-semibold text-balance text-title sm:text-title-desktop"
             >
               {title}
             </h1>

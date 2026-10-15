@@ -24,6 +24,7 @@ import {
   EvidenceExplorer,
   OfficialResourcesCard,
   ProductSectionNav,
+  ProductMedia,
   ProfileProductActions,
   ProfileSharingCard,
   WatchlistBreadcrumb,
@@ -158,7 +159,7 @@ export default async function ProductPage({
                   className="size-16 sm:size-20"
                 />
                 <div className="min-w-0 flex-1">
-                  <h1 className="text-3xl font-medium tracking-tight sm:text-4xl">
+                  <h1 className="text-title sm:text-title-desktop">
                     {product.name}
                   </h1>
                   {company ? (
@@ -212,7 +213,7 @@ export default async function ProductPage({
             sourceCount={sources.length}
           />
 
-          <section id="summary" className="scroll-mt-36">
+          <section id="summary" className="scroll-mt-64 sm:scroll-mt-52">
             <Card size="sm">
               <CardHeader>
                 <CardTitle>Product details</CardTitle>
@@ -233,10 +234,18 @@ export default async function ProductPage({
                 </ItemGroup>
               </CardContent>
             </Card>
+            {product.screenshot ? (
+              <figure className="mt-6 overflow-hidden rounded-xl border bg-card">
+                <ProductMedia name={product.name} src={product.screenshot} />
+                <figcaption className="border-t px-4 py-3 text-xs text-muted-foreground">
+                  Cataloged product preview. This image is not independent evidence of product performance.
+                </figcaption>
+              </figure>
+            ) : null}
           </section>
 
           {product.features.length ? (
-            <section id="capabilities" className="scroll-mt-36">
+            <section id="capabilities" className="scroll-mt-64 sm:scroll-mt-52">
               <div className="mb-3 flex flex-col gap-1">
                 <h2 className="text-xl font-medium tracking-tight">Capabilities</h2>
               </div>
@@ -261,7 +270,7 @@ export default async function ProductPage({
           ) : null}
 
           {claims.length ? (
-            <section id="evidence" className="scroll-mt-36">
+            <section id="evidence" className="scroll-mt-64 sm:scroll-mt-52">
               <div className="mb-3 flex flex-col gap-1">
                 <h2 className="text-xl font-medium tracking-tight">Evidence</h2>
               </div>
@@ -270,7 +279,7 @@ export default async function ProductPage({
           ) : null}
 
           {sources.length ? (
-            <section id="sources" className="scroll-mt-36">
+            <section id="sources" className="scroll-mt-64 sm:scroll-mt-52">
               <div className="mb-3 flex flex-col gap-1">
                 <h2 className="text-xl font-medium tracking-tight">Official sources</h2>
               </div>
