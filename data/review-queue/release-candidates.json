@@ -183,6 +183,24 @@
       "publishedAt": "2026-03-24T14:40:03.000Z"
     },
     {
+      "id": "b2638217bc699f5b6b95a4d79bc79f5e76678f030c5b7cc14716c3d9c28c03bb",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha16",
+      "title": "v1.0.0-alpha16",
+      "summary": "What's Changed Features feat: Send PDF and Office files to Responses API models end-to-end by @danielle-mustillo in #3200 Other Changes chore(deps): update anthropic[vertex] requirement from >=1.13.0 to >=1.15.0 in /python by @dependabot [bot] in #3272 chore(deps): bump astral-sh/setup-uv from 7.6.0 to 10.3.0 by @dependabot [bot] in #3266 chore(deps): update google-adk[a2a] requirement from =2.11.0 to >=2.12.0, @dependabot [bot] in #3273 chore(deps): bump the go-minor-patch group across 1 directory with 6 updates by @dependabot [bot] in #3265 chore(deps): bump the npm-minor-patch group across 1 directory with 10 updates by @dependabot [bot] in #3280 Full Changelog : v1.0.0-alpha15...v1.0.0-alpha16",
+      "publishedAt": "2026-10-19T19:11:30.000Z"
+    },
+    {
+      "id": "fd5ba018e5872e5a3144abe34cc964e942823d6e69f98aeffb60eddc8a5d6903",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha15",
+      "title": "v1.0.0-alpha15",
+      "summary": "What's Changed Features feat(a2a): report task token usage through a versioned A2A extension by @QuentinBisson in #2461 feat: add reusable egress policies for agents and sandboxes by @EItanya in #3177 feat: add token passthrough for remote MCP servers by @EItanya in #3257 Bug Fixes fix(ui): prevent chat rail flicker when switching conversations by @vedantlavale in #3218 fix(ui): preserve streamed tool results by @pood1e in #3098 fix(checkpoint): allow failed checkpoint cleanup by @spichen in #3199 fix(ui): remediate CVEs in UI dependencies and base image by @cjlg-soloio in #3252 Testing test(e2e): pass mock LLM handlers to startModelRecorder by @danielle-mustillo in #3264 Other Changes chore(ci): pin GitHub Actions to commit SHAs by @timflannagan in #3250 chore: register Go tool dependencies by @timflannagan in #3233 chore(deps): bump protovalidate from 1.2.0 to 2.0.0 in /python by @dependabot [bot] in #3274 chore(deps): update langsmith[otel] requirement from >=0.14.7 to >=0.14.11 in /python by @dependabot [bot] in #3271 chore(deps): update google-adk[a2a,db] requirement from =2.11.0 to >=2.12.0, @dependabot [bot] in #3270 chore(deps): bump the python-minor-patch group in /python with 5 updates by @dependabot [bot] in #3269 chore(deps): bump google-auth from 2.61.0 to 2.62.0 in /python in the python-google-ai group across 1 directory by @dependabot [bot] in #3277 chore(deps): update Substrate to v0.6.0-alpha3 by @EItanya in #3226 New Contributors @vedantlavale made their first contribution in #3218 @spichen made their first contribution in #3199 Full Changelog : v1.0.0-alpha14...v1.0.0-alpha15",
+      "publishedAt": "2026-10-19T14:35:18.000Z"
+    },
+    {
       "id": "97ddf29c7c5bcbcf537d4eade11b222cac454edd9209c41382e11a4ff0ff2990",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -246,15 +264,6 @@
       "publishedAt": "2026-10-05T14:41:02.000Z"
     },
     {
-      "id": "b4bf128920462faad8a530cc18cd9e0cf2a8abd7b69129c90da2027d7ad9e53a",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.3",
-      "title": "v0.10.3",
-      "summary": "What's Changed Bug Fixes fix(controller): derive full runtime image from the tag name by @rtemperini in #2640 Other Changes Bump kagent-tools to 0.3.0 (backport to release/v0.10.x) by @inFocus7 in #2931 New Contributors @rtemperini made their first contribution in #2640 Full Changelog : v0.10.2...v0.10.3",
-      "publishedAt": "2026-10-02T18:35:18.000Z"
-    },
-    {
       "id": "211034c90f75f52074772ad6ba459e05b19cb9ca0186c4c8e2ee12c97633df51",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -262,15 +271,6 @@
       "title": "v1.0.0-alpha7",
       "summary": "What's Changed Features feat(helm): make the controller ServiceAccount optional by @TarasLykhenko in #3022 Bug Fixes fix: allow disabling kagent model streaming by @EItanya in #3028 fix(translator): accept Mistral ModelConfigs in v1alpha3 by @moezdil in #3008 Other Changes chore: bump retired gemini 2.5 default models to 3.5 by @kaizakin in #3027 New Contributors @TarasLykhenko made their first contribution in #3022 Full Changelog : v1.0.0-alpha6...v1.0.0-alpha7",
       "publishedAt": "2026-10-01T15:25:55.000Z"
-    },
-    {
-      "id": "648e8b18e5265adf98e07f4e0c84618d451a4c6162134b543f641bdd2faad81f",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha6",
-      "title": "v1.0.0-alpha6",
-      "summary": "What's Changed Bug Fixes fix: expire idle sessions through the delete workflow by @EItanya in #2970 fix(adk): keep Ollama tool call argument order stable across requests by @garlicKim21 in #2988 fix(controller): simplify agent preparation and retry handling by @EItanya in #2994 fix(adk): pass MCP embedded resource text to OpenAI-compatible models by @acherifi in #2992 fix(e2e): wait for controller health and parallelize independent tests by @EItanya in #2993 fix: repair image scans and use uv-managed Python by @EItanya in #2995 fix(ui): report harness delete failures by @pai in #2964 fix: keep Go ADK SQLite connections out of VM snapshots by @EItanya in #3004 fix(api): defer unsupported configuration fields by @EItanya in #3007 Documentation docs: update README for the v1 architecture by @EItanya in #2996 Other Changes ci: build release artifacts before the final release job by @EItanya in #2972 chore(deps): bump alpine from 3.22 to 3.24 in /go in the docker-minor-patch group across 1 directory by @dependabot [bot] in #2973 chore(deps): bump the go-minor-patch group in /go with 15 updates by @dependabot [bot] in #2976 chore(deps): update langsmith[otel] requirement from >=0.10.10 to >=0.14.0 in /python by @dependabot [bot] in #2978 chore(deps): update setuptools requirement from >=83.0.0 to >=84.0.0 in /python by @dependabot [bot] in #2979 chore(deps): update google-adk[a2a,db] requirement from =2.6.2 to >=2.9.2, @dependabot [bot] in #2980 chore(deps): bump the npm-minor-patch group in /ui with 7 updates by @dependabot [bot] in #2974 chore(deps): update google-adk[a2a] requirement from =2.6.2 to >=2.9.2, @dependabot [bot] in #2983 chore(deps): bump mcp from 1.29.0 to 2.2.0 in /python by @dependabot [bot] in #2984 chore(deps): update anthropic[vertex] requirement from >=0.120.0 to >=1.8.0 in /python by @dependabot [bot] in #2985 chore(deps): bump the python-google-ai group in /python with 2 updates by @dependabot [bot] in #2975 chore(deps): bump the python-minor-patc",
-      "publishedAt": "2026-09-30T22:57:08.000Z"
     }
   ]
 }
