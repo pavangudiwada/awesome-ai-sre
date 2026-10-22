@@ -93,6 +93,15 @@
       "publishedAt": "2026-09-06T08:53:05.000Z"
     },
     {
+      "id": "a507090cafc6ae5a311a53e843f7b31cd7b751d15afeca125cb223ed53272160",
+      "productSlug": "k8sgpt",
+      "sourceFeedUrl": "https://github.com/k8sgpt-ai/k8sgpt/releases.atom",
+      "sourceUrl": "https://github.com/k8sgpt-ai/k8sgpt/releases/tag/v0.4.41",
+      "title": "v0.4.41",
+      "summary": "0.4.41 (2026-10-20) Features add Claude 4.5 and 5.x models for Amazon Bedrock ( #1819 ) ( a49636c ) enable to source customHeaders from the config file ( #1339 ) ( 37b87f1 ) prompt to auto-pull missing ollama models ( #1766 ) ( e977dc5 ) Bug Fixes accept an empty storageClassName in StatefulSet claim templates ( #1830 ) ( 642c3a4 ) do not report an unsupported KEDA scaleTargetRef as missing ( #1831 ) ( 7fd1b40 ) harden completion calls against empty responses and hangs ( #1731 ) ( dca17b9 ) honor matchExpressions in NetworkPolicy pod selectors ( #1818 ) ( e8a8a1d ) honor the namespace filter in the Gateway API analyzers ( #1826 ) ( 33935bf ) keep the known parent when the top owner has an unsupported kind ( #1833 ) ( bf4432b ) keep webhook findings when configurations share a webhook name ( #1827 ) ( 912a7cb ) match HTTPRoute namespace selectors against the namespace ( #1825 ) ( 9a8398e ) recognize node-problem-detector node conditions ( #1821 ) ( 7a22730 ) report failed results in Kyverno ClusterPolicyReports ( #1832 ) ( 70fdcdc ) Other deps: update goreleaser/goreleaser-action digest to a4f02ab ( #1829 ) ( d9a9352 ) deps: update module github.com/containerd/containerd to v1.7.36 [security] ( #1834 ) ( bd42af7 ) deps: update module github.com/moby/spdystream to v0.5.1 [security] ( #1835 ) ( 4c58db4 ) deps: update module go.opentelemetry.io/otel/sdk to v1.45.0 [security] ( #1836 ) ( 67b7f13 ) Refactoring look up the healthy status of each node condition type ( #1838 ) ( 130cc09 )",
+      "publishedAt": "2026-10-21T10:16:28.000Z"
+    },
+    {
       "id": "a75c7caf75f19792677aa21e6989f6a462e50cffc53ca1bbd384023868012f52",
       "productSlug": "k8sgpt",
       "sourceFeedUrl": "https://github.com/k8sgpt-ai/k8sgpt/releases.atom",
@@ -174,13 +183,22 @@
       "publishedAt": "2026-04-22T07:04:13.000Z"
     },
     {
-      "id": "fe7763787bfbdff77ae3662591040299e6b76395851787d5c764c3c355a9020b",
-      "productSlug": "k8sgpt",
-      "sourceFeedUrl": "https://github.com/k8sgpt-ai/k8sgpt/releases.atom",
-      "sourceUrl": "https://github.com/k8sgpt-ai/k8sgpt/releases/tag/v0.4.31",
-      "title": "v0.4.31",
-      "summary": "0.4.31 (2026-02-26) Other updated readme ( #1620 ) ( fd5bba6 ) Docs align Go version with go.mod toolchain ( #1609 ) ( 19a172e )",
-      "publishedAt": "2026-03-24T14:40:03.000Z"
+      "id": "4d6f09cdbb98e4f372844957a4a9cfd2145f97872036c779779b9e7b6d7b1645",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.4",
+      "title": "v0.10.4",
+      "summary": "This is an incomplete release. All necessary runtime artifacts are available, minus CLI. We plan to do a followup release. What's Changed Bug Fixes fix(controller): accept a RemoteMCPServer labeled kagent.dev/discovery=disabled without listing its tools (backport to release/v0.10.x) by @teemow in #2753 fix(go): require patched certificate verification in v0.10.x by @jjamroga in #3310 Full Changelog : v0.10.3...v0.10.4",
+      "publishedAt": "2026-10-21T23:04:30.000Z"
+    },
+    {
+      "id": "9d4b6100303348a607940170a12f29533a0d92f14f075198eadb0952faab3dfd",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha17",
+      "title": "v1.0.0-alpha17",
+      "summary": "What's Changed Features feat: support gateway token passthrough for embedded controllers by @codyhartsook in #3263 feat(auth): authenticate Substrate actor calls to the control plane by @EItanya in #3282 Bug Fixes fix(adk): enable default tools and simplify sandbox execution by @supreme-gg-gg in #3283 fix(cli): uninstall everything kagent install creates by @iplay88keys in #3285 fix(auth): enforce scoped authorization for Kubernetes-backed resources by @supreme-gg-gg in #3281 fix(substrate): check existing atespaces before creating them by @spichen in #3260 fix(docker): give the Go runtime user a writable HOME by @teemow in #3161 fix(deps): bump Go to 1.27.3 for security fixes by @EItanya in #3304 Testing test(core): cover token threshold compaction through harnesses by @adalundhe in #3291 Other Changes ci: run migration immutability check on every PR so it can be required by @iplay88keys in #3293 Full Changelog : v1.0.0-alpha16...v1.0.0-alpha17",
+      "publishedAt": "2026-10-21T17:07:00.000Z"
     },
     {
       "id": "b2638217bc699f5b6b95a4d79bc79f5e76678f030c5b7cc14716c3d9c28c03bb",
@@ -253,24 +271,6 @@
       "title": "v1.0.0-alpha9",
       "summary": "What's Changed Features feat: add runtime revision GC backlog and failure metrics by @gargsajal9 in #2808 feat: attach text files and images to chat messages by @Charlesthebird in #2936 Bug Fixes fix(adk): guard nil tool-call args and coerce to empty object in OpenAI-compatible adapters by @alexdarbyshire in #2852 fix(ui): show agent template create errors beside the Create button by @Charlesthebird in #3075 fix(ui): keep a new chat's title in the chat list after leaving it by @mmadhura1014 in #3001 fix(adk): free runtime send slot before settling the task by @Charlesthebird in #3079 fix(harness): pin Claude Code 2.1.285 by @thomasbarrett in #3076 Documentation docs: narrow agent contribution guidance by @timflannagan in #3081 Other Changes chore(deps): bump google-genai from 2.25.0 to 2.27.0 in /python in the python-google-ai group across 1 directory by @dependabot [bot] in #3063 chore(deps): bump the python-minor-patch group in /python with 4 updates by @dependabot [bot] in #3056 chore(deps): bump the npm-minor-patch group in /ui with 6 updates by @dependabot [bot] in #3053 chore(deps): update langsmith[otel] requirement from >=0.14.0 to >=0.14.3 in /python by @dependabot [bot] in #3060 New Contributors @gargsajal9 made their first contribution in #2808 @alexdarbyshire made their first contribution in #2852 @mmadhura1014 made their first contribution in #3001 @thomasbarrett made their first contribution in #3076 Full Changelog : v1.0.0-alpha8...v1.0.0-alpha9",
       "publishedAt": "2026-10-07T18:31:30.000Z"
-    },
-    {
-      "id": "1dd4009834f7546561188e8ca04ff86237801bda13c9e35050925a2547918129",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha8",
-      "title": "v1.0.0-alpha8",
-      "summary": "What's Changed Features feat(session): let a session share expire by @QuentinBisson in #2987 feat: configure database polling and skip unchanged MCP writes by @EItanya in #3038 feat(models): add Claude Fable 5.1, Opus 5/5.5 and Sonnet 5.5 to discovery list by @yashrajshuklaaa in #3041 feat(models): add prompt caching for the Anthropic provider (promptCaching, cacheTTL) by @teemow in #2788 Bug Fixes fix(controller): honor kagent.dev/discovery=disabled for RemoteMCPServer and MCPServer tool discovery by @teemow in #2752 fix(ui): call the per-chat unit a session on the agent concepts card by @Charlesthebird in #3034 fix: propagate helm postgres pool variables to db connection by @jcopi in #3032 Documentation docs: add local AGENTS.md guides by @EItanya in #3035 Other Changes K: pin the UI base image digest and apk major versions by @Charlesthebird in #2951 chore(deps): update google-adk[a2a] requirement from =2.9.2 to >=2.11.0, @dependabot [bot] in #3059 chore(deps): update anthropic[vertex] requirement from >=1.8.0 to >=1.11.0 in /python by @dependabot [bot] in #3057 chore(deps): upgrade Substrate to v0.4.0-alpha1 by @EItanya in #3064 New Contributors @jcopi made their first contribution in #3032 Full Changelog : v1.0.0-alpha7...v1.0.0-alpha8",
-      "publishedAt": "2026-10-05T14:41:02.000Z"
-    },
-    {
-      "id": "211034c90f75f52074772ad6ba459e05b19cb9ca0186c4c8e2ee12c97633df51",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha7",
-      "title": "v1.0.0-alpha7",
-      "summary": "What's Changed Features feat(helm): make the controller ServiceAccount optional by @TarasLykhenko in #3022 Bug Fixes fix: allow disabling kagent model streaming by @EItanya in #3028 fix(translator): accept Mistral ModelConfigs in v1alpha3 by @moezdil in #3008 Other Changes chore: bump retired gemini 2.5 default models to 3.5 by @kaizakin in #3027 New Contributors @TarasLykhenko made their first contribution in #3022 Full Changelog : v1.0.0-alpha6...v1.0.0-alpha7",
-      "publishedAt": "2026-10-01T15:25:55.000Z"
     }
   ]
 }
