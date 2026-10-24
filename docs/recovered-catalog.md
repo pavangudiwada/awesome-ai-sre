@@ -1,6 +1,6 @@
 # Restored October catalog additions
 
-Five catalog entries and their retained assets were copied without changing their contents from the preserved October 14 source snapshot. The original recovery candidate contained 83 AI SRE products, 34 observability products, and 26 companies. The integrated Open Lens release also preserves PRs #52–#56 and #58: 88 AI SRE products, 34 observability products, and 81 companies.
+Five catalog entries and their retained assets were copied without changing their contents from the preserved October 14 source snapshot. The original recovery candidate contained 83 AI SRE products, 34 observability products, and 26 companies. The integrated Open Lens release also preserves PRs #52–#56 and #58, plus the distinct OpenSRE.in project identity: 89 AI SRE products, 34 observability products, and 81 companies. Together these are 123 product reference rows (89 AI SRE + 34 observability); reviewed project identities do not create company references.
 
 ## Current source checks
 
@@ -28,28 +28,34 @@ All five retained preview images decode as 1152 × 720 pixels and were visually 
 | public/logos/gemini-cloud-assist-investigations.svg | bd00c57cfd1bee2618cc4267e510520e0ee20daf41085e7d983bd92e74d6cbbf |
 | public/screenshots/new-relic-autopilot.jpg | 94003bc7e2e07424027af5184b43d1b3f13b56741a0444648b30a1f5afbe6f55 |
 
-## Required deployment gate for save/follow workflows
+## Required production reference gate for save/follow workflows
 
 The YAML catalog drives public pages, but saved products and followed companies use
 foreign-key references in PostgreSQL. A successful build or table-only readiness
-response does not prove those new references exist. The five additions need the
+response does not prove those new references exist. These catalog changes need the
 same catalog-reference synchronization gate as any other catalog change.
 
-An authorized production operator must use the **final merged release tree**, not
-this branch's older count if other additions have since merged:
+An authorized production operator must use this **final release candidate** for
+pre-merge additive preparation, then the matching promoted release for
+post-deploy finalization:
 
-1. Review the no-write plan with `npm run sync:catalog-refs` (this candidate expects
-   81 companies and 122 product references, including 34 observability products).
-2. Before promoting application traffic, run the additive prepare transaction with
-   the already-approved target database: `npm run sync:catalog-refs -- --prepare
-   --production --confirm-production-sync=SYNC_CATALOG_REFS`. This checks staged
-   compatibility without deactivating references needed by the previous release.
-3. After promoting the matching application release, finalize the active set with
-   `npm run sync:catalog-refs -- --apply --production
-   --confirm-production-sync=SYNC_CATALOG_REFS`, then require
-   `npm run verify:catalog-refs` to pass against that same database.
-4. Check signed-in save/unsave and follow/unfollow for the new products/companies
-   using an authorized test account before declaring the release complete.
+1. Review the no-write plan with `npm run sync:catalog-refs`; this candidate
+   expects 81 companies and 123 product references (89 AI SRE + 34 observability).
+2. After the candidate passes CI and before merging/promoting it, run the additive
+   prepare transaction against the already-approved production database:
+   `npm run sync:catalog-refs -- --prepare --production
+   --confirm-production-sync=SYNC_CATALOG_REFS`. This stages compatibility without
+   deactivating references needed by the previous release. Preparation proves
+   compatibility only; it does not establish final active-set parity or signed-in
+   workflow behavior. It has not been performed by this checkout.
+3. After merge, the reviewed VM `deploy-main.sh` procedure builds the exact
+   `origin/main` SHA, backs up the database, applies migrations, runs catalog
+   reference `--apply` and `--verify`, and synchronizes published updates before
+   handing the release to `deploy-release.sh` for health-checked traffic cutover.
+   The deploy helper finalizes references before cutover, not afterward.
+4. After promotion, check signed-in save/unsave and follow/unfollow for the new
+   products/companies using an authorized test account before declaring the release
+   complete. This live workflow proof has not been run for this candidate.
 
 These are operator instructions, not permission to write a production database.
 No synchronization or live signed-in workflow was executed for this candidate.
