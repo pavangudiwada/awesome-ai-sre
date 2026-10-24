@@ -61,13 +61,17 @@ test.describe("authenticated release workflows", () => {
       await page.context().clearCookies();
       await authenticatePage(page, AUTH_E2E_USERS.primary.email, "/workspace/saved");
       await expect(page.getByRole("link", { name: "RunWhen" })).toBeVisible();
-      await page.getByRole("button", { name: "Remove", exact: true }).click();
-      await expect(page.getByRole("heading", { name: "No saved products yet" })).toBeVisible();
-      await page.reload();
-      await expect(page.getByRole("heading", { name: "No saved products yet" })).toBeVisible();
 
       await page.context().clearCookies();
       await authenticatePage(page, AUTH_E2E_USERS.secondary.email, "/workspace/saved");
+      await expect(page.getByRole("heading", { name: "No saved products yet" })).toBeVisible();
+
+      await page.context().clearCookies();
+      await authenticatePage(page, AUTH_E2E_USERS.primary.email, "/workspace/saved");
+      await expect(page.getByRole("link", { name: "RunWhen" })).toBeVisible();
+      await page.getByRole("button", { name: "Remove", exact: true }).click();
+      await expect(page.getByRole("heading", { name: "No saved products yet" })).toBeVisible();
+      await page.reload();
       await expect(page.getByRole("heading", { name: "No saved products yet" })).toBeVisible();
     });
 
