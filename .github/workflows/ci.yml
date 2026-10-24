@@ -59,6 +59,9 @@ jobs:
       - name: Test
         run: npm run test
 
+      - name: Test exe release gates
+        run: bash ops/exe/test-release-gates.sh
+
       - name: Build
         run: npm run build
 

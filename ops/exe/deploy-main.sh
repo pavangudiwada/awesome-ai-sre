@@ -5,14 +5,14 @@ umask 077
 # Build and release exactly the current immutable origin/main commit. A separate
 # deployment lock serializes releases; the database lock spans backup, migration,
 # and catalog-reference synchronization before cutover.
-root=/srv/awesome-ai-sre
+root=${2:-/srv/awesome-ai-sre}
 repository=${SOURCE_REPOSITORY:-"$root/repository"}
 releases="$root/releases"
 release_helper="$root/ops/exe/deploy-release.sh"
 state_dir="$root/shared/state"
 runtime_user=exedev
 runtime_group=exedev
-sha=${1:?usage: deploy-main.sh FULL_ORIGIN_MAIN_SHA}
+sha=${1:?usage: deploy-main.sh FULL_ORIGIN_MAIN_SHA [ROOT]}
 
 [[ "$sha" =~ ^[0-9a-f]{40}$ ]] || {
   echo "release SHA must be a full 40-character lowercase commit SHA" >&2
@@ -59,13 +59,11 @@ test -z "$(git -C "$release" status --porcelain)"
 
 (
   cd "$release"
+  "$release/ops/exe/build-release.sh" "$release" "$root/shared/env/app.env"
   set -a
   # shellcheck disable=SC1091
   source "$root/shared/env/app.env"
   set +a
-  npm ci --include=dev
-  ./node_modules/.bin/tsx scripts/verify-release-environment.ts
-  npm run build
   exec 8>"$state_dir/database-operations.lock"
   flock -n 8 || { echo "database operation already running" >&2; exit 1; }
   export AI_SRE_DATABASE_LOCK_HELD=1
@@ -78,16 +76,15 @@ test -z "$(git -C "$release" status --porcelain)"
   flock -u 8
 )
 
-# Builds run as root so deployment secrets remain in the protected shared
-# directory. Hand the immutable release itself to the account that systemd
-# uses before changing the current symlink; no shared files are included.
+# Only the trusted verifier and database operations receive app.env. Hand the
+# immutable release itself to systemd's account before changing the symlink.
 chown -R "$runtime_user:$runtime_group" "$release"
 chmod -R u=rwX,go= "$release"
 chown root:"$runtime_group" "$releases"
 chmod 0750 "$releases"
 sudo -u "$runtime_user" -- sh -c 'cd "$1" && test -r .next/BUILD_ID' sh "$release"
 
-"$release_helper" "$release"
+"$release_helper" "$release" "$root"
 created_release=0
 trap - EXIT
 printf 'deployed_sha=%s release=%s\n' "$sha" "$release"
