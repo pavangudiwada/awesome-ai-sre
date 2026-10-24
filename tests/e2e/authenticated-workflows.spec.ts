@@ -64,15 +64,16 @@ test.describe("authenticated release workflows", () => {
 
       await page.context().clearCookies();
       await authenticatePage(page, AUTH_E2E_USERS.secondary.email, "/workspace/saved");
-      await expect(page.getByRole("heading", { name: "No saved products yet" })).toBeVisible();
+      await expect(page.getByText("No saved products yet", { exact: true })).toBeVisible();
+      await expect(page.getByRole("link", { name: "RunWhen" })).toHaveCount(0);
 
       await page.context().clearCookies();
       await authenticatePage(page, AUTH_E2E_USERS.primary.email, "/workspace/saved");
       await expect(page.getByRole("link", { name: "RunWhen" })).toBeVisible();
       await page.getByRole("button", { name: "Remove", exact: true }).click();
-      await expect(page.getByRole("heading", { name: "No saved products yet" })).toBeVisible();
+      await expect(page.getByText("No saved products yet", { exact: true })).toBeVisible();
       await page.reload();
-      await expect(page.getByRole("heading", { name: "No saved products yet" })).toBeVisible();
+      await expect(page.getByText("No saved products yet", { exact: true })).toBeVisible();
     });
 
     test("uses each captured magic link once and rejects the retired Supabase callback", async ({ page }) => {
