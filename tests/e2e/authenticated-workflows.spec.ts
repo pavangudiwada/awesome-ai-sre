@@ -57,6 +57,18 @@ test.describe("authenticated release workflows", () => {
       await expect(page.getByRole("link", { name: "RunWhen" })).toBeVisible();
       await openRoute(page, "/workspace/following");
       await expect(page.getByRole("link", { name: "RunWhen" })).toBeVisible();
+
+      await page.context().clearCookies();
+      await authenticatePage(page, AUTH_E2E_USERS.primary.email, "/workspace/saved");
+      await expect(page.getByRole("link", { name: "RunWhen" })).toBeVisible();
+      await page.getByRole("button", { name: "Remove", exact: true }).click();
+      await expect(page.getByRole("heading", { name: "No saved products yet" })).toBeVisible();
+      await page.reload();
+      await expect(page.getByRole("heading", { name: "No saved products yet" })).toBeVisible();
+
+      await page.context().clearCookies();
+      await authenticatePage(page, AUTH_E2E_USERS.secondary.email, "/workspace/saved");
+      await expect(page.getByRole("heading", { name: "No saved products yet" })).toBeVisible();
     });
 
     test("uses each captured magic link once and rejects the retired Supabase callback", async ({ page }) => {
@@ -81,6 +93,18 @@ test.describe("authenticated release workflows", () => {
 
       await openRoute(page, "/workspace/notes");
       await expect(page.getByText(/Only the primary practitioner should see/)).toBeVisible();
+
+      await openRoute(page, "/tools/runwhen");
+      await expect(note).toHaveValue("Only the primary practitioner should see this incident-review note.");
+      await note.fill("Updated private note after reopening the product.");
+      await note.blur();
+      await expect(page.getByRole("status")).toHaveText("Saved privately", { timeout: 60_000 });
+      await page.reload();
+      await expect(page.getByLabel("Private note for RunWhen")).toHaveValue(
+        "Updated private note after reopening the product.",
+      );
+      await openRoute(page, "/workspace/notes");
+      await expect(page.getByText("Updated private note after reopening the product.")).toBeVisible();
 
       await page.context().clearCookies();
       await authenticatePage(page, AUTH_E2E_USERS.secondary.email, "/workspace/notes");
@@ -126,6 +150,22 @@ test.describe("authenticated release workflows", () => {
       await page.getByRole("option", { name: "HolmesGPT" }).click();
       await page.getByRole("button", { name: "Add candidate" }).click();
       await expect(page.getByRole("link", { name: "HolmesGPT" })).toBeVisible({ timeout: 60_000 });
+      const candidateHeadings = page.getByRole("table").getByRole("row").first().getByRole("columnheader");
+      await expect(candidateHeadings).toHaveText(["Field", "RunWhen", "HolmesGPT"]);
+      const evaluationPath = new URL(page.url()).pathname;
+      await page.reload();
+      await expect(candidateHeadings).toHaveText(["Field", "RunWhen", "HolmesGPT"]);
+
+      await page.context().clearCookies();
+      await authenticatePage(page, AUTH_E2E_USERS.secondary.email, "/workspace/saved");
+      const privateEvaluationResponse = await page.goto(evaluationPath, { waitUntil: "domcontentloaded" });
+      expect(privateEvaluationResponse?.status()).toBe(404);
+      await expect(page.getByRole("heading", { name: "Release incident pilot" })).toHaveCount(0);
+      await expect(page.getByText("Reduce incident investigation time")).toHaveCount(0);
+
+      await page.context().clearCookies();
+      await authenticatePage(page, AUTH_E2E_USERS.primary.email, evaluationPath);
+      await expect(page.getByRole("heading", { name: "Release incident pilot" })).toBeVisible();
 
       await page.getByLabel("Name").fill("Release incident pilot updated");
       await page.getByLabel("Decision").click();

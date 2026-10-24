@@ -92,6 +92,13 @@ async function main() {
       candidates[1]?.position !== 1
     )
       throw new Error("candidate positions were not serialized");
+    if (await store.removeEvaluationProduct(other, evaluation, productA))
+      throw new Error("cross-user candidate removal succeeded");
+    const ownerCandidate = await sql<
+      { product_slug: string }[]
+    >`select product_slug from public.evaluation_products where evaluation_id = ${evaluation}::uuid and product_slug = ${productA}`;
+    if (ownerCandidate.length !== 1)
+      throw new Error("cross-user candidate removal changed the owner's evaluation");
     await store.upsertNote(owner, productA, "private owner note");
     await store.saveProduct(owner, productA, true);
     await store.followCompany(owner, company, true);
