@@ -1,0 +1,39 @@
+name: OpenSRE.in
+slug: opensre-in
+url: https://opensre.in/
+summary: >-
+  Self-hosted AI SRE project for production incident investigation, with episodic memory, a Neo4j service-topology graph,
+  a web console, and Slack and Microsoft Teams interfaces. It calls Anthropic directly by default; LiteLLM is an optional
+  provider proxy, so self-hosting does not mean model traffic stays local.
+deployment:
+  - on-prem
+opensource: true
+tags:
+  - Incident Response
+  - Observability
+  - AIOps
+dateAdded: '2026-10-24'
+claimed: false
+logo: /logos/opensre-in.png
+features:
+  - Investigates production incidents through its web console and optional Slack and Teams clients
+  - Stores investigation episodes and service-topology knowledge in Neo4j
+  - Provides operational skills for observability, cloud, Kubernetes, and related tools
+github: https://github.com/swapnildahiphale/OpenSRE
+projectIdentity:
+  name: OpenSRE.in project
+  website: https://opensre.in/
+  limitations: >-
+    Public sources identify a project and its creator, not a legal operating company. This identity does not imply
+    commercial ownership or capability verification. The repository says direct Anthropic model calls are the default;
+    self-hosting does not establish that data never leaves the deployment.
+  sources:
+    - label: Official OpenSRE.in website
+      url: https://opensre.in/
+      checkedAt: '2026-10-24'
+    - label: Official OpenSRE repository and project description
+      url: https://github.com/swapnildahiphale/OpenSRE
+      checkedAt: '2026-10-24'
+    - label: Official Apache 2.0 license
+      url: https://github.com/swapnildahiphale/OpenSRE/blob/main/LICENSE
+      checkedAt: '2026-10-24'

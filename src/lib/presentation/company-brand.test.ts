@@ -15,4 +15,16 @@ describe("company branding", () => {
     const company = getCompanyBySlug("mirantis")!;
     expect(companyBrandProduct(company, getProductsByCompanySlug(company.slug))).toBeUndefined();
   });
+
+  it("keeps the company brand when a differently branded product sorts first", () => {
+    const company = getCompanyBySlug("robusta")!;
+    const products = getProductsByCompanySlug(company.slug);
+    expect(products[0].slug).toBe("holmesgpt");
+    expect(companyBrandProduct(company, products)?.slug).toBe("robusta");
+  });
+
+  it("uses initials when only a differently branded product is available", () => {
+    const company = getCompanyBySlug("robusta")!;
+    expect(companyBrandProduct(company, getProductsByCompanySlug(company.slug).filter((product) => product.slug === "holmesgpt"))).toBeUndefined();
+  });
 });

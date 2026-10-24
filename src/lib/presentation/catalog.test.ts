@@ -23,6 +23,12 @@ describe("evidence presentation", () => {
     expect(toProductSummary(product!, new Map()).screenshotAlt).toBe("empirik catalog preview")
   })
 
+  it("labels RunWhen vendor-page screenshots as catalog previews", () => {
+    const product = getProductBySlug("runwhen")
+    expect(product).toBeDefined()
+    expect(toProductSummary(product!, new Map()).screenshotAlt).toBe("RunWhen catalog preview")
+  })
+
   it("turns Wave 1 capabilities into source-linked documented claims", () => {
     const product = getProductBySlug("runwhen")
     const company = getCompanyBySlug("runwhen")

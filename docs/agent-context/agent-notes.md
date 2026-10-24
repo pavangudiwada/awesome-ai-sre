@@ -52,7 +52,7 @@ Catalog and asset warnings are regression-gated by exact identities in `config/v
 - Public catalog content stays file-backed for reviewability and SEO. Plain
   PostgreSQL stores small catalog reference rows used by private workflows and
   analytics foreign keys.
-- Current checked baseline: 88 AI SRE products, 34 observability products, and
+- Current checked baseline: 89 AI SRE products, 34 observability products, and
   81 curated companies. Accepted validation warnings are exact identities in
   `config/validation-warning-baseline.json`; do not replace that guard with a
   count-only allowance.

@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { productBadges, productFacts } from "../presentation/catalog";
 
 import { getCompanyBySlug } from "./companies";
-import { getProductBySlug, getProducts } from "./products";
+import { collectProductSources, getProductBySlug, getProducts, productIdentityMappingIssues } from "./products";
 
 describe("independently sourced external product suggestions", () => {
   it.each(["anyshift", "emisar"])("maps %s once without implying verification", (slug) => {
@@ -37,5 +37,29 @@ describe("independently sourced external product suggestions", () => {
     expect(getCompanyBySlug("emisar")?.sources.some((source) =>
       source.url === "https://github.com/AndrewDryga/emisar/blob/main/LICENSE.md",
     )).toBe(true);
+  });
+
+  it.each(["ingero", "k8sgpt", "kagent", "kubestellar-console", "sre-bench", "opensre-in"])(
+    "retains source-backed project identity for %s without creating a company mapping",
+    (slug) => {
+      const product = getProductBySlug(slug);
+      expect(product?.companySlug).toBeNull();
+      expect(product?.projectIdentity?.name).toBeTruthy();
+      expect(product?.projectIdentity?.limitations).toBeTruthy();
+      expect(product?.projectIdentity?.sources.length).toBeGreaterThan(0);
+      expect(product?.projectIdentity?.sources.every((source) => source.checkedAt === "2026-10-24")).toBe(true);
+    },
+  );
+
+  it("rejects simultaneous project identity and company mapping", () => {
+    const source = collectProductSources().products.find((product) => product.value.slug === "ingero")!;
+    const issues = productIdentityMappingIssues([source], new Map([["ingero", "ingero"]]));
+    expect(issues).toEqual([
+      expect.objectContaining({
+        severity: "error",
+        code: "product_identity_mapping_conflict",
+        recordId: "ingero",
+      }),
+    ]);
   });
 });

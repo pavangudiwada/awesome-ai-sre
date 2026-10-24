@@ -22,3 +22,15 @@ features:
   - Runs as a CLI or in-cluster operator for continuous problem detection
 github: https://github.com/k8sgpt-ai/k8sgpt
 x: https://x.com/K8sGPT
+projectIdentity:
+  name: K8sGPT project
+  website: https://github.com/k8sgpt-ai/k8sgpt
+  limitations: >-
+    The public repository governance and CNCF listing identify the upstream project. They do not establish the legal operator or corporate ownership for this catalog entry.
+  sources:
+    - label: K8sGPT upstream repository governance
+      url: https://github.com/k8sgpt-ai/k8sgpt/blob/main/GOVERNANCE.md
+      checkedAt: '2026-10-24'
+    - label: CNCF K8sGPT project listing
+      url: https://www.cncf.io/projects/k8sgpt/
+      checkedAt: '2026-10-24'

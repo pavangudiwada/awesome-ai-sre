@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { getCompanies } from "@/lib/catalog/companies";
 import reviewedNewsData from "../../../data/reviewed-news.json";
 import { canonicalNewsSource, groupPublicNews, mergePublicNews } from "./feed";
 import { publishedNewsRowSchema, reviewedNewsCollectionSchema, reviewedNewsSchema, type PublishedNewsRow } from "./schema";
@@ -30,6 +31,26 @@ describe("reviewed public news boundary", () => {
     expect(reviewedNewsSchema.safeParse({ ...first, reviewed: false }).success).toBe(false);
     expect(reviewedNewsSchema.safeParse({ ...first, practitioner_id: "private" }).success).toBe(false);
     expect(reviewedNewsCollectionSchema.safeParse([first, first]).success).toBe(false);
+  });
+
+  it("uses only existing catalog identities and updates reviewed news mappings", () => {
+    const companySlugs = new Set(getCompanies().map((company) => company.slug));
+    for (const record of reviewed) {
+      if (record.companySlug) expect(companySlugs.has(record.companySlug)).toBe(true);
+    }
+
+    const mappings = new Map([
+      ["AWS", "aws"],
+      ["Autoheal", "autoheal"],
+      ["Coralogix", "coralogix"],
+      ["Google Cloud", "google-cloud"],
+      ["New Relic", "new-relic"],
+    ]);
+    for (const [company, slug] of mappings) {
+      const records = reviewed.filter((record) => record.company === company);
+      expect(records.length).toBeGreaterThan(0);
+      expect(records.every((record) => record.companySlug === slug)).toBe(true);
+    }
   });
 
   it("does not equate funding announcements with close dates", () => {

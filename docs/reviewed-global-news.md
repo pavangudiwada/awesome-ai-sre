@@ -75,8 +75,13 @@ removed when personalization fails; it returns no viewer or guessed read state,
 shows an explicit degraded notice, and labels the account temporarily unavailable.
 Publication outages are not cached as empty feeds. Followed-company highlighting
 uses explicit reviewed catalog-company slugs when present, then the DB company
-relation or an exact catalog-name fallback. AWS explicitly maps to the catalog
-company Amazon Web Services. Followed items have a visible Followed company badge. Following does not filter the global feed.
+relation or an exact catalog-name fallback. Followed items have a visible
+Followed company badge. Following does not filter the global feed.
+
+News remains independent editorial content unless a reviewed company mapping is
+present. Mapped stories use catalog company identities for follow highlighting;
+unmapped stories retain source-backed display names without creating company
+profiles or foreign-key identities.
 
 ## Checks
 

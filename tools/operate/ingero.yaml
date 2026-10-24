@@ -2,8 +2,9 @@ name: Ingero
 slug: ingero
 url: https://ingero.io
 summary: >-
-  Open-source eBPF agent and MCP server for GPU causal observability, helping LLM SRE agents investigate GPU stalls and
-  map them back to Linux kernel events and CUDA call sites.
+  Historical project documentation describes an open-source eBPF agent and MCP server for GPU causal observability,
+  mapping GPU stalls to Linux kernel events and CUDA call sites. The former repository is unavailable and the current
+  site says "Coming soon"; this entry preserves the documented v0.19.0 scope without asserting current availability.
 deployment:
   - on-prem
 opensource: true
@@ -20,5 +21,19 @@ features:
   - Runs as an eBPF agent for GPU causal observability with no application code changes
   - Exposes an MCP server that LLM SRE agents can drive for investigations
   - Maps GPU stalls to Linux kernel events and exact CUDA call sites
-github: https://github.com/ingero-io/ingero
 x: https://x.com/ingero_io
+projectIdentity:
+  name: Ingero project
+  website: https://ingero.io
+  limitations: >-
+    The live site and privacy policy refer to Ingero as a project; the former source repository is unavailable. The scope and Apache license recorded here are historical facts from the preserved v0.19.0 package README, not confirmation of current availability or maintenance. This does not identify a current legal operator.
+  sources:
+    - label: Official Ingero website
+      url: https://ingero.io/
+      checkedAt: '2026-10-24'
+    - label: Official Ingero privacy policy
+      url: https://ingero.io/privacy-policy
+      checkedAt: '2026-10-24'
+    - label: Preserved upstream-authored README for v0.19.0
+      url: https://pkg.go.dev/github.com/ingero-io/ingero@v0.19.0
+      checkedAt: '2026-10-24'

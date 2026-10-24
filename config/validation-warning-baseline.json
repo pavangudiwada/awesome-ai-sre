@@ -1,11 +1,9 @@
 {
   "version": 1,
   "catalog": [
-    "product_company_unmapped|tools/operate/ingero.yaml|ingero",
-    "product_company_unmapped|tools/operate/k8sgpt.yaml|k8sgpt",
-    "product_company_unmapped|tools/operate/kagent.yaml|kagent",
-    "product_company_unmapped|tools/operate/kubestellar-console.yaml|kubestellar-console",
-    "product_company_unmapped|tools/operate/sre-bench.yaml|sre-bench"
+    "missing_asset_reference|tools/operate/opensre-in.yaml|opensre-in:screenshot"
   ],
-  "assets": []
+  "assets": [
+    "missing_screenshot_reference|ai-sre|opensre-in|screenshot|none"
+  ]
 }

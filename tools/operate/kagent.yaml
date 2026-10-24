@@ -21,3 +21,15 @@ features:
   - Ships MCP tooling for Kubernetes, Istio, Helm, Argo, Prometheus, Grafana, and more
   - Supports OpenTelemetry tracing for agent and tool observability
 github: https://github.com/kagent-dev/kagent
+projectIdentity:
+  name: Kagent open-source project
+  website: https://kagent.dev
+  limitations: >-
+    This entry covers the CNCF Kagent project. Kagent Enterprise at kagent.dev/enterprise is a separate Solo.io product and is outside this product record; the project identity does not assert a legal operator.
+  sources:
+    - label: CNCF Kagent project listing
+      url: https://www.cncf.io/projects/kagent/
+      checkedAt: '2026-10-24'
+    - label: Kagent Enterprise product distinction
+      url: https://kagent.dev/enterprise
+      checkedAt: '2026-10-24'

@@ -3,6 +3,33 @@
   "generatedAt": null,
   "items": [
     {
+      "id": "cff72f81a8c58ffbbafddba3f69f7f70ef3ffe492e6a89be152e7e1cd8ae654f",
+      "productSlug": "holmesgpt",
+      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
+      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.45.0",
+      "title": "0.45.0",
+      "summary": "What's Changed ROB-1291 Multi-tenant Prometheus toolset (Mimir X-Scope-OrgID routed by a Kubernetes label) by @RoiGlinik in #2555 ROB-1525 Reuse the server's cached tool executor in /api/info and the OAuth callback by @RoiGlinik in #2592 Keep an executor rebuilt while a toolset refresh runs by @RoiGlinik in #2591 Check toolsets once in the refresh cycle that builds the executor by @RoiGlinik in #2595 ROB-1365 Stop regenerating the remediation MCP auth token on every render by @naomi-robusta in #2537 Support internal request kinds (oauth_callback, holmes_logs) in tool-call worker by @arikalon1 in #2520 Full Changelog : 0.44.0...0.45.0",
+      "publishedAt": "2026-10-15T08:20:25.000Z"
+    },
+    {
+      "id": "2a973cffdd69098b2484ad4ea1e70f7713b20b152f762855720f788aa952a98a",
+      "productSlug": "holmesgpt",
+      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
+      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.45.0-alpha",
+      "title": "0.45.0-alpha",
+      "summary": "What's Changed ROB-1291 Multi-tenant Prometheus toolset (Mimir X-Scope-OrgID routed by a Kubernetes label) by @RoiGlinik in #2555 ROB-1525 Reuse the server's cached tool executor in /api/info and the OAuth callback by @RoiGlinik in #2592 Keep an executor rebuilt while a toolset refresh runs by @RoiGlinik in #2591 Check toolsets once in the refresh cycle that builds the executor by @RoiGlinik in #2595 ROB-1365 Stop regenerating the remediation MCP auth token on every render by @naomi-robusta in #2537 Support internal request kinds (oauth_callback, holmes_logs) in tool-call worker by @arikalon1 in #2520 Full Changelog : 0.44.0...0.45.0",
+      "publishedAt": "2026-10-15T07:51:03.000Z"
+    },
+    {
+      "id": "75e3ef7176209b2c155dc6db84f33c16517a25c306690a4b0379369390a000af",
+      "productSlug": "holmesgpt",
+      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
+      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.44.0",
+      "title": "0.44.0",
+      "summary": "What's Changed ROB-1237 Price Robusta models whose upstream name isn't provider/id by @naomi-robusta in #2546 ROB-1369 Default the auto executor to one conversation at a time by @naomi-robusta in #2566 ROB-1507 - GPT-6.1 Handle multi-choice LLM responses by merging choices by @Avi-Robusta in #2556 ROB-801 Refresh litellm cost map when a model lookup misses by @Avi-Robusta in #2553 ROB-1291 Per-user Dex auth for the Kubernetes MCP addon, with private CA support by @RoiGlinik in #2554 Weekly Benchmark Results 2026-10-10_21-37 by @github-actions[bot] in #2580 ROB-1519 Summarize oversized conversation history in chunks by @naomi-robusta in #2538 Add Ezra Yellin ( @ezra-robusta ) to MAINTAINERS.md by @arikalon1 in #2518 ROB-1574 - Patch Critical/High CVEs in the holmes image by @Avi-Robusta in #2584 ROB-1564: Add namespace/label/field selectors to kubernetes query tools by @RoiGlinik in #2585 ROB-1580 Retry expired-JWT PostgREST calls with the new credentials by @naomi-robusta in #2583 Full Changelog : 0.43.0...0.44.0",
+      "publishedAt": "2026-10-14T10:25:42.000Z"
+    },
+    {
       "id": "03889e6200ca28d205d737a615a75995d0709c3be0594d27e67355d6a7ad67e2",
       "productSlug": "holmesgpt",
       "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
@@ -66,31 +93,13 @@
       "publishedAt": "2026-09-06T08:53:05.000Z"
     },
     {
-      "id": "e9fdd2beff64e4da2ad424eb8bee054556639bc28aa7adbfbb273c46aa19de62",
-      "productSlug": "holmesgpt",
-      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
-      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.40.0",
-      "title": "0.40.0",
-      "summary": "What's Changed ROB-878 remove stale Sonnet 4.0/4.5 model recommendations from docs by @Sheeproid in #2378 Remove experimental Azure SQL toolset by @moshemorad in #2377 ROB-893 Fix command injection vulnerability in Kubernetes toolset by @naomi-robusta in #2382 Remove MariaDB MCP integration, consolidate to native MariaDB datasource by @moshemorad in #2389 Fix command injection in slab/kubevela/inspektor_gadget/aks toolsets (ROB-893 follow-up) by @naomi-robusta in #2386 Fix SSRF in internet/fetch_webpage and connectivity_check toolsets (ROB-896) by @naomi-robusta in #2385 Harden kubectl-run toolset: run commands without a host shell by @Sheeproid in #2391 Add LLM eval for AKS --query command injection by @naomi-robusta in #2393 bash toolset: validate command arguments & redirections, not just the prefix by @Sheeproid in #2388 Sign bash session-approval prefixes to prevent forgery attacks by @moshemorad in #2394 Update GitLab MCP to v2.1.46 and use whoami health check by @moshemorad in #2398 ROB-424 ROB-425 ROB-665: fix compaction on Bedrock Converse gateways (tools-attached summarization, user-role summary) by @moshemorad in #2214 Improve shell injection security in GitHub Actions workflows by @moshemorad in #2399 Fix SSRF via unrestricted redirect following in the http toolset (ROB-915) by @naomi-robusta in #2392 ROB-857 Surface skill titles for UI-added skills in fetch_skill results by @avshyz in #2380 ROB-1177 Only inject __robusta_user_approved into relay-routed remote MCP calls by @Avi-Robusta in #2408 Fix NetworkPolicy selectors to match Holmes pod labels by @moshemorad in #2410 Require an allowlist before tcp_check probes private networks (ROB-1114) by @naomi-robusta in #2402 Add diagnostic-pod target policy to prevent SSRF/exfiltration (ROB-910) by @naomi-robusta in #2412 ROB-900: wire kubernetes-remediation MCP bearer-token auth in Helm chart by @arikalon1 in #2396 ROB-831 Add personal skills and a per-account name-collision hierarchy by @alonelish in #2350 ",
-      "publishedAt": "2026-08-26T07:30:35.000Z"
-    },
-    {
-      "id": "6efd275e0a0272105cb16eef4841516942e10f647e98525b3d690ce66f4ac1c4",
-      "productSlug": "holmesgpt",
-      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
-      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.40.0-alpha",
-      "title": "0.40.0-alpha",
-      "summary": "What's Changed ROB-878 remove stale Sonnet 4.0/4.5 model recommendations from docs by @Sheeproid in #2378 Remove experimental Azure SQL toolset by @moshemorad in #2377 ROB-893 Fix command injection vulnerability in Kubernetes toolset by @naomi-robusta in #2382 Remove MariaDB MCP integration, consolidate to native MariaDB datasource by @moshemorad in #2389 Fix command injection in slab/kubevela/inspektor_gadget/aks toolsets (ROB-893 follow-up) by @naomi-robusta in #2386 Fix SSRF in internet/fetch_webpage and connectivity_check toolsets (ROB-896) by @naomi-robusta in #2385 Harden kubectl-run toolset: run commands without a host shell by @Sheeproid in #2391 Add LLM eval for AKS --query command injection by @naomi-robusta in #2393 bash toolset: validate command arguments & redirections, not just the prefix by @Sheeproid in #2388 Sign bash session-approval prefixes to prevent forgery attacks by @moshemorad in #2394 Update GitLab MCP to v2.1.46 and use whoami health check by @moshemorad in #2398 ROB-424 ROB-425 ROB-665: fix compaction on Bedrock Converse gateways (tools-attached summarization, user-role summary) by @moshemorad in #2214 Improve shell injection security in GitHub Actions workflows by @moshemorad in #2399 Fix SSRF via unrestricted redirect following in the http toolset (ROB-915) by @naomi-robusta in #2392 ROB-857 Surface skill titles for UI-added skills in fetch_skill results by @avshyz in #2380 ROB-1177 Only inject __robusta_user_approved into relay-routed remote MCP calls by @Avi-Robusta in #2408 Fix NetworkPolicy selectors to match Holmes pod labels by @moshemorad in #2410 Require an allowlist before tcp_check probes private networks (ROB-1114) by @naomi-robusta in #2402 Add diagnostic-pod target policy to prevent SSRF/exfiltration (ROB-910) by @naomi-robusta in #2412 ROB-900: wire kubernetes-remediation MCP bearer-token auth in Helm chart by @arikalon1 in #2396 ROB-831 Add personal skills and a per-account name-collision hierarchy by @alonelish in #2350 ",
-      "publishedAt": "2026-08-25T14:25:58.000Z"
-    },
-    {
-      "id": "eb5c2c0c80a5dee4789e7ea479337a8c80baeb25314651f9fdff567f48805c1b",
-      "productSlug": "holmesgpt",
-      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
-      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.39.1-alpha",
-      "title": "0.39.1-alpha",
-      "summary": "What's Changed ROB-878 remove stale Sonnet 4.0/4.5 model recommendations from docs by @Sheeproid in #2378 Remove experimental Azure SQL toolset by @moshemorad in #2377 ROB-893 Fix command injection vulnerability in Kubernetes toolset by @naomi-robusta in #2382 Remove MariaDB MCP integration, consolidate to native MariaDB datasource by @moshemorad in #2389 Fix command injection in slab/kubevela/inspektor_gadget/aks toolsets (ROB-893 follow-up) by @naomi-robusta in #2386 Fix SSRF in internet/fetch_webpage and connectivity_check toolsets (ROB-896) by @naomi-robusta in #2385 Harden kubectl-run toolset: run commands without a host shell by @Sheeproid in #2391 Add LLM eval for AKS --query command injection by @naomi-robusta in #2393 bash toolset: validate command arguments & redirections, not just the prefix by @Sheeproid in #2388 Sign bash session-approval prefixes to prevent forgery attacks by @moshemorad in #2394 Update GitLab MCP to v2.1.46 and use whoami health check by @moshemorad in #2398 ROB-424 ROB-425 ROB-665: fix compaction on Bedrock Converse gateways (tools-attached summarization, user-role summary) by @moshemorad in #2214 Improve shell injection security in GitHub Actions workflows by @moshemorad in #2399 Full Changelog : 0.39.0...0.39.1-alpha",
-      "publishedAt": "2026-08-16T12:43:41.000Z"
+      "id": "a507090cafc6ae5a311a53e843f7b31cd7b751d15afeca125cb223ed53272160",
+      "productSlug": "k8sgpt",
+      "sourceFeedUrl": "https://github.com/k8sgpt-ai/k8sgpt/releases.atom",
+      "sourceUrl": "https://github.com/k8sgpt-ai/k8sgpt/releases/tag/v0.4.41",
+      "title": "v0.4.41",
+      "summary": "0.4.41 (2026-10-20) Features add Claude 4.5 and 5.x models for Amazon Bedrock ( #1819 ) ( a49636c ) enable to source customHeaders from the config file ( #1339 ) ( 37b87f1 ) prompt to auto-pull missing ollama models ( #1766 ) ( e977dc5 ) Bug Fixes accept an empty storageClassName in StatefulSet claim templates ( #1830 ) ( 642c3a4 ) do not report an unsupported KEDA scaleTargetRef as missing ( #1831 ) ( 7fd1b40 ) harden completion calls against empty responses and hangs ( #1731 ) ( dca17b9 ) honor matchExpressions in NetworkPolicy pod selectors ( #1818 ) ( e8a8a1d ) honor the namespace filter in the Gateway API analyzers ( #1826 ) ( 33935bf ) keep the known parent when the top owner has an unsupported kind ( #1833 ) ( bf4432b ) keep webhook findings when configurations share a webhook name ( #1827 ) ( 912a7cb ) match HTTPRoute namespace selectors against the namespace ( #1825 ) ( 9a8398e ) recognize node-problem-detector node conditions ( #1821 ) ( 7a22730 ) report failed results in Kyverno ClusterPolicyReports ( #1832 ) ( 70fdcdc ) Other deps: update goreleaser/goreleaser-action digest to a4f02ab ( #1829 ) ( d9a9352 ) deps: update module github.com/containerd/containerd to v1.7.36 [security] ( #1834 ) ( bd42af7 ) deps: update module github.com/moby/spdystream to v0.5.1 [security] ( #1835 ) ( 4c58db4 ) deps: update module go.opentelemetry.io/otel/sdk to v1.45.0 [security] ( #1836 ) ( 67b7f13 ) Refactoring look up the healthy status of each node condition type ( #1838 ) ( 130cc09 )",
+      "publishedAt": "2026-10-21T10:16:28.000Z"
     },
     {
       "id": "a75c7caf75f19792677aa21e6989f6a462e50cffc53ca1bbd384023868012f52",
@@ -174,13 +183,49 @@
       "publishedAt": "2026-04-22T07:04:13.000Z"
     },
     {
-      "id": "fe7763787bfbdff77ae3662591040299e6b76395851787d5c764c3c355a9020b",
-      "productSlug": "k8sgpt",
-      "sourceFeedUrl": "https://github.com/k8sgpt-ai/k8sgpt/releases.atom",
-      "sourceUrl": "https://github.com/k8sgpt-ai/k8sgpt/releases/tag/v0.4.31",
-      "title": "v0.4.31",
-      "summary": "0.4.31 (2026-02-26) Other updated readme ( #1620 ) ( fd5bba6 ) Docs align Go version with go.mod toolchain ( #1609 ) ( 19a172e )",
-      "publishedAt": "2026-03-24T14:40:03.000Z"
+      "id": "4d6f09cdbb98e4f372844957a4a9cfd2145f97872036c779779b9e7b6d7b1645",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.4",
+      "title": "v0.10.4",
+      "summary": "This is an incomplete release. All necessary runtime artifacts are available, minus CLI. We plan to do a followup release. What's Changed Bug Fixes fix(controller): accept a RemoteMCPServer labeled kagent.dev/discovery=disabled without listing its tools (backport to release/v0.10.x) by @teemow in #2753 fix(go): require patched certificate verification in v0.10.x by @jjamroga in #3310 Full Changelog : v0.10.3...v0.10.4",
+      "publishedAt": "2026-10-21T23:04:30.000Z"
+    },
+    {
+      "id": "9d4b6100303348a607940170a12f29533a0d92f14f075198eadb0952faab3dfd",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha17",
+      "title": "v1.0.0-alpha17",
+      "summary": "What's Changed Features feat: support gateway token passthrough for embedded controllers by @codyhartsook in #3263 feat(auth): authenticate Substrate actor calls to the control plane by @EItanya in #3282 Bug Fixes fix(adk): enable default tools and simplify sandbox execution by @supreme-gg-gg in #3283 fix(cli): uninstall everything kagent install creates by @iplay88keys in #3285 fix(auth): enforce scoped authorization for Kubernetes-backed resources by @supreme-gg-gg in #3281 fix(substrate): check existing atespaces before creating them by @spichen in #3260 fix(docker): give the Go runtime user a writable HOME by @teemow in #3161 fix(deps): bump Go to 1.27.3 for security fixes by @EItanya in #3304 Testing test(core): cover token threshold compaction through harnesses by @adalundhe in #3291 Other Changes ci: run migration immutability check on every PR so it can be required by @iplay88keys in #3293 Full Changelog : v1.0.0-alpha16...v1.0.0-alpha17",
+      "publishedAt": "2026-10-21T17:07:00.000Z"
+    },
+    {
+      "id": "b2638217bc699f5b6b95a4d79bc79f5e76678f030c5b7cc14716c3d9c28c03bb",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha16",
+      "title": "v1.0.0-alpha16",
+      "summary": "What's Changed Features feat: Send PDF and Office files to Responses API models end-to-end by @danielle-mustillo in #3200 Other Changes chore(deps): update anthropic[vertex] requirement from >=1.13.0 to >=1.15.0 in /python by @dependabot [bot] in #3272 chore(deps): bump astral-sh/setup-uv from 7.6.0 to 10.3.0 by @dependabot [bot] in #3266 chore(deps): update google-adk[a2a] requirement from =2.11.0 to >=2.12.0, @dependabot [bot] in #3273 chore(deps): bump the go-minor-patch group across 1 directory with 6 updates by @dependabot [bot] in #3265 chore(deps): bump the npm-minor-patch group across 1 directory with 10 updates by @dependabot [bot] in #3280 Full Changelog : v1.0.0-alpha15...v1.0.0-alpha16",
+      "publishedAt": "2026-10-19T19:11:30.000Z"
+    },
+    {
+      "id": "fd5ba018e5872e5a3144abe34cc964e942823d6e69f98aeffb60eddc8a5d6903",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha15",
+      "title": "v1.0.0-alpha15",
+      "summary": "What's Changed Features feat(a2a): report task token usage through a versioned A2A extension by @QuentinBisson in #2461 feat: add reusable egress policies for agents and sandboxes by @EItanya in #3177 feat: add token passthrough for remote MCP servers by @EItanya in #3257 Bug Fixes fix(ui): prevent chat rail flicker when switching conversations by @vedantlavale in #3218 fix(ui): preserve streamed tool results by @pood1e in #3098 fix(checkpoint): allow failed checkpoint cleanup by @spichen in #3199 fix(ui): remediate CVEs in UI dependencies and base image by @cjlg-soloio in #3252 Testing test(e2e): pass mock LLM handlers to startModelRecorder by @danielle-mustillo in #3264 Other Changes chore(ci): pin GitHub Actions to commit SHAs by @timflannagan in #3250 chore: register Go tool dependencies by @timflannagan in #3233 chore(deps): bump protovalidate from 1.2.0 to 2.0.0 in /python by @dependabot [bot] in #3274 chore(deps): update langsmith[otel] requirement from >=0.14.7 to >=0.14.11 in /python by @dependabot [bot] in #3271 chore(deps): update google-adk[a2a,db] requirement from =2.11.0 to >=2.12.0, @dependabot [bot] in #3270 chore(deps): bump the python-minor-patch group in /python with 5 updates by @dependabot [bot] in #3269 chore(deps): bump google-auth from 2.61.0 to 2.62.0 in /python in the python-google-ai group across 1 directory by @dependabot [bot] in #3277 chore(deps): update Substrate to v0.6.0-alpha3 by @EItanya in #3226 New Contributors @vedantlavale made their first contribution in #3218 @spichen made their first contribution in #3199 Full Changelog : v1.0.0-alpha14...v1.0.0-alpha15",
+      "publishedAt": "2026-10-19T14:35:18.000Z"
+    },
+    {
+      "id": "97ddf29c7c5bcbcf537d4eade11b222cac454edd9209c41382e11a4ff0ff2990",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha14",
+      "title": "v1.0.0-alpha14",
+      "summary": "What's Changed Features feat: default built-in Harness images from release charts by @EItanya in #3151 feat(harness): migrate runtime suspension to DATA snapshots by @supreme-gg-gg in #3165 feat(auth): tell UpstreamAuth which A2A method it is authorizing by @codyhartsook in #3178 feat(adk): allow disabling the built-in bash tool by @supreme-gg-gg in #3222 feat(cli): let an embedding binary authenticate the CLI and extend its db tracks by @iplay88keys in #3209 feat: mount OCI skills through Substrate image volumes by @EItanya in #3203 Bug Fixes fix(ui): serve the mock playwright suite from a production build, not the dev server by @Charlesthebird in #3163 fix: make session share tokens read-only by @EItanya in #3189 fix(sts): key the ADK token cache by acting subject, not session alone (Python) by @QuentinBisson in #2460 fix(a2a): return not found for expired and missing sessions by @supreme-gg-gg in #3231 Documentation docs: Document required tooling by @timflannagan in #3186 Other Changes chore(deps): bump helm/kind-action from 1.15.0 to 1.15.1 in the actions group by @dependabot [bot] in #3170 refactor: Remove orphaned Go APIs and helpers by @timflannagan in #3168 lint: Replace goimports with gci by @timflannagan in #3185 ci: Run required checks for every PR by @timflannagan in #3187 Switch to using separate users/pools for postgres connections by @iplay88keys in #3160 refactor(adk): generate runtime configuration from protobuf by @EItanya in #3162 chore(deps): update anthropic[vertex] requirement from >=1.11.0 to >=1.13.0 in /python by @dependabot [bot] in #3176 api: Use declarative union validation markers by @timflannagan in #3204 cleanup: Generate CRDs in Helm chart by @timflannagan in #3206 refactor: simplify config parsing and compiler inputs by @EItanya in #3179 refactor: group protobuf contracts into stable v1 packages by @EItanya in #3184 refactor: coalesce push notifications and wake senders after settlement by @supreme-gg-gg in #3207 chore: update CODEO",
+      "publishedAt": "2026-10-16T14:17:08.000Z"
     },
     {
       "id": "bb93e03ac1c77e4f93df1d8786123442d5c87b35ca307dd08362116ff0d6d133",
@@ -226,51 +271,6 @@
       "title": "v1.0.0-alpha9",
       "summary": "What's Changed Features feat: add runtime revision GC backlog and failure metrics by @gargsajal9 in #2808 feat: attach text files and images to chat messages by @Charlesthebird in #2936 Bug Fixes fix(adk): guard nil tool-call args and coerce to empty object in OpenAI-compatible adapters by @alexdarbyshire in #2852 fix(ui): show agent template create errors beside the Create button by @Charlesthebird in #3075 fix(ui): keep a new chat's title in the chat list after leaving it by @mmadhura1014 in #3001 fix(adk): free runtime send slot before settling the task by @Charlesthebird in #3079 fix(harness): pin Claude Code 2.1.285 by @thomasbarrett in #3076 Documentation docs: narrow agent contribution guidance by @timflannagan in #3081 Other Changes chore(deps): bump google-genai from 2.25.0 to 2.27.0 in /python in the python-google-ai group across 1 directory by @dependabot [bot] in #3063 chore(deps): bump the python-minor-patch group in /python with 4 updates by @dependabot [bot] in #3056 chore(deps): bump the npm-minor-patch group in /ui with 6 updates by @dependabot [bot] in #3053 chore(deps): update langsmith[otel] requirement from >=0.14.0 to >=0.14.3 in /python by @dependabot [bot] in #3060 New Contributors @gargsajal9 made their first contribution in #2808 @alexdarbyshire made their first contribution in #2852 @mmadhura1014 made their first contribution in #3001 @thomasbarrett made their first contribution in #3076 Full Changelog : v1.0.0-alpha8...v1.0.0-alpha9",
       "publishedAt": "2026-10-07T18:31:30.000Z"
-    },
-    {
-      "id": "1dd4009834f7546561188e8ca04ff86237801bda13c9e35050925a2547918129",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha8",
-      "title": "v1.0.0-alpha8",
-      "summary": "What's Changed Features feat(session): let a session share expire by @QuentinBisson in #2987 feat: configure database polling and skip unchanged MCP writes by @EItanya in #3038 feat(models): add Claude Fable 5.1, Opus 5/5.5 and Sonnet 5.5 to discovery list by @yashrajshuklaaa in #3041 feat(models): add prompt caching for the Anthropic provider (promptCaching, cacheTTL) by @teemow in #2788 Bug Fixes fix(controller): honor kagent.dev/discovery=disabled for RemoteMCPServer and MCPServer tool discovery by @teemow in #2752 fix(ui): call the per-chat unit a session on the agent concepts card by @Charlesthebird in #3034 fix: propagate helm postgres pool variables to db connection by @jcopi in #3032 Documentation docs: add local AGENTS.md guides by @EItanya in #3035 Other Changes K: pin the UI base image digest and apk major versions by @Charlesthebird in #2951 chore(deps): update google-adk[a2a] requirement from =2.9.2 to >=2.11.0, @dependabot [bot] in #3059 chore(deps): update anthropic[vertex] requirement from >=1.8.0 to >=1.11.0 in /python by @dependabot [bot] in #3057 chore(deps): upgrade Substrate to v0.4.0-alpha1 by @EItanya in #3064 New Contributors @jcopi made their first contribution in #3032 Full Changelog : v1.0.0-alpha7...v1.0.0-alpha8",
-      "publishedAt": "2026-10-05T14:41:02.000Z"
-    },
-    {
-      "id": "b4bf128920462faad8a530cc18cd9e0cf2a8abd7b69129c90da2027d7ad9e53a",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.3",
-      "title": "v0.10.3",
-      "summary": "What's Changed Bug Fixes fix(controller): derive full runtime image from the tag name by @rtemperini in #2640 Other Changes Bump kagent-tools to 0.3.0 (backport to release/v0.10.x) by @inFocus7 in #2931 New Contributors @rtemperini made their first contribution in #2640 Full Changelog : v0.10.2...v0.10.3",
-      "publishedAt": "2026-10-02T18:35:18.000Z"
-    },
-    {
-      "id": "211034c90f75f52074772ad6ba459e05b19cb9ca0186c4c8e2ee12c97633df51",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha7",
-      "title": "v1.0.0-alpha7",
-      "summary": "What's Changed Features feat(helm): make the controller ServiceAccount optional by @TarasLykhenko in #3022 Bug Fixes fix: allow disabling kagent model streaming by @EItanya in #3028 fix(translator): accept Mistral ModelConfigs in v1alpha3 by @moezdil in #3008 Other Changes chore: bump retired gemini 2.5 default models to 3.5 by @kaizakin in #3027 New Contributors @TarasLykhenko made their first contribution in #3022 Full Changelog : v1.0.0-alpha6...v1.0.0-alpha7",
-      "publishedAt": "2026-10-01T15:25:55.000Z"
-    },
-    {
-      "id": "648e8b18e5265adf98e07f4e0c84618d451a4c6162134b543f641bdd2faad81f",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha6",
-      "title": "v1.0.0-alpha6",
-      "summary": "What's Changed Bug Fixes fix: expire idle sessions through the delete workflow by @EItanya in #2970 fix(adk): keep Ollama tool call argument order stable across requests by @garlicKim21 in #2988 fix(controller): simplify agent preparation and retry handling by @EItanya in #2994 fix(adk): pass MCP embedded resource text to OpenAI-compatible models by @acherifi in #2992 fix(e2e): wait for controller health and parallelize independent tests by @EItanya in #2993 fix: repair image scans and use uv-managed Python by @EItanya in #2995 fix(ui): report harness delete failures by @pai in #2964 fix: keep Go ADK SQLite connections out of VM snapshots by @EItanya in #3004 fix(api): defer unsupported configuration fields by @EItanya in #3007 Documentation docs: update README for the v1 architecture by @EItanya in #2996 Other Changes ci: build release artifacts before the final release job by @EItanya in #2972 chore(deps): bump alpine from 3.22 to 3.24 in /go in the docker-minor-patch group across 1 directory by @dependabot [bot] in #2973 chore(deps): bump the go-minor-patch group in /go with 15 updates by @dependabot [bot] in #2976 chore(deps): update langsmith[otel] requirement from >=0.10.10 to >=0.14.0 in /python by @dependabot [bot] in #2978 chore(deps): update setuptools requirement from >=83.0.0 to >=84.0.0 in /python by @dependabot [bot] in #2979 chore(deps): update google-adk[a2a,db] requirement from =2.6.2 to >=2.9.2, @dependabot [bot] in #2980 chore(deps): bump the npm-minor-patch group in /ui with 7 updates by @dependabot [bot] in #2974 chore(deps): update google-adk[a2a] requirement from =2.6.2 to >=2.9.2, @dependabot [bot] in #2983 chore(deps): bump mcp from 1.29.0 to 2.2.0 in /python by @dependabot [bot] in #2984 chore(deps): update anthropic[vertex] requirement from >=0.120.0 to >=1.8.0 in /python by @dependabot [bot] in #2985 chore(deps): bump the python-google-ai group in /python with 2 updates by @dependabot [bot] in #2975 chore(deps): bump the python-minor-patc",
-      "publishedAt": "2026-09-30T22:57:08.000Z"
-    },
-    {
-      "id": "c65e3f1f4ff4a1f0768720fb1674dce0fdf95f225ed0e184d2d7c641242539ab",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha5",
-      "title": "v1.0.0-alpha5",
-      "summary": "What's Changed Features feat(ui): let app extensions replace chat part renderers by @Charlesthebird in #2945 feat: add explicit Agent definitions and Sessions by @EItanya in #2952 feat(api): add SandboxTemplate and Sandbox contracts by @EItanya in #2959 feat(sandbox): implement standalone sandbox runtimes by @EItanya in #2962 feat: add sandbox workflows and group agent commands by @EItanya in #2966 feat(ui): create, edit and delete explicit Agents by @Charlesthebird in #2953 Bug Fixes fix: flush buffered OTEL logs by @yashrajshuklaaa in #2772 fix(byo): centralize ADK runtime configuration by @EItanya in #2965 fix(kagent-adk): compact MCP App tool results only when the result carries a UI resource by @AmirF194 in #2579 fix: wire Helm authentication settings into controller startup by @EItanya in #2971 Documentation docs: add API design guidelines and refresh OIDC architecture by @EItanya in #2958 refactor: standardize environment settings and generate their reference by @EItanya in #2967 Other Changes chore: keep planning documents in gitignored .plans by @EItanya in #2955 chore: update Substrate to v0.3.0-alpha1 by @EItanya in #2963 ci: overlap slow E2E harness scenarios by @EItanya in #2969 New Contributors @AmirF194 made their first contribution in #2579 Full Changelog : v1.0.0-alpha4...v1.0.0-alpha5",
-      "publishedAt": "2026-09-27T18:23:40.000Z"
     }
   ]
 }

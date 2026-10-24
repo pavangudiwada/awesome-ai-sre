@@ -20,12 +20,13 @@ describe("catalog loaders", () => {
     const holmes = getProductBySlug("holmesgpt");
     const unmappedProduct = getProductBySlug("ingero");
 
-    expect(products).toHaveLength(88);
+    expect(products).toHaveLength(89);
     expect(holmes?.companySlug).toBe("robusta");
     expect(holmes?.editorialState).toBe("unreviewed");
     expect(holmes?.lastReviewed).toBeNull();
     expect(holmes).not.toHaveProperty("claimed");
     expect(unmappedProduct?.companySlug).toBeNull();
+    expect(getProductBySlug("opensre-in")?.projectIdentity?.name).toBe("OpenSRE.in project");
   });
 
   it("keeps sourced vendor mappings unique and separate from capability verification", () => {
@@ -40,7 +41,7 @@ describe("catalog loaders", () => {
     expect(getProductBySlug("observe-inc")?.companySlug).toBe("snowflake");
     expect(getProductBySlug("vigiles")?.companySlug).toBe("vigiles");
     expect(getProducts().filter((product) => product.companySlug === null).map((product) => product.slug).sort()).toEqual([
-      "ingero", "k8sgpt", "kagent", "kubestellar-console", "sre-bench",
+      "ingero", "k8sgpt", "kagent", "kubestellar-console", "opensre-in", "sre-bench",
     ]);
     for (const slug of ["alertd", "aurora", "deductive-ai", "phoebe", "runllm", "stakpak"]) {
       const product = getProductBySlug(slug);
