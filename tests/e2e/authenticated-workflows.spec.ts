@@ -163,8 +163,8 @@ test.describe("authenticated release workflows", () => {
 
       await page.context().clearCookies();
       await authenticatePage(page, AUTH_E2E_USERS.secondary.email, "/workspace/saved");
-      const privateEvaluationResponse = await page.goto(evaluationPath, { waitUntil: "domcontentloaded" });
-      expect(privateEvaluationResponse?.status()).toBe(404);
+      await page.goto(evaluationPath, { waitUntil: "domcontentloaded" });
+      await expect(page.getByText("Page not found", { exact: true })).toBeVisible();
       await expect(page.getByRole("heading", { name: "Release incident pilot" })).toHaveCount(0);
       await expect(page.getByText("Reduce incident investigation time")).toHaveCount(0);
 
