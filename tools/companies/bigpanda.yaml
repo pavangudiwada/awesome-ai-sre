@@ -1,0 +1,10 @@
+name: BigPanda
+slug: bigpanda
+website: https://www.bigpanda.io
+productSlugs:
+  - bigpanda
+mappingStatus: confirmed
+sources:
+  - label: Official vendor identity source
+    url: https://docs.bigpanda.io/
+    checkedAt: '2026-09-30'

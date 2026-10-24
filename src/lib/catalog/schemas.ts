@@ -44,6 +44,16 @@ export const legacyProductSourceSchema = z
     logo: assetPathSchema.optional(),
     screenshot_last_fetched: dateSchema.optional(),
     features: nonEmptyStringArray.max(3).optional(),
+    projectIdentity: z.object({
+      name: z.string().trim().min(1),
+      website: httpUrlSchema,
+      limitations: z.string().trim().min(1),
+      sources: z.array(z.object({
+        label: z.string().trim().min(1),
+        url: httpUrlSchema,
+        checkedAt: dateSchema,
+      }).strict()).min(1),
+    }).strict().optional(),
     linkedin: httpUrlSchema.optional(),
     github: httpUrlSchema.optional(),
     x: httpUrlSchema.optional(),

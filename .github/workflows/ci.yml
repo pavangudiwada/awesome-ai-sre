@@ -59,6 +59,9 @@ jobs:
       - name: Test
         run: npm run test
 
+      - name: Test exe release gates
+        run: bash ops/exe/test-release-gates.sh
+
       - name: Build
         run: npm run build
 
@@ -99,6 +102,8 @@ jobs:
           path: |
             test-results/**/public-catalog-*.png
             test-results/**/public-brand-*.png
+            test-results/**/anyshift-company.png
+            test-results/**/emisar-company.png
             test-results/**/test-failed-*.png
             test-results/**/error-context.md
           retention-days: 1

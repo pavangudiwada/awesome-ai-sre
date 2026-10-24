@@ -10,7 +10,7 @@ import { collectContentDocuments } from "./content";
 import { collectEarlyCohort } from "./cohort";
 import { collectObservabilityProducts } from "./observability";
 import { fromRepoRoot } from "./paths";
-import { collectProductSources } from "./products";
+import { collectProductSources, productIdentityMappingIssues } from "./products";
 
 function pushDuplicates(
   values: readonly { readonly slug: string; readonly sourceFile: string }[],
@@ -136,6 +136,11 @@ export function validateCatalog(): CatalogValidationReport {
     screenshot: product.value.screenshot,
   }));
   const productSlugs = new Set(products.map((product) => product.slug));
+  const projectIdentitySlugs = new Set(
+    productResult.products
+      .filter((product) => product.value.projectIdentity)
+      .map((product) => product.value.slug),
+  );
   const companySlugs = new Set(companyResult.companies.map((company) => company.slug));
 
   pushDuplicates(products, "product", issues);
@@ -169,8 +174,10 @@ export function validateCatalog(): CatalogValidationReport {
     }
   }
 
+  issues.push(...productIdentityMappingIssues(productResult.products, companyByProduct));
+
   for (const product of products) {
-    if (!companyByProduct.has(product.slug)) {
+    if (!companyByProduct.has(product.slug) && !projectIdentitySlugs.has(product.slug)) {
       issues.push({
         severity: "warning",
         code: "product_company_unmapped",

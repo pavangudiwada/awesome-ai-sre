@@ -58,6 +58,7 @@ export interface CatalogProduct {
   readonly name: string;
   readonly slug: string;
   readonly companySlug: string | null;
+  readonly projectIdentity?: ProjectIdentity;
   readonly url: string;
   readonly summary: string;
   readonly deployment: readonly ProductDeployment[];
@@ -72,6 +73,20 @@ export interface CatalogProduct {
   readonly editorialState: "unreviewed";
   readonly lastReviewed: null;
   readonly sourceFile: string;
+}
+
+export interface ProjectIdentitySource {
+  readonly label: string;
+  readonly url: string;
+  readonly checkedAt: string;
+}
+
+/** Source-backed project branding without asserting company ownership. */
+export interface ProjectIdentity {
+  readonly name: string;
+  readonly website: string;
+  readonly limitations: string;
+  readonly sources: readonly ProjectIdentitySource[];
 }
 
 export interface ObservabilityLinks {

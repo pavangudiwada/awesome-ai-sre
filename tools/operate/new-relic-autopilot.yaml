@@ -1,0 +1,25 @@
+name: New Relic Autopilot
+slug: new-relic-autopilot
+url: https://docs.newrelic.com/docs/agentic-ai/autopilot/overview/
+summary: >-
+  New Relic's managed AI operations assistant, formerly SRE Agent, correlates telemetry
+  and recent changes to investigate incidents and suggest likely causes and recovery steps.
+  It is generally available for Pro or Enterprise organizations with Advanced Compute or a
+  legacy Compute plan, but is not available for FedRAMP accounts.
+  Autopilot recommends actions for an engineer to review and execute; it does not apply them.
+deployment:
+  - saas
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+  - Observability
+dateAdded: '2026-10-14'
+claimed: false
+logo: /logos/obs-new-relic.svg
+features:
+  - Investigates logs, traces, metrics, and recent changes
+  - Triages alerts and identifies probable root causes
+  - Supports incident investigation in Slack
+screenshot: /screenshots/new-relic-autopilot.jpg
+screenshot_last_fetched: '2026-10-14'

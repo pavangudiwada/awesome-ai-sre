@@ -57,6 +57,7 @@ import {
   companySources,
   productBadges,
   productEvidenceClaims,
+  projectIdentitySources,
   productResourceLinks,
 } from "@/lib/presentation/catalog";
 import { getProductWorkflowState } from "@/lib/workflows/queries";
@@ -123,7 +124,7 @@ export default async function ProductPage({
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://aisrewatchlist.com",
   ).href;
   const resources = productResourceLinks(product);
-  const sources = company ? companySources(company) : [];
+  const sources = company ? companySources(company) : projectIdentitySources(product);
   const claims = productEvidenceClaims(product, company);
   const badges = productBadges(product);
   const categoryLabel = badges
@@ -168,6 +169,20 @@ export default async function ProductPage({
                       <Link href={`/companies/${company.slug}`} className="hover:underline">
                         {company.name}
                       </Link>
+                    </p>
+                  ) : null}
+                  {product.projectIdentity ? (
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      Project identity: {" "}
+                      <TrackedOutboundLink
+                        href={product.projectIdentity.website}
+                        target="_blank"
+                        rel="noreferrer"
+                        subject={{ kind: "product", slug: product.slug }}
+                        className="hover:underline"
+                      >
+                        {product.projectIdentity.name}
+                      </TrackedOutboundLink>
                     </p>
                   ) : null}
                 </div>
@@ -281,8 +296,16 @@ export default async function ProductPage({
           {sources.length ? (
             <section id="sources" className="scroll-mt-64 sm:scroll-mt-52">
               <div className="mb-3 flex flex-col gap-1">
-                <h2 className="text-xl font-medium tracking-tight">Official sources</h2>
+                <h2 className="text-xl font-medium tracking-tight">{product.projectIdentity ? "Project identity and sources" : "Official sources"}</h2>
               </div>
+              {product.projectIdentity ? (
+                <Card size="sm" className="mb-3">
+                  <CardHeader>
+                    <CardTitle>Project identity</CardTitle>
+                    <CardDescription>{product.projectIdentity.limitations}</CardDescription>
+                  </CardHeader>
+                </Card>
+              ) : null}
               <ItemGroup aria-label="Profile sources" className="gap-2">
                 {sources.map((source) => (
                   <Item key={source.id} asChild variant="outline" className="min-h-16">

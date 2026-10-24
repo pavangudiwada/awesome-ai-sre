@@ -1,0 +1,19 @@
+name: Coralogix
+slug: coralogix
+website: https://coralogix.com
+productSlugs:
+  - coralogix-olly
+mappingStatus: confirmed
+sources:
+  - label: Official Olly product identity and data access
+    url: https://coralogix.com/docs/user-guides/olly/
+    checkedAt: '2026-10-14'
+  - label: Autonomous investigation workflow
+    url: https://coralogix.com/docs/user-guides/olly/autonomous-agent/
+    checkedAt: '2026-10-14'
+  - label: Official feature release notes
+    url: https://coralogix.com/docs/user-guides/release-notes/olly/
+    checkedAt: '2026-10-14'
+  - label: Olly subscription and service scope
+    url: https://coralogix.com/addendum-to-coralogix-master-subscription-terms-olly-services/
+    checkedAt: '2026-10-14'

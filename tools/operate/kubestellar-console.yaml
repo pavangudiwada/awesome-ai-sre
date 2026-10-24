@@ -22,3 +22,18 @@ features:
   - Provides multi-cluster Kubernetes visibility across edge and cloud environments
 github: https://github.com/kubestellar/console
 x: https://x.com/kuaborcloud
+projectIdentity:
+  name: KubeStellar Console project
+  website: https://console.kubestellar.io
+  limitations: >-
+    The repository, console site, and CNCF project listing identify the project, but do not establish a legal operator or corporate ownership for this catalog entry.
+  sources:
+    - label: Official KubeStellar repository
+      url: https://github.com/kubestellar/kubestellar
+      checkedAt: '2026-10-24'
+    - label: Official KubeStellar Console page
+      url: https://console.kubestellar.io/console
+      checkedAt: '2026-10-24'
+    - label: CNCF KubeStellar project listing
+      url: https://www.cncf.io/projects/kubestellar/
+      checkedAt: '2026-10-24'

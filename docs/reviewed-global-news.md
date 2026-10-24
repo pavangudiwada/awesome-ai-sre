@@ -78,12 +78,10 @@ uses explicit reviewed catalog-company slugs when present, then the DB company
 relation or an exact catalog-name fallback. Followed items have a visible
 Followed company badge. Following does not filter the global feed.
 
-This UI-only release preserves the existing catalog exactly. News for AWS,
-AutoHeal, Coralogix, Google Cloud, and New Relic remains independent public
-editorial content: `companySlug` is null because those companies are not in this
-release catalog. Company and product display names are retained as sourced text;
-no company profiles, follow targets, catalog rows, or foreign-key identities are
-created. A later catalog release can explicitly add those reviewed mappings.
+News remains independent editorial content unless a reviewed company mapping is
+present. Mapped stories use catalog company identities for follow highlighting;
+unmapped stories retain source-backed display names without creating company
+profiles or foreign-key identities.
 
 ## Checks
 

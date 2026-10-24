@@ -1,5 +1,5 @@
-import { getCompanies } from "@/lib/catalog/companies";
 import { describe, expect, it } from "vitest";
+import { getCompanies } from "@/lib/catalog/companies";
 import reviewedNewsData from "../../../data/reviewed-news.json";
 import { canonicalNewsSource, groupPublicNews, mergePublicNews } from "./feed";
 import { publishedNewsRowSchema, reviewedNewsCollectionSchema, reviewedNewsSchema, type PublishedNewsRow } from "./schema";
@@ -33,15 +33,23 @@ describe("reviewed public news boundary", () => {
     expect(reviewedNewsCollectionSchema.safeParse([first, first]).success).toBe(false);
   });
 
-  it("uses only existing catalog identities, without requiring every news company to be listed", () => {
+  it("uses only existing catalog identities and updates reviewed news mappings", () => {
     const companySlugs = new Set(getCompanies().map((company) => company.slug));
     for (const record of reviewed) {
       if (record.companySlug) expect(companySlugs.has(record.companySlug)).toBe(true);
     }
-    const independentCompanies = new Set(["AWS", "AutoHeal", "Coralogix", "Google Cloud", "New Relic"]);
-    for (const record of reviewed.filter((record) => independentCompanies.has(record.company))) {
-      expect(record.companySlug).toBeNull();
-      expect(record.sources.length).toBeGreaterThan(0);
+
+    const mappings = new Map([
+      ["AWS", "aws"],
+      ["Autoheal", "autoheal"],
+      ["Coralogix", "coralogix"],
+      ["Google Cloud", "google-cloud"],
+      ["New Relic", "new-relic"],
+    ]);
+    for (const [company, slug] of mappings) {
+      const records = reviewed.filter((record) => record.company === company);
+      expect(records.length).toBeGreaterThan(0);
+      expect(records.every((record) => record.companySlug === slug)).toBe(true);
     }
   });
 
@@ -117,10 +125,10 @@ describe("global feed merge", () => {
     }
   });
 
-  it("keeps news about companies outside this catalog independent of FK identities", () => {
+  it("carries explicit reviewed AWS company identity without relying on display-name equality", () => {
     const aws = reviewed.filter((record) => record.company === "AWS");
     expect(aws).toHaveLength(2);
-    expect(mergePublicNews(aws, [], new Set(), now).every((item) => item.companySlug === null)).toBe(true);
+    expect(mergePublicNews(aws, [], new Set(), now).every((item) => item.companySlug === "aws")).toBe(true);
   });
 
   it("canonicalizes decoration but keeps meaningful source query parameters", () => {

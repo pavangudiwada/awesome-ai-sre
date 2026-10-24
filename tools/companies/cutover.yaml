@@ -1,0 +1,10 @@
+name: Cutover
+slug: cutover
+website: https://cutover.com/
+productSlugs:
+  - cutover
+mappingStatus: confirmed
+sources:
+  - label: Official product website
+    url: https://cutover.com/
+    checkedAt: '2026-09-30'

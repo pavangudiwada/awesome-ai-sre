@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   blogMetadataSchema,
   comparisonMetadataSchema,
+  legacyProductSourceSchema,
   resourceMetadataSchema,
 } from "./schemas";
 
@@ -63,5 +64,30 @@ describe("content publication metadata", () => {
         resourceType: "guide",
       }).success,
     ).toBe(true);
+  });
+});
+
+describe("project identity schema", () => {
+  const product = {
+    name: "Example project",
+    slug: "example-project",
+    url: "https://example.com",
+    summary: "An example project for infrastructure operations.",
+    deployment: ["on-prem"],
+    opensource: true,
+    tags: ["Incident Response"],
+    dateAdded: "2026-10-24",
+    projectIdentity: {
+      name: "Example project",
+      website: "https://example.com",
+      limitations: "The source does not identify a legal operating company.",
+      sources: [{ label: "Official project site", url: "https://example.com", checkedAt: "2026-10-24" }],
+    },
+  };
+
+  it("requires nonempty identity sources with a checked date", () => {
+    expect(legacyProductSourceSchema.safeParse(product).success).toBe(true);
+    expect(legacyProductSourceSchema.safeParse({ ...product, projectIdentity: { ...product.projectIdentity, sources: [] } }).success).toBe(false);
+    expect(legacyProductSourceSchema.safeParse({ ...product, projectIdentity: { ...product.projectIdentity, sources: [{ label: "Official project site", url: "https://example.com" }] } }).success).toBe(false);
   });
 });

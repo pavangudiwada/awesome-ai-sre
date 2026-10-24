@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { getEarlyCohort } from "./cohort";
+import { getCompanies } from "./companies";
 import {
   getAllContentDocuments,
   getAnyContentDocument,
@@ -17,14 +18,69 @@ describe("catalog loaders", () => {
   it("normalizes all legacy products without turning claimed into verification", () => {
     const products = getProducts();
     const holmes = getProductBySlug("holmesgpt");
-    const unmappedProduct = getProductBySlug("alertd");
+    const unmappedProduct = getProductBySlug("ingero");
 
-    expect(products).toHaveLength(78);
+    expect(products).toHaveLength(89);
     expect(holmes?.companySlug).toBe("robusta");
     expect(holmes?.editorialState).toBe("unreviewed");
     expect(holmes?.lastReviewed).toBeNull();
     expect(holmes).not.toHaveProperty("claimed");
     expect(unmappedProduct?.companySlug).toBeNull();
+    expect(getProductBySlug("opensre-in")?.projectIdentity?.name).toBe("OpenSRE.in project");
+  });
+
+  it("keeps sourced vendor mappings unique and separate from capability verification", () => {
+    const companies = getCompanies();
+    const mappings = companies.flatMap((company) => company.productSlugs);
+    expect(new Set(mappings).size).toBe(mappings.length);
+    expect(getProductBySlug("deductive-ai")?.companySlug).toBe("elastic");
+    expect(getProductBySlug("elastic")?.companySlug).toBe("elastic");
+    expect(getProductBySlug("aurora")?.companySlug).toBe("arvo-ai");
+    expect(getProductBySlug("lens-k8s-ide")?.companySlug).toBe("mirantis");
+    expect(getProductBySlug("phoebe")?.companySlug).toBe("phoebe-technology");
+    expect(getProductBySlug("observe-inc")?.companySlug).toBe("snowflake");
+    expect(getProductBySlug("vigiles")?.companySlug).toBe("vigiles");
+    expect(getProducts().filter((product) => product.companySlug === null).map((product) => product.slug).sort()).toEqual([
+      "ingero", "k8sgpt", "kagent", "kubestellar-console", "opensre-in", "sre-bench",
+    ]);
+    for (const slug of ["alertd", "aurora", "deductive-ai", "phoebe", "runllm", "stakpak"]) {
+      const product = getProductBySlug(slug);
+      expect(product?.editorialState).toBe("unreviewed");
+      expect(product?.lastReviewed).toBeNull();
+      expect(product).not.toHaveProperty("claimed");
+    }
+  });
+
+  it("keeps the OpenObserve Enterprise preview separate from platform open source status", () => {
+    const product = getProductBySlug("openobserve-ai-sre");
+    expect(product?.companySlug).toBe("openobserve");
+    expect(product?.openSource).toBe(false);
+    expect(product?.summary).toContain("Preview");
+    expect(product?.summary).toContain("Enterprise license");
+    expect(product?.editorialState).toBe("unreviewed");
+  });
+
+  it("preserves ilert's GA autonomy boundary and former product name", () => {
+    const product = getProductBySlug("ilert-ai-sre");
+    expect(product?.companySlug).toBe("ilert");
+    expect(product?.summary).toContain("formerly ilert Responder");
+    expect(product?.summary).toContain("paid plans and trials");
+    expect(product?.summary).toContain("action execution left to the engineer");
+    expect(product?.deployment).toEqual(["saas"]);
+    expect(product?.openSource).toBe(false);
+    expect(product?.editorialState).toBe("unreviewed");
+  });
+
+  it("keeps empirik's change-risk scope and VPC qualification explicit", () => {
+    const product = getProductBySlug("empirik");
+    expect(product?.companySlug).toBe("empirik");
+    expect(product?.summary).toContain("change review and incident prevention");
+    expect(product?.summary).toContain("customer-managed VPC");
+    expect(product?.tags).toEqual(["AIOps"]);
+    expect(product?.deployment).toEqual(["saas"]);
+    expect(product?.openSource).toBe(false);
+    expect(product?.editorialState).toBe("unreviewed");
+    expect(product?.lastReviewed).toBeNull();
   });
 
   it("preserves editorially supplied product social destinations", () => {
@@ -35,6 +91,17 @@ describe("catalog loaders", () => {
       github: "https://github.com/BetterStackHQ",
       x: "https://x.com/betterstackhq",
     });
+  });
+
+  it("retains the five sourced October additions without inventing evidence review", () => {
+    for (const slug of ["autoheal", "aws-devops-agent", "coralogix-olly", "gemini-cloud-assist-investigations", "new-relic-autopilot"]) {
+      const product = getProductBySlug(slug);
+      expect(product).toBeDefined();
+      expect(product?.companySlug).toBeTruthy();
+      expect(product?.logo).toBeTruthy();
+      expect(product?.screenshot).toBeTruthy();
+      expect(product?.editorialState).toBe("unreviewed");
+    }
   });
 
   it("validates and loads observability data as a separate catalog family", () => {
@@ -55,9 +122,7 @@ describe("catalog loaders", () => {
     expect(cohort.entries.map((entry) => entry.priority)).toEqual(
       Array.from({ length: 18 }, (_, index) => index + 1),
     );
-    expect(missingRecords.map((entry) => entry.productSlug)).toEqual([
-      "openobserve-ai-sre",
-    ]);
+    expect(missingRecords).toEqual([]);
   });
 
   it("publishes only the completed practitioner resources", () => {
@@ -85,8 +150,6 @@ describe("catalog loaders", () => {
 
     expect(report.valid).toBe(true);
     expect(report.issues.some((issue) => issue.severity === "error")).toBe(false);
-    expect(missingCohortProducts).toEqual([
-      'priority 11 requires a product record for "openobserve-ai-sre"',
-    ]);
+    expect(missingCohortProducts).toEqual([]);
   });
 });

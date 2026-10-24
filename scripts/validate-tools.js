@@ -26,6 +26,7 @@ const ALLOWED_TOP_LEVEL_KEYS = new Set([
   "claimed",
   "dateAdded",
   "features",
+  "projectIdentity",
   "linkedin",
   "github",
   "x",
@@ -175,6 +176,49 @@ function validateTool(tool, filePath, errors) {
       errors.push(`${base}: features must be a list`);
     } else if (tool.features.length > 3) {
       errors.push(`${base}: features supports at most 3 items`);
+    }
+  }
+
+  if (tool.projectIdentity !== undefined) {
+    const identity = tool.projectIdentity;
+    if (!identity || typeof identity !== "object" || Array.isArray(identity)) {
+      errors.push(`${base}: projectIdentity must be an object`);
+    } else {
+      for (const key of Object.keys(identity)) {
+        if (!["name", "website", "limitations", "sources"].includes(key)) {
+          errors.push(`${base}: unsupported projectIdentity key "${key}"`);
+        }
+      }
+      for (const field of ["name", "limitations"]) {
+        if (typeof identity[field] !== "string" || !identity[field].trim()) {
+          errors.push(`${base}: projectIdentity.${field} must be a non-empty string`);
+        }
+      }
+      if (!isValidUrl(identity.website)) {
+        errors.push(`${base}: projectIdentity.website must be an http or https URL`);
+      }
+      if (!Array.isArray(identity.sources) || identity.sources.length === 0) {
+        errors.push(`${base}: projectIdentity.sources must be a non-empty list`);
+      } else {
+        for (const [index, source] of identity.sources.entries()) {
+          if (!source || typeof source !== "object" || Array.isArray(source)) {
+            errors.push(`${base}: projectIdentity.sources[${index}] must be an object`);
+            continue;
+          }
+          if (Object.keys(source).some((key) => !["label", "url", "checkedAt"].includes(key))) {
+            errors.push(`${base}: projectIdentity.sources[${index}] has an unsupported key`);
+          }
+          if (typeof source.label !== "string" || !source.label.trim()) {
+            errors.push(`${base}: projectIdentity.sources[${index}].label must be a non-empty string`);
+          }
+          if (!isValidUrl(source.url)) {
+            errors.push(`${base}: projectIdentity.sources[${index}].url must be an http or https URL`);
+          }
+          if (!isValidDate(source.checkedAt)) {
+            errors.push(`${base}: projectIdentity.sources[${index}].checkedAt must be a valid YYYY-MM-DD date`);
+          }
+        }
+      }
     }
   }
 

@@ -201,6 +201,17 @@ export function companySources(company: CatalogCompany): SourceReference[] {
   }));
 }
 
+export function projectIdentitySources(product: CatalogProduct): SourceReference[] {
+  return (product.projectIdentity?.sources ?? []).map((source, index) => ({
+    id: `${product.slug}-project-identity-${index}`,
+    title: source.label,
+    publisher: product.projectIdentity?.name,
+    href: source.url,
+    sourceType: "Project identity source",
+    accessedAtLabel: source.checkedAt,
+  }));
+}
+
 export function productEvidenceClaims(
   product: CatalogProduct,
   company?: CatalogCompany,

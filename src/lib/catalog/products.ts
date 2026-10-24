@@ -13,6 +13,23 @@ export interface ProductSourceCollectionResult {
   readonly issues: readonly CatalogValidationIssue[];
 }
 
+export function productIdentityMappingIssues(
+  products: readonly ParsedSource<LegacyProductSource>[],
+  companyByProduct: ReadonlyMap<string, string>,
+): CatalogValidationIssue[] {
+  return products.flatMap((product) => {
+    const mappedCompany = companyByProduct.get(product.value.slug);
+    if (!mappedCompany || !product.value.projectIdentity) return [];
+    return [{
+      severity: "error" as const,
+      code: "product_identity_mapping_conflict",
+      sourceFile: product.sourceFile,
+      recordId: product.value.slug,
+      message: `product "${product.value.slug}" cannot declare both project identity and company mapping "${mappedCompany}"`,
+    }];
+  });
+}
+
 export function collectProductSources(): ProductSourceCollectionResult {
   const directory = fromRepoRoot("tools", "operate");
   const files = readdirSync(directory)
@@ -54,6 +71,7 @@ function normalizeProduct(
     name: product.name,
     slug: product.slug,
     companySlug,
+    ...(product.projectIdentity ? { projectIdentity: product.projectIdentity } : {}),
     url: product.url,
     summary: product.summary,
     deployment: product.deployment,
@@ -87,6 +105,10 @@ export function getProducts(): readonly CatalogProduct[] {
   ]);
 
   const companyByProduct = getCompanySlugByProductSlug(companyResult.companies);
+  throwForCatalogIssues(
+    "Product identity mapping is invalid",
+    productIdentityMappingIssues(productResult.products, companyByProduct),
+  );
   return productResult.products
     .map((product) => normalizeProduct(product, companyByProduct.get(product.value.slug) ?? null))
     .sort((left, right) => left.slug.localeCompare(right.slug));

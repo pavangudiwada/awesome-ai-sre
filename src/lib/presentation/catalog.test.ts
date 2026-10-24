@@ -18,6 +18,12 @@ import {
 
 describe("evidence presentation", () => {
   it("labels vendor-page screenshots as previews without claiming a product session", () => {
+    const product = getProductBySlug("empirik")
+    expect(product).toBeDefined()
+    expect(toProductSummary(product!, new Map()).screenshotAlt).toBe("empirik catalog preview")
+  })
+
+  it("labels RunWhen vendor-page screenshots as catalog previews", () => {
     const product = getProductBySlug("runwhen")
     expect(product).toBeDefined()
     expect(toProductSummary(product!, new Map()).screenshotAlt).toBe("RunWhen catalog preview")

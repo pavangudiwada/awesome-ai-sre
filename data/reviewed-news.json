@@ -19,7 +19,7 @@
     ],
     "reviewed": true,
     "reviewedAt": "2026-10-15",
-    "companySlug": null
+    "companySlug": "aws"
   },
   {
     "slug": "new-relic-autopilot-2-5-fixes-investigation-time-windows-and-query-results",
@@ -46,7 +46,7 @@
     ],
     "reviewed": true,
     "reviewedAt": "2026-10-15",
-    "companySlug": null
+    "companySlug": "new-relic"
   },
   {
     "slug": "rootly-launches-organization-wide-ai-instructions",
@@ -95,7 +95,7 @@
     ],
     "reviewed": true,
     "reviewedAt": "2026-10-15",
-    "companySlug": null
+    "companySlug": "coralogix"
   },
   {
     "slug": "autoheal-announces-a-7-9m-seed-round",
@@ -117,7 +117,7 @@
     ],
     "reviewed": true,
     "reviewedAt": "2026-10-15",
-    "companySlug": null
+    "companySlug": "autoheal"
   },
   {
     "slug": "komodor-launches-agentic-operations-platform",
@@ -166,7 +166,7 @@
     ],
     "reviewed": true,
     "reviewedAt": "2026-10-15",
-    "companySlug": null
+    "companySlug": "coralogix"
   },
   {
     "slug": "rootly-adds-automatic-related-incident-discovery",
@@ -369,7 +369,7 @@
     ],
     "reviewed": true,
     "reviewedAt": "2026-10-15",
-    "companySlug": null
+    "companySlug": "google-cloud"
   },
   {
     "slug": "neubird-announces-19-3m-in-new-funding",
@@ -413,7 +413,7 @@
     ],
     "reviewed": true,
     "reviewedAt": "2026-10-15",
-    "companySlug": null
+    "companySlug": "aws"
   },
   {
     "slug": "datadog-updates-bits-investigation-reasoning-and-data-access",

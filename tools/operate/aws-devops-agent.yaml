@@ -1,0 +1,22 @@
+name: AWS DevOps Agent
+slug: aws-devops-agent
+url: https://aws.amazon.com/devops-agent/
+summary: >-
+  AWS-managed operations agent that investigates incidents across connected telemetry, code, deployment history,
+  and runbooks. Generally available since March 2026; it supports AWS, multicloud, and on-premises workloads.
+  Resource-changing directed actions are disabled by default and require explicit enablement and operator approval.
+deployment:
+  - saas
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+dateAdded: '2026-10-14'
+claimed: false
+screenshot: /screenshots/aws-devops-agent.jpg
+logo: /logos/aws-devops-agent.svg
+screenshot_last_fetched: '2026-10-14'
+features:
+  - Correlates alerts, telemetry, code, and deployments to investigate incidents
+  - Recommends operational improvements from previous investigations
+  - Executes explicitly requested directed actions only within configured permissions and approvals

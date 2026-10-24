@@ -1,0 +1,10 @@
+name: Mirantis
+slug: mirantis
+website: https://www.mirantis.com
+productSlugs:
+  - lens-k8s-ide
+mappingStatus: confirmed
+sources:
+  - label: Official vendor identity source
+    url: https://lenshq.io/products/lens-k8s-ide/
+    checkedAt: '2026-09-30'

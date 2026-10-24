@@ -5,5 +5,9 @@ productSlugs:
   - openobserve-ai-sre
 mappingStatus: confirmed
 sources:
-  - label: Official website
-    url: https://openobserve.ai
+  - label: Official AI SRE product page — Preview
+    url: https://openobserve.ai/ai-sre/
+    checkedAt: '2026-09-30'
+  - label: Official Enterprise SRE Agent setup guide
+    url: https://openobserve.ai/docs/enterprise-setup/sre-agent/
+    checkedAt: '2026-09-30'

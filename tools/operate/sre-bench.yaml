@@ -1,7 +1,9 @@
 name: SRE Bench
 slug: sre-bench
 url: https://srebench.com/
-summary: Evaluation and benchmarking platform for SRE agents and operational AI reliability workflows.
+summary: >-
+  SREBench's public website presents an AI challenge for diagnosing and fixing IT infrastructure issues. The benchmark
+  methodology and operating organization are not established by the sources reviewed.
 deployment:
   - saas
 opensource: false
@@ -17,4 +19,15 @@ features:
   - Benchmarks SRE agent performance on reliability tasks
   - Provides repeatable evaluation workflows for agent capabilities
   - Helps teams compare operational AI approaches
-linkedin: https://www.linkedin.com/company/srebench
+projectIdentity:
+  name: SRE Bench project
+  website: https://www.srebench.com/
+  limitations: >-
+    The website does not identify its legal operator. Its linked GitHub organization has no public repositories or members, so ownership and benchmark methodology remain unverified. This entry is distinct from other projects named SRE Bench.
+  sources:
+    - label: Official SRE Bench website and linked GitHub organization
+      url: https://www.srebench.com/
+      checkedAt: '2026-10-24'
+    - label: Linked SRE Bench GitHub organization
+      url: https://github.com/sre-bench
+      checkedAt: '2026-10-24'
