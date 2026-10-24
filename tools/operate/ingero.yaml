@@ -18,9 +18,9 @@ screenshot: /screenshots/ingero.png
 logo: /logos/ingero.png
 screenshot_last_fetched: '2026-05-29'
 features:
-  - Runs as an eBPF agent for GPU causal observability with no application code changes
-  - Exposes an MCP server that LLM SRE agents can drive for investigations
-  - Maps GPU stalls to Linux kernel events and exact CUDA call sites
+  - 'Historical v0.19.0 scope: ran as an eBPF agent for GPU causal observability with no application code changes'
+  - 'Historical v0.19.0 scope: exposed an MCP server that LLM SRE agents could drive for investigations'
+  - 'Historical v0.19.0 scope: mapped GPU stalls to Linux kernel events and exact CUDA call sites'
 x: https://x.com/ingero_io
 projectIdentity:
   name: Ingero project

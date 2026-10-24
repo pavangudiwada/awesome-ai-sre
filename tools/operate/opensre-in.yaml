@@ -15,6 +15,8 @@ tags:
 dateAdded: '2026-10-24'
 claimed: false
 logo: /logos/opensre-in.png
+screenshot: /screenshots/opensre-in.png
+screenshot_last_fetched: '2026-10-24'
 features:
   - Investigates production incidents through its web console and optional Slack and Teams clients
   - Stores investigation episodes and service-topology knowledge in Neo4j

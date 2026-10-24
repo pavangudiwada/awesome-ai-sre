@@ -1,9 +1,5 @@
 {
   "version": 1,
-  "catalog": [
-    "missing_asset_reference|tools/operate/opensre-in.yaml|opensre-in:screenshot"
-  ],
-  "assets": [
-    "missing_screenshot_reference|ai-sre|opensre-in|screenshot|none"
-  ]
+  "catalog": [],
+  "assets": []
 }
