@@ -183,6 +183,15 @@
       "publishedAt": "2026-04-22T07:04:13.000Z"
     },
     {
+      "id": "5ac21e2861f01f2f3cd5c61b3f6695a83540b5d37dc69e9acdac1243df19f4c6",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-rc1",
+      "title": "v1.0.0-rc1",
+      "summary": "What's Changed Features feat(cli): improve the chat TUI rendering and input by @Charlesthebird in #3292 feat(sandbox): adopt env guest service redesign by @thomasbarrett in #3148 feat(outputschema): allow format, pattern and type lists, add opt-in outputSchemaStrict by @danielle-mustillo in #3284 feat(auth): enforce owned-resource RBAC and scoped Substrate inventory by @supreme-gg-gg in #3299 feat(adk): allow disabling ask_user through runtime defaults by @lexmass in #3298 feat(auth): support human and machine principals by @EItanya in #3358 feat(auth): add gateway Actor JWT credentials by @EItanya in #3359 feat(api): resolve Agent metadata from scoped Actor tokens by @EItanya in #3362 feat(controller): retry failed golden builds for Agents and SandboxTemplates by @danielle-mustillo in #3335 feat(cli): export Helm installation with dry-run by @iplay88keys in #3432 Bug Fixes fix(substrate): scope Substrate reads and page tokens to the watched namespaces by @danielle-mustillo in #3261 fix(session): expire abandoned input and auth waits by @adalundhe in #3254 fix(ui): keep following a chat turn when its stream breaks by @garlicKim21 in #3198 fix(a2a): deliver push notifications concurrently by @EItanya in #3366 fix(build): set the version -X targets from the Go module path by @fiunchinho in #3376 fix(codex): report the turn's error message by @fiunchinho in #3377 fix(ui): show one loading state in the agent switcher by @vedantlavale in #3237 fix: honor configured controller service account during install by @iplay88keys in #3406 fix(ui): show consistent empty states for denied substrate inventory by @supreme-gg-gg in #3392 fix(cli): preserve Substrate CLI access alongside controller grants by @iplay88keys in #3420 fix: include image pull secrets in substrate worker pool service account by @jcopi in #3443 fix(install): keep model credentials out of process arguments by @iplay88keys in #3446 fix(api): remove unused Harness status and ADK fields by @EItanya in #3454 fix(c",
+      "publishedAt": "2026-10-30T18:50:42.000Z"
+    },
+    {
       "id": "4d6f09cdbb98e4f372844957a4a9cfd2145f97872036c779779b9e7b6d7b1645",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -262,15 +271,6 @@
       "title": "v1.0.0-alpha10",
       "summary": "What's Changed Features feat(telemetry): move Python runtimes onto upstream GenAI instrumentation by @krisztianfekete in #3103 feat: wake session quiescence workers after task settlement by @EItanya in #3074 feat(telemetry): Weaver live-check, registry catch-up, reference collector by @krisztianfekete in #3107 feat: a2a task push notifications by @supreme-gg-gg in #3036 Bug Fixes fix(ui): hide other users' conversations from new-chat rail by @pood1e in #3091 fix(substrate): isolate worker pool placement by namespace by @adalundhe in #3089 fix(ui): count Agent resources in the dashboard Agents tile by @Charlesthebird in #3105 fix(ui): note shared workers on the Substrate page by @Charlesthebird in #3108 Exit non-zero when cli kagent install fails by @iplay88keys in #3109 Other Changes chore(deps): bump the go-minor-patch group in /go with 10 updates by @dependabot [bot] in #3054 chore(deps): update google-adk[a2a,db] requirement from =2.9.2 to >=2.11.0, @dependabot [bot] in #3058 Pass the quiescence channel and recovery interval in the push worker test by @iplay88keys in #3117 Bump Substrate to 0.5.0-alpha1 and share PostgreSQL via kagent install by @iplay88keys in #2708 ci: create release tags from manual workflow input by @EItanya in #3127 New Contributors @pood1e made their first contribution in #3091 @adalundhe made their first contribution in #3089 Full Changelog : v1.0.0-alpha9...v1.0.0-alpha10",
       "publishedAt": "2026-10-09T14:57:18.000Z"
-    },
-    {
-      "id": "84893593dd060bd10fcada13b650abf52615fa8f593339adc5a07495a130bcbd",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha9",
-      "title": "v1.0.0-alpha9",
-      "summary": "What's Changed Features feat: add runtime revision GC backlog and failure metrics by @gargsajal9 in #2808 feat: attach text files and images to chat messages by @Charlesthebird in #2936 Bug Fixes fix(adk): guard nil tool-call args and coerce to empty object in OpenAI-compatible adapters by @alexdarbyshire in #2852 fix(ui): show agent template create errors beside the Create button by @Charlesthebird in #3075 fix(ui): keep a new chat's title in the chat list after leaving it by @mmadhura1014 in #3001 fix(adk): free runtime send slot before settling the task by @Charlesthebird in #3079 fix(harness): pin Claude Code 2.1.285 by @thomasbarrett in #3076 Documentation docs: narrow agent contribution guidance by @timflannagan in #3081 Other Changes chore(deps): bump google-genai from 2.25.0 to 2.27.0 in /python in the python-google-ai group across 1 directory by @dependabot [bot] in #3063 chore(deps): bump the python-minor-patch group in /python with 4 updates by @dependabot [bot] in #3056 chore(deps): bump the npm-minor-patch group in /ui with 6 updates by @dependabot [bot] in #3053 chore(deps): update langsmith[otel] requirement from >=0.14.0 to >=0.14.3 in /python by @dependabot [bot] in #3060 New Contributors @gargsajal9 made their first contribution in #2808 @alexdarbyshire made their first contribution in #2852 @mmadhura1014 made their first contribution in #3001 @thomasbarrett made their first contribution in #3076 Full Changelog : v1.0.0-alpha8...v1.0.0-alpha9",
-      "publishedAt": "2026-10-07T18:31:30.000Z"
     }
   ]
 }
