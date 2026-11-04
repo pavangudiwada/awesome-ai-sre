@@ -3,6 +3,15 @@
   "generatedAt": null,
   "items": [
     {
+      "id": "ebfb0dd9298a96e81c2a0f3495c51921997e4daf6aef0e887b653f69ce747810",
+      "productSlug": "holmesgpt",
+      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
+      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.46.0-alpha",
+      "title": "0.46.0-alpha",
+      "summary": "What's Changed ROB-1624 Notify Slack when a release workflow fails by @Avi-Robusta in #2606 Add allowed_tools to MCP servers to load only some of a server's tools by @elidrissi-amine in #2598 feat(alert): add webhook destination by @mrchocha in #2612 ROB-616: Migrate AWS MCP to the hosted AWS MCP Server by @Avi-Robusta in #2529 Add notify input to eval-benchmarks workflow for quiet manual runs by @moshemorad in #2627 ROB-1490 Cleanup repeated Holmes server logs by @moshemorad in #2608 ROB-1544 Stop storing a JSON-string copy of messages on ai_answer_end by @naomi-robusta in #2630 ROB-1290 Send the conversation ID to relay on Robusta-hosted completions by @RoiGlinik in #2567 Weekly Benchmark Results 2026-10-21_07-21 by @github-actions[bot] in #2635 FRO-714 Build the docs with mkdocs-material 9.7.7 and add a manual job that rebuilds every published version by @ezra-robusta in #2615 ROB-1606 Keep the sanitized cause on failed runs by @naomi-robusta in #2596 ROB-1707 Remove follow_up_actions from the chat API by @naomi-robusta in #2651 ROB-1623 Switch the eval judge to gpt-6.1-sol-medium and add a judge benchmark skill by @Avi-Robusta in #2658 ROB-1722: Remove deprecated qwen-next-80B-instruct from the default benchmark models by @Sheeproid in #2662 ROB-1544 Publish a contract hash per remote tool and the Holmes version per toolset row by @naomi-robusta in #2624 ROB-1552 Retry LLM rate-limit, overload and 503 errors with backoff instead of failing the run by @naomi-robusta in #2559 Sanitize tests by @Avi-Robusta in #2668 ROB-1735 Freeze the SigV4 clock in the AWS MCP signing test by @Sheeproid in #2664 ROB-1403 Report each model's limits and their source in the Holmes status by @RoiGlinik in #2656 ROB-1659 Clarify the k8s MCP server Dex setup guide by @RoiGlinik in #2667 ROB-1578: Forward toolset subtype to multi-instance children by @Avi-Robusta in #2657 FRO-630 Link the custom toolsets page relatively from the transformers page by @ezra-robusta in #2680 ROB-1711 Fix t",
+      "publishedAt": "2026-11-04T10:04:34.000Z"
+    },
+    {
       "id": "cff72f81a8c58ffbbafddba3f69f7f70ef3ffe492e6a89be152e7e1cd8ae654f",
       "productSlug": "holmesgpt",
       "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
@@ -82,15 +91,6 @@
       "title": "0.41.0",
       "summary": "What's Changed ROB-1161 Fetch the Supabase api key from relay with caching and local fallback by @Avi-Robusta in #2420 Patch all High CVEs (and Mediums >60 days) in the holmes image by @moshemorad in #2432 ROB-1258 Live-refresh git-synced skills via first-class skill_repos by @naomi-robusta in #2434 ROB-889 Refresh the realtime JWT before it expires by @Avi-Robusta in #2383 Full Changelog : 0.40.0...0.41.0",
       "publishedAt": "2026-09-08T12:17:06.000Z"
-    },
-    {
-      "id": "c2fdbbb585dfb4a2b2fe5df2aac0bd1e9cb77e9ac128fc3f952169d83704e963",
-      "productSlug": "holmesgpt",
-      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
-      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.41.0-alpha",
-      "title": "0.41.0-alpha",
-      "summary": "What's Changed ROB-1161 Fetch the Supabase api key from relay with caching and local fallback by @Avi-Robusta in #2420 Patch all High CVEs (and Mediums >60 days) in the holmes image by @moshemorad in #2432 ROB-1258 Live-refresh git-synced skills via first-class skill_repos by @naomi-robusta in #2434 ROB-889 Refresh the realtime JWT before it expires by @Avi-Robusta in #2383 Full Changelog : 0.40.0...0.41.0-alpha",
-      "publishedAt": "2026-09-06T08:53:05.000Z"
     },
     {
       "id": "a507090cafc6ae5a311a53e843f7b31cd7b751d15afeca125cb223ed53272160",
