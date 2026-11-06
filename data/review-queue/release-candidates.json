@@ -183,6 +183,15 @@
       "publishedAt": "2026-04-22T07:04:13.000Z"
     },
     {
+      "id": "a15ce265280c662797be8a6f9522bbb61d8bf991bfd4801346d34a11441e8332",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.6",
+      "title": "v0.10.6",
+      "summary": "What's Changed Bug Fixes fix: move Python ADK images to Wolfi and disable Substrate on release/v0.10.x by @iplay88keys in #3539 Full Changelog : v0.10.5...v0.10.6",
+      "publishedAt": "2026-11-05T22:41:38.000Z"
+    },
+    {
       "id": "674414a455a6d998f9ae61434a841501b84f77af4b7c675f79779ce28cfba455",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -262,15 +271,6 @@
       "title": "v1.0.0-alpha13",
       "summary": "What's Changed Features feat(config): replace application env vars with explicit schemas by @EItanya in #3153 feat(adk): propagate GenAI baggage from ADK by @jcopi in #3088 Bug Fixes fix: stabilize e2e sends and Codex cancellation by @EItanya in #3181 Other Changes ci: give e2e runners and atelet more capacity by @EItanya in #3180 Full Changelog : v1.0.0-alpha12...v1.0.0-alpha13",
       "publishedAt": "2026-10-13T18:00:30.000Z"
-    },
-    {
-      "id": "c55b2a6c276957da38100f0b21ea0746bd2906cf260405427db8a2c499e91440",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha12",
-      "title": "v1.0.0-alpha12",
-      "summary": "What's Changed Features feat(helm): run Substrate workers under their own ServiceAccount by @danielle-mustillo in #3067 feat(sandbox): read_sandbox_file returns text pages and images by @thomasbarrett in #3120 feat(helm): allow setting allowedNamespaces on the built-in tool server by @davidkarlsen in #3145 feat: Add Responses API support to Azure OpenAI provider by @danielle-mustillo in #3143 feat(harness): write chat and execute_tool spans from the runtime by @xytian315 in #3121 Bug Fixes fix: restore A2A timeline ordering and immediate approval prompts by @supreme-gg-gg in #3142 fix(ui): give each e2e dev server its own pre-bundle cache by @Charlesthebird in #3141 fix: update vulnerable dependencies in runtime images by @EItanya in #3159 Other Changes refactor: Remove obsolete skills-init code by @timflannagan in #3144 api: Require Harness references for Agents by @timflannagan in #3080 chore(deps): bump google-genai from 2.27.0 to 2.29.0 in /python in the python-google-ai group by @dependabot [bot] in #3172 chore(deps): bump the npm-minor-patch group in /ui with 8 updates by @dependabot [bot] in #3171 chore(deps): bump the python-minor-patch group in /python with 4 updates by @dependabot [bot] in #3174 New Contributors @danielle-mustillo made their first contribution in #3067 Full Changelog : v1.0.0-alpha11...v1.0.0-alpha12",
-      "publishedAt": "2026-10-13T10:10:03.000Z"
     }
   ]
 }
