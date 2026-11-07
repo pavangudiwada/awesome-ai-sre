@@ -1,0 +1,24 @@
+name: DataAgent
+slug: dataagent
+url: https://data-agent.co
+summary: >-
+  Remediation-first autonomous SRE for Kubernetes. It stabilizes first, builds a deep root cause in the
+  background, then dry-runs and applies the fix, and right-sizes observability spend instead of adding to it.
+deployment:
+  - saas
+opensource: false
+tags:
+  - Incident Response
+  - AIOps
+  - Observability
+dateAdded: '2026-10-27'
+claimed: false
+screenshot: /screenshots/dataagent.png
+logo: /logos/dataagent.svg
+screenshot_last_fetched: '2026-10-27'
+features:
+  - Stabilizes, finds the root cause and dry-runs fixes, with autonomy earned per fault class
+  - Right-sizes observability cost; priced per cluster, not per telemetry volume
+  - Runs on a local kind cluster; CLI and a Claude Code or Cursor skill for agent workflows
+linkedin: https://www.linkedin.com/company/data-agent-co/
+github: https://github.com/data-agent-co
