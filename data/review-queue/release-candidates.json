@@ -183,6 +183,15 @@
       "publishedAt": "2026-04-22T07:04:13.000Z"
     },
     {
+      "id": "b9b56fc62452f814ceeb6fa8010d734e75669e8b23f99d762f8d52f3e2a6ad1b",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-rc3",
+      "title": "v1.0.0-rc3",
+      "summary": "What's Changed Features feat(models): suggest current Foundry Grok model IDs by @jayunit100 in #3513 feat(models): suggest Bedrock Grok inference profiles by @jayunit100 in #3523 feat(mcp): session lifecycle and read-back tools in the core MCP server by @QuentinBisson in #3339 feat(ui): manage EgressPolicies from the UI by @alan-bentley-pgh in #3542 feat(telemetry): record the trusted user as user.id by @krisztianfekete in #3552 feat(runtime): bootstrap revision configuration from durable bundles by @supreme-gg-gg in #3515 Bug Fixes fix(cli): confirm before deleting self-managed WorkerPools on uninstall by @iplay88keys in #3511 fix(mcp): drop invoke_agent's top-level oneOf so Gemini accepts it by @jotacamou in #3534 fix(taskstore): finalize failed tasks after execution cancellation by @EItanya in #3541 Other Changes session/lifecycle: support force deletion without suspension by @shashankram in #3530 chore(deps): upgrade Substrate to rc4 and install Atelet separately by @EItanya in #3548 chore(deps): upgrade Substrate to v1.0.0 by @EItanya in #3555 Upgrading from v1.0.0-rc2 This release moves Substrate from v1.0.0-rc2 to v1.0.0. kagent install now installs atelet as its own substrate-atelet release, so atelet can be upgraded before ate-api-server, as Substrate's version skew policy requires. To upgrade an install from v1.0.0-rc2, upgrade Substrate first, moving atelet to substrate-atelet , then upgrade kagent. The steps need Helm 3.17 or later. The commands use the release names and namespaces that kagent install creates. substrate-values.yaml helm get values substrate-podcert -n podcertificate-controller-system -o yaml > podcert-values.yaml\"> SUBSTRATE=oci://ghcr.io/kagent-dev/substrate/helm KAGENT=oci://ghcr.io/kagent-dev/kagent/helm helm get values substrate -n ate-system -o yaml > substrate-values.yaml helm get values substrate-podcert -n podcertificate-controller-system -o yaml > podcert-values.yaml Add GoldenEgressPolicy to the preview list in substrate-values",
+      "publishedAt": "2026-11-06T16:53:19.000Z"
+    },
+    {
       "id": "a15ce265280c662797be8a6f9522bbb61d8bf991bfd4801346d34a11441e8332",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -262,15 +271,6 @@
       "title": "v1.0.0-alpha14",
       "summary": "What's Changed Features feat: default built-in Harness images from release charts by @EItanya in #3151 feat(harness): migrate runtime suspension to DATA snapshots by @supreme-gg-gg in #3165 feat(auth): tell UpstreamAuth which A2A method it is authorizing by @codyhartsook in #3178 feat(adk): allow disabling the built-in bash tool by @supreme-gg-gg in #3222 feat(cli): let an embedding binary authenticate the CLI and extend its db tracks by @iplay88keys in #3209 feat: mount OCI skills through Substrate image volumes by @EItanya in #3203 Bug Fixes fix(ui): serve the mock playwright suite from a production build, not the dev server by @Charlesthebird in #3163 fix: make session share tokens read-only by @EItanya in #3189 fix(sts): key the ADK token cache by acting subject, not session alone (Python) by @QuentinBisson in #2460 fix(a2a): return not found for expired and missing sessions by @supreme-gg-gg in #3231 Documentation docs: Document required tooling by @timflannagan in #3186 Other Changes chore(deps): bump helm/kind-action from 1.15.0 to 1.15.1 in the actions group by @dependabot [bot] in #3170 refactor: Remove orphaned Go APIs and helpers by @timflannagan in #3168 lint: Replace goimports with gci by @timflannagan in #3185 ci: Run required checks for every PR by @timflannagan in #3187 Switch to using separate users/pools for postgres connections by @iplay88keys in #3160 refactor(adk): generate runtime configuration from protobuf by @EItanya in #3162 chore(deps): update anthropic[vertex] requirement from >=1.11.0 to >=1.13.0 in /python by @dependabot [bot] in #3176 api: Use declarative union validation markers by @timflannagan in #3204 cleanup: Generate CRDs in Helm chart by @timflannagan in #3206 refactor: simplify config parsing and compiler inputs by @EItanya in #3179 refactor: group protobuf contracts into stable v1 packages by @EItanya in #3184 refactor: coalesce push notifications and wake senders after settlement by @supreme-gg-gg in #3207 chore: update CODEO",
       "publishedAt": "2026-10-16T14:17:08.000Z"
-    },
-    {
-      "id": "bb93e03ac1c77e4f93df1d8786123442d5c87b35ca307dd08362116ff0d6d133",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha13",
-      "title": "v1.0.0-alpha13",
-      "summary": "What's Changed Features feat(config): replace application env vars with explicit schemas by @EItanya in #3153 feat(adk): propagate GenAI baggage from ADK by @jcopi in #3088 Bug Fixes fix: stabilize e2e sends and Codex cancellation by @EItanya in #3181 Other Changes ci: give e2e runners and atelet more capacity by @EItanya in #3180 Full Changelog : v1.0.0-alpha12...v1.0.0-alpha13",
-      "publishedAt": "2026-10-13T18:00:30.000Z"
     }
   ]
 }
