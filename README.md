@@ -27,19 +27,16 @@ Items with :green_heart: indicate open source projects.
 
 ### Recent Additions (Last 14 Days)
 
-- 2026-10-24 - :green_heart:[OpenSRE.in](https://opensre.in/) (Incident Response)
-- 2026-10-15 - [Anyshift](https://www.anyshift.io/) (Incident Response)
-- 2026-10-15 - [emisar](https://emisar.dev/) (Security)
-- 2026-10-14 - [Autoheal](https://autoheal.ai/use-cases/incident-response) (Incident Response)
-- 2026-10-14 - [AWS DevOps Agent](https://aws.amazon.com/devops-agent/) (Incident Response)
+- 2026-11-08 - :green_heart:[Akmatori](https://akmatori.com/) (Incident Response)
 
 Jump to: [Incident Response](#incident-response) | [Observability](#observability) | [AIOps](#aiops) | [IDP](#idp) | [IaC](#iac) | [Security](#security) | [Deployment](#deployment)
 
 <a id="incident-response"></a>
-### Incident Response (41)
+### Incident Response (42)
 
 | Name | Summary | Deployment | Links |
 | --- | --- | --- | --- |
+| :green_heart:[Akmatori](https://akmatori.com/) | Akmatori is a self-hosted, Apache-2.0 AIOps platform for SRE teams. It receives alerts from Alertmanager, PagerDuty, Grafana, Datadog and Zabbix webhooks or Slack channels, investigates each one with an LLM agent that uses infrastructure tools, runbooks and cross-incident memory, and runs remediation only after a human approves it. | On-Prem | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://akmatori.com/) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/akmatori/akmatori) [<img alt="X" src="assets/icons/x.svg" width="16" />](https://x.com/akmatori) |
 | [AlertD](https://alertd.ai) | AlertD is an agentic AI teammate for SRE and DevOps on AWS, cutting alert noise and dashboard fatigue while delivering contextual answers and automated actions. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://alertd.ai) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/alertd) |
 | [Anyshift](https://www.anyshift.io/) | AI agents for production incident investigation, alert triage, and deployment checks, grounded in a live graph connecting code, infrastructure, and observability data. | SaaS | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://www.anyshift.io/) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/anyshift-io/) |
 | :green_heart:[Aurora](https://www.aurorasre.ai) | Open source AI SRE agent that autonomously investigates incidents and delivers root cause analysis across AWS, Azure, GCP, and Kubernetes. | On-Prem | [<img alt="Website" src="assets/icons/website.svg" width="16" />](https://www.aurorasre.ai) [<img alt="GitHub" src="assets/icons/github.svg" width="16" />](https://github.com/Arvo-AI/aurora) [<img alt="LinkedIn" src="assets/icons/linkedin.svg" width="16" />](https://www.linkedin.com/company/arvokas/) |
