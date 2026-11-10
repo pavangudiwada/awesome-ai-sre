@@ -183,6 +183,24 @@
       "publishedAt": "2026-04-22T07:04:13.000Z"
     },
     {
+      "id": "677286ee682aa5aa70c8255a378ac0e567ba0feeaccf9f22ace9cba857e26b4a",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0",
+      "title": "v1.0.0",
+      "summary": "What's Changed Features feat(streaming): configurable nginx, controller, and UI inactivity ti… by @yanivmn in #1973 feat(helm): add controller service annotations by @anthonyhaussman in #2088 feat: enable sharing of chat sessions by @onematchfox in #1935 feat: substrate support for BYO and python runtimes for SandboxAgent CR by @jmhbh in #2043 feat(substrate): bump agent substrate to 0.0.7 by @supreme-gg-gg in #2109 feat(substrate): bump agent substrate to 0.0.8 by @jjamroga in #2140 feat(helm/kagent): support deployment annotations by @anthonyhaussman in #2143 feat: add nodeSelector support to agent helm charts by @the-mentor in #2145 feat: expose icon, provider, documentation URL and version on agent A2A card by @QuentinBisson in #2188 feat: add claude ACP sandbox target by @the-mentor in #2189 feat(sandbox-agents): Store session state in durableDir volume for declarative sandbox agents by @jmhbh in #2171 feat(helm): add UI HTTPRoute by @younsl in #2165 feat(helm): bump bundled oauth2-proxy subchart to ~10.7.0 by @elihai-risk in #2254 feat: default nodeSelector for agent deployments (--default-agent-node-selector) by @elihai-risk in #2259 feat(helm): add podLabels for controller and UI pod templates by @elihai-risk in #2237 feat(helm): add extraObjects for arbitrary manifests by @younsl in #2174 feat(ui-test): Playwright ui tests foundation stage 0 by @cjlg-soloio in #2262 feat: allow read-only shares to read A2A tasks by @QuentinBisson in #2191 feat(controller): make Go (ADK) runtime agent image independently configurable by @QuentinBisson in #2021 feat(helm): allow custom annotations on the default ModelConfig by @marians in #2201 feat(ui-test): Playwright UI E2E suite — helpers + feature flows (stage 2) by @cjlg-soloio in #2264 feat: serve A2A ListTasks from the task store by @QuentinBisson in #2187 feat(models): add maxCompletionTokens for OpenAI by @anthonytwh in #2175 feat(models): wire maxOutputTokens for native Gemini and Vertex by @anthonytwh in #2147 fea",
+      "publishedAt": "2026-11-09T18:43:27.000Z"
+    },
+    {
+      "id": "bc427fc86b786af52ee094ea11aa34b8746fa1906fb686a956e0e2154fc520de",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-rc4",
+      "title": "v1.0.0-rc4",
+      "summary": "What's Changed Bug Fixes fix: backport pre-release fixes to v1.0.x by @EItanya in #3586 Other Changes ci: backport unit test performance improvements to v1.0.x by @EItanya in #3559 Full Changelog : v1.0.0-rc3...v1.0.0-rc4",
+      "publishedAt": "2026-11-09T18:07:05.000Z"
+    },
+    {
       "id": "b9b56fc62452f814ceeb6fa8010d734e75669e8b23f99d762f8d52f3e2a6ad1b",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -253,24 +271,6 @@
       "title": "v1.0.0-alpha16",
       "summary": "What's Changed Features feat: Send PDF and Office files to Responses API models end-to-end by @danielle-mustillo in #3200 Other Changes chore(deps): update anthropic[vertex] requirement from >=1.13.0 to >=1.15.0 in /python by @dependabot [bot] in #3272 chore(deps): bump astral-sh/setup-uv from 7.6.0 to 10.3.0 by @dependabot [bot] in #3266 chore(deps): update google-adk[a2a] requirement from =2.11.0 to >=2.12.0, @dependabot [bot] in #3273 chore(deps): bump the go-minor-patch group across 1 directory with 6 updates by @dependabot [bot] in #3265 chore(deps): bump the npm-minor-patch group across 1 directory with 10 updates by @dependabot [bot] in #3280 Full Changelog : v1.0.0-alpha15...v1.0.0-alpha16",
       "publishedAt": "2026-10-19T19:11:30.000Z"
-    },
-    {
-      "id": "fd5ba018e5872e5a3144abe34cc964e942823d6e69f98aeffb60eddc8a5d6903",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha15",
-      "title": "v1.0.0-alpha15",
-      "summary": "What's Changed Features feat(a2a): report task token usage through a versioned A2A extension by @QuentinBisson in #2461 feat: add reusable egress policies for agents and sandboxes by @EItanya in #3177 feat: add token passthrough for remote MCP servers by @EItanya in #3257 Bug Fixes fix(ui): prevent chat rail flicker when switching conversations by @vedantlavale in #3218 fix(ui): preserve streamed tool results by @pood1e in #3098 fix(checkpoint): allow failed checkpoint cleanup by @spichen in #3199 fix(ui): remediate CVEs in UI dependencies and base image by @cjlg-soloio in #3252 Testing test(e2e): pass mock LLM handlers to startModelRecorder by @danielle-mustillo in #3264 Other Changes chore(ci): pin GitHub Actions to commit SHAs by @timflannagan in #3250 chore: register Go tool dependencies by @timflannagan in #3233 chore(deps): bump protovalidate from 1.2.0 to 2.0.0 in /python by @dependabot [bot] in #3274 chore(deps): update langsmith[otel] requirement from >=0.14.7 to >=0.14.11 in /python by @dependabot [bot] in #3271 chore(deps): update google-adk[a2a,db] requirement from =2.11.0 to >=2.12.0, @dependabot [bot] in #3270 chore(deps): bump the python-minor-patch group in /python with 5 updates by @dependabot [bot] in #3269 chore(deps): bump google-auth from 2.61.0 to 2.62.0 in /python in the python-google-ai group across 1 directory by @dependabot [bot] in #3277 chore(deps): update Substrate to v0.6.0-alpha3 by @EItanya in #3226 New Contributors @vedantlavale made their first contribution in #3218 @spichen made their first contribution in #3199 Full Changelog : v1.0.0-alpha14...v1.0.0-alpha15",
-      "publishedAt": "2026-10-19T14:35:18.000Z"
-    },
-    {
-      "id": "97ddf29c7c5bcbcf537d4eade11b222cac454edd9209c41382e11a4ff0ff2990",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha14",
-      "title": "v1.0.0-alpha14",
-      "summary": "What's Changed Features feat: default built-in Harness images from release charts by @EItanya in #3151 feat(harness): migrate runtime suspension to DATA snapshots by @supreme-gg-gg in #3165 feat(auth): tell UpstreamAuth which A2A method it is authorizing by @codyhartsook in #3178 feat(adk): allow disabling the built-in bash tool by @supreme-gg-gg in #3222 feat(cli): let an embedding binary authenticate the CLI and extend its db tracks by @iplay88keys in #3209 feat: mount OCI skills through Substrate image volumes by @EItanya in #3203 Bug Fixes fix(ui): serve the mock playwright suite from a production build, not the dev server by @Charlesthebird in #3163 fix: make session share tokens read-only by @EItanya in #3189 fix(sts): key the ADK token cache by acting subject, not session alone (Python) by @QuentinBisson in #2460 fix(a2a): return not found for expired and missing sessions by @supreme-gg-gg in #3231 Documentation docs: Document required tooling by @timflannagan in #3186 Other Changes chore(deps): bump helm/kind-action from 1.15.0 to 1.15.1 in the actions group by @dependabot [bot] in #3170 refactor: Remove orphaned Go APIs and helpers by @timflannagan in #3168 lint: Replace goimports with gci by @timflannagan in #3185 ci: Run required checks for every PR by @timflannagan in #3187 Switch to using separate users/pools for postgres connections by @iplay88keys in #3160 refactor(adk): generate runtime configuration from protobuf by @EItanya in #3162 chore(deps): update anthropic[vertex] requirement from >=1.11.0 to >=1.13.0 in /python by @dependabot [bot] in #3176 api: Use declarative union validation markers by @timflannagan in #3204 cleanup: Generate CRDs in Helm chart by @timflannagan in #3206 refactor: simplify config parsing and compiler inputs by @EItanya in #3179 refactor: group protobuf contracts into stable v1 packages by @EItanya in #3184 refactor: coalesce push notifications and wake senders after settlement by @supreme-gg-gg in #3207 chore: update CODEO",
-      "publishedAt": "2026-10-16T14:17:08.000Z"
     }
   ]
 }
