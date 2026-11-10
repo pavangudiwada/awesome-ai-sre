@@ -4,7 +4,7 @@ url: https://akmatori.com/
 summary: >-
   Akmatori is a self-hosted, Apache-2.0 AIOps platform for SRE teams. It receives alerts from Alertmanager,
   PagerDuty, Grafana, Datadog and Zabbix webhooks or Slack channels, investigates each one with an LLM agent that
-  uses infrastructure tools, runbooks and cross-incident memory, and runs remediation only after a human approves it.
+  uses infrastructure tools, runbooks and cross-incident memory, and puts risky remediation actions behind human approval.
 deployment:
   - on-prem
 opensource: true
