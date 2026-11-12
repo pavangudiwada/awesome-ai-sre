@@ -183,6 +183,15 @@
       "publishedAt": "2026-04-22T07:04:13.000Z"
     },
     {
+      "id": "136f5fc654da9abd5faaaf3fea87d65ea5362e0b02215c510b853d86b14f3947",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.1",
+      "title": "v1.0.1",
+      "summary": "What's Changed Other Changes [backport] adk/telemetry: honor runtime content capture settings by @shashankram in #3611 [backport] adk/sts: preserve session identity on outbound MCP requests by @shashankram in #3612 [backport] feat: improve install and first-agent onboarding by @EItanya in #3629 Full Changelog : v1.0.0...v1.0.1",
+      "publishedAt": "2026-11-12T01:05:00.000Z"
+    },
+    {
       "id": "677286ee682aa5aa70c8255a378ac0e567ba0feeaccf9f22ace9cba857e26b4a",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -262,15 +271,6 @@
       "title": "v1.0.0-alpha17",
       "summary": "What's Changed Features feat: support gateway token passthrough for embedded controllers by @codyhartsook in #3263 feat(auth): authenticate Substrate actor calls to the control plane by @EItanya in #3282 Bug Fixes fix(adk): enable default tools and simplify sandbox execution by @supreme-gg-gg in #3283 fix(cli): uninstall everything kagent install creates by @iplay88keys in #3285 fix(auth): enforce scoped authorization for Kubernetes-backed resources by @supreme-gg-gg in #3281 fix(substrate): check existing atespaces before creating them by @spichen in #3260 fix(docker): give the Go runtime user a writable HOME by @teemow in #3161 fix(deps): bump Go to 1.27.3 for security fixes by @EItanya in #3304 Testing test(core): cover token threshold compaction through harnesses by @adalundhe in #3291 Other Changes ci: run migration immutability check on every PR so it can be required by @iplay88keys in #3293 Full Changelog : v1.0.0-alpha16...v1.0.0-alpha17",
       "publishedAt": "2026-10-21T17:07:00.000Z"
-    },
-    {
-      "id": "b2638217bc699f5b6b95a4d79bc79f5e76678f030c5b7cc14716c3d9c28c03bb",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha16",
-      "title": "v1.0.0-alpha16",
-      "summary": "What's Changed Features feat: Send PDF and Office files to Responses API models end-to-end by @danielle-mustillo in #3200 Other Changes chore(deps): update anthropic[vertex] requirement from >=1.13.0 to >=1.15.0 in /python by @dependabot [bot] in #3272 chore(deps): bump astral-sh/setup-uv from 7.6.0 to 10.3.0 by @dependabot [bot] in #3266 chore(deps): update google-adk[a2a] requirement from =2.11.0 to >=2.12.0, @dependabot [bot] in #3273 chore(deps): bump the go-minor-patch group across 1 directory with 6 updates by @dependabot [bot] in #3265 chore(deps): bump the npm-minor-patch group across 1 directory with 10 updates by @dependabot [bot] in #3280 Full Changelog : v1.0.0-alpha15...v1.0.0-alpha16",
-      "publishedAt": "2026-10-19T19:11:30.000Z"
     }
   ]
 }
