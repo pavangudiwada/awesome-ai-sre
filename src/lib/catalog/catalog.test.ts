@@ -20,7 +20,7 @@ describe("catalog loaders", () => {
     const holmes = getProductBySlug("holmesgpt");
     const unmappedProduct = getProductBySlug("ingero");
 
-    expect(products).toHaveLength(89);
+    expect(products).toHaveLength(90);
     expect(holmes?.companySlug).toBe("robusta");
     expect(holmes?.editorialState).toBe("unreviewed");
     expect(holmes?.lastReviewed).toBeNull();
