@@ -183,6 +183,15 @@
       "publishedAt": "2026-04-22T07:04:13.000Z"
     },
     {
+      "id": "577d8ec00cf69cd441b4e9149bc057392d923a08c719561c2ce16904f7915707",
+      "productSlug": "kagent",
+      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
+      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.7",
+      "title": "v0.10.7",
+      "summary": "What's Changed Bug Fixes fix: retry the ModelConfig update when the controller writes its status first by @Charlesthebird in #3546 fix(deps): fix v0.10.6 image CVEs and the rolling upgrade test flake on release/v0.10.x by @danielle-mustillo in #3738 fix(ui): use the install namespace on the prompts page by @rogan297 in #3407 fix(deps): bump mcp to 1.30.0 and kagent-tools to 0.3.2 on release/v0.10.x by @danielle-mustillo in #3779 Other Changes ci(release): release v0.10.x by dispatch and never mark it latest by @EItanya in #3567 New Contributors @rogan297 made their first contribution in #3407 Full Changelog : v0.10.6...v0.10.7",
+      "publishedAt": "2026-11-23T22:33:36.000Z"
+    },
+    {
       "id": "136f5fc654da9abd5faaaf3fea87d65ea5362e0b02215c510b853d86b14f3947",
       "productSlug": "kagent",
       "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
@@ -253,15 +262,6 @@
       "title": "v1.0.0-rc1",
       "summary": "What's Changed Features feat(cli): improve the chat TUI rendering and input by @Charlesthebird in #3292 feat(sandbox): adopt env guest service redesign by @thomasbarrett in #3148 feat(outputschema): allow format, pattern and type lists, add opt-in outputSchemaStrict by @danielle-mustillo in #3284 feat(auth): enforce owned-resource RBAC and scoped Substrate inventory by @supreme-gg-gg in #3299 feat(adk): allow disabling ask_user through runtime defaults by @lexmass in #3298 feat(auth): support human and machine principals by @EItanya in #3358 feat(auth): add gateway Actor JWT credentials by @EItanya in #3359 feat(api): resolve Agent metadata from scoped Actor tokens by @EItanya in #3362 feat(controller): retry failed golden builds for Agents and SandboxTemplates by @danielle-mustillo in #3335 feat(cli): export Helm installation with dry-run by @iplay88keys in #3432 Bug Fixes fix(substrate): scope Substrate reads and page tokens to the watched namespaces by @danielle-mustillo in #3261 fix(session): expire abandoned input and auth waits by @adalundhe in #3254 fix(ui): keep following a chat turn when its stream breaks by @garlicKim21 in #3198 fix(a2a): deliver push notifications concurrently by @EItanya in #3366 fix(build): set the version -X targets from the Go module path by @fiunchinho in #3376 fix(codex): report the turn's error message by @fiunchinho in #3377 fix(ui): show one loading state in the agent switcher by @vedantlavale in #3237 fix: honor configured controller service account during install by @iplay88keys in #3406 fix(ui): show consistent empty states for denied substrate inventory by @supreme-gg-gg in #3392 fix(cli): preserve Substrate CLI access alongside controller grants by @iplay88keys in #3420 fix: include image pull secrets in substrate worker pool service account by @jcopi in #3443 fix(install): keep model credentials out of process arguments by @iplay88keys in #3446 fix(api): remove unused Harness status and ADK fields by @EItanya in #3454 fix(c",
       "publishedAt": "2026-10-30T18:50:42.000Z"
-    },
-    {
-      "id": "4d6f09cdbb98e4f372844957a4a9cfd2145f97872036c779779b9e7b6d7b1645",
-      "productSlug": "kagent",
-      "sourceFeedUrl": "https://github.com/kagent-dev/kagent/releases.atom",
-      "sourceUrl": "https://github.com/kagent-dev/kagent/releases/tag/v0.10.4",
-      "title": "v0.10.4",
-      "summary": "This is an incomplete release. All necessary runtime artifacts are available, minus CLI. We plan to do a followup release. What's Changed Bug Fixes fix(controller): accept a RemoteMCPServer labeled kagent.dev/discovery=disabled without listing its tools (backport to release/v0.10.x) by @teemow in #2753 fix(go): require patched certificate verification in v0.10.x by @jjamroga in #3310 Full Changelog : v0.10.3...v0.10.4",
-      "publishedAt": "2026-10-21T23:04:30.000Z"
     },
     {
       "id": "9d4b6100303348a607940170a12f29533a0d92f14f075198eadb0952faab3dfd",
