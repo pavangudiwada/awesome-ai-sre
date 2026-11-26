@@ -3,6 +3,24 @@
   "generatedAt": null,
   "items": [
     {
+      "id": "7d6ee034e3b21fc5e9a7d54f5496157b11f65d6ecfef4b8fc5bc63c8674be646",
+      "productSlug": "holmesgpt",
+      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
+      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.48.0",
+      "title": "0.48.0",
+      "summary": "What's Changed Build the macOS release binary on macos-15 by @Avi-Robusta in #2776 Connect realtime with the key the Supabase DAL logged in with by @Avi-Robusta in #2788 Update internet toolset fetch handling by @naomi-robusta in #2778 Full Changelog : 0.47.0...0.48.0",
+      "publishedAt": "2026-11-26T12:02:02.000Z"
+    },
+    {
+      "id": "6aeccc05ee99f0621d90d54fd3badb569de7b1e44a881941ee5ecdf22276665a",
+      "productSlug": "holmesgpt",
+      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
+      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.48.0-alpha",
+      "title": "0.48.0-alpha",
+      "summary": "What's Changed Build the macOS release binary on macos-15 by @Avi-Robusta in #2776 Connect realtime with the key the Supabase DAL logged in with by @Avi-Robusta in #2788 Update internet toolset fetch handling by @naomi-robusta in #2778 Full Changelog : 0.47.0...0.48.0-alpha",
+      "publishedAt": "2026-11-26T10:04:56.000Z"
+    },
+    {
       "id": "283ee8e5be3f71b840839cd4f8675b8b5dd0997d70bf7bed9f9d12489cd49d16",
       "productSlug": "holmesgpt",
       "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
@@ -73,24 +91,6 @@
       "title": "0.45.0-alpha",
       "summary": "What's Changed ROB-1291 Multi-tenant Prometheus toolset (Mimir X-Scope-OrgID routed by a Kubernetes label) by @RoiGlinik in #2555 ROB-1525 Reuse the server's cached tool executor in /api/info and the OAuth callback by @RoiGlinik in #2592 Keep an executor rebuilt while a toolset refresh runs by @RoiGlinik in #2591 Check toolsets once in the refresh cycle that builds the executor by @RoiGlinik in #2595 ROB-1365 Stop regenerating the remediation MCP auth token on every render by @naomi-robusta in #2537 Support internal request kinds (oauth_callback, holmes_logs) in tool-call worker by @arikalon1 in #2520 Full Changelog : 0.44.0...0.45.0",
       "publishedAt": "2026-10-15T07:51:03.000Z"
-    },
-    {
-      "id": "75e3ef7176209b2c155dc6db84f33c16517a25c306690a4b0379369390a000af",
-      "productSlug": "holmesgpt",
-      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
-      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.44.0",
-      "title": "0.44.0",
-      "summary": "What's Changed ROB-1237 Price Robusta models whose upstream name isn't provider/id by @naomi-robusta in #2546 ROB-1369 Default the auto executor to one conversation at a time by @naomi-robusta in #2566 ROB-1507 - GPT-6.1 Handle multi-choice LLM responses by merging choices by @Avi-Robusta in #2556 ROB-801 Refresh litellm cost map when a model lookup misses by @Avi-Robusta in #2553 ROB-1291 Per-user Dex auth for the Kubernetes MCP addon, with private CA support by @RoiGlinik in #2554 Weekly Benchmark Results 2026-10-10_21-37 by @github-actions[bot] in #2580 ROB-1519 Summarize oversized conversation history in chunks by @naomi-robusta in #2538 Add Ezra Yellin ( @ezra-robusta ) to MAINTAINERS.md by @arikalon1 in #2518 ROB-1574 - Patch Critical/High CVEs in the holmes image by @Avi-Robusta in #2584 ROB-1564: Add namespace/label/field selectors to kubernetes query tools by @RoiGlinik in #2585 ROB-1580 Retry expired-JWT PostgREST calls with the new credentials by @naomi-robusta in #2583 Full Changelog : 0.43.0...0.44.0",
-      "publishedAt": "2026-10-14T10:25:42.000Z"
-    },
-    {
-      "id": "03889e6200ca28d205d737a615a75995d0709c3be0594d27e67355d6a7ad67e2",
-      "productSlug": "holmesgpt",
-      "sourceFeedUrl": "https://github.com/HolmesGPT/holmesgpt/releases.atom",
-      "sourceUrl": "https://github.com/HolmesGPT/holmesgpt/releases/tag/0.44.0-alpha.1",
-      "title": "0.44.0-alpha.1",
-      "summary": "What's Changed Add Ezra Yellin ( @ezra-robusta ) to MAINTAINERS.md by @arikalon1 in #2518 ROB-1574 - Patch Critical/High CVEs in the holmes image by @Avi-Robusta in #2584 ROB-1564: Add namespace/label/field selectors to kubernetes query tools by @RoiGlinik in #2585 ROB-1580 Retry expired-JWT PostgREST calls with the new credentials by @naomi-robusta in #2583 Full Changelog : 0.44.0-alpha...0.44.0-alpha.1",
-      "publishedAt": "2026-10-13T12:58:49.000Z"
     },
     {
       "id": "a507090cafc6ae5a311a53e843f7b31cd7b751d15afeca125cb223ed53272160",
